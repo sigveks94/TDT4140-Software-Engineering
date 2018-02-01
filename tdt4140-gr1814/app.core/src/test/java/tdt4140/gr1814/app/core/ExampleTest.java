@@ -23,7 +23,7 @@ public class ExampleTest {
 	
 	@Test
 	public void simpleTest() {
-		assertTrue(lst.size() < 1);
+		assertTrue(lst.size() > 1);
 	}
 	
 	@After
