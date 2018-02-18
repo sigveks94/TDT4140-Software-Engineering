@@ -1,2 +1,2 @@
 # Source package for core code
-int k = kjsakjsa
+int k = kjsak
