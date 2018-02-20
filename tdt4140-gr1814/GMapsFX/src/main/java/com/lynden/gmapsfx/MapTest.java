@@ -4,6 +4,7 @@ import com.lynden.gmapsfx.javascript.object.GoogleMap;
 import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.shapes.Circle;
+import com.lynden.gmapsfx.shapes.CircleOptions;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -27,7 +28,14 @@ public class MapTest extends Application implements MapComponentInitializedListe
         
         MapOptions options = new MapOptions();
         options.center(center).zoom(7);
-        map = GMap.createMap(options);  
+        map = GMap.createMap(options);
+        
+        CircleOptions copt = new CircleOptions()
+        		.center(center)
+        		.radius(3000);
+        
+        Circle c = new Circle(copt);
+        map.addMapShape(c);
     }
     
 	@Override
