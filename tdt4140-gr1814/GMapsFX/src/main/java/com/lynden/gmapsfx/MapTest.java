@@ -36,6 +36,8 @@ public class MapTest extends Application implements MapComponentInitializedListe
         
         Circle c = new Circle(copt);
         map.addMapShape(c);
+        
+        
     }
     
 	@Override
