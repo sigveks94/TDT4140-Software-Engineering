@@ -11,6 +11,6 @@ public class FxAppController {
     
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) {
-        actiontarget.setText("Sign in button pressed");
+        
     }
 }
