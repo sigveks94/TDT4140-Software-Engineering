@@ -13,8 +13,6 @@ public void metamorphise(String string) throws IOException {
 	BufferedReader reader = new BufferedReader(new StringReader(string));
 	String line;
 	while ((line = reader.readLine()) != null) {
-		//line = reader.readLine();
-		//System.out.println(line);
 		String first = line.substring(0, line.indexOf(" "));
 		String second = line.substring(line.indexOf(" "));
 		Double number1 = Double.parseDouble(first);
@@ -22,6 +20,10 @@ public void metamorphise(String string) throws IOException {
 		Point p = new Point(number1,number2);
 		inputPoints.add(p);
 }
+}
+
+public ArrayList<Point> getPoints(){
+	return this.inputPoints;
 }
 
 @Override 

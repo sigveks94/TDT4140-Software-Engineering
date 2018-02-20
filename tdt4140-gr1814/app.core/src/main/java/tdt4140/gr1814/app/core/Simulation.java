@@ -1,9 +1,6 @@
 package tdt4140.gr1814.app.core;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
 
 public class Simulation {
 
@@ -54,9 +51,11 @@ String str =
 
 	Controller c = new Controller();
 	c.metamorphise(str);
-	System.out.println(c);
-	
-	
+	Point centreOfAttention = new Point(50.00001, 30.00001);
+	ZoneRadius zone = new ZoneRadius(centreOfAttention, 5000000.0);
+	for (int i =0; i < c.getPoints().size(); i++) {
+		System.out.println(zone.isInsideZone(c.getPoints().get(i)));
+	}
 	
 }
 }
