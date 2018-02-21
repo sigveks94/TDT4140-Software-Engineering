@@ -56,7 +56,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		map.addMarker(new Marker(new MarkerOptions().position(mapCenter).visible(true).title("Heisann")));
 		
 		for(MapViewable v: this.viewables) {
-			MarkerOptions markerOption = new MarkerOptions().position(v.getLatLong()).title(String.valueOf(v.getSSN())).visible(true).icon("mymarker.png");
+			MarkerOptions markerOption = new MarkerOptions().position(v.getLatLong()).title(String.valueOf(v.getSSN())).visible(true);
 			map.addMarker(new Marker(markerOption));
 		}
 		
