@@ -10,7 +10,11 @@ public class FxApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FxApp.fxml"));
+        
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("MapViewLayout.fxml"));
+    	
+    	
+    	Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
