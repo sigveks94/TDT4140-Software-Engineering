@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="301.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tdt4140.gr1814.app.ui.CreateNewPatientController">
+   <children>
+      <Hyperlink fx:id="TermsOfUse" layoutX="56.0" layoutY="220.0" text="Terms of use" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="48.0">
+         <tooltip>
+            <Tooltip text="https://www.datatilsynet.no/rettigheter-og-plikter/overvaking-og-sporing/lokalisering/">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Tooltip>
+         </tooltip></Hyperlink>
+      <TextField fx:id="patient_name" layoutX="30.0" layoutY="88.0" prefHeight="26.0" prefWidth="161.0" promptText="First Name" AnchorPane.leftAnchor="30.0">
+         <tooltip>
+            <Tooltip text="First Name" />
+         </tooltip></TextField>
+      <TextField fx:id="patient_SSN" layoutX="212.0" layoutY="125.0" prefHeight="26.0" prefWidth="161.0" promptText="Social Security Number" AnchorPane.leftAnchor="212.0">
+         <tooltip>
+            <Tooltip text="Social Security Number" />
+         </tooltip></TextField>
+      <TextField fx:id="NoK_phone" layoutX="30.0" layoutY="193.0" prefHeight="26.0" prefWidth="161.0" promptText="Phone nr." AnchorPane.leftAnchor="30.0">
+         <tooltip>
+            <Tooltip text="Phone nr." />
+         </tooltip></TextField>
+      <TextField fx:id="NoK_email" layoutX="212.0" layoutY="193.0" prefHeight="26.0" prefWidth="161.0" promptText="Email" AnchorPane.leftAnchor="212.0">
+         <tooltip>
+            <Tooltip text="Email" />
+         </tooltip></TextField>
+      <TextField fx:id="patient_surname" layoutX="212.0" layoutY="88.0" prefHeight="26.0" prefWidth="161.0" promptText="Family Name" AnchorPane.leftAnchor="212.0">
+         <tooltip>
+            <Tooltip text="Family Name" />
+         </tooltip></TextField>
+      <Button fx:id="cancel_button" layoutX="33.0" layoutY="9.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="31.0" text="&lt;-" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="9.0">
+         <font>
+            <Font name="System Bold" size="7.0" />
+         </font>
+         <tooltip>
+            <Tooltip text="Go back" />
+         </tooltip>
+      </Button>
+      <Button fx:id="add_button" mnemonicParsing="false" text="Add" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="30.0">
+         <tooltip>
+            <Tooltip text="Create profile" />
+         </tooltip></Button>
+      <CheckBox fx:id="accept_checkbox" layoutX="30.0" layoutY="201.0" mnemonicParsing="false" text="I have read and accept the terms of use" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="30.0" />
+      <Text layoutX="66.0" layoutY="20.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Patient Profile" textAlignment="CENTER" wrappingWidth="322.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font name="System Font Regular" size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="30.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Next of Kin:" wrappingWidth="90.9999927431345" />
+      <Text layoutX="30.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal info:" wrappingWidth="90.9999927431345" />
+      <CheckBox fx:id = "genderM" layoutX="33.0" layoutY="129.0" mnemonicParsing="false" text="Male" AnchorPane.leftAnchor="30.0" />
+      <CheckBox fx:id = "genderF" layoutX="94.0" layoutY="129.0" mnemonicParsing="false" text="Female" AnchorPane.leftAnchor="100.0" />
+   </children>
+</AnchorPane>
