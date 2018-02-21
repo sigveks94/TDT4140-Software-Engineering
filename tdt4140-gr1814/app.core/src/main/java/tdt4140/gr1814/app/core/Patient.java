@@ -2,6 +2,8 @@ package tdt4140.gr1814.app.core;
 
 import java.util.UUID;
 
+
+//This is the patien-class containing necessary information for the users of the system. 
 public class Patient {
 	
 	private String FirstName;
@@ -61,7 +63,6 @@ public class Patient {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		String output = "Patient Profile\nName: "+this.getFullName()+"\nGender: "+this.getGender()+"\nSSN: "+this.getSSN()+"\nDevice ID: "+this.getID()+"\nNext of kind\nMobile: "+this.getNoK_cellphone()+"\nEmail: "+this.getNoK_email();
 		return output;
 	}

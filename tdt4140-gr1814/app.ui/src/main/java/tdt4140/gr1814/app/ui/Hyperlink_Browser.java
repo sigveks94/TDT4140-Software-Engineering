@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+// Class with function for opening given url on default internet-browser through eclipse
 public class Hyperlink_Browser {
 	
-	//Code for opening given url on default internet-browser through eclipse
+	
     public static void browse(String url) {
         if(Desktop.isDesktopSupported()){
             Desktop desktop = Desktop.getDesktop();
