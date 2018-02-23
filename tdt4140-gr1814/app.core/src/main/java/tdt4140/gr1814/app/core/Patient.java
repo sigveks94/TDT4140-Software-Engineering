@@ -1,5 +1,7 @@
 package tdt4140.gr1814.app.core;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -7,6 +9,43 @@ import java.util.UUID;
 //TODO - implement a interface making patient-objects listeners with updateCurrentPos() function.
 public class Patient {
 	
+	//Static
+	
+	private static List<Patient> patients = new ArrayList<Patient>();
+	
+	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
+		Patient patient = getPatient(SSN);
+		if(patient != null) {
+			return patient;
+		}
+		else {
+			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email);
+			patients.add(patient);
+			return patient;
+		}
+	}
+	
+	public static Patient getPatient(Long SSN) {
+		for(Patient p: patients) {
+			if(p.SSN == SSN) {
+				return p;
+			}
+		}
+		return null;
+	}
+	
+	public static Patient getPatient(String deviceId) {
+		for(Patient p: patients) {
+			if(p.DeviceID.contentEquals(deviceId)) {
+				return p;
+			}
+		}
+		return null;
+	}
+	
+	
+	
+	//Instance
 	private String FirstName;
 	private String Surname;
 	private char  Gender;
@@ -15,7 +54,7 @@ public class Patient {
 	private String NoK_email;
 	private String DeviceID; //We will use the DeviceID to connect the incomming GPS-signals to the corresponding patient profile
 	
-	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
+	private Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
 		this.FirstName = FirstName;
 		this.Surname = Surname;
 		this.Gender = Gender;
