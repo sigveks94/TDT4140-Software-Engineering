@@ -4,6 +4,7 @@ import tdt4140.gr1814.app.core.Patient;
 
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
@@ -46,6 +47,17 @@ public class CreateNewPatientController implements Initializable{
 	private Button cancel_button;
 	@FXML
 	private Button add_button;
+    @FXML
+    private Text surnameError;
+    @FXML
+    private Text firstnameError;
+    @FXML
+    private Text ssnError;
+    @FXML
+    private Text cellphoneError;
+    @FXML
+    private Text emailError;
+    
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -76,33 +88,37 @@ public class CreateNewPatientController implements Initializable{
 	
 	
 	private void Create_Patient_Profile(){
+		boolean termsaccepted = this.CheckTermsofUse();
 		//Validating input:
-		String firstname = this.ValidateText(patient_name);
-		String surname = this.ValidateText(patient_surname);
+		String firstname = this.ValidateText(patient_name, firstnameError);
+		String surname = this.ValidateText(patient_surname, surnameError);
 		char gender = this.checkGender();
 		Long SSN = this.ValidateSSN();//using Long because of small max-value of integers
 		int NoK_mobile = this.ValidateMobile();
 		String email = this.ValidateEmail();
 		
 		//If all input values are valid. Create new patient-Object.
-		if(firstname != null && surname != null && SSN != null && NoK_mobile != 0 && email != null && this.CheckTermsofUse()) {
-			Patient patient = new Patient(firstname, surname, gender, SSN, NoK_mobile, email);
+		if(firstname != null && surname != null && SSN != null && NoK_mobile != 0 && email != null && termsaccepted) {
+			Patient patient = new Patient(firstname, surname, gender, SSN, NoK_mobile, email);//may be removed. Patient info saved directly to database. 
 			System.out.println(patient);
+			//Patient-object has to be saved to database somehow here..
 			//Adding patient completed. close the UI:
 			Stage stage = (Stage) patient_name.getScene().getWindow();
 		    stage.close();;	
 		}
 	}
 	
-	// VALIDATION OF ALL INPUT-FIELDS
+	// VALIDATION OF ALL INPUT-FIELDS (considering moving the validation process to setters inside the patient-class)
 	
 	//Validate that textFields ony contain letters
-	private String ValidateText(TextField inputField) {
+	private String ValidateText(TextField inputField, Text inputError) {
 		String text = inputField.getText();
 		if (text.matches("[a-zA-Z]+")){
 			inputField.setStyle(null);
-			return text;}
+			inputError.setVisible(false);//error message hidden
+			return text.toUpperCase();}
 		else {
+			inputError.setVisible(true);
 			inputField.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;"); //direct feedback in UI (red border)
 			return null;
 		}
@@ -120,10 +136,12 @@ public class CreateNewPatientController implements Initializable{
 		try{
 			Long SSN = Long.parseLong(patient_SSN.getText());
 			if(String.valueOf(SSN).length() != 11) {throw new NumberFormatException();}
+			ssnError.setVisible(false);
 			patient_SSN.setStyle(null);
 			return SSN;
 		}catch(NumberFormatException e){
 			//e.printStackTrace();
+			ssnError.setVisible(true);
 			patient_SSN.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;"); //direct feedback in UI (red border)
 			return null;
 	}}
@@ -133,10 +151,12 @@ public class CreateNewPatientController implements Initializable{
 		try {
 			int mobile = Integer.parseInt(NoK_phone.getText());
 			if(String.valueOf(mobile).length() != 8) {throw new NumberFormatException();}
+			cellphoneError.setVisible(false);
 			NoK_phone.setStyle(null);
 			return mobile;	
 		}catch (NumberFormatException e) {
 			//e.printStackTrace();
+			cellphoneError.setVisible(true);
 			NoK_phone.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");//direct feedback in UI (red border)
 			return 0;
 	}}
@@ -147,9 +167,11 @@ public class CreateNewPatientController implements Initializable{
 		Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 		Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
         if (matcher.find()) {
+        		emailError.setVisible(false);
         		NoK_email.setStyle(null);
         		return email;
         	}else {	
+        		emailError.setVisible(true);
         		NoK_email.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");//direct feedback in UI (red border)
         		return null;
     }}
@@ -160,7 +182,7 @@ public class CreateNewPatientController implements Initializable{
     			accept_checkbox.setStyle(null);
     			return true;
 		}else {
-    			accept_checkbox.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+    			accept_checkbox.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
     			return false;
 	}}
 	

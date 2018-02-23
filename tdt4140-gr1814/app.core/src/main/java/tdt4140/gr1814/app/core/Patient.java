@@ -4,6 +4,7 @@ import java.util.UUID;
 
 
 //This is the patien-class containing necessary information for the users of the system. 
+//TODO - implement a interface making patient-objects listeners with updateCurrentPos() function.
 public class Patient {
 	
 	private String FirstName;
@@ -21,8 +22,7 @@ public class Patient {
 		this.SSN = SSN;
 		this.NoK_cellphone = NoK_cellphone;
 		this.NoK_email = NoK_email;
-		this.DeviceID =  UUID.randomUUID().toString(); //generates a 'random' ID. This will be used as a part of the gps-data.  
-		
+		this.DeviceID =  UUID.randomUUID().toString(); //generates a 'random' ID. This will be used as a part of the gps-data.  	
 	}
 	
 	public String getFirstName() {
