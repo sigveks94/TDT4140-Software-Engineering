@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 
+
 public class ImputController {
 
 private ArrayList<Point> inputPoints = new ArrayList<Point>();

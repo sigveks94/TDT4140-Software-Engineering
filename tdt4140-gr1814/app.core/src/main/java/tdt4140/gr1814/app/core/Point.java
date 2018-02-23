@@ -2,6 +2,7 @@ package tdt4140.gr1814.app.core;
 public class Point {
 	/*USING 5 DECIMALS FOR ADEQUATE, BUT NOT ABUNDANT ACCURACY*/
 
+	
 private String keyPatient;
 private double latitude;
 private double longtitude;

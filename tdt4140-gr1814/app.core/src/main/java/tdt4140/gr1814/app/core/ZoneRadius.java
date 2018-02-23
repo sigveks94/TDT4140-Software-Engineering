@@ -9,6 +9,7 @@ private Point centre;
 private final Double defaultRadius = 100.0;
 private final Double radiusEarth = 6371000.0;
 
+
 public ZoneRadius(Point p, Double rad){
 	this.centre=p;
 	if (rad != null){

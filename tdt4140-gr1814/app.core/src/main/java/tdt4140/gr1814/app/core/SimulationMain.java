@@ -4,7 +4,6 @@ import java.io.IOException;
 
 public class SimulationMain {
 
-
 	
 public static void main(String[] args) throws IOException {
 	
