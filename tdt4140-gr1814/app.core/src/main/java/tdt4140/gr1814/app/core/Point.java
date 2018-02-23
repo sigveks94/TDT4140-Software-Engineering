@@ -1,4 +1,7 @@
 package tdt4140.gr1814.app.core;
+
+import com.lynden.gmapsfx.javascript.object.LatLong;
+
 public class Point {
 	/*USING 5 DECIMALS FOR ADEQUATE, BUT NOT ABUNDANT ACCURACY*/
 
@@ -15,6 +18,10 @@ public double getLat() {
 }
 public double getLongt(){
 	return this.longtitude;
+}
+
+public LatLong getLatLong() {
+	return new LatLong(this.latitude, this.longtitude);
 }
 
 @Override
