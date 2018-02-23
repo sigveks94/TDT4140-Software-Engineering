@@ -4,28 +4,27 @@ import java.io.IOException;
 
 public class SimulationMain {
 
-
 	
 public static void main(String[] args) throws IOException {
 	
 String str = 
-		"35.33868 16.54459 \r\n" + 
-		"58.20727 87.45917 \r\n" + 
-		"54.02726 63.24921 \r\n" + 
-		"20.06281 36.31115 \r\n" + 
-		"80.07951 13.46279 \r\n" + 
-		"31.57807 88.27476 \r\n" + 
-		"78.56328 39.31201 \r\n" + 
-		"26.04727 70.13356 \r\n" + 
-		"89.52058 88.57303 \r\n" + 
-		"56.51977 58.97881 \r\n" + 
-		"67.98291 51.49189 \r\n" + 
-		"56.48398 33.60740 \r\n" + 
-		"76.35572 06.45651 \r\n" + 
-		"62.05932 40.98163 \r\n" + 
-		"11.18858 22.55524 \r\n" + 
-		"25.27939 85.20797 \r\n" + 
-		"86.41801 70.07546 \r\n" + 
+		"hgfdsa:35.33868 16.54459 \r\n" + 
+		"kjhgff:58.20727 87.45917 \r\n" + 
+		"kjhvgfyijn:54.02726 63.24921 \r\n" + 
+		"ppoiuytr:20.06281 36.31115 \r\n" + 
+		"lkjhgfd:80.07951 13.46279 \r\n" + 
+		"ahahahaha:31.57807 88.27476 \r\n" + 
+		"kjhgfd:78.56328 39.31201 \r\n" + 
+		"djdjdjdj:26.04727 70.13356 \r\n" + 
+		"kdjkdkdkd:89.52058 88.57303 \r\n" + 
+		"lslslslsls:56.51977 58.97881 \r\n" + 
+		"pspspsps:67.98291 51.49189 \r\n" + 
+		"ahahahaha:56.48398 33.60740 \r\n" + 
+		"ahahahaha:76.35572 06.45651 \r\n" + 
+		"papapapa:62.05932 40.98163 \r\n" + 
+		"mamamama:11.18858 22.55524 \r\n" + 
+		"ahahahaha:25.27939 85.20797 \r\n" + 
+		"LALALALA:86.41801 70.07546"; /* \r\n" + 
 		"58.37229 10.85163 \r\n" + 
 		"20.80940 01.43364 \r\n" + 
 		"89.08138 87.39767 \r\n" + 
@@ -47,15 +46,18 @@ String str =
 		"63.80622 74.38624 \r\n" + 
 		"36.83390 34.12003 \r\n" + 
 		"84.23633 51.69481 \r\n" + 
-		"86.15325 46.22770";
+		"86.15325 46.22770"; */
 
-	ImputController c = new ImputController();
+	InputController c = new InputController();
+	Point centreOfAttention = new Point("ahahahaha", 50.00001, 30.00001);
+	Patient harald = new Patient("Harald", "Aarskog", 'M', 1234567890l, 98765432, "pappanteharaldsinmail", "ahahahaha");
+	CareTaker morteharald = new CareTaker("morteharaldusername", "pwerhemmelig");
+	CareTaker farteharald = new CareTaker("farteharalduser", "pwerhemmelig");
+	harald.addListeners(morteharald, farteharald);
+	
+	c.addPatientInList(harald);
+	harald.addZone(centreOfAttention, 5000000.0);
 	c.metamorphise(str);
-	Point centreOfAttention = new Point(50.00001, 30.00001);
-	ZoneRadius zone = new ZoneRadius(centreOfAttention, 5000000.0);
-	for (int i =0; i < c.getPoints().size(); i++) {
-		System.out.println(zone.isInsideZone(c.getPoints().get(i)));
-	}
 	
 }
 }
