@@ -13,11 +13,12 @@ public void metamorphise(String string) throws IOException {
 	BufferedReader reader = new BufferedReader(new StringReader(string));
 	String line;
 	while ((line = reader.readLine()) != null) {
-		String first = line.substring(0, line.indexOf(" "));
-		String second = line.substring(line.indexOf(" "));
-		Double number1 = Double.parseDouble(first);
-		Double number2 = Double.parseDouble(second);
-		Point p = new Point(number1,number2);
+		String first = line.substring(0, line.indexOf(":"));
+		String second = line.substring(line.indexOf(":")+1, line.indexOf(" "));
+		String third = line.substring(line.indexOf(" "));
+		Double number1 = Double.parseDouble(second);
+		Double number2 = Double.parseDouble(third);
+		Point p = new Point(first, number1,number2);
 		inputPoints.add(p);
 }
 }
@@ -33,6 +34,5 @@ public String toString() {
 		s +=  inputPoints.get(i) + "\n" ;
 	}
 	return s;
-	
 }
 }
