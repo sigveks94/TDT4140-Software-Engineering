@@ -80,7 +80,7 @@ public class CreateNewPatientController implements Initializable{
 			@Override
             public void handle(MouseEvent event) {
 			    Stage stage = (Stage) cancel_button.getScene().getWindow();
-			    stage.close();;//New profile canceled.
+			    stage.close();//New profile canceled.
 			}
 		});
 	}
