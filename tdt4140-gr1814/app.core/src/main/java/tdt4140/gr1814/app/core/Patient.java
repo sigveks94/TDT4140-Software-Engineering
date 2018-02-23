@@ -85,10 +85,12 @@ public class Patient implements ChangedLocationListener{
 		return CurrentPoint;
 	}
 	@Override
-	public void onLocationChanged(Point point) {
-		// TODO Auto-generated method stub
+	public void onLocationChanged(String deviceID,Point point) {
+		if (deviceID.equals(this.getID())) { //double-checking ;) not necessary.
 		CurrentPoint = point;
-		//add logic for updating position on caretakers UI.
+		}
+		//add logic for updating position on caretakers UI?
+		
 	}
 
 	public ArrayList<CareTaker> getCaretaker() {
