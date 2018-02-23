@@ -2,7 +2,9 @@ package tdt4140.gr1814.app.ui;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.lynden.gmapsfx.GoogleMapView;
@@ -17,13 +19,14 @@ import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import tdt4140.gr1814.app.core.MapViewable;
+import tdt4140.gr1814.app.core.Patient;
 
 public class MapViewController implements Initializable, MapComponentInitializedListener{
 
-	private List<MapViewable> viewables;
+	private Map<Patient, Marker> patientsOnMap;
 	
 	public MapViewController() {
-		this.viewables = new ArrayList<MapViewable>();
+		this.patientsOnMap = new HashMap<Patient, Marker>();
 	}
 	
 	@FXML
@@ -31,10 +34,9 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	
 	GoogleMap map;
 	
-	public void addViewables(MapViewable... viewables) {
-		for(MapViewable v : viewables) {
-			this.viewables.add(v);
-			System.out.println("A:" + v.getSSN());
+	public void addViewables(Patient... patients) {
+		for(Patient p : patients) {
+			this.patientsOnMap.put(p, null);
 		}
 	}
 	
@@ -55,8 +57,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		
 		map.addMarker(new Marker(new MarkerOptions().position(mapCenter).visible(true).title("Heisann")));
 		
-		for(MapViewable v: this.viewables) {
-			MarkerOptions markerOption = new MarkerOptions().position(v.getLatLong()).title(String.valueOf(v.getSSN())).visible(true);
+		for(Patient p: this.patientsOnMap.keySet()) {
+			MarkerOptions markerOption = new MarkerOptions().position(new LatLong(0,0)).title(String.valueOf(p.getSSN())).visible(true);
 			map.addMarker(new Marker(markerOption));
 		}
 		
