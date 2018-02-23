@@ -41,6 +41,12 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		}
 	}
 	
+	public void addAllViewables(List<Patient> patients) {
+		for(Patient p : patients) {
+			this.patientsOnMap.put(p, null);
+		}
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mapView.addMapInitializedListener(this);

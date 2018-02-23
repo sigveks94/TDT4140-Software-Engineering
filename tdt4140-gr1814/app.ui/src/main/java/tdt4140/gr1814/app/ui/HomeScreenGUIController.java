@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import tdt4140.gr1814.app.core.Patient;
 
 public class HomeScreenGUIController implements Initializable {
 	
@@ -66,8 +67,15 @@ public class HomeScreenGUIController implements Initializable {
 			@Override
 			public void handle(MouseEvent event) {
 				Stage stage = (Stage) ViewMap_btn.getScene().getWindow();
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("MapViewLayout.fxml"));
+				
+				MapViewController controller = new MapViewController();
+				controller.addAllViewables(Patient.getAllPatients());
+				
+				loader.setController(controller);
+				
 				try {
-					stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("MapViewLayout.fxml"))));
+					stage.setScene(new Scene(loader.load()));
 				} catch(Exception e) {
 					System.out.println("Could not access map fxml.");
 				}

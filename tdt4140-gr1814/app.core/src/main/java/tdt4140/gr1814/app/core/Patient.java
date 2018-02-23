@@ -43,6 +43,15 @@ public class Patient {
 		return null;
 	}
 	
+	public static List<Patient> getAllPatients(){
+		List<Patient> lst = new ArrayList<Patient>();
+		for(Patient p: patients) {
+			lst.add(p);
+		}
+		
+		return lst;
+	}
+	
 	
 	
 	//Instance
