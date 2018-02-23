@@ -19,9 +19,10 @@ import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import tdt4140.gr1814.app.core.MapViewable;
+import tdt4140.gr1814.app.core.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.Patient;
 
-public class MapViewController implements Initializable, MapComponentInitializedListener{
+public class MapViewController implements Initializable, MapComponentInitializedListener, OnLocationChangedListener{
 
 	private Map<Patient, Marker> patientsOnMap;
 	
@@ -61,7 +62,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			MarkerOptions markerOption = new MarkerOptions().position(new LatLong(0,0)).title(String.valueOf(p.getSSN())).visible(true);
 			map.addMarker(new Marker(markerOption));
 		}
-		
+	}
+
+	@Override
+	public void onLocationChanged(String deviceId, LatLong newLocation) {
+		//Update Markers according to changed location
 	}
 	
 }
