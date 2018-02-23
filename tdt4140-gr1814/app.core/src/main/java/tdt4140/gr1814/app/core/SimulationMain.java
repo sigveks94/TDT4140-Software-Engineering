@@ -2,7 +2,7 @@ package tdt4140.gr1814.app.core;
 
 import java.io.IOException;
 
-public class Simulation {
+public class SimulationMain {
 
 
 	
@@ -49,7 +49,7 @@ String str =
 		"84.23633 51.69481 \r\n" + 
 		"86.15325 46.22770";
 
-	Controller c = new Controller();
+	ImputController c = new ImputController();
 	c.metamorphise(str);
 	Point centreOfAttention = new Point(50.00001, 30.00001);
 	ZoneRadius zone = new ZoneRadius(centreOfAttention, 5000000.0);
