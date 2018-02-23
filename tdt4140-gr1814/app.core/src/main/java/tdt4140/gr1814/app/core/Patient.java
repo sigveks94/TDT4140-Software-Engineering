@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javafx.application.Platform;
+
 
 //This is the patien-class containing necessary information for the users of the system. 
 //TODO - implement a interface making patient-objects listeners with updateCurrentPos() function.
@@ -55,6 +57,30 @@ public class Patient {
 	
 	
 	//Instance
+	public Point currentLocation;
+	List<OnLocationChangedListener> locationListeners;
+	
+	public void registerListener(OnLocationChangedListener listener) {
+		if(!this.locationListeners.contains(listener)) {
+			this.locationListeners.add(listener);
+		}
+		
+	}
+	
+	public void changeLocation(Point newLoc) {
+		this.currentLocation = newLoc;
+		String devId = this.DeviceID;
+		for(OnLocationChangedListener l: this.locationListeners) {
+			
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					l.onLocationChanged(devId, newLoc);
+				}
+			});
+		}
+	}
+	
 	private String FirstName;
 	private String Surname;
 	private char  Gender;
@@ -70,7 +96,10 @@ public class Patient {
 		this.SSN = SSN;
 		this.NoK_cellphone = NoK_cellphone;
 		this.NoK_email = NoK_email;
-		this.DeviceID =  UUID.randomUUID().toString(); //generates a 'random' ID. This will be used as a part of the gps-data.  	
+		this.DeviceID =  UUID.randomUUID().toString(); //generates a 'random' ID. This will be used as a part of the gps-data.
+		
+		this.currentLocation = new Point(63.446827, 10.421906);
+		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 	}
 	
 	public String getFirstName() {
