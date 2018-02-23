@@ -8,10 +8,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
 
 public class testHomeScreenController implements Initializable{
 	
@@ -26,19 +26,22 @@ public class testHomeScreenController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		addPatient.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
 				Stage stage = (Stage) addPatient.getScene().getWindow();
-			    stage.close();
-		        Parent root = FXMLLoader.load(getClass().getResource("CreateNewPatient.fxml"));
-		        Scene scene = new Scene(root);
-		        stage.setScene(scene);
-		        stage.show();
+				try {
+				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("CreateNewPatient.fxml")),500,500));
+				}catch (Exception e) {
+					System.out.println();
+				}
 				}
 			});
-		
+		showMap.setOnAction(new EventHandler<ActionEvent>(){
+		    @Override
+		    public void handle(ActionEvent event) {
+		        Hyperlink_Browser.browse("https://www.google.no/maps/@63.4199203,10.4172,15z");
+		    }
+		});
 	}
 
 }

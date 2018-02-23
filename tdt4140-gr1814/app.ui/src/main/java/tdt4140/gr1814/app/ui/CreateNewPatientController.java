@@ -5,6 +5,7 @@ import tdt4140.gr1814.app.core.Patient;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
@@ -19,6 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 
@@ -80,7 +82,11 @@ public class CreateNewPatientController implements Initializable{
 			@Override
             public void handle(MouseEvent event) {
 			    Stage stage = (Stage) cancel_button.getScene().getWindow();
-			    stage.close();//New profile canceled.
+				try {
+				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("testHomeScreen.fxml")),500,500));//New profile canceled.
+				}catch (Exception e) {
+					System.out.println("klarte ikke åpne fxml-fil");
+				}
 			}
 		});
 	}
@@ -104,7 +110,11 @@ public class CreateNewPatientController implements Initializable{
 			//Patient-object has to be saved to database somehow here..
 			//Adding patient completed. close the UI:
 			Stage stage = (Stage) patient_name.getScene().getWindow();
-		    stage.close();;	
+			try {
+				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("testHomeScreen.fxml")),500,500));//New profile canceled.
+				}catch (Exception e) {
+					System.out.println("klarte ikke åpne fxml-fil");
+				}
 		}
 	}
 	
