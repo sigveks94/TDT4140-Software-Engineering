@@ -1,11 +1,14 @@
 package tdt4140.gr1814.app.core;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 
 //This is the patien-class containing necessary information for the users of the system. 
 //TODO - implement a interface making patient-objects listeners with updateCurrentPos() function.
-public class Patient {
+public class Patient implements ChangedLocationListener{
+	
+	private ArrayList<CareTaker> Caretaker = null;
 	
 	private String FirstName;
 	private String Surname;
@@ -13,7 +16,10 @@ public class Patient {
 	private Long SSN; //We will use the SSN as a key for finding the patient profile in the database
 	private int NoK_cellphone; //NoK  = next of kin
 	private String NoK_email;
+	
 	private String DeviceID; //We will use the DeviceID to connect the incomming GPS-signals to the corresponding patient profile
+	private Point CurrentPoint = null;
+	private ZoneRadius Zone = null;
 	
 	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
 		this.FirstName = FirstName;
@@ -67,4 +73,34 @@ public class Patient {
 		return output;
 	}
 
+	public ZoneRadius getZone() {
+		return Zone;
+	}
+
+	public void setZone(ZoneRadius zone) {
+		Zone = zone;
+	}
+
+	public Point getCurrentPoint() {
+		return CurrentPoint;
+	}
+	@Override
+	public void onLocationChanged(Point point) {
+		// TODO Auto-generated method stub
+		CurrentPoint = point;
+		//add logic for updating position on caretakers UI.
+	}
+
+	public ArrayList<CareTaker> getCaretaker() {
+		return Caretaker;
+	}
+
+	public void addCaretaker(CareTaker caretaker) {
+		if(!Caretaker.contains(caretaker)) {
+		Caretaker.add(caretaker);
+		}
+	}
+
+
+	
 }

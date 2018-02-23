@@ -43,5 +43,15 @@ public class CareTaker {
 		//.{8,} at least 8 characters
 	}
 
+	public ArrayList <Patient> getPatients() {
+		return Patients;
+	}
+
+	public void addPatients(Patient patient) {
+		if (!Patients.contains(patient)) {
+			Patients.add(patient);
+		}
+	}
+
 
 }
