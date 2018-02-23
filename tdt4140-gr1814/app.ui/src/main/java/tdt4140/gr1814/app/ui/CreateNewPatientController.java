@@ -99,7 +99,7 @@ public class CreateNewPatientController implements Initializable{
 		
 		//If all input values are valid. Create new patient-Object.
 		if(firstname != null && surname != null && SSN != null && NoK_mobile != 0 && email != null && termsaccepted) {
-			Patient patient = new Patient(firstname, surname, gender, SSN, NoK_mobile, email);//may be removed. Patient info saved directly to database. 
+			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email);//may be removed. Patient info saved directly to database. 
 			System.out.println(patient);
 			//Patient-object has to be saved to database somehow here..
 			//Adding patient completed. close the UI:
