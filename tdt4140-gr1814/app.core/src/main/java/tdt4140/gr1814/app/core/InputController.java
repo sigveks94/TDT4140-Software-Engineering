@@ -6,9 +6,14 @@ import java.io.StringReader;
 import java.util.ArrayList;
 
 
-public class ImputController {
+public class InputController {
 
-private ArrayList<Point> inputPoints = new ArrayList<Point>();
+private ArrayList<Patient> monitoredPatients = new ArrayList<Patient>();
+public void addPatientInList(Patient...patients) {
+	for (Patient pat: patients) {
+		monitoredPatients.add(pat);
+	}
+}
 
 public void metamorphise(String string) throws IOException {
 	BufferedReader reader = new BufferedReader(new StringReader(string));
@@ -19,11 +24,17 @@ public void metamorphise(String string) throws IOException {
 		String third = line.substring(line.indexOf(" "));
 		Double number1 = Double.parseDouble(second);
 		Double number2 = Double.parseDouble(third);
-		Point p = new Point(first, number1,number2);
-		inputPoints.add(p);
+		for (Patient p: monitoredPatients) {
+			if (p.getID().equals(first)) {
+				Point point = new Point(first, number1,number2);
+				p.updateCurrentLocation(point);
+			}
+		}
+		
+		
 }
 }
-
+/*
 public ArrayList<Point> getPoints(){
 	return this.inputPoints;
 }
@@ -35,5 +46,5 @@ public String toString() {
 		s +=  inputPoints.get(i) + "\n" ;
 	}
 	return s;
-}
+}*/
 }
