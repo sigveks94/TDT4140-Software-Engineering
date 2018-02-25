@@ -32,8 +32,9 @@ public class CareTaker {
 
 
 	public void setPassword(String password) {
-	    if (password.matches(PasswordRegex));
-		Password = password;
+	    if (password.matches(PasswordRegex)) {
+	    	Password = password;
+	    }
 		//PasswordRegex explained;
 		//(?=.*[0-9]) a digit must occur at least once
 		//(?=.*[a-z]) a lower case letter must occur at least once

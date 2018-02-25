@@ -11,7 +11,7 @@ import tdt4140.gr1814.app.core.Point;
 
 public class FxApp extends Application {
 	
-	
+
 	@Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml"));
@@ -21,7 +21,6 @@ public class FxApp extends Application {
     }
 
     public static void main(String[] args) {
-    	
     	Patient sigg = Patient.newPatient("Sigve", "snerkerud", 'M', 12l, 47288883, "sigg@russia.ru");
     	Patient osc = Patient.newPatient("Oscar", "Vik", 'M', 31l, 49494949, "osc@hot.ru");
     	
