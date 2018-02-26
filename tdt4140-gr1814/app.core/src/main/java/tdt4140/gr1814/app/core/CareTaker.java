@@ -34,9 +34,6 @@ public class CareTaker {
 		return Username;
 	}
 
-	public ArrayList<Patient> getPatients(){
-		return this.Patients;
-	}
 
 	public void setUsername(String username) {
 		Username = username;

@@ -83,7 +83,7 @@ public class CreateNewPatientController implements Initializable{
             public void handle(MouseEvent event) {
 			    Stage stage = (Stage) cancel_button.getScene().getWindow();
 				try {
-				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("testHomeScreen.fxml")),500,500));//New profile canceled.
+				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml")),500,500));//New profile canceled.
 				}catch (Exception e) {
 					System.out.println("klarte ikke åpne fxml-fil");
 				}
@@ -111,7 +111,7 @@ public class CreateNewPatientController implements Initializable{
 			//Adding patient completed. close the UI:
 			Stage stage = (Stage) patient_name.getScene().getWindow();
 			try {
-				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("testHomeScreen.fxml")),500,500));//New profile canceled.
+				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml")),500,500));//New profile canceled.
 				}catch (Exception e) {
 					System.out.println("klarte ikke åpne fxml-fil");
 				}
