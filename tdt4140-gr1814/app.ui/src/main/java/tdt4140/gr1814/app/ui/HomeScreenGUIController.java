@@ -80,6 +80,7 @@ public class HomeScreenGUIController implements Initializable {
 				try {
 					stage.setScene(new Scene(loader.load()));
 				} catch(Exception e) {
+					e.printStackTrace();
 					System.out.println("Could not access map fxml.");
 				}
 				
