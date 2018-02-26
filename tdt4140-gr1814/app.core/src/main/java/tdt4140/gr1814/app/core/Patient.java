@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javafx.application.Platform;
+
 
 //This is the patient-class containing necessary information for the users of the system. Also contains the caretakers to be notified
 //TODO - implement a interface making patient-objects listeners with updateCurrentPos() function.
@@ -13,13 +15,13 @@ public class Patient {
 	
 	private static List<Patient> patients = new ArrayList<Patient>();
 	
-	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
+	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String deviceId) {
 		Patient patient = getPatient(SSN);
 		if(patient != null) {
 			return patient;
 		}
 		else {
-			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email);
+			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email, deviceId);
 			patients.add(patient);
 			return patient;
 		}
@@ -43,9 +45,30 @@ public class Patient {
 		return null;
 	}
 	
+	public static List<Patient> getAllPatients(){
+		List<Patient> lst = new ArrayList<Patient>();
+		for(Patient p: patients) {
+			lst.add(p);
+		}
+		
+		return lst;
+	}
+	
 	
 	
 	//Instance
+	
+	List<OnLocationChangedListener> locationListeners;
+	
+	public void registerListener(OnLocationChangedListener listener) {
+		if(!this.locationListeners.contains(listener)) {
+			this.locationListeners.add(listener);
+		}
+		
+	}
+	
+	
+	
 	private String FirstName;
 	private String Surname;
 	private char  Gender;
@@ -55,16 +78,19 @@ public class Patient {
 	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
 	private ArrayList<CareTaker> listeners = new ArrayList<CareTaker>();
 	private ZoneRadius zone;
+
 	private Point currentLocation;
 	
-	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String devideid) {
+	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String deviceId) {
 		this.FirstName = FirstName;
 		this.Surname = Surname;
 		this.Gender = Gender;
 		this.SSN = SSN;
 		this.NoK_cellphone = NoK_cellphone;
 		this.NoK_email = NoK_email;
-		this.DeviceID =  devideid; //generates a 'random' ID. This will be used as a part of the gps-data.  	
+		this.DeviceID =  deviceId; //generates a 'random' ID. This will be used as a part of the gps-data.
+		this.currentLocation = new Point(deviceId, 63.446827, 10.421906);
+		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 	}
 	public void updateCurrentLocation(Point p) {
 		this.currentLocation=p;
@@ -92,6 +118,7 @@ public class Patient {
 				}
 			}
 		}
+		//this.DeviceID =  UUID.randomUUID().toString(); //generates a 'random' ID. This will be used as a part of the gps-data.
 	}
 	
 	public String getFirstName() {
@@ -126,6 +153,10 @@ public class Patient {
 		return NoK_cellphone;
 	}
 	
+	public Point getCurrentLocation() {
+		return this.currentLocation;
+	}
+	
 	public String getNoK_email() {
 		return NoK_email;
 	}
@@ -138,6 +169,20 @@ public class Patient {
 	public String toString() {
 		String output = "Patient Profile\nName: "+this.getFullName()+"\nGender: "+this.getGender()+"\nSSN: "+this.getSSN()+"\nDevice ID: "+this.getID()+"\nNext of kind\nMobile: "+this.getNoK_cellphone()+"\nEmail: "+this.getNoK_email();
 		return output;
+	}
+	
+	public void changeLocation(Point newLoc) {
+		this.currentLocation = newLoc;
+		String devId = this.DeviceID;
+		for(OnLocationChangedListener l: this.locationListeners) {
+			
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					l.onLocationChanged(devId, newLoc);
+				}
+			});
+		}
 	}
 
 }

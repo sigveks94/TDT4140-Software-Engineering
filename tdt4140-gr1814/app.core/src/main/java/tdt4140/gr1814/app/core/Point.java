@@ -6,12 +6,12 @@ public class Point {
 	/*USING 5 DECIMALS FOR ADEQUATE, BUT NOT ABUNDANT ACCURACY*/
 
 	
-private String keyPatient;
+private String deviceId;
 private double latitude;
 private double longtitude;
 
-public Point(String keyPatient, double d, double e) {
-	this.keyPatient=keyPatient;
+public Point(String deviceId, double d, double e) {
+	this.deviceId=deviceId;
 	this.latitude=d;
 	this.longtitude=e;
 }
@@ -22,8 +22,8 @@ public double getLat() {
 public double getLongt(){
 	return this.longtitude;
 }
-public String getPatientKey() {
-	return this.keyPatient;
+public String getDeviceId() {
+	return this.deviceId;
 }
 
 public LatLong getLatLong() {
@@ -32,6 +32,6 @@ public LatLong getLatLong() {
 
 @Override
 public String toString() {
-	return keyPatient + " " + latitude + " " + longtitude;
+	return deviceId + " " + latitude + " " + longtitude;
 }
 }
