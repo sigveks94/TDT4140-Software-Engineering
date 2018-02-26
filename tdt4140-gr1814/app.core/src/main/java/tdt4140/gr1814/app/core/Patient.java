@@ -15,13 +15,13 @@ public class Patient {
 	
 	private static List<Patient> patients = new ArrayList<Patient>();
 	
-	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String deviceId) {
+	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
 		Patient patient = getPatient(SSN);
 		if(patient != null) {
 			return patient;
 		}
 		else {
-			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email, deviceId);
+			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email);
 			patients.add(patient);
 			return patient;
 		}
@@ -81,15 +81,15 @@ public class Patient {
 
 	private Point currentLocation;
 	
-	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String deviceId) {
+	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
 		this.FirstName = FirstName;
 		this.Surname = Surname;
 		this.Gender = Gender;
 		this.SSN = SSN;
 		this.NoK_cellphone = NoK_cellphone;
 		this.NoK_email = NoK_email;
-		this.DeviceID =  deviceId; //generates a 'random' ID. This will be used as a part of the gps-data.
-		this.currentLocation = new Point(deviceId, 63.446827, 10.421906);
+		this.DeviceID =  UUID.randomUUID().toString(); //generates a 'random' ID. This will be used as a part of the gps-data.
+		this.currentLocation = new Point(DeviceID, 63.446827, 10.421906);
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 	}
 	public void updateCurrentLocation(Point p) {
@@ -118,7 +118,6 @@ public class Patient {
 				}
 			}
 		}
-		//this.DeviceID =  UUID.randomUUID().toString(); //generates a 'random' ID. This will be used as a part of the gps-data.
 	}
 	
 	public String getFirstName() {

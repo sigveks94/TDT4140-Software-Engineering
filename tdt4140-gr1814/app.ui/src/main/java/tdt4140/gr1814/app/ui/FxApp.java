@@ -29,8 +29,8 @@ public class FxApp extends Application {
             @Override
             public Void call() {
                 while (true) {
-                	sigg.changeLocation(new Point(sigg.getCurrentLocation().getLat() - 0.0002, sigg.getCurrentLocation().getLongt()));
-                	osc.changeLocation(new Point(osc.getCurrentLocation().getLat() - 0.0001, osc.getCurrentLocation().getLongt() + 0.0001));
+                	sigg.changeLocation(new Point(sigg.getID(), sigg.getCurrentLocation().getLat() - 0.0002, sigg.getCurrentLocation().getLongt()));
+                	osc.changeLocation(new Point(osc.getID(), osc.getCurrentLocation().getLat() - 0.0001, osc.getCurrentLocation().getLongt() + 0.0001));
                     try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {

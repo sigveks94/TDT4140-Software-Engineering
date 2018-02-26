@@ -50,7 +50,7 @@ String str =
 
 	InputController c = new InputController();
 	Point centreOfAttention = new Point("ahahahaha", 50.00001, 30.00001);
-	Patient harald = new Patient("Harald", "Aarskog", 'M', 1234567890l, 98765432, "pappanteharaldsinmail", "ahahahaha");
+	Patient harald = new Patient("Harald", "Aarskog", 'M', 1234567890l, 98765432, "pappanteharaldsinmail");
 	CareTaker morteharald = new CareTaker("morteharaldusername", "pwerhemmelig");
 	CareTaker farteharald = new CareTaker("farteharalduser", "pwerhemmelig");
 	harald.addListeners(morteharald, farteharald);

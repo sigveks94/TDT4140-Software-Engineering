@@ -26,7 +26,7 @@ public class PatientTest {
 		int phone = 92252233;
 		String email = "test@email.com";
 		String deviceid = "jjjsjsjs";
-		patient = new Patient(firstname,surname,gender,SSN,phone,email, deviceid);
+		patient = new Patient(firstname,surname,gender,SSN,phone,email);
 	}
 	
 	@Test
