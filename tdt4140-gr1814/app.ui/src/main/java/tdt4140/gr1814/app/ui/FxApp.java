@@ -27,7 +27,7 @@ public class FxApp extends Application {
     	//Temporary Simulation
     	Database database = new Database();
     	database.connect();
-    	//ArrayList<ArrayList<String>> Patients =  database.retrieve("SELECT * FROM Patient");
+    	//ArrayList<Patient> Patients =  database.retrieve("SELECT * FROM Patient");
  	Patient sigg = Patient.newPatient("Sigve", "snerkerud", 'M', 12l, 47288883, "sigg@russia.ru");
     	Patient osc = Patient.newPatient("Oscar", "Vik", 'M', 31l, 49494949, "osc@hot.ru");
     	
@@ -35,6 +35,7 @@ public class FxApp extends Application {
             @Override
             public Void call() {
                 while (true) {
+                	//
                 	sigg.changeLocation(new Point(sigg.getID(), sigg.getCurrentLocation().getLat() - 0.0002, sigg.getCurrentLocation().getLongt()));
                 	osc.changeLocation(new Point(osc.getID(), osc.getCurrentLocation().getLat() - 0.0001, osc.getCurrentLocation().getLongt() + 0.0001));
                     try {
