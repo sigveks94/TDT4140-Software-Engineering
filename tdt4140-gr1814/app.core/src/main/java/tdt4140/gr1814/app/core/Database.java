@@ -32,7 +32,6 @@ public class Database {
 			e.printStackTrace();
 		}
 		
-		Patient patient1 = new Patient("hei","jlj",'m',123123123l,123123,"har@gmail.com");
 		
 		ArrayList<Patient> returnList = new ArrayList();
 		while (myRs.next()) {
@@ -47,10 +46,10 @@ public class Database {
                     break;
                 }
             }
-            Patient patient  = new Patient(innerList.get(1), innerList.get(2), innerList.get(3).charAt(0), Long.parseLong(innerList.get(0)),  Integer.parseInt(innerList.get(4)),innerList.get(5));
+            Patient patient  = Patient.newPatient(innerList.get(1), innerList.get(2), innerList.get(3).charAt(0), Long.parseLong(innerList.get(0)),  Integer.parseInt(innerList.get(4)),innerList.get(5));
+            
             returnList.add(patient);
         }
-        System.out.println(returnList);
 		return returnList;
 	}
 	
@@ -101,19 +100,15 @@ public class Database {
 	
 	public static void main(String[] args) throws SQLException {
 		
-		Patient p1 = new Patient("Harald", "Bach", 'M', 12345678910l, 90887878, "heihei@gmail.com");
-		Patient p2 = new Patient("Hjalmar", "Bachsen", 'M', 99345678910l, 345345345, "heih455ei@gmail.com");
+		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678910l, 90887878, "harald@gmail.com");
+		Patient p2 = Patient.newPatient("Hennie", "Sørensen", 'F', 99345678910l, 34534534, "hennie@gmail.com");
 		
 		
 		
 		Database db = new Database();
 		db.connect();
-		db.insert(p1);
-		db.insert(p2);
-		db.retrievePatients();
-		db.delete(p1);
-		db.delete(p2);
-		db.retrievePatients();
+		System.out.println(db.retrievePatients());
+		
 		
 	}
 }
