@@ -1,1 +1,1 @@
-# Source package for core code!
+# Source package for core code
