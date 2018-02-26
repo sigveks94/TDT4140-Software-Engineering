@@ -145,7 +145,12 @@ public class Patient {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
+					try {
 					l.onLocationChanged(devId, newLoc);
+					}
+					catch(NullPointerException e) {
+						locationListeners.remove(l);
+					}
 				}
 			});
 		}
