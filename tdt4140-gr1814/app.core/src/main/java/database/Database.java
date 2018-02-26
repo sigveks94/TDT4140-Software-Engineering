@@ -10,17 +10,19 @@ public class Database {
 	Statement myStmt;
 	ResultSet myRs=null;
 	
+	//TODO: Make the class take a person object as input and write it to the DB.
+	
+	//Get a connection to database
 	public void connect() {
 		try {
-			//1. Get a connection to database
-			myConn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/DATABASE NAME","USERNAME","PASSWORD");
+			myConn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/hara_database","hara_db","gruppe14");
 		
 		}catch (Exception ex){
 				ex.printStackTrace();
 			}
 		}
 	
-	
+	//Retrieve data from DB using queries
 	public void retrieve(String query) throws SQLException {
 		try {
 			myStmt = myConn.createStatement();
@@ -39,7 +41,7 @@ public class Database {
                     String temp = myRs.getString(index);
                     innerList.add(temp);
                     index++;
-                } catch (Exception e) {
+                }catch (Exception e) {
                     break;
                 }
             }
@@ -52,7 +54,7 @@ public class Database {
 	//the insert, delete and update methods are all similar now. Once I know more about the Pasient class I
 	//think it would be clever to execute the sql query inside the method.
 	public void insert(String query) {
-		//example input: "INSERT INTO Pasient(SSN, FirstName, LastName) VALUES (999999,'Mathias','Kroken');"
+		//example input: "INSERT INTO Patient(SSN, FirstName, LastName) VALUES (999999,'Mathias','Kroken');"
 		
         try {
             myStmt = myConn.createStatement();
@@ -64,7 +66,7 @@ public class Database {
     }
 	
 	public void delete(String query) {
-	// example input: "DELETE FROM Pasient WHERE SSN = 999999;"
+	// example input: "DELETE FROM Patient WHERE SSN = 999999;"
 		try {
             myStmt = myConn.createStatement();
             myStmt.executeUpdate(query);
@@ -75,7 +77,7 @@ public class Database {
 	}
 	
 	public void update(String query){
-		// example input: "UPDATE Pasient SET FirstName='Fjotolf' WHERE SSN=123123"
+		// example input: "UPDATE Patient SET FirstName='Fjotolf' WHERE SSN=123123"
 		
 		try {
             myStmt = myConn.createStatement();
@@ -93,8 +95,10 @@ public class Database {
 		
 		Database db = new Database();
 		db.connect();
-		db.update("UPDATE Pasient SET FirstName='Mons' WHERE SSN=123123;");
-		db.retrieve("select * from Pasient");
+		db.insert("INSERT INTO Patient(SSN, FirstName, LastName, PhoneNumber) VALUES (999999,'Mathias','Kroken', 90478654);");
+		db.retrieve("select * from Patient");
+		db.delete("DELETE FROM Patient WHERE SSN = 999999;");
+		db.retrieve("select * from Patient");
 		
 	}
 }
