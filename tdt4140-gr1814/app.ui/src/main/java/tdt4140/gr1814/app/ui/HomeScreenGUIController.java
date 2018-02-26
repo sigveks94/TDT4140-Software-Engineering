@@ -32,6 +32,9 @@ public class HomeScreenGUIController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		MyPatients_btn.setDisable(true);
+		Settings_btn.setDisable(true);
+		
 		newProfile_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override

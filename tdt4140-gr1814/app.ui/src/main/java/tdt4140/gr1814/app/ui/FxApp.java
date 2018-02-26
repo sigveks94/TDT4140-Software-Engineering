@@ -11,7 +11,6 @@ import tdt4140.gr1814.app.core.Point;
 
 public class FxApp extends Application {
 	
-
 	@Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml"));
@@ -21,6 +20,8 @@ public class FxApp extends Application {
     }
 
     public static void main(String[] args) {
+    	
+    	//Temporary Simulation
     	Patient sigg = Patient.newPatient("Sigve", "snerkerud", 'M', 12l, 47288883, "sigg@russia.ru");
     	Patient osc = Patient.newPatient("Oscar", "Vik", 'M', 31l, 49494949, "osc@hot.ru");
     	
@@ -28,8 +29,8 @@ public class FxApp extends Application {
             @Override
             public Void call() {
                 while (true) {
-                	sigg.changeLocation(new Point(sigg.currentLocation.getLat() - 0.0002, sigg.currentLocation.getLongt()));
-                	osc.changeLocation(new Point(osc.currentLocation.getLat() - 0.0001, osc.currentLocation.getLongt() + 0.0001));
+                	sigg.changeLocation(new Point(sigg.getID(), sigg.getCurrentLocation().getLat() - 0.0002, sigg.getCurrentLocation().getLongt()));
+                	osc.changeLocation(new Point(osc.getID(), osc.getCurrentLocation().getLat() - 0.0001, osc.getCurrentLocation().getLongt() + 0.0001));
                     try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
@@ -41,7 +42,10 @@ public class FxApp extends Application {
         };
         
         Thread simu_thread = new Thread(task);
+        simu_thread.setDaemon(true);
         simu_thread.start();
+        
+        // ------------------------------------- ------------------------------------ -------------------------
         
         launch(args);
     }   

@@ -6,20 +6,37 @@ public class CareTaker {
 
 	private String Username;
 	private String Password;
-	private ArrayList <Patient> Patients= null;
+	private ArrayList <Patient> Patients= new ArrayList<Patient>();
 	public static final String PasswordRegex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
 	
 	
 	public CareTaker(String Username, String Password) {
 		this.setUsername(Username);
-		this.setPassword(Password);
-		
+		this.setPassword(Password);	
 	}
 	
+	public void addPatient(Patient...patient) {
+		for (Patient p: patient) {
+			if (!(Patients.contains(p))) {
+				Patients.add(p);
+				if (!(p.getListeners().contains(this))) {
+					p.addListeners(this);
+				}
+			}
+		}
+	}
+	
+	public void incomingAlert(Patient patient, Point point) {
+		System.out.println("ALARM!! For this caretaker " + this.getUsername() +  ". Patient: " + patient.getFullName() + " is currently outside allowed zone. Current position: " + 
+		point.getLat() + " " + point.getLongt());
+	}
 	public String getUsername() {
 		return Username;
 	}
 
+	public ArrayList<Patient> getPatients(){
+		return this.Patients;
+	}
 
 	public void setUsername(String username) {
 		Username = username;
