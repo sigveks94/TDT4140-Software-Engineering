@@ -37,6 +37,7 @@ public class RadiusTest {
 		assertFalse(zone.isInsideZone(point3));
 	}
 	
+	/*
 	@Test
 	public void testPointObject() {
 		Point point6 = new Point("HJSH89-HSJEJS",40.65728,65.82834);
@@ -45,7 +46,7 @@ public class RadiusTest {
 		assertEquals(point6.toString(),"40.65728 65.82834");
 	}
 	
-	/*
+	
 	@Test
 	public void testInputHandler() {
 		String str1 = "35.33868 16.54459 \r\n" + "58.20727 87.45917";
