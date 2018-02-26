@@ -16,8 +16,14 @@ import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import tdt4140.gr1814.app.core.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.Patient;
 import tdt4140.gr1814.app.core.Point;
@@ -32,6 +38,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	
 	@FXML
 	GoogleMapView mapView;
+	@FXML
+	Button back_button;
 	
 	GoogleMap map;
 	
@@ -53,6 +61,18 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mapView.addMapInitializedListener(this);
+		/*
+		back_button.setOnMouseClicked(new EventHandler<MouseEvent>(){
+			@Override
+            public void handle(MouseEvent event) {
+			    Stage stage = (Stage) back_button.getScene().getWindow();
+				try {
+				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml")),500,500));//New profile canceled.
+				}catch (Exception e) {
+					System.out.println("klarte ikke åpne fxml-fil");
+				}
+				}
+			}); */
 	}
 
 
