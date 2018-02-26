@@ -66,7 +66,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		map = mapView.createMap(mapOptions);
 		
 		for(Patient p: this.patientsOnMap.keySet()) {
-			MarkerOptions markerOption = new MarkerOptions().position(new LatLong(p.currentLocation.getLat(), p.currentLocation.getLongt())).title(String.valueOf(p.getSSN())).visible(true);
+			MarkerOptions markerOption = new MarkerOptions().position(new LatLong(p.getCurrentLocation().getLat(), p.getCurrentLocation().getLongt())).title(String.valueOf(p.getSSN())).visible(true);
 			Marker marker = new Marker(markerOption);
 			map.addMarker(marker);
 			this.patientsOnMap.replace(p, marker);

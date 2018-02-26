@@ -57,7 +57,7 @@ public class Patient {
 	
 	
 	//Instance
-	public Point currentLocation;
+	
 	List<OnLocationChangedListener> locationListeners;
 	
 	public void registerListener(OnLocationChangedListener listener) {
@@ -67,19 +67,7 @@ public class Patient {
 		
 	}
 	
-	public void changeLocation(Point newLoc) {
-		this.currentLocation = newLoc;
-		String devId = this.DeviceID;
-		for(OnLocationChangedListener l: this.locationListeners) {
-			
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					l.onLocationChanged(devId, newLoc);
-				}
-			});
-		}
-	}
+	
 	
 	private String FirstName;
 	private String Surname;
@@ -88,6 +76,7 @@ public class Patient {
 	private int NoK_cellphone; //NoK  = next of kin
 	private String NoK_email;
 	private String DeviceID; //We will use the DeviceID to connect the incomming GPS-signals to the corresponding patient profile
+	private Point currentLocation;
 	
 	private Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
 		this.FirstName = FirstName;
@@ -130,6 +119,10 @@ public class Patient {
 		return NoK_cellphone;
 	}
 	
+	public Point getCurrentLocation() {
+		return this.currentLocation;
+	}
+	
 	public String getNoK_email() {
 		return NoK_email;
 	}
@@ -142,6 +135,20 @@ public class Patient {
 	public String toString() {
 		String output = "Patient Profile\nName: "+this.getFullName()+"\nGender: "+this.getGender()+"\nSSN: "+this.getSSN()+"\nDevice ID: "+this.getID()+"\nNext of kind\nMobile: "+this.getNoK_cellphone()+"\nEmail: "+this.getNoK_email();
 		return output;
+	}
+	
+	public void changeLocation(Point newLoc) {
+		this.currentLocation = newLoc;
+		String devId = this.DeviceID;
+		for(OnLocationChangedListener l: this.locationListeners) {
+			
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					l.onLocationChanged(devId, newLoc);
+				}
+			});
+		}
 	}
 
 }
