@@ -32,6 +32,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.45-bin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GMapsFX"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
