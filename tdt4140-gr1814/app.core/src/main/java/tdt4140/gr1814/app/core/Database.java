@@ -102,13 +102,11 @@ public class Database {
 		
 		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678910l, 90887878, "harald@gmail.com");
 		Patient p2 = Patient.newPatient("Hennie", "Sørensen", 'F', 99345678910l, 34534534, "hennie@gmail.com");
-		Patient p3 = Patient.newPatient("Henrrrrrnie", "Sørensen", 'F', 90345678910l, 34534534, "hennie@gmail.com");
 		
 		
 		
 		Database db = new Database();
 		db.connect();
-		db.insert(p3);
 		System.out.println(db.retrievePatients());
 		
 		
