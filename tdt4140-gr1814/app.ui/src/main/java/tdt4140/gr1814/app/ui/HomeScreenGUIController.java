@@ -41,7 +41,7 @@ public class HomeScreenGUIController implements Initializable {
 			public void handle(MouseEvent event) {
 				Stage stage = (Stage) newProfile_btn.getScene().getWindow();
 				try {
-					stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("CreateNewPatient.fxml"))));
+					stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("CreateNewPatient.fxml")),500,500));
 				} catch(Exception e) {
 					System.out.println("Could not access new profile fxml.");
 				}
@@ -56,7 +56,7 @@ public class HomeScreenGUIController implements Initializable {
 			public void handle(MouseEvent event) {
 				Stage stage = (Stage) MyPatients_btn.getScene().getWindow();
 				try {
-					stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("CreateNewPatient.fxml"))));
+					stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("CreateNewPatient.fxml")),500,500));
 				} catch(Exception e) {
 					System.out.println("Could not access your patients fxml.");
 				}
@@ -78,7 +78,7 @@ public class HomeScreenGUIController implements Initializable {
 				loader.setController(controller);
 				
 				try {
-					stage.setScene(new Scene(loader.load()));
+					stage.setScene(new Scene(loader.load(),500,500));
 				} catch(Exception e) {
 					e.printStackTrace();
 					System.out.println("Could not access map fxml.");
@@ -94,7 +94,7 @@ public class HomeScreenGUIController implements Initializable {
 			public void handle(MouseEvent event) {
 				Stage stage = (Stage) Settings_btn.getScene().getWindow();
 				try {
-					stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("CreateNewPatient.fxml"))));
+					stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("CreateNewPatient.fxml")),500,500));
 				} catch(Exception e) {
 					System.out.println("Could not access settings fxml.");
 				}

@@ -1,6 +1,7 @@
 package tdt4140.gr1814.app.ui;
 
 import tdt4140.gr1814.app.core.Patient;
+import tdt4140.gr1814.app.core.Database;
 
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -89,6 +90,19 @@ public class CreateNewPatientController implements Initializable{
 				}
 			}
 		});
+		//this does not work when using 'space' to check the boxes
+		genderM.setOnMouseClicked(new EventHandler<MouseEvent>(){
+			@Override
+            public void handle(MouseEvent event) {
+				genderF.setSelected(false);
+				}
+			});
+		genderF.setOnMouseClicked(new EventHandler<MouseEvent>(){
+			@Override
+            public void handle(MouseEvent event) {
+				genderM.setSelected(false);
+				}
+			});
 	}
 	
 	
@@ -105,10 +119,12 @@ public class CreateNewPatientController implements Initializable{
 		
 		//If all input values are valid. Create new patient-Object.
 		if(firstname != null && surname != null && SSN != null && NoK_mobile != 0 && email != null && termsaccepted) {
-			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email);//may be removed. Patient info saved directly to database. 
+			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email);//may be removed. Patient info saved directly to database.
+			Database database = new Database();
+			database.connect();
+			database.insert(patient);//Patient-object saved to database
 			System.out.println(patient);
-			//Patient-object has to be saved to database somehow here..
-			//Adding patient completed. close the UI:
+			//Adding patient completed. change scene to homescreen:
 			Stage stage = (Stage) patient_name.getScene().getWindow();
 			try {
 				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml")),500,500));//New profile canceled.
@@ -136,9 +152,9 @@ public class CreateNewPatientController implements Initializable{
 	
 	//check gender. I have not yet implemented only allowing the user to check off one of the 'male'/'female' boxes
 	private char checkGender() {
-		if(genderM.isSelected() && !genderF.isSelected()) {return 'M';}
-		else if(genderF.isSelected() && !genderM.isSelected()) {return 'F';}
-		else {return 'U';}//Uncertain
+		if(genderM.isSelected()){return 'M';}
+		else if(genderF.isSelected()){return 'F';} 
+		else {return 'U';}//uncertain
 	}
 	
 	//validation of social security number. Required length = 11. Able to convert to Long-type

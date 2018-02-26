@@ -61,7 +61,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mapView.addMapInitializedListener(this);
-		/*
+		
 		back_button.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
             public void handle(MouseEvent event) {
@@ -72,7 +72,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 					System.out.println("klarte ikke åpne fxml-fil");
 				}
 				}
-			}); */
+			}); 
 	}
 
 

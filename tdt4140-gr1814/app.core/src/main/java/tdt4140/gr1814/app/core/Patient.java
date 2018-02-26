@@ -179,6 +179,10 @@ public class Patient {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
+					if (l == null) {
+						locationListeners.remove(l);
+						return;
+					}
 					l.onLocationChanged(devId, newLoc);
 				}
 			});

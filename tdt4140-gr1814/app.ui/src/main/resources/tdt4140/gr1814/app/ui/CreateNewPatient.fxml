@@ -11,18 +11,24 @@
 
 <AnchorPane prefHeight="301.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tdt4140.gr1814.app.ui.CreateNewPatientController">
    <children>
-      <Hyperlink fx:id="TermsOfUse" layoutX="56.0" layoutY="220.0" text="Terms of use" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="48.0">
+      <Button fx:id="cancel_button" layoutX="30.0" layoutY="12.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="36.0" text="Cancel" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="12.0">
+         <font>
+            <Font name="System Bold" size="7.0" />
+         </font>
          <tooltip>
-            <Tooltip text="https://www.datatilsynet.no/rettigheter-og-plikter/overvaking-og-sporing/lokalisering/">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Tooltip>
-         </tooltip></Hyperlink>
+            <Tooltip text="Go back" />
+         </tooltip>
+      </Button>
       <TextField fx:id="patient_name" layoutX="30.0" layoutY="75.0" prefHeight="26.0" prefWidth="161.0" promptText="First Name" AnchorPane.leftAnchor="30.0">
          <tooltip>
             <Tooltip text="First Name" />
          </tooltip></TextField>
+         <TextField fx:id="patient_surname" layoutX="212.0" layoutY="75.0" prefHeight="26.0" prefWidth="161.0" promptText="Family Name" AnchorPane.leftAnchor="220.0">
+         <tooltip>
+            <Tooltip text="Family Name" />
+         </tooltip></TextField>
+         <CheckBox fx:id="genderM" layoutX="33.0" layoutY="129.0" mnemonicParsing="false" text="Male" AnchorPane.leftAnchor="30.0" />
+      <CheckBox fx:id="genderF" layoutX="94.0" layoutY="129.0" mnemonicParsing="false" text="Female" AnchorPane.leftAnchor="100.0" />
       <TextField fx:id="patient_SSN" layoutX="212.0" layoutY="125.0" prefHeight="26.0" prefWidth="161.0" promptText="Social Security Number" AnchorPane.leftAnchor="220.0">
          <tooltip>
             <Tooltip text="Social Security Number" />
@@ -35,23 +41,20 @@
          <tooltip>
             <Tooltip text="Email" />
          </tooltip></TextField>
-      <TextField fx:id="patient_surname" layoutX="212.0" layoutY="75.0" prefHeight="26.0" prefWidth="161.0" promptText="Family Name" AnchorPane.leftAnchor="220.0">
+      <CheckBox fx:id="accept_checkbox" layoutX="30.0" layoutY="201.0" mnemonicParsing="false" text="I have read and accept the terms of use" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="30.0" />
+      <Hyperlink fx:id="TermsOfUse" layoutX="56.0" layoutY="220.0" text="Terms of use" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="48.0">
          <tooltip>
-            <Tooltip text="Family Name" />
-         </tooltip></TextField>
-      <Button fx:id="cancel_button" layoutX="30.0" layoutY="12.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="36.0" text="Cancel" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="12.0">
-         <font>
-            <Font name="System Bold" size="7.0" />
-         </font>
-         <tooltip>
-            <Tooltip text="Go back" />
+            <Tooltip text="https://www.datatilsynet.no/rettigheter-og-plikter/overvaking-og-sporing/lokalisering/">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Tooltip>
          </tooltip>
-      </Button>
+      </Hyperlink>
       <Button fx:id="add_button" mnemonicParsing="false" text="Add" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="30.0">
          <tooltip>
             <Tooltip text="Create profile" />
          </tooltip></Button>
-      <CheckBox fx:id="accept_checkbox" layoutX="30.0" layoutY="201.0" mnemonicParsing="false" text="I have read and accept the terms of use" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="30.0" />
       <Text layoutX="66.0" layoutY="20.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Patient Profile" textAlignment="CENTER" wrappingWidth="322.0" AnchorPane.topAnchor="10.0">
          <font>
             <Font name="System Font Regular" size="18.0" />
@@ -59,8 +62,6 @@
       </Text>
       <Text layoutX="30.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Next of Kin:" wrappingWidth="90.9999927431345" />
       <Text layoutX="30.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal info:" wrappingWidth="90.9999927431345" />
-      <CheckBox fx:id="genderM" layoutX="33.0" layoutY="129.0" mnemonicParsing="false" text="Male" AnchorPane.leftAnchor="30.0" />
-      <CheckBox fx:id="genderF" layoutX="94.0" layoutY="129.0" mnemonicParsing="false" text="Female" AnchorPane.leftAnchor="100.0" />
       <Text fx:id="ssnError" fill="RED" layoutX="220.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" style="visibility: false;" text="Enter a 11-digit number" textAlignment="CENTER" wrappingWidth="160.99999352172017" AnchorPane.leftAnchor="220.0">
          <font>
             <Font size="10.0" />

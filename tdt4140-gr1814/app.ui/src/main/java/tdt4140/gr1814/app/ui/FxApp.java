@@ -1,11 +1,14 @@
 package tdt4140.gr1814.app.ui;
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.Patient;
 import tdt4140.gr1814.app.core.Point;
 
@@ -14,7 +17,7 @@ public class FxApp extends Application {
 	@Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,500,500);
         stage.setScene(scene);
         stage.show();      
     }
@@ -22,6 +25,9 @@ public class FxApp extends Application {
     public static void main(String[] args) {
     	
     	//Temporary Simulation
+    	Database database = new Database();
+    	database.connect();
+    	ArrayList<ArrayList<String>> Patients =  database.retrieve("SELECT * FROM Patient");
  	Patient sigg = Patient.newPatient("Sigve", "snerkerud", 'M', 12l, 47288883, "sigg@russia.ru");
     	Patient osc = Patient.newPatient("Oscar", "Vik", 'M', 31l, 49494949, "osc@hot.ru");
     	
