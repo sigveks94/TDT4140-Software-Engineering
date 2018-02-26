@@ -27,7 +27,7 @@ public class FxApp extends Application {
     	//Temporary Simulation
     	Database database = new Database();
     	database.connect();
-    	ArrayList<ArrayList<String>> Patients =  database.retrieve("SELECT * FROM Patient");
+    	//ArrayList<ArrayList<String>> Patients =  database.retrieve("SELECT * FROM Patient");
  	Patient sigg = Patient.newPatient("Sigve", "snerkerud", 'M', 12l, 47288883, "sigg@russia.ru");
     	Patient osc = Patient.newPatient("Oscar", "Vik", 'M', 31l, 49494949, "osc@hot.ru");
     	

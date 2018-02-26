@@ -122,7 +122,7 @@ public class CreateNewPatientController implements Initializable{
 			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email);//may be removed. Patient info saved directly to database.
 			Database database = new Database();
 			database.connect();
-			database.insert(patient);//Patient-object saved to database
+			//database.insert(patient);//Patient-object saved to database
 			System.out.println(patient);
 			//Adding patient completed. change scene to homescreen:
 			Stage stage = (Stage) patient_name.getScene().getWindow();
