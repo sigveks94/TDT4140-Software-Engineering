@@ -1,4 +1,4 @@
-package database;
+package tdt4140.gr1814.app.core;
 
 import java.util.ArrayList;
 import java.util.Properties;
