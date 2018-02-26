@@ -15,12 +15,13 @@ import tdt4140.gr1814.app.core.Point;
 
 public class FxApp extends Application {
 	
+	
 	@Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml"));
         Scene scene = new Scene(root,500,500);
         stage.setScene(scene);
-        stage.show();      
+        stage.show();
     }
 
     public static void main(String[] args) throws SQLException {
