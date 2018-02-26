@@ -1,5 +1,6 @@
 package tdt4140.gr1814.app.ui;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -22,22 +23,23 @@ public class FxApp extends Application {
         stage.show();      
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
     	
     	//Temporary Simulation
     	Database database = new Database();
     	database.connect();
-    	//ArrayList<Patient> Patients =  database.retrieve("SELECT * FROM Patient");
- 	Patient sigg = Patient.newPatient("Sigve", "snerkerud", 'M', 12l, 47288883, "sigg@russia.ru");
-    	Patient osc = Patient.newPatient("Oscar", "Vik", 'M', 31l, 49494949, "osc@hot.ru");
+    	ArrayList<Patient> Patients =  database.retrievePatients();
+    Patient p1 = Patients.get(0);
+    Patient p2 = Patients.get(1);
+    System.out.println(p1);
+    
     	
     	Task task = new Task<Void>() {
             @Override
             public Void call() {
                 while (true) {
-                	//
-                	sigg.changeLocation(new Point(sigg.getID(), sigg.getCurrentLocation().getLat() - 0.0002, sigg.getCurrentLocation().getLongt()));
-                	osc.changeLocation(new Point(osc.getID(), osc.getCurrentLocation().getLat() - 0.0001, osc.getCurrentLocation().getLongt() + 0.0001));
+                p1.changeLocation(new Point(p1.getID(), p1.getCurrentLocation().getLat() - 0.0002, p1.getCurrentLocation().getLongt()));
+                p2.changeLocation(new Point(p2.getID(), p2.getCurrentLocation().getLat() - 0.0001, p2.getCurrentLocation().getLongt() + 0.0001));
                     try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {

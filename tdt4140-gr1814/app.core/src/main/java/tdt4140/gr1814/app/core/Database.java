@@ -50,7 +50,6 @@ public class Database {
             Patient patient  = new Patient(innerList.get(1), innerList.get(2), innerList.get(3).charAt(0), Long.parseLong(innerList.get(0)),  Integer.parseInt(innerList.get(4)),innerList.get(5));
             returnList.add(patient);
         }
-        System.out.println(returnList);
 		return returnList;
 	}
 	
