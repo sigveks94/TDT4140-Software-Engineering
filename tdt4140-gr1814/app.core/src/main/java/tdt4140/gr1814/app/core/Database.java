@@ -6,9 +6,9 @@ import java.sql.*;
 
 public class Database {
 	
-	Connection myConn;
-	Statement myStmt;
-	ResultSet myRs=null;
+	private Connection myConn;
+	private Statement myStmt;
+	private ResultSet myRs=null;
 	
 	//TODO: Make the class take a person object as input and write it to the DB.
 	
@@ -23,7 +23,7 @@ public class Database {
 		}
 	
 	//Retrieve data from DB using queries
-	public void retrieve(String query) throws SQLException {
+	public ArrayList<ArrayList<String>> retrieve(String query) throws SQLException {
 		try {
 			myStmt = myConn.createStatement();
 			myStmt.executeQuery(query);
@@ -48,28 +48,40 @@ public class Database {
             returnList.add(innerList);
         }
         System.out.println(returnList);
-		
+		return returnList;
 	}
 	
 	//the insert, delete and update methods are all similar now. Once I know more about the Pasient class I
 	//think it would be clever to execute the sql query inside the method.
-	public void insert(String query) {
+	
+	
+	public void insert(Patient patient) {
 		//example input: "INSERT INTO Patient(SSN, FirstName, LastName) VALUES (999999,'Mathias','Kroken');"
+		String firstName = patient.getFirstName();
+		String surname = patient.getSurname();
+		String SSN = Long.toString(patient.getSSN());
+		String phoneNumber=Integer.toString(patient.getNoK_cellphone());
+		String email = patient.getNoK_email();
+		String gender = patient.getGender();
+		System.out.println("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email) "
+				+ "VALUES ("+SSN+",'"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"');");
 		
         try {
             myStmt = myConn.createStatement();
-            myStmt.executeUpdate(query);
+            myStmt.executeUpdate("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email) "
+            		+ "VALUES ("+SSN+",'"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"');");
             System.out.println("Success.");
         } catch (Exception e) {
             System.out.println("The query failed. Check your sql syntax.");
         }
     }
 	
-	public void delete(String query) {
+	public void delete(Patient patient) {
 	// example input: "DELETE FROM Patient WHERE SSN = 999999;"
+		String SSN = Long.toString(patient.getSSN());
 		try {
             myStmt = myConn.createStatement();
-            myStmt.executeUpdate(query);
+            myStmt.executeUpdate("DELETE FROM Patient WHERE SSN = +"+SSN+"");
             System.out.println("Success.");
         } catch (Exception e) {
             System.out.println("The query failed. Check your sql syntax.");
@@ -93,11 +105,15 @@ public class Database {
 	
 	public static void main(String[] args) throws SQLException {
 		
+		Patient p1 = new Patient("Harald", "Bach", 'M', 1234567891l, 90887878, "heihei@gmail.com");
+		
+		
+		
 		Database db = new Database();
 		db.connect();
-		db.insert("INSERT INTO Patient(SSN, FirstName, LastName, PhoneNumber) VALUES (999999,'Mathias','Kroken', 90478654);");
+		db.insert(p1);
 		db.retrieve("select * from Patient");
-		db.delete("DELETE FROM Patient WHERE SSN = 999999;");
+		db.delete(p1);
 		db.retrieve("select * from Patient");
 		
 	}
