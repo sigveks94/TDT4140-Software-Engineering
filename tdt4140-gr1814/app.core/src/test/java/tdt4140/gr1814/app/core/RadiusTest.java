@@ -36,7 +36,8 @@ public class RadiusTest {
 		Point point3 = new Point("HS8JS2-JKSJ82",31.57807,88.27476);
 		assertFalse(zone.isInsideZone(point3));
 	}
-	
+
+	//gitlab.stud.iie.ntnu.no/tdt4140-2018/14.git
 	/*
 	@Test
 	public void testPointObject() {
