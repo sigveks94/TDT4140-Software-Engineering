@@ -16,19 +16,14 @@ import tdt4140.gr1814.app.core.Patient;
 
 public class HomeScreenGUIController implements Initializable {
 	
-	
     @FXML
     private Button newProfile_btn;
-
     @FXML
     private Button MyPatients_btn;
-
     @FXML
     private Button ViewMap_btn;
-
     @FXML
     private Button Settings_btn;
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		

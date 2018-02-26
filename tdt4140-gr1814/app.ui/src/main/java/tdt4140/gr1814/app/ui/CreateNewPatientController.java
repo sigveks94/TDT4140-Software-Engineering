@@ -28,6 +28,7 @@ import javafx.fxml.Initializable;
 // This is a simple controller for the 'CreateNewPatient.fxml' UI, validating and creating a Patient-object. 
 public class CreateNewPatientController implements Initializable{
 	
+	
 	@FXML
 	private TextField patient_name;
 	@FXML
@@ -211,7 +212,6 @@ public class CreateNewPatientController implements Initializable{
     			accept_checkbox.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
     			return false;
 	}}
-	
 	
 	
 }

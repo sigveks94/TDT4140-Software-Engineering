@@ -24,16 +24,15 @@ public class FxApp extends Application {
     }
 
     public static void main(String[] args) throws SQLException {
-    	
-    	//Temporary Simulation
+    		 	
+    	//Temporary Simulation. Loading pre-existing Person objects form database. 
     	Database database = new Database();
     	database.connect();
-    	ArrayList<Patient> Patients =  database.retrievePatients();
+    	ArrayList<Patient> Patients = database.retrievePatients();
     Patient p1 = Patients.get(0);
     Patient p2 = Patients.get(1);
-    System.out.println(p1);
     
-    	
+ 
     	Task task = new Task<Void>() {
             @Override
             public Void call() {
@@ -55,7 +54,7 @@ public class FxApp extends Application {
         simu_thread.start();
         
         // ------------------------------------- ------------------------------------ -------------------------
-        launch(args);
-    }   
+        launch(args); 
+    }  
 }
 
