@@ -90,12 +90,12 @@ public class Patient {
 		this.NoK_cellphone = NoK_cellphone;
 		this.NoK_email = NoK_email;
 		this.DeviceID =  UUID.randomUUID().toString(); //generates a 'random' ID. This will be used as a part of the gps-data.
-		this.currentLocation = new Point(DeviceID, 63.446827, 10.421906);
+		this.currentLocation = new Point(DeviceID, 63.430342, 10.395190);
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 	}
 	public void updateCurrentLocation(Point p) {
 		this.currentLocation=p;
-		this.Alarming(currentLocation);
+		//this.Alarming(currentLocation);
 	}
 	
 	public void addZone(Point p, Double radius){

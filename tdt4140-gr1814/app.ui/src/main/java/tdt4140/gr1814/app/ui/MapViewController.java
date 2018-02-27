@@ -1,10 +1,10 @@
 package tdt4140.gr1814.app.ui;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import com.lynden.gmapsfx.GoogleMapView;
@@ -16,20 +16,18 @@ import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 
-import javafx.event.EventHandler;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import tdt4140.gr1814.app.core.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.Patient;
 import tdt4140.gr1814.app.core.Point;
 
-public class MapViewController implements Initializable, MapComponentInitializedListener, OnLocationChangedListener{
+public class MapViewController implements Initializable, MapComponentInitializedListener, OnLocationChangedListener,ControlledScreen{
 
+	ScreensController myController;
 	private Map<Patient, Marker> patientsOnMap;
 	
 	public MapViewController() {
@@ -60,28 +58,43 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		mapView.addMapInitializedListener(this);
-		
-		back_button.setOnMouseClicked(new EventHandler<MouseEvent>(){
-			@Override
-            public void handle(MouseEvent event) {
-			    Stage stage = (Stage) back_button.getScene().getWindow();
-				try {
-				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml")),500,500));//New profile canceled.
-				}catch (Exception e) {
-					System.out.println("klarte ikke åpne fxml-fil");
-				}
-				}
-			}); 
+		mapView.addMapInitializedListener(this); 
+		this.track();
+
 	}
 
 
+	public void track() {
+		Task task = new Task<Void>() {
+            @Override
+            public Void call() {
+                while (true) {
+                	for (Patient p: ApplicationDemo.Patients) {
+                     	Random r = new Random();
+                     	double random = (((r.nextInt(21)-10) / 10.0)/5000) + 0.00003;
+                		 	p.changeLocation(new Point(p.getID(), p.getCurrentLocation().getLat() - random, p.getCurrentLocation().getLongt() + random+0.00007 ));
+                	}
+                 try {
+						Thread.sleep(1000);
+				}catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                }
+            }
+        };
+        
+        Thread simu_thread = new Thread(task);
+        simu_thread.setDaemon(true);
+        simu_thread.start();
+	}
+	
 	@Override
 	public void mapInitialized() {
-		LatLong mapCenter = new LatLong(63.446827, 10.421906);
+		LatLong mapCenter = new LatLong(63.423000, 10.400000);
 		
 		MapOptions mapOptions = new MapOptions();
-		mapOptions.center(mapCenter).zoom(15).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true);
+		mapOptions.center(mapCenter).zoom(13).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true);
 		
 		map = mapView.createMap(mapOptions);
 		
@@ -107,6 +120,16 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		marker = new Marker(new MarkerOptions().position(latlong).visible(true));
 		this.patientsOnMap.replace(patient, marker);
 		map.addMarker(marker);
+	}
+
+	@Override
+	public void setScreenParent(ScreensController screenParent) {
+		myController = screenParent;	
+	}
+	
+	@FXML
+	public void goToHome(ActionEvent event) {
+		myController.setScreen(ApplicationDemo.HomescreenID);
 	}
 	
 }

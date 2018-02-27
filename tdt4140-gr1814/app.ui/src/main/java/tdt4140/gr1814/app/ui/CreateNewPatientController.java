@@ -6,13 +6,11 @@ import tdt4140.gr1814.app.core.Database;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.stage.Stage;
 
 
 import java.net.URL;
@@ -21,13 +19,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 
 // This is a simple controller for the 'CreateNewPatient.fxml' UI, validating and creating a Patient-object. 
-public class CreateNewPatientController implements Initializable{
+public class CreateNewPatientController implements Initializable, ControlledScreen{
 	
+	ScreensController myController;
 	
 	@FXML
 	private TextField patient_name;
@@ -79,19 +77,7 @@ public class CreateNewPatientController implements Initializable{
             		Create_Patient_Profile();
             	}
         });
-		//Cancel scene/ close UI. 
-		cancel_button.setOnMouseClicked(new EventHandler<MouseEvent>(){
-			@Override
-            public void handle(MouseEvent event) {
-			    Stage stage = (Stage) cancel_button.getScene().getWindow();
-				try {
-				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml")),500,500));//New profile canceled.
-				}catch (Exception e) {
-					System.out.println("klarte ikke åpne fxml-fil");
-				}
-			}
-		});
-		//this does not work when using 'space' to check the boxes
+		//Making shure you can only check one gender checkbox (this does not work when using 'space' to check the boxes)
 		genderM.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
             public void handle(MouseEvent event) {
@@ -118,20 +104,18 @@ public class CreateNewPatientController implements Initializable{
 		int NoK_mobile = this.ValidateMobile();
 		String email = this.ValidateEmail();
 		
-		//If all input values are valid. Create new patient-Object.
+		//If all input values are valid. Create new patient-object.
 		if(firstname != null && surname != null && SSN != null && NoK_mobile != 0 && email != null && termsaccepted) {
-			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email);//may be removed. Patient info saved directly to database.
+			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email);
+			ApplicationDemo.Patients.add(patient);//add patient in Application demo ArrayList
+			ScreensController.MapController.addViewables(patient); //addind new patient to map-tracking
+			//Saving patient to database.
 			Database database = new Database();
 			database.connect();
-			database.insert(patient);//Patient-object saved to database
+			database.insert(patient);
 			System.out.println(patient);
-			//Adding patient completed. change scene to homescreen:
-			Stage stage = (Stage) patient_name.getScene().getWindow();
-			try {
-				stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml")),500,500));//New profile canceled.
-				}catch (Exception e) {
-					System.out.println("klarte ikke åpne fxml-fil");
-				}
+			//Adding and saving patient completed. change scene to homescreen:
+			this.goToHomescreen(null);
 		}
 	}
 	
@@ -212,6 +196,31 @@ public class CreateNewPatientController implements Initializable{
     			accept_checkbox.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
     			return false;
 	}}
+
+
+
+	@Override
+	public void setScreenParent(ScreensController screenParent) {
+		myController = screenParent;
+		
+	}
+	//Change screen to homescreen, and clear all input-fields
+	@FXML
+	public void goToHomescreen(ActionEvent event) {
+		this.resetScene();
+		myController.setScreen(ApplicationDemo.HomescreenID);
+	}
+	
+	public void resetScene() {
+		patient_SSN.setText("");
+		NoK_phone.setText("");
+		NoK_email.setText("");
+		patient_name.setText("");
+		patient_surname.setText("");	
+		accept_checkbox.setSelected(false);
+		genderM.setSelected(false);
+		genderF.setSelected(false);
+	}
 	
 	
 }
