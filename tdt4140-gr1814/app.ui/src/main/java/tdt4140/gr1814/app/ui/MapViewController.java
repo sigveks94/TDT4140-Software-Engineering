@@ -27,7 +27,7 @@ import tdt4140.gr1814.app.core.Point;
 
 public class MapViewController implements Initializable, MapComponentInitializedListener, OnLocationChangedListener,ControlledScreen{
 
-	ScreensController myController;
+	private ScreensController myController;
 	private Map<Patient, Marker> patientsOnMap;
 	
 	public MapViewController() {
@@ -44,8 +44,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	public void addViewables(Patient... patients) {
 		for(Patient p : patients) {
 			this.patientsOnMap.put(p, null);
-			p.registerListener(this);
-			
+			p.registerListener(this);	
 		}
 	}
 	
@@ -60,7 +59,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mapView.addMapInitializedListener(this); 
 		this.track();
-
 	}
 
 
@@ -77,13 +75,12 @@ public class MapViewController implements Initializable, MapComponentInitialized
                  try {
 						Thread.sleep(1000);
 				}catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+						System.out.println("error in: Thread.sleep(1000);");
 						e.printStackTrace();
 					}
                 }
             }
-        };
-        
+        }; 
         Thread simu_thread = new Thread(task);
         simu_thread.setDaemon(true);
         simu_thread.start();
@@ -91,8 +88,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	
 	@Override
 	public void mapInitialized() {
-		LatLong mapCenter = new LatLong(63.423000, 10.400000);
-		
+		LatLong mapCenter = new LatLong(63.423000, 10.400000);		
 		MapOptions mapOptions = new MapOptions();
 		mapOptions.center(mapCenter).zoom(13).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true);
 		

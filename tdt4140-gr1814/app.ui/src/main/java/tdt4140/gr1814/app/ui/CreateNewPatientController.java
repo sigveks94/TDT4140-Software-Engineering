@@ -25,7 +25,7 @@ import javafx.fxml.Initializable;
 // This is a simple controller for the 'CreateNewPatient.fxml' UI, validating and creating a Patient-object. 
 public class CreateNewPatientController implements Initializable, ControlledScreen{
 	
-	ScreensController myController;
+	private ScreensController myController;
 	
 	@FXML
 	private TextField patient_name;
@@ -70,10 +70,10 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 		        Hyperlink_Browser.browse("https://www.datatilsynet.no/rettigheter-og-plikter/overvaking-og-sporing/lokalisering/");
 		    }
 		});
-		//Try to create new profile when add-button is pressed
-		add_button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		//Try to create new profile when add-button is pressed 
+		add_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(MouseEvent event) { 
+            public void handle(ActionEvent event) { 
             		Create_Patient_Profile();
             	}
         });
@@ -196,8 +196,6 @@ public class CreateNewPatientController implements Initializable, ControlledScre
     			accept_checkbox.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
     			return false;
 	}}
-
-
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) {

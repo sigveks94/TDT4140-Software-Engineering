@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 
 public class HomeScreenGUIController implements Initializable, ControlledScreen {
 	
-	ScreensController myController;
+	private ScreensController myController;
 	
     @FXML
     private Button newProfile_btn;
@@ -22,23 +22,24 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     private Button ViewMap_btn;
     @FXML
     private Button Settings_btn;
+    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		MyPatients_btn.setDisable(true);
-		Settings_btn.setDisable(true);
+		MyPatients_btn.setDisable(true);//not yet created UI for MyPatients_btn
+		Settings_btn.setDisable(true);//not yet created UI for Settings_btn
 	}
 	
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
-		myController = screenParent;
-		
+		myController = screenParent;	
 	}
-    @FXML
+	
+    @FXML//Change screen to 'add new patient'-screen
     public void goToNewPatient(ActionEvent event) {
 		myController.setScreen(ApplicationDemo.NewPatientID);
     }
-    @FXML
+    
+    @FXML//Change screen to 'mapView'-screen
     public void goToMap(ActionEvent event) {
 		myController.setScreen(ApplicationDemo.MapViewLayoutID);
     }

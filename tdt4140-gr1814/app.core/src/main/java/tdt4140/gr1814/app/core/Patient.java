@@ -76,8 +76,9 @@ public class Patient {
 	private Long SSN; //We will use the SSN as a key for finding the patient profile in the database
 	private int NoK_cellphone; //NoK  = next of kin
 	private String NoK_email;
-	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
 	private ArrayList<CareTaker> listeners = new ArrayList<CareTaker>();
+	//Location-related:
+	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
 	private ZoneRadius zone;
 
 	private Point currentLocation;
