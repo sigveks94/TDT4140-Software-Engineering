@@ -53,10 +53,12 @@ public class ApplicationDemo extends Application{
 	    		InputController.addPatientInList(p);
 	    	}
 	    	CareTaker morentilharald = new CareTaker("blabla","jadajada");
+	    	/*
 	    	//changing location to Gløshaugen
 	    	Point start = new Point(patients.get(0).getID(), 63.418474, 10.402892);
 	    	patients.get(0).addZone(start, null);
 	    	patients.get(0).updateCurrentLocation(start);
+	    	*/
 	    	patients.get(0).addListeners(morentilharald);
 	    	
 	    launch(args);

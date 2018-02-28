@@ -86,7 +86,7 @@ public class Patient {
 		this.NoK_cellphone = NoK_cellphone;
 		this.NoK_email = NoK_email;
 		this.DeviceID =  deviceID;
-		this.currentLocation = new Point(DeviceID, 63.430342, 10.395190);
+		this.currentLocation = null;
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 	}
 	public void updateCurrentLocation(Point p) {
@@ -170,6 +170,11 @@ public class Patient {
 	
 	public void changeLocation(Point newLoc) {
 		this.currentLocation = newLoc;
+		if (!(zone.isInsideZone(newLoc))) {
+			for (CareTaker c: listeners) {
+				c.incomingAlert(this, newLoc);
+			}
+		}
 		String devId = this.DeviceID;
 		for(OnLocationChangedListener l: this.locationListeners) {
 			
