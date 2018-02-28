@@ -1,6 +1,7 @@
 package tdt4140.gr1814.app.ui;
 
 import tdt4140.gr1814.app.core.Patient;
+import tdt4140.gr1814.app.core.Database;
 
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -10,7 +11,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.stage.Stage;
 
 
 import java.net.URL;
@@ -23,7 +23,9 @@ import javafx.fxml.Initializable;
 
 
 // This is a simple controller for the 'CreateNewPatient.fxml' UI, validating and creating a Patient-object. 
-public class CreateNewPatientController implements Initializable{
+public class CreateNewPatientController implements Initializable, ControlledScreen{
+	
+	private ScreensController myController;
 	
 	@FXML
 	private TextField patient_name;
@@ -68,21 +70,26 @@ public class CreateNewPatientController implements Initializable{
 		        Hyperlink_Browser.browse("https://www.datatilsynet.no/rettigheter-og-plikter/overvaking-og-sporing/lokalisering/");
 		    }
 		});
-		//Try to create new profile when add-button is pressed
-		add_button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		//Try to create new profile when add-button is pressed 
+		add_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(MouseEvent event) { 
+            public void handle(ActionEvent event) { 
             		Create_Patient_Profile();
             	}
         });
-		//Cancel scene/ close UI. 
-		cancel_button.setOnMouseClicked(new EventHandler<MouseEvent>(){
+		//Making shure you can only check one gender checkbox (this does not work when using 'space' to check the boxes)
+		genderM.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
             public void handle(MouseEvent event) {
-			    Stage stage = (Stage) cancel_button.getScene().getWindow();
-			    stage.close();;//New profile canceled.
-			}
-		});
+				genderF.setSelected(false);
+				}
+			});
+		genderF.setOnMouseClicked(new EventHandler<MouseEvent>(){
+			@Override
+            public void handle(MouseEvent event) {
+				genderM.setSelected(false);
+				}
+			});
 	}
 	
 	
@@ -97,14 +104,17 @@ public class CreateNewPatientController implements Initializable{
 		int NoK_mobile = this.ValidateMobile();
 		String email = this.ValidateEmail();
 		
-		//If all input values are valid. Create new patient-Object.
+		//If all input values are valid. Create new patient-object.
 		if(firstname != null && surname != null && SSN != null && NoK_mobile != 0 && email != null && termsaccepted) {
-			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email);//may be removed. Patient info saved directly to database. 
+			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email);
+			ScreensController.MapController.addViewables(patient); //addind new patient to map-tracking
+			//Saving patient to database.
+			Database database = new Database();
+			database.connect();
+			database.insert(patient);
 			System.out.println(patient);
-			//Patient-object has to be saved to database somehow here..
-			//Adding patient completed. close the UI:
-			Stage stage = (Stage) patient_name.getScene().getWindow();
-		    stage.close();;	
+			//Adding and saving patient completed. change scene to homescreen:
+			this.goToHomescreen(null);
 		}
 	}
 	
@@ -126,9 +136,9 @@ public class CreateNewPatientController implements Initializable{
 	
 	//check gender. I have not yet implemented only allowing the user to check off one of the 'male'/'female' boxes
 	private char checkGender() {
-		if(genderM.isSelected() && !genderF.isSelected()) {return 'M';}
-		else if(genderF.isSelected() && !genderM.isSelected()) {return 'F';}
-		else {return 'U';}//Uncertain
+		if(genderM.isSelected()){return 'M';}
+		else if(genderF.isSelected()){return 'F';} 
+		else {return 'U';}//uncertain
 	}
 	
 	//validation of social security number. Required length = 11. Able to convert to Long-type
@@ -185,7 +195,29 @@ public class CreateNewPatientController implements Initializable{
     			accept_checkbox.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
     			return false;
 	}}
+
+	@Override
+	public void setScreenParent(ScreensController screenParent) {
+		myController = screenParent;
+		
+	}
+	//Change screen to homescreen, and clear all input-fields
+	@FXML
+	public void goToHomescreen(ActionEvent event) {
+		this.resetScene();
+		myController.setScreen(ApplicationDemo.HomescreenID);
+	}
 	
+	public void resetScene() {
+		patient_SSN.setText("");
+		NoK_phone.setText("");
+		NoK_email.setText("");
+		patient_name.setText("");
+		patient_surname.setText("");	
+		accept_checkbox.setSelected(false);
+		genderM.setSelected(false);
+		genderF.setSelected(false);
+	}
 	
 	
 }

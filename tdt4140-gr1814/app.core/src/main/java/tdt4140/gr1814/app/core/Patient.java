@@ -1,3 +1,4 @@
+
 package tdt4140.gr1814.app.core;
 
 import java.util.ArrayList;
@@ -46,12 +47,7 @@ public class Patient {
 	}
 	
 	public static List<Patient> getAllPatients(){
-		List<Patient> lst = new ArrayList<Patient>();
-		for(Patient p: patients) {
-			lst.add(p);
-		}
-		
-		return lst;
+		return patients;
 	}
 	
 	
@@ -75,8 +71,9 @@ public class Patient {
 	private Long SSN; //We will use the SSN as a key for finding the patient profile in the database
 	private int NoK_cellphone; //NoK  = next of kin
 	private String NoK_email;
-	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
 	private ArrayList<CareTaker> listeners = new ArrayList<CareTaker>();
+	//Location-related:
+	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
 	private ZoneRadius zone;
 
 	private Point currentLocation;
@@ -89,7 +86,7 @@ public class Patient {
 		this.NoK_cellphone = NoK_cellphone;
 		this.NoK_email = NoK_email;
 		this.DeviceID =  UUID.randomUUID().toString(); //generates a 'random' ID. This will be used as a part of the gps-data.
-		this.currentLocation = new Point(DeviceID, 63.446827, 10.421906);
+		this.currentLocation = new Point(DeviceID, 63.430342, 10.395190);
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 	}
 	public void updateCurrentLocation(Point p) {
@@ -103,6 +100,7 @@ public class Patient {
 	
 	public void Alarming(Point p) {
 		if (!(zone.isInsideZone(p))) {
+			System.out.println("Alarm: patient outside zone");
 			for (CareTaker c: listeners) {
 				c.incomingAlert(this, p);
 			}
@@ -178,6 +176,10 @@ public class Patient {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
+					if (l == null) {
+						locationListeners.remove(l);
+						return;
+					}
 					l.onLocationChanged(devId, newLoc);
 				}
 			});
@@ -185,3 +187,4 @@ public class Patient {
 	}
 
 }
+

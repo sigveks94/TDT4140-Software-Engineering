@@ -34,9 +34,6 @@ public class CareTaker {
 		return Username;
 	}
 
-	public ArrayList<Patient> getPatients(){
-		return this.Patients;
-	}
 
 	public void setUsername(String username) {
 		Username = username;
@@ -59,6 +56,16 @@ public class CareTaker {
 		//(?=.*[@#$%^&+=]) a special character must occur at least once
 		//(?=\\S+$) no whitespace allowed in the entire string
 		//.{8,} at least 8 characters
+	}
+
+	public ArrayList <Patient> getPatients() {
+		return Patients;
+	}
+
+	public void addPatients(Patient patient) {
+		if (!Patients.contains(patient)) {
+			Patients.add(patient);
+		}
 	}
 
 
