@@ -89,24 +89,12 @@ public class Patient {
 		this.currentLocation = null;
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 	}
-	public void updateCurrentLocation(Point p) {
-		this.currentLocation=p;
-		this.Alarming(currentLocation);
-	}
 	
 	public void addZone(Point p, Double radius){
 		this.zone= new ZoneRadius(p, radius);
 	}
 	
-	public void Alarming(Point p) {
-		if (!(zone.isInsideZone(p))) {
-			System.out.println("Alarm: patient outside zone");
-			for (CareTaker c: listeners) {
-				c.incomingAlert(this, p);
-			}
-		}
-	}
-	
+
 	public void addListeners(CareTaker... caretakers) {
 		for (CareTaker c: caretakers) {
 			if (!(listeners.contains(c))) {

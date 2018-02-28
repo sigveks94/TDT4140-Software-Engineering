@@ -50,14 +50,14 @@ String str =
 
 	
 	Point centreOfAttention = new Point("ahahahaha", 50.00001, 30.00001);
-	Patient harald = new Patient("Harald", "Aarskog", 'M', 1234567890l, 98765432, "pappanteharaldsinmail");
+	Patient harald = new Patient("Harald", "Aarskog", 'M', 1234567890l, 98765432, "pappanteharaldsinmail","idid");
 	CareTaker morteharald = new CareTaker("morteharaldusername", "pwerhemmelig");
 	CareTaker farteharald = new CareTaker("farteharalduser", "pwerhemmelig");
 	harald.addListeners(morteharald, farteharald);
-	
+	/*
 	c.addPatientInList(harald);
 	harald.addZone(centreOfAttention, 5000000.0);
 	c.metamorphise(str);
-	
+	*/
 }
 }
