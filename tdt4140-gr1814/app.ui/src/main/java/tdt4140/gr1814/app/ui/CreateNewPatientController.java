@@ -2,7 +2,7 @@ package tdt4140.gr1814.app.ui;
 
 import tdt4140.gr1814.app.core.Patient;
 import tdt4140.gr1814.app.core.Database;
-
+import tdt4140.gr1814.app.core.InputController;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -59,6 +59,8 @@ public class CreateNewPatientController implements Initializable, ControlledScre
     private Text cellphoneError;
     @FXML
     private Text emailError;
+    @FXML
+    private TextField deviceID;
     
 
 	@Override
@@ -103,11 +105,13 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 		Long SSN = this.ValidateSSN();//using Long because of small max-value of integers
 		int NoK_mobile = this.ValidateMobile();
 		String email = this.ValidateEmail();
+		String deviceId = deviceID.getText();
 		
 		//If all input values are valid. Create new patient-object.
 		if(firstname != null && surname != null && SSN != null && NoK_mobile != 0 && email != null && termsaccepted) {
-			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email);
+			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email, deviceId);
 			ScreensController.MapController.addViewables(patient); //addind new patient to map-tracking
+			InputController.addPatientInList(patient);
 			//Saving patient to database.
 			Database database = new Database();
 			database.connect();

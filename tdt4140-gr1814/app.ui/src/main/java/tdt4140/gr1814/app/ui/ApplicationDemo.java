@@ -7,7 +7,9 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tdt4140.gr1814.app.core.CareTaker;
 import tdt4140.gr1814.app.core.Database;
+import tdt4140.gr1814.app.core.InputController;
 import tdt4140.gr1814.app.core.Patient;
 import tdt4140.gr1814.app.core.Point;
 
@@ -47,10 +49,18 @@ public class ApplicationDemo extends Application{
 	    	database.connect();
 	    	database.retrievePatients();
 	    	List<Patient> patients = Patient.getAllPatients();
+	    	for (Patient p: patients) {
+	    		InputController.addPatientInList(p);
+	    	}
+	    	CareTaker morentilharald = new CareTaker("blabla","jadajada");
+	    	/*
 	    	//changing location to Gløshaugen
 	    	Point start = new Point(patients.get(0).getID(), 63.418474, 10.402892);
 	    	patients.get(0).addZone(start, null);
 	    	patients.get(0).updateCurrentLocation(start);
+	    	*/
+	    	patients.get(0).addListeners(morentilharald);
+	    	
 	    launch(args);
 	    }
 }

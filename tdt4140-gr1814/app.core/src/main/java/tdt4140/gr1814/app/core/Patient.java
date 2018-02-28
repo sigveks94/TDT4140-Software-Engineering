@@ -16,13 +16,13 @@ public class Patient {
 	
 	private static List<Patient> patients = new ArrayList<Patient>();
 	
-	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
+	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String deviceID) {
 		Patient patient = getPatient(SSN);
 		if(patient != null) {
 			return patient;
 		}
 		else {
-			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email);
+			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email,deviceID);
 			patients.add(patient);
 			return patient;
 		}
@@ -78,15 +78,15 @@ public class Patient {
 
 	private Point currentLocation;
 	
-	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
+	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email,String deviceID) {
 		this.FirstName = FirstName;
 		this.Surname = Surname;
 		this.Gender = Gender;
 		this.SSN = SSN;
 		this.NoK_cellphone = NoK_cellphone;
 		this.NoK_email = NoK_email;
-		this.DeviceID =  UUID.randomUUID().toString(); //generates a 'random' ID. This will be used as a part of the gps-data.
-		this.currentLocation = new Point(DeviceID, 63.430342, 10.395190);
+		this.DeviceID =  deviceID;
+		this.currentLocation = null;
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 	}
 	public void updateCurrentLocation(Point p) {
@@ -170,6 +170,11 @@ public class Patient {
 	
 	public void changeLocation(Point newLoc) {
 		this.currentLocation = newLoc;
+		if (!(zone.isInsideZone(newLoc))) {
+			for (CareTaker c: listeners) {
+				c.incomingAlert(this, newLoc);
+			}
+		}
 		String devId = this.DeviceID;
 		for(OnLocationChangedListener l: this.locationListeners) {
 			
