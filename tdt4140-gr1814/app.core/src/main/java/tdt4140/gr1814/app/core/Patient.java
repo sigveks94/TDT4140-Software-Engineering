@@ -47,12 +47,7 @@ public class Patient {
 	}
 	
 	public static List<Patient> getAllPatients(){
-		List<Patient> lst = new ArrayList<Patient>();
-		for(Patient p: patients) {
-			lst.add(p);
-		}
-		
-		return lst;
+		return patients;
 	}
 	
 	
@@ -96,7 +91,7 @@ public class Patient {
 	}
 	public void updateCurrentLocation(Point p) {
 		this.currentLocation=p;
-		//this.Alarming(currentLocation);
+		this.Alarming(currentLocation);
 	}
 	
 	public void addZone(Point p, Double radius){
@@ -105,6 +100,7 @@ public class Patient {
 	
 	public void Alarming(Point p) {
 		if (!(zone.isInsideZone(p))) {
+			System.out.println("Alarm: patient outside zone");
 			for (CareTaker c: listeners) {
 				c.incomingAlert(this, p);
 			}

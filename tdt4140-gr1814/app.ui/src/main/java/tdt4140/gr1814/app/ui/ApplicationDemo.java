@@ -1,7 +1,7 @@
 package tdt4140.gr1814.app.ui;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -21,7 +21,6 @@ public class ApplicationDemo extends Application{
     public static String NewPatientFile = "CreateNewPatient.fxml";
     public static String MapViewLayoutID = "MapViewLayout";
     public static String MapViewLayoutFile = "MapViewLayout.fxml";
-    public static ArrayList<Patient> Patients;
     
     
     @Override
@@ -46,9 +45,12 @@ public class ApplicationDemo extends Application{
 	    	//Temporary Simulation. Loading pre-existing Person objects form database. 
 	    	Database database = new Database();
 	    	database.connect();
-	    	ApplicationDemo.Patients = database.retrievePatients();
+	    	database.retrievePatients();
+	    	List<Patient> patients = Patient.getAllPatients();
 	    	//changing location to Gløshaugen
-	    	ApplicationDemo.Patients.get(0).updateCurrentLocation(new Point(ApplicationDemo.Patients.get(0).getID(), 63.418474, 10.402892));
+	    	Point start = new Point(patients.get(0).getID(), 63.418474, 10.402892);
+	    	patients.get(0).addZone(start, null);
+	    	patients.get(0).updateCurrentLocation(start);
 	    launch(args);
 	    }
 }

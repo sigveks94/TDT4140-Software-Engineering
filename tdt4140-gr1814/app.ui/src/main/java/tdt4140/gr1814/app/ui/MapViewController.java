@@ -62,12 +62,12 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	}
 
 
-	public void track() {
+	public void track() {//this is a temporary simulation of the tracking.
 		Task task = new Task<Void>() {
             @Override
             public Void call() {
                 while (true) {
-                	for (Patient p: ApplicationDemo.Patients) {
+                	for (Patient p: Patient.getAllPatients()) {
                      	Random r = new Random();
                      	double random = (((r.nextInt(21)-10) / 10.0)/5000) + 0.00003;
                 		 	p.changeLocation(new Point(p.getID(), p.getCurrentLocation().getLat() - random, p.getCurrentLocation().getLongt() + random+0.00007 ));
