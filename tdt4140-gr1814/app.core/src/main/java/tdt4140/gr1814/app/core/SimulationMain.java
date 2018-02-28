@@ -48,7 +48,7 @@ String str =
 		"84.23633 51.69481 \r\n" + 
 		"86.15325 46.22770"; */
 
-	InputController c = new InputController();
+	
 	Point centreOfAttention = new Point("ahahahaha", 50.00001, 30.00001);
 	Patient harald = new Patient("Harald", "Aarskog", 'M', 1234567890l, 98765432, "pappanteharaldsinmail");
 	CareTaker morteharald = new CareTaker("morteharaldusername", "pwerhemmelig");

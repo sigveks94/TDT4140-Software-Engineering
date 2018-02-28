@@ -6,16 +6,17 @@ import java.io.StringReader;
 import java.util.ArrayList;
 
 
-public class InputController {
+public final class InputController {
 
-private ArrayList<Patient> monitoredPatients = new ArrayList<Patient>();
-public void addPatientInList(Patient...patients) {
+private static ArrayList<Patient> monitoredPatients = new ArrayList<Patient>();
+
+public static void addPatientInList(Patient...patients) {
 	for (Patient pat: patients) {
 		monitoredPatients.add(pat);
 	}
 }
 
-public void metamorphise(String string) throws IOException {
+public static void metamorphise(String string) throws IOException {
 	BufferedReader reader = new BufferedReader(new StringReader(string));
 	String line;
 	while ((line = reader.readLine()) != null) {

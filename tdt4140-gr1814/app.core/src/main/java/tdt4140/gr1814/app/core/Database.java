@@ -46,7 +46,7 @@ public class Database {
                     break;
                 }
             }
-            Patient patient  = Patient.newPatient(innerList.get(1), innerList.get(2), innerList.get(3).charAt(0), Long.parseLong(innerList.get(0)),  Integer.parseInt(innerList.get(4)),innerList.get(5));
+            Patient patient  = Patient.newPatient(innerList.get(1), innerList.get(2), innerList.get(3).charAt(0), Long.parseLong(innerList.get(0)),  Integer.parseInt(innerList.get(4)),innerList.get(5), innerList.get(6));
             
             returnList.add(patient);
         }
@@ -61,14 +61,15 @@ public class Database {
 		String phoneNumber=Integer.toString(patient.getNoK_cellphone());
 		String email = patient.getNoK_email();
 		String gender = patient.getGender();
+		String deviceID = patient.getID();
 		
         try {
             myStmt = myConn.createStatement();
-            myStmt.executeUpdate("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email) "
-            		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"');");
+            myStmt.executeUpdate("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID) "
+            		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"');");
             System.out.println("Success.");
         } catch (Exception e) {
-            System.out.println("The query failed. Check your sql syntax.");
+            System.out.println("The insert query failed. Check your sql syntax.");
         }
     }
 	
@@ -79,7 +80,7 @@ public class Database {
             myStmt.executeUpdate("DELETE FROM Patient WHERE SSN = +"+SSN+"");
             System.out.println("Success.");
         } catch (Exception e) {
-            System.out.println("The query failed. Check your sql syntax.");
+            System.out.println("The delete query failed. Check your sql syntax.");
         }
 	}
 	
@@ -100,13 +101,14 @@ public class Database {
 	
 	public static void main(String[] args) throws SQLException {
 		
-		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678910l, 90887878, "harald@gmail.com");
-		Patient p2 = Patient.newPatient("Hennie", "Sørensen", 'F', 99345678910l, 34534534, "hennie@gmail.com");
+		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
+		Patient p2 = Patient.newPatient("Hennie", "Sørensen", 'F', 99345678910l, 34534534, "hennie@gmail.com","id2");
 		
 		
 		
 		Database db = new Database();
 		db.connect();
+		db.insert(p1);
 		System.out.println(db.retrievePatients());
 		
 		

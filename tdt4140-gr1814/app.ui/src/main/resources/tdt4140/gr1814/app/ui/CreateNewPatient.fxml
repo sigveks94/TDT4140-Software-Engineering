@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="301.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tdt4140.gr1814.app.ui.CreateNewPatientController">
+<AnchorPane prefHeight="336.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tdt4140.gr1814.app.ui.CreateNewPatientController">
    <children>
-      <Button fx:id="cancel_button" layoutX="30.0" layoutY="12.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="36.0" text="Cancel" AnchorPane.leftAnchor="30.0" onAction="#goToHomescreen" AnchorPane.topAnchor="12.0">
+      <Button fx:id="cancel_button" layoutX="30.0" layoutY="12.0" mnemonicParsing="false" onAction="#goToHomescreen" prefHeight="18.0" prefWidth="36.0" text="Cancel" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="12.0">
          <font>
             <Font name="System Bold" size="7.0" />
          </font>
@@ -41,6 +41,11 @@
          <tooltip>
             <Tooltip text="Email" />
          </tooltip></TextField>
+      <TextField fx:id="deviceID" layoutX="34.0" layoutY="240.0" prefHeight="26.0" prefWidth="161.0" promptText="Device ID">
+         <tooltip>
+            <Tooltip text="Enter GPS device ID" />
+         </tooltip>
+      </TextField>
       <CheckBox fx:id="accept_checkbox" layoutX="30.0" layoutY="201.0" mnemonicParsing="false" text="I have read and accept the terms of use" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="30.0" />
       <Hyperlink fx:id="TermsOfUse" layoutX="56.0" layoutY="220.0" text="Terms of use" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="48.0">
          <tooltip>
