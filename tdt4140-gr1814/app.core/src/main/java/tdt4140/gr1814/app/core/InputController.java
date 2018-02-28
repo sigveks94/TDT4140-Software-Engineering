@@ -28,7 +28,7 @@ public static void metamorphise(String string) throws IOException {
 		for (Patient p: monitoredPatients) {
 			if (p.getID().equals(first)) {
 				Point point = new Point(first, number1,number2);
-				p.updateCurrentLocation(point);
+				p.changeLocation(point);
 			}
 		}
 		

@@ -14,7 +14,7 @@ public class Patient {
 	
 	//Static
 	
-	private static List<Patient> patients = new ArrayList<Patient>();
+	public static List<Patient> patients = new ArrayList<Patient>();
 	
 	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String deviceID) {
 		Patient patient = getPatient(SSN);
@@ -89,24 +89,12 @@ public class Patient {
 		this.currentLocation = null;
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 	}
-	public void updateCurrentLocation(Point p) {
-		this.currentLocation=p;
-		this.Alarming(currentLocation);
-	}
 	
 	public void addZone(Point p, Double radius){
 		this.zone= new ZoneRadius(p, radius);
 	}
 	
-	public void Alarming(Point p) {
-		if (!(zone.isInsideZone(p))) {
-			System.out.println("Alarm: patient outside zone");
-			for (CareTaker c: listeners) {
-				c.incomingAlert(this, p);
-			}
-		}
-	}
-	
+
 	public void addListeners(CareTaker... caretakers) {
 		for (CareTaker c: caretakers) {
 			if (!(listeners.contains(c))) {
@@ -164,7 +152,7 @@ public class Patient {
 	
 	@Override
 	public String toString() {
-		String output = "Patient Profile\nName: "+this.getFullName()+"\nGender: "+this.getGender()+"\nSSN: "+this.getSSN()+"\nDevice ID: "+this.getID()+"\nNext of kind\nMobile: "+this.getNoK_cellphone()+"\nEmail: "+this.getNoK_email();
+		String output = "Patient Profile\nName: "+this.getFullName()+"\nGender: "+this.getGender()+"\nSSN: "+this.getSSN()+"\nDevice ID: "+this.getID()+"\nNext of kin\nMobile: "+this.getNoK_cellphone()+"\nEmail: "+this.getNoK_email();
 		return output;
 	}
 	
