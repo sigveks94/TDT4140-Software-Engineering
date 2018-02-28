@@ -48,17 +48,20 @@ public class ApplicationDemo extends Application{
 	    	Database database = new Database();
 	    	database.connect();
 	    	database.retrievePatients();
-	    	List<Patient> patients = Patient.getAllPatients();
-	    	for (Patient p: patients) {
+	    	for (Patient p: Patient.patients) {
 	    		InputController.addPatientInList(p);
 	    	}
 	    	CareTaker morentilharald = new CareTaker("blabla","jadajada");
 	    	//changing location to Gløshaugen
-	    	Point start = new Point(patients.get(0).getID(), 63.418474, 10.402892);
+	    	Point start = new Point(Patient.patients.get(0).getID(), 63.418474, 10.402892);
+	    	Point start2 = new Point(Patient.patients.get(1).getID(), 63.418000, 10.402000);
 	    	
-	    	patients.get(0).addZone(start, null);
-	    	patients.get(0).changeLocation(start);
-	    	patients.get(0).addListeners(morentilharald);
+	    	Patient.patients.get(0).addZone(start, null);
+	    	Patient.	patients.get(0).changeLocation(start);
+	    	Patient.patients.get(1).addZone(start2, null);
+	    	Patient.	patients.get(1).changeLocation(start2);
+	    	
+	    	Patient.	patients.get(0).addListeners(morentilharald);
 	    	
 	    launch(args);
 	    }

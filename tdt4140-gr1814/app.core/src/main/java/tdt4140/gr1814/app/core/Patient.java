@@ -14,7 +14,7 @@ public class Patient {
 	
 	//Static
 	
-	private static List<Patient> patients = new ArrayList<Patient>();
+	public static List<Patient> patients = new ArrayList<Patient>();
 	
 	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String deviceID) {
 		Patient patient = getPatient(SSN);
