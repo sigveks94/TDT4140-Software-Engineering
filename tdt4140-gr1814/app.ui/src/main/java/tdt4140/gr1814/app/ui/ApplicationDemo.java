@@ -52,20 +52,20 @@ public class ApplicationDemo extends Application{
 
 	public static void main(String[] args) throws SQLException, IOException {
 	    	//Temporary Simulation. Loading pre-existing Person objects form database. 
-		/*
+		
 	    	Database database = new Database();
 	    	database.connect();
 	    	database.retrievePatients();
 	    	for (Patient p: Patient.patients) {
 	    		InputController.addPatientInList(p); 
-	    		}*/
-		
-	    	//while database is down;
+	    		}
+		/*
+	    	//Solution while database is down;
 	    	Patient o = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "osca@mail.no", "id1");
 	    	InputController.addPatientInList(o);
 	    	Patient h = Patient.newPatient("HAKON", "COLLETT", 'M', 12345678911l, 92484760, "HCB@mail.no", "id2");
 	    	InputController.addPatientInList(h);
-	    	
+	    	*/
 	    	//Setting location to Gløshaugen-area
 	    	Point start = new Point(Patient.patients.get(0).getID(), 63.418140, 10.402736);
 	    	Patient.patients.get(0).addZone(start, 300.0);
