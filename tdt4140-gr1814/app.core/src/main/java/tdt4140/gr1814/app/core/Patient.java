@@ -3,14 +3,17 @@ package tdt4140.gr1814.app.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
+import tdt4140.gr1814.app.ui.ApplicationDemo;
+import tdt4140.gr1814.app.ui.ControlledScreen;
+import tdt4140.gr1814.app.ui.ScreensController;
 
 import javafx.application.Platform;
 
 
 //This is the patient-class containing necessary information for the users of the system. Also contains the caretakers to be notified
 //TODO - implement a interface making patient-objects listeners with updateCurrentPos() function.
-public class Patient {
+public class Patient{
 	
 	//Static
 	
@@ -75,7 +78,6 @@ public class Patient {
 	//Location-related:
 	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
 	private ZoneRadius zone;
-
 	private Point currentLocation;
 	
 	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email,String deviceID) {
@@ -90,21 +92,6 @@ public class Patient {
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 	}
 	
-	public void addZone(Point p, Double radius){
-		this.zone= new ZoneRadius(p, radius);
-	}
-	
-
-	public void addListeners(CareTaker... caretakers) {
-		for (CareTaker c: caretakers) {
-			if (!(listeners.contains(c))) {
-				listeners.add(c);
-				if (!(c.getPatients().contains(this))) {
-					c.addPatient(this);
-				}
-			}
-		}
-	}
 	
 	public String getFirstName() {
 		return FirstName;
@@ -150,18 +137,28 @@ public class Patient {
 		return DeviceID;
 	}
 	
-	@Override
-	public String toString() {
-		String output = "Patient Profile\nName: "+this.getFullName()+"\nGender: "+this.getGender()+"\nSSN: "+this.getSSN()+"\nDevice ID: "+this.getID()+"\nNext of kin\nMobile: "+this.getNoK_cellphone()+"\nEmail: "+this.getNoK_email();
-		return output;
+	public void addZone(Point p, Double radius){
+		this.zone= new ZoneRadius(p, radius);
+	}
+	
+
+	public void addListeners(CareTaker... caretakers) {
+		for (CareTaker c: caretakers) {
+			if (!(listeners.contains(c))) {
+				listeners.add(c);
+				if (!(c.getPatients().contains(this))) {
+					c.addPatient(this);
+				}
+			}
+		}
 	}
 	
 	public void changeLocation(Point newLoc) {
 		this.currentLocation = newLoc;
-		if (!(zone.isInsideZone(newLoc))) {
+		if (!(zone.isInsideZone(newLoc))) { //We need to add some kind of connection to the ScreensController so that we can display the alarmScreen.fxml
 			for (CareTaker c: listeners) {
 				c.incomingAlert(this, newLoc);
-			}
+				}
 		}
 		String devId = this.DeviceID;
 		for(OnLocationChangedListener l: this.locationListeners) {
@@ -178,6 +175,15 @@ public class Patient {
 			});
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String output = "Patient Profile\nName: "+this.getFullName()+"\nGender: "+this.getGender()+"\nSSN: "+this.getSSN()+"\nDevice ID: "+this.getID()+"\nNext of kin\nMobile: "+this.getNoK_cellphone()+"\nEmail: "+this.getNoK_email();
+		return output;
+	}
+	
+	
+
 
 }
 

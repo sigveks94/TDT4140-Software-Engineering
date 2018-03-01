@@ -58,11 +58,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mapView.addMapInitializedListener(this); 
-		this.track();
+		//this.track();
 	}
 
 
-	public void track() {//this is a temporary simulation of the tracking.
+	/*public void track() {//this is a temporary simulation of the tracking.
 		Task task = new Task<Void>() {
             @Override
             public Void call() {
@@ -82,13 +82,13 @@ public class MapViewController implements Initializable, MapComponentInitialized
         Thread simu_thread = new Thread(task);
         simu_thread.setDaemon(true);
         simu_thread.start();
-	}
+	}*/
 	
 	@Override
 	public void mapInitialized() {
 		LatLong mapCenter = new LatLong(63.423000, 10.400000);		
 		MapOptions mapOptions = new MapOptions();
-		mapOptions.center(mapCenter).zoom(13).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true);
+		mapOptions.center(mapCenter).zoom(14).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true);
 		
 		map = mapView.createMap(mapOptions);
 		
@@ -125,5 +125,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	public void goToHome(ActionEvent event) {
 		myController.setScreen(ApplicationDemo.HomescreenID);
 	}
+	
 	
 }
