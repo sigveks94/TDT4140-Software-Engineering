@@ -2,6 +2,7 @@ package tdt4140.gr1814.app.core;
 
 import java.util.ArrayList;
 
+
 public class CareTaker {
 
 	private String Username;
@@ -27,9 +28,10 @@ public class CareTaker {
 	}
 	
 	public void incomingAlert(Patient patient, Point point) {
-		System.out.println("ALARM!! For this caretaker " + this.getUsername() +  ". Patient: " + patient.getFullName() + " is currently outside allowed zone. Current position: " + 
+		System.out.println("ALARM!! For caretaker: " + this.getUsername() +  ". Patient: " + patient.getFullName() + " is currently outside allowed zone. Current position: " + 
 		point.getLat() + " " + point.getLongt());
 	}
+	
 	public String getUsername() {
 		return Username;
 	}
