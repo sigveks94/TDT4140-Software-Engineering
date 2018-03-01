@@ -15,10 +15,14 @@ import javafx.application.Platform;
 //TODO - implement a interface making patient-objects listeners with updateCurrentPos() function.
 public class Patient{
 	
-	//Static
+	//The static part of this class is supposed to be the interface in which the rest of the system creates and fetches the patient objects needed. The Constructor is made private in order to deny duplicates of what
+	//the developer might think is the same patient object, but is in fact not.
 	
+	//This list contains all the patients that exists in the scope of the care taker currently using the client
 	public static List<Patient> patients = new ArrayList<Patient>();
 	
+	//This is the only mechanism from the outside for instantiating new patient objects. If developer tries to create a new patient object with a SSN that is already registered in the system, this method will
+	//simple return that patient object and skip the instantiation. If there is no patient registered with that SSN however the method will instantiate a new patient object, append it to the list of patients and return it.
 	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String deviceID) {
 		Patient patient = getPatient(SSN);
 		if(patient != null) {
@@ -31,6 +35,7 @@ public class Patient{
 		}
 	}
 	
+	//This method provides a way to fetch a patient by passing the patients SSN, if no patient with provided SSN exists the method simply returns null
 	public static Patient getPatient(Long SSN) {
 		for(Patient p: patients) {
 			if(p.SSN == SSN) {
@@ -40,6 +45,7 @@ public class Patient{
 		return null;
 	}
 	
+	//This method provides a way to fetch a patient by passing the patients device id, if no patient with provided device id exists the method simply returns null
 	public static Patient getPatient(String deviceId) {
 		for(Patient p: patients) {
 			if(p.DeviceID.contentEquals(deviceId)) {
@@ -49,6 +55,7 @@ public class Patient{
 		return null;
 	}
 	
+	//This method returns all patients that are available for the care taker currently using the client
 	public static List<Patient> getAllPatients(){
 		return patients;
 	}
