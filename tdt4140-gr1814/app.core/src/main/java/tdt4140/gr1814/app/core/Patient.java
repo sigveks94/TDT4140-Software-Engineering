@@ -160,16 +160,25 @@ public class Patient{
 		}
 	}
 	
+	//This is the only way to update the current location of the patient object. Aswell as updating the location it notifies all location listeners and if needed the responsible care takers.
 	public void changeLocation(Point newLoc) {
+		//Updates the current location
 		this.currentLocation = newLoc;
+		
+		//If the current location is outside any permitted zone the respinsible care taker is alerted
 		if (!(zone.isInsideZone(newLoc))) { //We need to add some kind of connection to the ScreensController so that we can display the alarmScreen.fxml
 			for (CareTaker c: listeners) {
 				c.incomingAlert(this, newLoc);
 				}
 		}
+		
+		
 		String devId = this.DeviceID;
+		
+		//This notifies all location listeners with the new location
 		for(OnLocationChangedListener l: this.locationListeners) {
-			
+			//Since this function is usually called from another thread than the UI-thread the FXML framework refuses to let the thread dictate UI-elements. Therefor the Platform.runLater is called to ask the UI-thread
+			//Do the remaining part of the work which is UI-related (typical instantiating LatLong objects and updating markers on a potential map etc).
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
