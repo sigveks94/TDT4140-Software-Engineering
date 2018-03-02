@@ -8,9 +8,9 @@ import org.junit.Test;
 
 public class RadiusTest {
 
-	protected Point center = null;
-	protected ZoneRadius zone = null;
-	protected InputController inCon = null;
+	private Point center = null;
+	private ZoneRadius zone = null;
+	private InputController inCon = null;
 	
 	@Before
 	public void setUp() {
@@ -36,17 +36,14 @@ public class RadiusTest {
 		Point point3 = new Point("HS8JS2-JKSJ82",31.57807,88.27476);
 		assertFalse(zone.isInsideZone(point3));
 	}
-
-	//gitlab.stud.iie.ntnu.no/tdt4140-2018/14.git
-	/*
+	
 	@Test
 	public void testPointObject() {
 		Point point6 = new Point("HJSH89-HSJEJS",40.65728,65.82834);
 		assertEquals(point6.getLat(),40.65728,0.00001);
 		assertEquals(point6.getLongt(),65.82834,0.00001);
-		assertEquals(point6.toString(),"40.65728 65.82834");
 	}
-	
+	/*
 	@Test
 	public void testInputHandler() {
 		String str1 = "35.33868 16.54459 \r\n" + "58.20727 87.45917";
