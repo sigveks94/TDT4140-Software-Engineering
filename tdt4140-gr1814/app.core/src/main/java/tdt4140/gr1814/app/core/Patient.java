@@ -61,6 +61,10 @@ public class Patient{
 	//Instance
 	
 	List<OnLocationChangedListener> locationListeners;
+	//Screencontroller running with the ApplicationDemo. Used in changeLocation() if patient is outside zone.
+	private boolean alarmSent = false;
+	OnPatientAlarmListener screensController;
+	
 	
 	public void registerListener(OnLocationChangedListener listener) {
 		if(!this.locationListeners.contains(listener)) {
@@ -163,10 +167,14 @@ public class Patient{
 		
 		//If the current location is outside any permitted zone the respinsible care taker is alerted
 		if (!(zone.isInsideZone(newLoc))) { //We need to add some kind of connection to the ScreensController so that we can display the alarmScreen.fxml
+			if(!(screensController == null) && alarmSent == false) { //alarm is only set of once, the first time the patien is outside permitted zone.
+			screensController.OnPatientAlarm();
+			alarmSent = true;
+			}
 			for (CareTaker c: listeners) {
 				c.incomingAlert(this, newLoc);
 				}
-		}
+		}else {alarmSent = false;} //the variable controlling that we only send one alarm-signal to controller is reset if patient is inside zone. 
 		
 		
 		String devId = this.DeviceID;
@@ -188,13 +196,15 @@ public class Patient{
 		}
 	}
 	
+	public void addAlarmListener(OnPatientAlarmListener screensController) {
+		this.screensController = screensController;
+	}
+	
 	@Override
 	public String toString() {
 		String output = "Patient Profile\nName: "+this.getFullName()+"\nGender: "+this.getGender()+"\nSSN: "+this.getSSN()+"\nDevice ID: "+this.getID()+"\nNext of kin\nMobile: "+this.getNoK_cellphone()+"\nEmail: "+this.getNoK_email();
 		return output;
 	}
-	
-	
 
 
 }

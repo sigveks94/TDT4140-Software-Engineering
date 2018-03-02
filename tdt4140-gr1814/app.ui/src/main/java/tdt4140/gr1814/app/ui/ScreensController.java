@@ -1,8 +1,12 @@
 package tdt4140.gr1814.app.ui;
 
+import tdt4140.gr1814.app.core.OnPatientAlarmListener;
 import tdt4140.gr1814.app.core.Patient;
 
 import java.util.HashMap;
+import java.util.List;
+
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -10,7 +14,7 @@ import javafx.scene.layout.StackPane;
 
 
 
-public class ScreensController  extends StackPane {//StackPane lays out its children in a back-to-front stack.
+public class ScreensController  extends StackPane implements OnPatientAlarmListener{//StackPane lays out its children in a back-to-front stack.
     
 	//Holds the screens to be displayed
     private HashMap<String, Node> screens = new HashMap<>();
@@ -18,6 +22,10 @@ public class ScreensController  extends StackPane {//StackPane lays out its chil
     
     public ScreensController() {
         super();
+        for (Patient p : Patient.patients) {
+        		System.out.println(p);
+        		p.addAlarmListener(this);
+        }
     }
 
     //Add the screen to the hashmap
@@ -71,6 +79,21 @@ public class ScreensController  extends StackPane {//StackPane lays out its chil
             System.out.println("Screen didn't exist");
         }
     }
+
+	@Override
+	public void OnPatientAlarm() {
+		System.out.println("alarm in controller");
+		
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				setScreen(ApplicationDemo.AlarmID);
+			}
+			
+		});
+		
+	}
     
     
 }
