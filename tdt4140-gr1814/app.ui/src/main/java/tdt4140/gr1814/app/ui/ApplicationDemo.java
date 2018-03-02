@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import tdt4140.gr1814.app.core.CareTaker;
 import tdt4140.gr1814.app.core.Database;
@@ -22,7 +24,7 @@ public class ApplicationDemo extends Application{
     public static String NewPatientFile = "CreateNewPatient.fxml";
     public static String MapViewLayoutID = "MapViewLayout";
     public static String MapViewLayoutFile = "MapViewLayout.fxml";
-    public static String AlarmID = "alarmScreen";                 //Alarm not yet implemented
+    public static String AlarmID = "alarmScreen";                 
     public static String AlarmFile = "alarmScreen.fxml"; 
 
     
@@ -40,7 +42,7 @@ public class ApplicationDemo extends Application{
         
         ScreensContainer.setScreen(ApplicationDemo.HomescreenID);//screen is added to the root.
         
-        Group root = new Group();//ObservableList of children
+        StackPane root = new StackPane();//ObservableList of children
         root.getChildren().addAll(ScreensContainer);//adds all screens from the ScreensContainer to the Group
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -54,9 +56,6 @@ public class ApplicationDemo extends Application{
 	    	Database database = new Database();
 	    	database.connect();
 	    	database.retrievePatients();
-	    	for (Patient p: Patient.patients) {
-	    		InputController.addPatientInList(p); 
-	    		}
 		/*
 	    	//Solution while database is down;
 	    	Patient o = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "osca@mail.no", "id1");
