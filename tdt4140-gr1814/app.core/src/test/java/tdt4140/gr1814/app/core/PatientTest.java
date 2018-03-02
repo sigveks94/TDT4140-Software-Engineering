@@ -25,7 +25,8 @@ public class PatientTest {
 		Long SSN = Long.parseLong("12345678910");
 		int phone = 92252233;
 		String email = "test@email.com";
-		patient = Patient.newPatient(firstname,surname,gender,SSN,phone,email);
+		String deviceID = "testID";
+		patient = new Patient(firstname,surname,gender,SSN,phone,email,deviceID);
 	}
 	
 	@Test

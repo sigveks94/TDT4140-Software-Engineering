@@ -7,6 +7,7 @@ private ArrayList<Point> points;
 public ZoneTailored(ArrayList<Point> p) {
 	this.points = new ArrayList<Point>();
 }
+
 public void extractInts(Point ...args) {
 	for (Point arg : args) {
 		this.points.add(arg);
