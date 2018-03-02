@@ -4,6 +4,9 @@ import tdt4140.gr1814.app.core.Patient;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,18 +18,28 @@ import org.junit.Test;
 //genderTest test actual functionality, and emailTest ensures correct string format using regex.
 public class PatientTest {
 	
-	Patient patient = null;
+	private Patient patient;
+	private Patient patient2;
 
 	@Before
 	public void setUp() {
 		String firstname = "Ola";
 		String surname = "Nordmann";
+		String surname2 = "Hansen";
 		char gender = 'M';
-		Long SSN = Long.parseLong("12345678910");
+		char gender2 = 'F';
+		Long SSN = 12345678910L;
+		Long SSN2 = 98765432190L;
 		int phone = 92252233;
+		int phone2 = 87263782;
 		String email = "test@email.com";
-		String deviceID = "testID";
-		patient = new Patient(firstname,surname,gender,SSN,phone,email,deviceID);
+		String email2 = "example@gmail.com";
+		String dev1 = "H822";
+		String dev2 = "A289";
+		
+		
+		patient = Patient.newPatient(firstname,surname,gender,SSN,phone,email,dev1);
+		patient2 = Patient.newPatient(firstname,surname2,gender2,SSN2,phone2,email2,dev2);
 	}
 	
 	@Test
@@ -43,7 +56,7 @@ public class PatientTest {
 	}	
 	@Test
 	public void SSNTest() {
-		assertTrue(patient.getSSN().toString().length() == 11);
+		assertEquals(patient.getSSN()-12345678910L,0);
 	}
 	@Test
 	public void emailTest() {
@@ -53,12 +66,54 @@ public class PatientTest {
 	}
 	@Test
 	public void cellphoneTest() {
-		assertTrue(String.valueOf(patient.getNoK_cellphone()).length() == 8);
+		assertEquals(patient.getNoK_cellphone(),92252233);
 	}	
-	
+	@Test
+	public void testAddListeners() {
+		CareTaker cT = new CareTaker("Example3","1H8j24s4@");
+		patient.addListeners(cT);
+		assertEquals(cT.getPatients().get(0),patient);
+		patient2.addListeners(cT);
+		assertEquals(cT.getPatients().get(1),patient2);
+	}
+	@Test
+	public void addZoneTest() {
+		Point point = new Point("H89",40.0,50.0);
+		Double doub = new Double(10.962723);
+		ZoneRadius zone = new ZoneRadius(point,doub);
+		patient.addZone(zone);
+		assertEquals(patient.getZone(),zone);
+	}
+	@Test
+	public void staticPatientListTest() {
+		Patient patient3 = Patient.getPatient(12345678910L);
+		assertEquals(patient,patient3);
+	}
+	/*
+	@Test
+	public void getAllPatients() {
+		List<Patient> patLst = Patient.getAllPatients();
+		List<Patient> patLst2 = new ArrayList<Patient>();
+		patLst2.add(patient);
+		patLst2.add(patient2);
+		assertTrue(patLst.containsAll(patLst2));
+		assertTrue(patLst2.containsAll(patLst));
+	}
+	*/
+	@Test
+	public void makingNewPatientWithUsedSSN() {
+		Patient patient3 = Patient.newPatient("Exam", "Ple", 'M', 12345678910L, 27929342, "at@at.at", "H723");
+		assertEquals(patient3,patient);
+	}
+	@Test
+	public void getGenderTest() {
+		assertEquals(patient.getGender(),"Male");
+		assertEquals(patient2.getGender(),"Female");
+	}
 	
 	@After
 	public void tearDown() {
 		patient = null;
+		patient2 = null;
 	}
 }
