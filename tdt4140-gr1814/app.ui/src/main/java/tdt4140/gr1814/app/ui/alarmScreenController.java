@@ -14,13 +14,8 @@ public class alarmScreenController implements Initializable, ControlledScreen{
 	private Button Dismiss_btn;
 	@FXML
 	private Button showMap_btn;
-	@Override
 
 
-	public void setScreenParent(ScreensController screenParent) {
-			myController = screenParent;
-		
-	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -34,5 +29,10 @@ public class alarmScreenController implements Initializable, ControlledScreen{
 	public void goToMap() {
 		myController.setScreen(ApplicationDemo.MapViewLayoutID);
 	}
+	
+	@Override
+	public void setScreenParent(ScreensController screenParent) {
+		myController = screenParent;	
+}
 
 }

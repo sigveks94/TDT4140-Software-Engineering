@@ -22,8 +22,8 @@ public class ApplicationDemo extends Application{
     public static String NewPatientFile = "CreateNewPatient.fxml";
     public static String MapViewLayoutID = "MapViewLayout";
     public static String MapViewLayoutFile = "MapViewLayout.fxml";
-    //public static String AlarmID = "alarmScreen";                 Alarm not yet implemented
-    //public static String AlarmFile = "alarmScreen.fxml"; 
+    public static String AlarmID = "alarmScreen";                 //Alarm not yet implemented
+    public static String AlarmFile = "alarmScreen.fxml"; 
 
     
     
@@ -35,7 +35,7 @@ public class ApplicationDemo extends Application{
         ScreensContainer.loadScreen(ApplicationDemo.HomescreenID, ApplicationDemo.HomescreenFile);
         ScreensContainer.loadScreen(ApplicationDemo.NewPatientID, ApplicationDemo.NewPatientFile);
         ScreensContainer.loadScreen(ApplicationDemo.MapViewLayoutID, ApplicationDemo.MapViewLayoutFile);
-        //ScreensContainer.loadScreen(ApplicationDemo.AlarmID, ApplicationDemo.AlarmFile);
+        ScreensContainer.loadScreen(ApplicationDemo.AlarmID, ApplicationDemo.AlarmFile);
         
         
         ScreensContainer.setScreen(ApplicationDemo.HomescreenID);//screen is added to the root.
@@ -83,9 +83,6 @@ public class ApplicationDemo extends Application{
 	    launch(args);    
 		}
 		
-	    
-	    
-
 	
     
 }

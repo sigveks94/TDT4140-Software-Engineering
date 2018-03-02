@@ -90,7 +90,7 @@ public final class InputController {
 		        				}
 	        		}            	
 	             try {
-						Thread.sleep(1500);
+						Thread.sleep(1000);
 				}catch (InterruptedException e) {
 						System.out.println("error in: Thread.sleep(1000);");
 						e.printStackTrace();
@@ -100,8 +100,9 @@ public final class InputController {
 	        	}
 	    	}; 
 	    	
-	    //Since the simulation/input retriever is supposed to run continuously side by side with the UI a second thread is needed. The method being run on the second thread is stated above and is a simple simulatin which 
-	    // changes the location of each patient object in the scope slightly every 1.5 second.
+	    //Since the simulation/input retriever is supposed to run continuously side by side with the UI a second thread is needed. 
+	    	//The method being run on the second thread is stated above and is a simple simulatin which 
+	    // changes the location of each patient object in the scope slightly every 1 second.
 	    Thread simu_thread = new Thread(task);
 	    simu_thread.setDaemon(true);
 	    simu_thread.start();    
