@@ -112,6 +112,7 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email, deviceId);
 			ScreensController.MapController.addViewables(patient); //addind new patient to map-tracking
 			InputController.addPatientInList(patient);
+			
 			//Saving patient to database.
 			Database database = new Database();
 			database.connect();

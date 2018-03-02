@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import tdt4140.gr1814.app.core.Patient;
 
 
 public class HomeScreenGUIController implements Initializable, ControlledScreen {
