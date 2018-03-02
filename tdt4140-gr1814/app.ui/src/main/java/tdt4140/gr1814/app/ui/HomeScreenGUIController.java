@@ -4,109 +4,44 @@ package tdt4140.gr1814.app.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-import tdt4140.gr1814.app.core.Patient;
 
-public class HomeScreenGUIController implements Initializable {
+
+public class HomeScreenGUIController implements Initializable, ControlledScreen {
 	
+	private ScreensController myController;
 	
     @FXML
     private Button newProfile_btn;
-
     @FXML
     private Button MyPatients_btn;
-
     @FXML
     private Button ViewMap_btn;
-
     @FXML
     private Button Settings_btn;
-
+    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		MyPatients_btn.setDisable(true);
-		Settings_btn.setDisable(true);
-		
-		newProfile_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				Stage stage = (Stage) newProfile_btn.getScene().getWindow();
-				try {
-					stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("CreateNewPatient.fxml"))));
-				} catch(Exception e) {
-					System.out.println("Could not access new profile fxml.");
-				}
-				
-			}
-			
-		});
-		
-		MyPatients_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				Stage stage = (Stage) MyPatients_btn.getScene().getWindow();
-				try {
-					stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("CreateNewPatient.fxml"))));
-				} catch(Exception e) {
-					System.out.println("Could not access your patients fxml.");
-				}
-				
-			}
-			
-		});
-		
-		ViewMap_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				Stage stage = (Stage) ViewMap_btn.getScene().getWindow();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("MapViewLayout.fxml"));
-				
-				MapViewController controller = new MapViewController();
-				controller.addAllViewables(Patient.getAllPatients());
-				
-				loader.setController(controller);
-				
-				try {
-					stage.setScene(new Scene(loader.load()));
-				} catch(Exception e) {
-					e.printStackTrace();
-					System.out.println("Could not access map fxml.");
-				}
-				
-			}
-			
-		});
-		
-		Settings_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				Stage stage = (Stage) Settings_btn.getScene().getWindow();
-				try {
-					stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("CreateNewPatient.fxml"))));
-				} catch(Exception e) {
-					System.out.println("Could not access settings fxml.");
-				}
-				
-			}
-			
-		});
-		
-		
-		
+		MyPatients_btn.setDisable(true);//not yet created UI for MyPatients_btn
+		Settings_btn.setDisable(true);//not yet created UI for Settings_btn
 	}
+	
+	@Override
+	public void setScreenParent(ScreensController screenParent) {
+		myController = screenParent;	
+	}
+	
+    @FXML//Change screen to 'add new patient'-screen
+    public void goToNewPatient(ActionEvent event) {
+		myController.setScreen(ApplicationDemo.NewPatientID);
+    }
     
-    
+    @FXML//Change screen to 'mapView'-screen
+    public void goToMap(ActionEvent event) {
+		myController.setScreen(ApplicationDemo.MapViewLayoutID);
+    }
 
 }

@@ -24,7 +24,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="newProfile_btn" accessibleRole="IMAGE_VIEW" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="268.0" prefWidth="297.0">
+            <Button fx:id="newProfile_btn" accessibleRole="IMAGE_VIEW" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goToNewPatient" prefHeight="268.0" prefWidth="297.0">
                <GridPane.margin>
                   <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
                </GridPane.margin>
@@ -46,7 +46,7 @@
                      </image></ImageView>
                </graphic>
             </Button>
-            <Button fx:id="ViewMap_btn" mnemonicParsing="false" prefHeight="268.0" prefWidth="297.0" GridPane.rowIndex="1">
+            <Button fx:id="ViewMap_btn" mnemonicParsing="false" onAction="#goToMap" prefHeight="268.0" prefWidth="297.0" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
                </GridPane.margin>

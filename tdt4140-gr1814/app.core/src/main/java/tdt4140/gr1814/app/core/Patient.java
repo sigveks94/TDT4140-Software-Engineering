@@ -1,32 +1,37 @@
+
 package tdt4140.gr1814.app.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javafx.application.Platform;
 
 
 //This is the patient-class containing necessary information for the users of the system. Also contains the caretakers to be notified
 //TODO - implement a interface making patient-objects listeners with updateCurrentPos() function.
-public class Patient {
+public class Patient{
 	
-	//Static
+	//The static part of this class is supposed to be the interface in which the rest of the system creates and fetches the patient objects needed. The Constructor is made private in order to deny duplicates of what
+	//the developer might think is the same patient object, but is in fact not.
 	
-	private static List<Patient> patients = new ArrayList<Patient>();
+	//This list contains all the patients that exists in the scope of the care taker currently using the client
+	public static List<Patient> patients = new ArrayList<Patient>();
 	
-	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
+	//This is the only mechanism from the outside for instantiating new patient objects. If developer tries to create a new patient object with a SSN that is already registered in the system, this method will
+	//simple return that patient object and skip the instantiation. If there is no patient registered with that SSN however the method will instantiate a new patient object, append it to the list of patients and return it.
+	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String deviceID) {
 		Patient patient = getPatient(SSN);
 		if(patient != null) {
 			return patient;
 		}
 		else {
-			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email);
+			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email,deviceID);
 			patients.add(patient);
 			return patient;
 		}
 	}
 	
+	//This method provides a way to fetch a patient by passing the patients SSN, if no patient with provided SSN exists the method simply returns null
 	public static Patient getPatient(Long SSN) {
 		for(Patient p: patients) {
 			if(p.SSN == SSN) {
@@ -36,6 +41,7 @@ public class Patient {
 		return null;
 	}
 	
+	//This method provides a way to fetch a patient by passing the patients device id, if no patient with provided device id exists the method simply returns null
 	public static Patient getPatient(String deviceId) {
 		for(Patient p: patients) {
 			if(p.DeviceID.contentEquals(deviceId)) {
@@ -45,13 +51,9 @@ public class Patient {
 		return null;
 	}
 	
+	//This method returns all patients that are available for the care taker currently using the client
 	public static List<Patient> getAllPatients(){
-		List<Patient> lst = new ArrayList<Patient>();
-		for(Patient p: patients) {
-			lst.add(p);
-		}
-		
-		return lst;
+		return patients;
 	}
 	
 	
@@ -75,50 +77,24 @@ public class Patient {
 	private Long SSN; //We will use the SSN as a key for finding the patient profile in the database
 	private int NoK_cellphone; //NoK  = next of kin
 	private String NoK_email;
-	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
 	private ArrayList<CareTaker> listeners = new ArrayList<CareTaker>();
+	//Location-related:
+	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
 	private ZoneRadius zone;
-
 	private Point currentLocation;
 	
-	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email) {
+	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email,String deviceID) {
 		this.FirstName = FirstName;
 		this.Surname = Surname;
 		this.Gender = Gender;
 		this.SSN = SSN;
 		this.NoK_cellphone = NoK_cellphone;
 		this.NoK_email = NoK_email;
-		this.DeviceID =  UUID.randomUUID().toString(); //generates a 'random' ID. This will be used as a part of the gps-data.
-		this.currentLocation = new Point(DeviceID, 63.446827, 10.421906);
+		this.DeviceID =  deviceID;
+		this.currentLocation = null;
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 	}
-	public void updateCurrentLocation(Point p) {
-		this.currentLocation=p;
-		this.Alarming(currentLocation);
-	}
 	
-	public void addZone(Point p, Double radius){
-		this.zone= new ZoneRadius(p, radius);
-	}
-	
-	public void Alarming(Point p) {
-		if (!(zone.isInsideZone(p))) {
-			for (CareTaker c: listeners) {
-				c.incomingAlert(this, p);
-			}
-		}
-	}
-	
-	public void addListeners(CareTaker... caretakers) {
-		for (CareTaker c: caretakers) {
-			if (!(listeners.contains(c))) {
-				listeners.add(c);
-				if (!(c.getPatients().contains(this))) {
-					c.addPatient(this);
-				}
-			}
-		}
-	}
 	
 	public String getFirstName() {
 		return FirstName;
@@ -164,24 +140,62 @@ public class Patient {
 		return DeviceID;
 	}
 	
-	@Override
-	public String toString() {
-		String output = "Patient Profile\nName: "+this.getFullName()+"\nGender: "+this.getGender()+"\nSSN: "+this.getSSN()+"\nDevice ID: "+this.getID()+"\nNext of kind\nMobile: "+this.getNoK_cellphone()+"\nEmail: "+this.getNoK_email();
-		return output;
+	public void addZone(Point p, Double radius){
+		this.zone= new ZoneRadius(p, radius);
 	}
 	
+
+	public void addListeners(CareTaker... caretakers) {
+		for (CareTaker c: caretakers) {
+			if (!(listeners.contains(c))) {
+				listeners.add(c);
+				if (!(c.getPatients().contains(this))) {
+					c.addPatient(this);
+				}
+			}
+		}
+	}
+	
+	//This is the only way to update the current location of the patient object. Aswell as updating the location it notifies all location listeners and if needed the responsible care takers.
 	public void changeLocation(Point newLoc) {
+		//Updates the current location
 		this.currentLocation = newLoc;
+		
+		//If the current location is outside any permitted zone the respinsible care taker is alerted
+		if (!(zone.isInsideZone(newLoc))) { //We need to add some kind of connection to the ScreensController so that we can display the alarmScreen.fxml
+			for (CareTaker c: listeners) {
+				c.incomingAlert(this, newLoc);
+				}
+		}
+		
+		
 		String devId = this.DeviceID;
+		
+		//This notifies all location listeners with the new location
 		for(OnLocationChangedListener l: this.locationListeners) {
-			
+			//Since this function is usually called from another thread than the UI-thread the FXML framework refuses to let the thread dictate UI-elements. Therefor the Platform.runLater is called to ask the UI-thread
+			//Do the remaining part of the work which is UI-related (typical instantiating LatLong objects and updating markers on a potential map etc).
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
+					if (l == null) {
+						locationListeners.remove(l);
+						return;
+					}
 					l.onLocationChanged(devId, newLoc);
 				}
 			});
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String output = "Patient Profile\nName: "+this.getFullName()+"\nGender: "+this.getGender()+"\nSSN: "+this.getSSN()+"\nDevice ID: "+this.getID()+"\nNext of kin\nMobile: "+this.getNoK_cellphone()+"\nEmail: "+this.getNoK_email();
+		return output;
+	}
+	
+	
+
 
 }
+
