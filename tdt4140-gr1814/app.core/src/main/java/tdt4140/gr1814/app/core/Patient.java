@@ -34,7 +34,7 @@ public class Patient{
 	//This method provides a way to fetch a patient by passing the patients SSN, if no patient with provided SSN exists the method simply returns null
 	public static Patient getPatient(Long SSN) {
 		for(Patient p: patients) {
-			if(p.SSN == SSN) {
+			if(p.SSN.compareTo(SSN) == 0) {
 				return p;
 			}
 		}
@@ -146,6 +146,12 @@ public class Patient{
 	
 	public void addZone(Point p, Double radius){
 		this.zone= new ZoneRadius(p, radius);
+	}
+	public void addZone(ZoneRadius zone) {
+		this.zone = zone;
+	}
+	public ZoneRadius getZone() {
+		return this.zone;
 	}
 	
 	public ZoneRadius getZone() {
