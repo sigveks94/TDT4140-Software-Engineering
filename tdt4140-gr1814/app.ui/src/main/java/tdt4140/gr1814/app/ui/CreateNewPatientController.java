@@ -110,8 +110,9 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 		//If all input values are valid. Create new patient-object.
 		if(firstname != null && surname != null && SSN != null && NoK_mobile != 0 && email != null && termsaccepted) {
 			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email, deviceId);
+			patient.addAlarmListener(myController); //makes the Screencontroller a listener to recieve alarm-screen when outside zone. 
 			ScreensController.MapController.addViewables(patient); //addind new patient to map-tracking
-			InputController.addPatientInList(patient);
+			
 			//Saving patient to database.
 			Database database = new Database();
 			database.connect();

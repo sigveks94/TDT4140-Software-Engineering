@@ -3,7 +3,6 @@ package tdt4140.gr1814.app.core;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 
 import javafx.concurrent.Task;
 
@@ -59,14 +58,6 @@ public final class InputController {
 					"id2:63.418250 10.402000 \r\n" + 
 					"id1:63.421806 10.399522";//1
 
-			private static ArrayList<Patient> monitoredPatients = new ArrayList<Patient>();
-
-	//add the patient-objects this instance of the program should monitor. only location of these patients will be updated.
-	public static void addPatientInList(Patient...patients) {
-		for (Patient pat: patients) {
-			monitoredPatients.add(pat);
-		}
-	}
 
 	public static void metamorphise() throws IOException{ 
 		BufferedReader reader = new BufferedReader(new StringReader(inputstream));//uses the temporary static String
@@ -83,14 +74,14 @@ public final class InputController {
 		        		Double number1 = Double.parseDouble(second);
 		        		Double number2 = Double.parseDouble(third);
 		        		
-		        		for (Patient p: monitoredPatients) {
+		        		for (Patient p: Patient.patients) {
 		        			if (p.getID().equals(first)) {
 		        				Point point = new Point(first, number1,number2);
 		        				p.changeLocation(point);
 		        				}
 	        		}            	
 	             try {
-						Thread.sleep(1500);
+						Thread.sleep(1000);
 				}catch (InterruptedException e) {
 						System.out.println("error in: Thread.sleep(1000);");
 						e.printStackTrace();
@@ -100,8 +91,9 @@ public final class InputController {
 	        	}
 	    	}; 
 	    	
-	    //Since the simulation/input retriever is supposed to run continuously side by side with the UI a second thread is needed. The method being run on the second thread is stated above and is a simple simulatin which 
-	    // changes the location of each patient object in the scope slightly every 1.5 second.
+	    //Since the simulation/input retriever is supposed to run continuously side by side with the UI a second thread is needed. 
+	    	//The method being run on the second thread is stated above and is a simple simulatin which 
+	    // changes the location of each patient object in the scope slightly every 1 second.
 	    Thread simu_thread = new Thread(task);
 	    simu_thread.setDaemon(true);
 	    simu_thread.start();    

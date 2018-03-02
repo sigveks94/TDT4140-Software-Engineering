@@ -46,8 +46,8 @@
             <Tooltip text="Enter GPS device ID" />
          </tooltip>
       </TextField>
-      <CheckBox fx:id="accept_checkbox" layoutX="30.0" layoutY="201.0" mnemonicParsing="false" text="I have read and accept the terms of use" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="30.0" />
-      <Hyperlink fx:id="TermsOfUse" layoutX="56.0" layoutY="220.0" text="Terms of use" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="48.0">
+      <CheckBox fx:id="accept_checkbox" layoutX="30.0" layoutY="201.0" mnemonicParsing="false" text="I have read and accept the terms of use" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" />
+      <Hyperlink fx:id="TermsOfUse" layoutX="56.0" layoutY="220.0" text="Terms of use" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="48.0">
          <tooltip>
             <Tooltip text="https://www.datatilsynet.no/rettigheter-og-plikter/overvaking-og-sporing/lokalisering/">
                <font>

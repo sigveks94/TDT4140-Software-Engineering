@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -18,43 +19,18 @@ public class FxApp extends Application {
 	
 	@Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("HomeScreenGUI.fxml"));
-        Scene scene = new Scene(root,500,500);
+        MapViewController MapController = new MapViewController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MapViewLayout.fxml"));
+        MapController.addAllViewables(Patient.getAllPatients());//Adds all patient-objects from database to the map. None here..
+		loader.setController(MapController);
+		Parent root = (Parent) loader.load();
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
     public static void main(String[] args) throws SQLException {
-    		 	
-    	//Temporary Simulation. Loading pre-existing Person objects form database. 
-    	Database database = new Database();
-    	database.connect();
-    	ArrayList<Patient> Patients = database.retrievePatients();
-    Patient p1 = Patients.get(0);
-    Patient p2 = Patients.get(1);
-    
- 
-    	Task task = new Task<Void>() {
-            @Override
-            public Void call() {
-                while (true) {
-                p1.changeLocation(new Point(p1.getID(), p1.getCurrentLocation().getLat() - 0.0002, p1.getCurrentLocation().getLongt()));
-                p2.changeLocation(new Point(p2.getID(), p2.getCurrentLocation().getLat() - 0.0001, p2.getCurrentLocation().getLongt() + 0.0001));
-                    try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-                }
-            }
-        };
-        
-        Thread simu_thread = new Thread(task);
-        simu_thread.setDaemon(true);
-        simu_thread.start();
-        
-        // ------------------------------------- ------------------------------------ -------------------------
+    		Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "osca@mail.no", "id1");
         launch(args); 
     }  
 }
