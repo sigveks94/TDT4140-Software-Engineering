@@ -15,6 +15,7 @@ import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
+import com.lynden.gmapsfx.shapes.Circle;
 
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -108,6 +109,15 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			map.addMarker(marker);
 			this.patientsOnMap.replace(p, marker);
 		}
+		
+		//Adds the zone for each patient to the map so its visible for the user
+		for(Patient p : this.patientsOnMap.keySet()) {
+			Circle zone = new Circle();
+			zone.setCenter(p.getZone().getCentre().getLatLong());
+			zone.setRadius(p.getZone().getRadius());
+			map.addMapShape(zone);
+		}
+		
 	}
 
 	//This is the method inherited from the "OnLocationChangedListener" interface. Whenever a patient gets it location changed it will notify its listener. This map will be one of its listeners. When the location changes

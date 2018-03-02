@@ -26,6 +26,10 @@ public class ZoneRadius {
 		return this.radius;
 	}
 	
+	public Point getCentre() {
+		return this.centre;
+	}
+	
 	public Double DegreestoRadians(Double d) {
 		return d*(2*Math.PI)/360;
 	}
