@@ -10,7 +10,10 @@ public class Database {
 	private Statement myStmt;
 	private ResultSet myRs=null;
 	
-	//TODO: Make the class take a person object as input and write it to the DB.
+	//THIS CLASS DOES NOT PROVIDE THE NECESSARY SECURITY FOR DATABASE MANIPULATION, THIS WILL BE IMPLEMENTED IN LATER SPRINTS
+	
+	//THIS CLASS WILL CRASH BECAUSE OF THE NEW ATTR. IN PATIENT TABLE
+	
 	
 	//connecting to db
 	public void connect() {
@@ -84,27 +87,49 @@ public class Database {
         }
 	}
 	
-	public void update(String query){
-		// example input: "UPDATE Patient SET FirstName='Fjotolf' WHERE SSN=123123"
-		
+	public void update(String query) {
 		try {
             myStmt = myConn.createStatement();
             myStmt.executeUpdate(query);
             System.out.println("Success.");
         } catch (Exception e) {
-            System.out.println("The query failed. Check your sql syntax.");
+            System.out.println("The update query failed. Check your sql syntax.");
         }
-		
+	}
+	
+	
+	
+	public ArrayList<ArrayList<String>> query(String query) throws SQLException {
+		try {
+			myStmt = myConn.createStatement();
+			myStmt.executeQuery(query);
+			myRs = myStmt.getResultSet();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		ArrayList<ArrayList<String>> returnList = new ArrayList();
+		while (myRs.next()) {
+            int index = 1;
+            ArrayList<String> innerList = new ArrayList();
+            while (true) {
+                try {
+                    String temp = myRs.getString(index);
+                    innerList.add(temp);
+                    index++;
+                }catch (Exception e) {
+                    break;
+                }
+            }
+            returnList.add(innerList);
+        }
+		return returnList;
 	}
 	
 	
 	
 	public static void main(String[] args) throws SQLException {
-		
 		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
 		Patient p2 = Patient.newPatient("Hennie", "Sørensen", 'F', 99345678910l, 34534534, "hennie@gmail.com","id2");
-		
-		
 		
 		Database db = new Database();
 		db.connect();
