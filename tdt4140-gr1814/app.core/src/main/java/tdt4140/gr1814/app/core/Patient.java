@@ -154,10 +154,6 @@ public class Patient{
 		return this.zone;
 	}
 	
-	public ZoneRadius getZone() {
-		return this.zone;
-	}
-	
 
 	public void addListeners(CareTaker... caretakers) {
 		for (CareTaker c: caretakers) {
