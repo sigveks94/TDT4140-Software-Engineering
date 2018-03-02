@@ -2,10 +2,8 @@ package tdt4140.gr1814.app.ui;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 import javafx.application.Application;
-import javafx.concurrent.Task;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
