@@ -34,6 +34,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.45-bin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GMapsFX"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/tdt4140.gr1814.app.ui"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

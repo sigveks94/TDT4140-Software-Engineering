@@ -25,9 +25,12 @@ import tdt4140.gr1814.app.core.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.Patient;
 import tdt4140.gr1814.app.core.Point;
 
+//This is the controller class that controls the mapview window
 public class MapViewController implements Initializable, MapComponentInitializedListener, OnLocationChangedListener,ControlledScreen{
 
 	private ScreensController myController;
+	
+	//The hashmap holds track of all the patients that are currently being displayed in the map. Each patient has a marker associated with it, and by passing the patient as key the associated marker is return as the value
 	private Map<Patient, Marker> patientsOnMap;
 	
 	public MapViewController() {
@@ -41,6 +44,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	
 	GoogleMap map;
 	
+	//This method recieves a number of patient objects that will appear on the map. Aswell as adding the patient to the hashmap this mapview controller adds itself as a listener to the patient object. Whenever
+	//a patient gets it location updated this controller object will be notified in order to update the marker on the map
 	public void addViewables(Patient... patients) {
 		for(Patient p : patients) {
 			this.patientsOnMap.put(p, null);
@@ -48,6 +53,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		}
 	}
 	
+	//Does the same as the method above, argument is List instead of varargs
 	public void addAllViewables(List<Patient> patients) {
 		for(Patient p : patients) {
 			this.patientsOnMap.put(p, null);
@@ -86,12 +92,16 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	
 	@Override
 	public void mapInitialized() {
+		//Sets the mapview center
 		LatLong mapCenter = new LatLong(63.423000, 10.400000);		
+		
+		//Sets the mapview type, denies clickable icons like markers marking shops and other facilities, disables streetview and enables zoomcontrol.
 		MapOptions mapOptions = new MapOptions();
 		mapOptions.center(mapCenter).zoom(14).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true);
 		
 		map = mapView.createMap(mapOptions);
 		
+		//For every patient a marker is created and placed on the map on the location associated with each patient. The hashmap is updated aswell
 		for(Patient p: this.patientsOnMap.keySet()) {
 			MarkerOptions markerOption = new MarkerOptions().position(new LatLong(p.getCurrentLocation().getLat(), p.getCurrentLocation().getLongt())).title(String.valueOf(p.getSSN())).visible(true);
 			Marker marker = new Marker(markerOption);
@@ -100,6 +110,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		}
 	}
 
+	//This is the method inherited from the "OnLocationChangedListener" interface. Whenever a patient gets it location changed it will notify its listener. This map will be one of its listeners. When the location changes
+	//The old marker associated with the patient is removed and a new is placed on the map with the new location. The hashmap is also updated.
 	@Override
 	public void onLocationChanged(String deviceId, Point newLocation) {
 		
