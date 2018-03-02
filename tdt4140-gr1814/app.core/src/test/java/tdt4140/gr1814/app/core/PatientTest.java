@@ -89,6 +89,7 @@ public class PatientTest {
 		Patient patient3 = Patient.getPatient(12345678910L);
 		assertEquals(patient,patient3);
 	}
+	/*
 	@Test
 	public void getAllPatients() {
 		List<Patient> patLst = Patient.getAllPatients();
@@ -98,6 +99,7 @@ public class PatientTest {
 		assertTrue(patLst.containsAll(patLst2));
 		assertTrue(patLst2.containsAll(patLst));
 	}
+	*/
 	@Test
 	public void makingNewPatientWithUsedSSN() {
 		Patient patient3 = Patient.newPatient("Exam", "Ple", 'M', 12345678910L, 27929342, "at@at.at", "H723");
