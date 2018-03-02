@@ -43,22 +43,12 @@ public class RadiusTest {
 		assertEquals(point6.getLat(),40.65728,0.00001);
 		assertEquals(point6.getLongt(),65.82834,0.00001);
 	}
-	/*
+
 	@Test
-	public void testInputHandler() {
-		String str1 = "35.33868 16.54459 \r\n" + "58.20727 87.45917";
-		try {
-			inCon.metamorphise(str1);
-		} catch (Exception e) {e.printStackTrace();}
-		Point point4 = inCon.getPoints().get(0);
-		Point point5 = inCon.getPoints().get(1);
-		
-		assertEquals(point4.getLat(),35.33868,0.00001);
-		assertEquals(point4.getLongt(),16.54459,0.00001);
-		assertEquals(point5.getLat(),58.20727,0.00001);
-		assertEquals(point5.getLongt(),87.45917,0.00001);
+	public void testCenter() {
+		assertEquals(zone.getCentre().getLat(),50.0,0.001);
+		assertEquals(zone.getCentre().getLongt(),30.0,0.001);
 	}
-	*/
 	@After
 	public void deconstruct() {
 		center = null;
