@@ -16,6 +16,7 @@ import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import com.lynden.gmapsfx.shapes.Circle;
+import com.lynden.gmapsfx.shapes.MapShapeOptions;
 
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -98,13 +99,15 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		
 		//Sets the mapview type, denies clickable icons like markers marking shops and other facilities, disables streetview and enables zoomcontrol.
 		MapOptions mapOptions = new MapOptions();
-		mapOptions.center(mapCenter).zoom(14).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true);
+		mapOptions.center(mapCenter).zoom(14).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true).fullscreenControl(false);
 		
 		map = mapView.createMap(mapOptions);
 		
 		//For every patient a marker is created and placed on the map on the location associated with each patient. The hashmap is updated aswell
 		for(Patient p: this.patientsOnMap.keySet()) {
-			MarkerOptions markerOption = new MarkerOptions().position(new LatLong(p.getCurrentLocation().getLat(), p.getCurrentLocation().getLongt())).title(String.valueOf(p.getSSN())).visible(true);
+			MarkerOptions markerOption = new MarkerOptions()
+					.position(new LatLong(p.getCurrentLocation().getLat(), p.getCurrentLocation().getLongt())).title(String.valueOf(p.getSSN())).visible(true)
+					.label(p.getFullName());
 			Marker marker = new Marker(markerOption);
 			map.addMarker(marker);
 			this.patientsOnMap.replace(p, marker);
@@ -133,7 +136,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		}
 		LatLong latlong = null;
 		latlong = new LatLong(newLocation.getLat(), newLocation.getLongt());
-		marker = new Marker(new MarkerOptions().position(latlong).visible(true));
+		marker = new Marker(new MarkerOptions().position(latlong).visible(true).label(patient.getFullName()));
 		this.patientsOnMap.replace(patient, marker);
 		map.addMarker(marker);
 	}

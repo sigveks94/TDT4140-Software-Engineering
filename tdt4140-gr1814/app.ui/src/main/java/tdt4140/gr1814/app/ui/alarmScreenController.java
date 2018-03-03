@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class alarmScreenController implements Initializable, ControlledScreen{
 	
@@ -22,12 +23,15 @@ public class alarmScreenController implements Initializable, ControlledScreen{
 		
 	}
 	
-	public void goToHomescreen() {
-		myController.setScreen(ApplicationDemo.HomescreenID);
+	public void dismiss() {
+		Stage stage = (Stage) Dismiss_btn.getScene().getWindow();
+		stage.close();
 	}
 	
 	public void goToMap() {
 		myController.setScreen(ApplicationDemo.MapViewLayoutID);
+		Stage stage = (Stage) Dismiss_btn.getScene().getWindow();
+		stage.close();
 	}
 	
 	@Override

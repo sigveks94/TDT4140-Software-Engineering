@@ -10,7 +10,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 
 
@@ -23,7 +25,6 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
     public ScreensController() {
         super();
         for (Patient p : Patient.patients) {
-        		System.out.println(p);
         		p.addAlarmListener(this);
         }
     }
@@ -88,7 +89,11 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
 
 			@Override
 			public void run() {
-				setScreen(ApplicationDemo.AlarmID);
+				Stage stage = new Stage();
+				Node alarmscreen = getScreen(ApplicationDemo.AlarmID);
+				Scene scene = new Scene((Parent) alarmscreen,300,300);
+		        stage.setScene(scene);
+		        stage.show();
 			}
 			
 		});

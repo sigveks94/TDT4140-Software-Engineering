@@ -3,7 +3,6 @@ package tdt4140.gr1814.app.core;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 
 import javafx.concurrent.Task;
 
@@ -59,14 +58,6 @@ public final class InputController {
 					"id2:63.418250 10.402000 \r\n" + 
 					"id1:63.421806 10.399522";//1
 
-			private static ArrayList<Patient> monitoredPatients = new ArrayList<Patient>();
-
-	//add the patient-objects this instance of the program should monitor. only location of these patients will be updated.
-	public static void addPatientInList(Patient...patients) {
-		for (Patient pat: patients) {
-			monitoredPatients.add(pat);
-		}
-	}
 
 	public static void metamorphise() throws IOException{ 
 		BufferedReader reader = new BufferedReader(new StringReader(inputstream));//uses the temporary static String
@@ -83,7 +74,7 @@ public final class InputController {
 		        		Double number1 = Double.parseDouble(second);
 		        		Double number2 = Double.parseDouble(third);
 		        		
-		        		for (Patient p: monitoredPatients) {
+		        		for (Patient p: Patient.patients) {
 		        			if (p.getID().equals(first)) {
 		        				Point point = new Point(first, number1,number2);
 		        				p.changeLocation(point);
