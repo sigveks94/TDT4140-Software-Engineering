@@ -69,6 +69,7 @@ public class RadiusTest {
 	public void testDevID() {
 		assertEquals(center.getDeviceId(),"H8H6S3-929SKS");
 	}
+	/*
 	@Test
 	public void testLatLong() {
 		LatLong ll = center.getLatLong();
@@ -76,6 +77,7 @@ public class RadiusTest {
 		assertEquals(ll.getLatitude(),50.0,0.001);
 		assertEquals(ll.getLongitude(),30.0,0.001);
 	}
+	*/
 	@After
 	public void deconstruct() {
 		center = null;
