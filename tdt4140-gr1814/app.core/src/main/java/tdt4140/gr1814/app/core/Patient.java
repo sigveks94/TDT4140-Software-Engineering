@@ -56,12 +56,15 @@ public class Patient{
 		return patients;
 	}
 	
-	public static void deletePatient(Long patientSSN) {
+	public static boolean deletePatient(Long patientSSN) {
 		for (Patient p : patients) {
-			if(p.getSSN() == patientSSN) {
+			System.out.println(p.getSSN());
+			if(p.getSSN().equals(patientSSN)) {
 				patients.remove(p);
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	
