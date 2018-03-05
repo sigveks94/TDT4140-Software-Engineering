@@ -43,6 +43,7 @@ public final class InputController {
 					"id1:63.422013 10.399308 \r\n" +//1lyskryss
 					"id2:63.418320 10.402000 \r\n" + 
 					"id1:63.422015 10.399309 \r\n" +//1lyskryss
+					"id3:63.402015 10.390309 \r\n" +//id3
 					"id2:63.418425 10.402000 \r\n" + 
 					"id1:63.422234 10.399233 \r\n" +//1bunnpris
 					"id2:63.418220 10.402000 \r\n" +
@@ -81,7 +82,7 @@ public final class InputController {
 		        				}
 	        		}            	
 	             try {
-						Thread.sleep(1000);
+						Thread.sleep(1500);
 				}catch (InterruptedException e) {
 						System.out.println("error in: Thread.sleep(1000);");
 						e.printStackTrace();

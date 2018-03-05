@@ -67,9 +67,9 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
         if (screens.get(name) != null) {  
             if (!getChildren().isEmpty()) {    //if there is more than one screen
                 getChildren().remove(0);                    //remove the displayed screen
-                getChildren().add(0, screens.get(name)); 
+                getChildren().add(0, screens.get(name));
             } 
-            else {getChildren().add(screens.get(name));}       //no one else been displayed, then just show
+            else {getChildren().add(screens.get(name));}//no one else been displayed, then just show       
         } 
         else {System.out.println("screen hasn't been loaded!!! \n");}
     }

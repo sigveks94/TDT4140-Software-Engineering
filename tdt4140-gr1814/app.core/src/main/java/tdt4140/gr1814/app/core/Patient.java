@@ -56,6 +56,13 @@ public class Patient{
 		return patients;
 	}
 	
+	public static void deletePatient(Long patientSSN) {
+		for (Patient p : patients) {
+			if(p.getSSN() == patientSSN) {
+				patients.remove(p);
+			}
+		}
+	}
 	
 	
 	//Instance
