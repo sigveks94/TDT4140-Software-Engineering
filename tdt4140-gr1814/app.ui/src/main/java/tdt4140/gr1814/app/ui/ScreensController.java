@@ -71,7 +71,7 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
             } 
             else {getChildren().add(screens.get(name));}//no one else been displayed, then just show       
         } 
-        else {System.out.println("screen hasn't been loaded!!! \n");}
+        else {System.out.println("screen hasn't been loaded!!!");}
     }
 
     //This method will remove the screen with the given name from the collection of screens

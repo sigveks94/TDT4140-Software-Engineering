@@ -1,9 +1,8 @@
 package tdt4140.gr1814.app.ui;
 
 import tdt4140.gr1814.app.core.Patient;
-import tdt4140.gr1814.app.core.Point;
 import tdt4140.gr1814.app.core.Database;
-import tdt4140.gr1814.app.core.InputController;
+import tdt4140.gr1814.app.core.Hyperlink_Browser;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;

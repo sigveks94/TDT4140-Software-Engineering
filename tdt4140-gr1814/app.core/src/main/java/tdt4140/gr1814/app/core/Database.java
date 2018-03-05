@@ -38,7 +38,7 @@ public class Database {
 		}
 		
 		
-		ArrayList<Patient> returnList = new ArrayList();
+		ArrayList<Patient> returnList = new ArrayList(); //we never use this list..
 		if (myRs != null) {
 			while (myRs.next()) {
 	            int index = 1;
@@ -149,7 +149,7 @@ public class Database {
 	
 	public static void main(String[] args) throws SQLException {
 		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
-		Patient p2 = Patient.newPatient("Hennie", "Sørensen", 'F', 99345678910l, 34534534, "hennie@gmail.com","id2");
+		Patient p2 = Patient.newPatient("Hennie", "Sï¿½rensen", 'F', 99345678910l, 34534534, "hennie@gmail.com","id2");
 		
 		Database db = new Database();
 		db.connect();

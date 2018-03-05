@@ -1,4 +1,4 @@
-package tdt4140.gr1814.app.ui;
+package tdt4140.gr1814.app.core;
 
 import java.awt.Desktop;
 import java.io.IOException;
