@@ -66,12 +66,16 @@ public class ApplicationDemo extends Application{
 	    	Patient h = Patient.newPatient("HAKON", "COLLETT", 'M', 12345678911l, 92484760, "HCB@mail.no", "id2");
 	    	*/
 	    	//Setting location to Gløshaugen-area
-	    	Point start = new Point(Patient.patients.get(0).getID(), 63.418140, 10.402736);
-	    	Patient.patients.get(0).addZone(start, null);
+	    	Point start = new Point(Patient.getPatient("id1").getID(), 63.418140, 10.402736);
+	    	Patient.getPatient("id1").addZone(start, 350.0);
+	    	System.out.println("A");
+	    	System.out.println(Patient.getPatient("id1"));
+	    	System.out.println("X:" + Patient.getPatient("id1").getZone().getCentre());
 	    	//Patient.	patients.get(0).changeLocation(start);
 	    	
-	    	Point start2 = new Point(Patient.patients.get(1).getID(), 63.418000, 10.402000);	    	
-	    	Patient.patients.get(1).addZone(start2, 350.0);
+	    	Point start2 = new Point(Patient.getPatient("id2").getID(), 63.418000, 10.402000);	    	
+	    	Patient.getPatient("id2").addZone(start2, 100.0);
+	    	System.out.println(Patient.getPatient("id2").getZone());
 	    	//Patient.	patients.get(1).changeLocation(start2);
 	    	
 	    	//Make 'morentilharald' responsible person for both person-objects from database. This allows alarm finctionality
