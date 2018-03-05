@@ -105,6 +105,9 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		
 		//For every patient a marker is created and placed on the map on the location associated with each patient. The hashmap is updated aswell
 		for(Patient p: this.patientsOnMap.keySet()) {
+			if(p.getCurrentLocation() == null) {
+				continue;
+			}
 			MarkerOptions markerOption = new MarkerOptions()
 					.position(new LatLong(p.getCurrentLocation().getLat(), p.getCurrentLocation().getLongt())).title(String.valueOf(p.getSSN())).visible(true)
 					.label(p.getFullName());
@@ -115,6 +118,9 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		
 		//Adds the zone for each patient to the map so its visible for the user
 		for(Patient p : this.patientsOnMap.keySet()) {
+			if(p.getZone() == null) {
+				continue;
+			}
 			Circle zone = new Circle();
 			zone.setCenter(p.getZone().getCentre().getLatLong());
 			zone.setRadius(p.getZone().getRadius());

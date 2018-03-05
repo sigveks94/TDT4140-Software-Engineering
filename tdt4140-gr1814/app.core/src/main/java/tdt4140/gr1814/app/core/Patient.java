@@ -179,7 +179,7 @@ public class Patient{
 		this.currentLocation = newLoc;
 		
 		//If the current location is outside any permitted zone the respinsible care taker is alerted
-		if (!(zone.isInsideZone(newLoc))) { //We need to add some kind of connection to the ScreensController so that we can display the alarmScreen.fxml
+		if (zone != null && !(zone.isInsideZone(newLoc))) { //We need to add some kind of connection to the ScreensController so that we can display the alarmScreen.fxml
 			if(!(screensController == null) && alarmSent == false) { //alarm is only set of once, the first time the patien is outside permitted zone.
 			screensController.OnPatientAlarm();
 			alarmSent = true;
