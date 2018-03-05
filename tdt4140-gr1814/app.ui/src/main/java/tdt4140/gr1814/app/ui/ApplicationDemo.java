@@ -59,9 +59,7 @@ public class ApplicationDemo extends Application{
 		/*
 	    	//Solution while database is down;
 	    	Patient o = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "osca@mail.no", "id1");
-	    	InputController.addPatientInList(o);
 	    	Patient h = Patient.newPatient("HAKON", "COLLETT", 'M', 12345678911l, 92484760, "HCB@mail.no", "id2");
-	    	InputController.addPatientInList(h);
 	    	*/
 	    	//Setting location to Gløshaugen-area
 	    	Point start = new Point(Patient.patients.get(0).getID(), 63.418140, 10.402736);
@@ -78,7 +76,9 @@ public class ApplicationDemo extends Application{
 	    	Patient.patients.get(1).addListeners(morentilharald); 
 	    	
 	    //run both inputcontroller, handling inputstream, and the UI(application)
-	    InputController.metamorphise();
+	    	try {
+	    InputController.metamorphise();}
+	    	catch(IOException e) {e.printStackTrace();}
 	    launch(args);    
 		}
 		

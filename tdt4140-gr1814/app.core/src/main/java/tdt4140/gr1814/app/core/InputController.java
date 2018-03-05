@@ -81,7 +81,7 @@ public final class InputController {
 		        				}
 	        		}            	
 	             try {
-						Thread.sleep(1000);
+						Thread.sleep(1500);
 				}catch (InterruptedException e) {
 						System.out.println("error in: Thread.sleep(1000);");
 						e.printStackTrace();

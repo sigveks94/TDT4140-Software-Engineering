@@ -99,7 +99,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		
 		//Sets the mapview type, denies clickable icons like markers marking shops and other facilities, disables streetview and enables zoomcontrol.
 		MapOptions mapOptions = new MapOptions();
-		mapOptions.center(mapCenter).zoom(14).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true).fullscreenControl(false);
+		mapOptions.center(mapCenter).zoom(13).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true).fullscreenControl(false);
 		
 		map = mapView.createMap(mapOptions);
 		
