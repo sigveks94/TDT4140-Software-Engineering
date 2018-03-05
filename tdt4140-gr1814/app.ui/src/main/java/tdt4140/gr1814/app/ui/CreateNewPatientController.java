@@ -1,6 +1,7 @@
 package tdt4140.gr1814.app.ui;
 
 import tdt4140.gr1814.app.core.Patient;
+import tdt4140.gr1814.app.core.Point;
 import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.InputController;
 import javafx.scene.control.TextField;
@@ -112,7 +113,6 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email, deviceId);
 			patient.addAlarmListener(myController); //makes the Screencontroller a listener to recieve alarm-screen when outside zone. 
 			ScreensController.MapController.addViewables(patient); //addind new patient to map-tracking
-			
 			//Saving patient to database.
 			Database database = new Database();
 			database.connect();

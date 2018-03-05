@@ -26,6 +26,9 @@ public class ApplicationDemo extends Application{
     public static String MapViewLayoutFile = "MapViewLayout.fxml";
     public static String AlarmID = "alarmScreen";                 
     public static String AlarmFile = "alarmScreen.fxml"; 
+    public static String DeletePatientID = "DeletePatient";
+    public static String DeletePatientFile = "DeletePatient.fxml";
+    
 
     
     
@@ -38,6 +41,7 @@ public class ApplicationDemo extends Application{
         ScreensContainer.loadScreen(ApplicationDemo.NewPatientID, ApplicationDemo.NewPatientFile);
         ScreensContainer.loadScreen(ApplicationDemo.MapViewLayoutID, ApplicationDemo.MapViewLayoutFile);
         ScreensContainer.loadScreen(ApplicationDemo.AlarmID, ApplicationDemo.AlarmFile);
+        ScreensContainer.loadScreen(ApplicationDemo.DeletePatientID, ApplicationDemo.DeletePatientFile);
         
         
         ScreensContainer.setScreen(ApplicationDemo.HomescreenID);//screen is added to the root.
@@ -63,12 +67,12 @@ public class ApplicationDemo extends Application{
 	    	*/
 	    	//Setting location to Gløshaugen-area
 	    	Point start = new Point(Patient.patients.get(0).getID(), 63.418140, 10.402736);
-	    	Patient.patients.get(0).addZone(start, 300.0);
-	    	Patient.	patients.get(0).changeLocation(start);
+	    	Patient.patients.get(0).addZone(start, null);
+	    	//Patient.	patients.get(0).changeLocation(start);
 	    	
 	    	Point start2 = new Point(Patient.patients.get(1).getID(), 63.418000, 10.402000);	    	
-	    	Patient.patients.get(1).addZone(start2, null);
-	    	Patient.	patients.get(1).changeLocation(start2);
+	    	Patient.patients.get(1).addZone(start2, 350.0);
+	    	//Patient.	patients.get(1).changeLocation(start2);
 	    	
 	    	//Make 'morentilharald' responsible person for both person-objects from database. This allows alarm finctionality
 	    	CareTaker morentilharald = new CareTaker("Moren til Harald","passord");
@@ -79,6 +83,7 @@ public class ApplicationDemo extends Application{
 	    	try {
 	    InputController.metamorphise();}
 	    	catch(IOException e) {e.printStackTrace();}
+	    	
 	    launch(args);    
 		}
 		
