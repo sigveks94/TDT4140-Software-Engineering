@@ -9,7 +9,10 @@ import java.util.ResourceBundle;
 
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
+import com.lynden.gmapsfx.javascript.event.UIEventType;
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
+import com.lynden.gmapsfx.javascript.object.InfoWindow;
+import com.lynden.gmapsfx.javascript.object.InfoWindowOptions;
 import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
@@ -23,6 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import netscape.javascript.JSObject;
 import tdt4140.gr1814.app.core.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.Patient;
 import tdt4140.gr1814.app.core.Point;
@@ -66,31 +70,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mapView.addMapInitializedListener(this); 
-		//this.track();
 	}
 
-
-	/*public void track() {//this is a temporary simulation of the tracking.
-		Task task = new Task<Void>() {
-            @Override
-            public Void call() {
-                while (true) {
-                	for (Patient p: Patient.patients) {
-                		 	p.changeLocation(new Point(p.getID(), p.getCurrentLocation().getLat() - 0.00003, p.getCurrentLocation().getLongt() + 0.00007 ));
-                	}
-                 try {
-						Thread.sleep(1000);
-				}catch (InterruptedException e) {
-						System.out.println("error in: Thread.sleep(1000);");
-						e.printStackTrace();
-					}
-                }
-            }
-        }; 
-        Thread simu_thread = new Thread(task);
-        simu_thread.setDaemon(true);
-        simu_thread.start();
-	}*/
 	
 	@Override
 	public void mapInitialized() {
@@ -99,7 +80,12 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		
 		//Sets the mapview type, denies clickable icons like markers marking shops and other facilities, disables streetview and enables zoomcontrol.
 		MapOptions mapOptions = new MapOptions();
-		mapOptions.center(mapCenter).zoom(13).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true).fullscreenControl(false);
+		mapOptions.center(mapCenter)
+				  .zoom(13).mapType(MapTypeIdEnum.ROADMAP)
+				  .clickableIcons(false)
+				  .streetViewControl(false)
+				  .zoomControl(true)
+				  .fullscreenControl(false);
 		
 		map = mapView.createMap(mapOptions);
 		
@@ -109,7 +95,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 				continue;
 			}
 			MarkerOptions markerOption = new MarkerOptions()
-					.position(new LatLong(p.getCurrentLocation().getLat(), p.getCurrentLocation().getLongt())).title(String.valueOf(p.getSSN())).visible(true)
+					.position(new LatLong(p.getCurrentLocation().getLat(), p.getCurrentLocation().getLongt()))
+					.title(String.valueOf(p.getSSN())).visible(true)
 					.label(p.getFullName());
 			Marker marker = new Marker(markerOption);
 			map.addMarker(marker);
@@ -133,7 +120,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	//The old marker associated with the patient is removed and a new is placed on the map with the new location. The hashmap is also updated.
 	@Override
 	public void onLocationChanged(String deviceId, Point newLocation) {
-		
 		Patient patient = Patient.getPatient(deviceId);
 		
 		Marker marker = this.patientsOnMap.get(patient);
