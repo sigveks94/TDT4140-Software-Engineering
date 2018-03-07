@@ -23,9 +23,11 @@ public class Hyperlink_BrowserTest {
 		assertFalse(browser.browse(failURL));
 	}
 	*/
+	/*
 	@Test
 	public void hyperlinksuccessTest() {
 		assertTrue(browser.browse(successURL));
 	}
+	*/
 
 }
