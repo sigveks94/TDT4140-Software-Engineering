@@ -48,7 +48,7 @@ public class ApplicationDemo extends Application{
         stage.setScene(scene);
         //just for fun. Adding logo and title to the Java-application 
         stage.getIcons().add(new Image(ApplicationDemo.class.getResourceAsStream("RedCross.png"))); 
-        stage.setTitle("Sprint #1 Demo");
+        stage.setTitle("Demo Sprint1");
         
         stage.show();
     }

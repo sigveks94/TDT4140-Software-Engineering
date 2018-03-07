@@ -78,6 +78,10 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
             System.out.println("Screen didn't exist");
         }
     }
+    
+    public MapViewController getMapViewController() {
+    		return MapController;
+    }
 
 	@Override
 	public void OnPatientAlarm() { //this class implements onPatientAlarmListener. Function 'catches' alarm set of in patient class

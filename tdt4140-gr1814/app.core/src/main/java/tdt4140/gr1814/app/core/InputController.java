@@ -88,7 +88,7 @@ public final class InputController {
 	public static void metamorphise() throws IOException{ 
 		BufferedReader reader = new BufferedReader(new StringReader(inputstream));//uses the temporary static String
 		//solution to get while-loop running at the same time as main thread running UI.
-		Task task = new Task<Void>() {
+		Task<Void> task = new Task<Void>() {
 	        @Override
 	        public Void call() throws IOException {
 	        		String line = "";
