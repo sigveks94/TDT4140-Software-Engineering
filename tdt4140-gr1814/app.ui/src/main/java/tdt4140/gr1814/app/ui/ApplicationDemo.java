@@ -55,7 +55,7 @@ public class ApplicationDemo extends Application{
 
 
 	public static void main(String[] args) throws SQLException, IOException {
-	    	//Temporary Simulation. Loading pre-existing Person objects form database. 
+	    	//Demo Simulation. Loading pre-existing Person objects form database. 
 	    
 		Database database = new Database();
 	    	database.connect();

@@ -11,7 +11,13 @@ public final class InputController {
 	//temporary simulation of recieving data and updating Patients currentLocation. 
 			static String inputstream = 
 					"id1:63.418140 10.402736 \r\n" +//1gamle kjemi
+					"id2:63.418000 10.402000 \r\n" +
+					"id1:63.418148 10.402730 \r\n" +//---1gamle kjemi
+					"id2:63.418008 10.402006 \r\n" + 
+					"id1:63.418140 10.402739 \r\n" +//1gamle kjemi
 					"id2:63.418000 10.402000 \r\n" + 
+					"id1:63.418148 10.402730 \r\n" +//1gamle kjemi
+					"id2:63.418002 10.402009 \r\n" + //---
 					"id1:63.418389 10.402392 \r\n" +//1
 					"id2:63.418010 10.402000 \r\n" + 
 					"id1:63.418663 10.402103 \r\n" +//1
@@ -107,7 +113,7 @@ public final class InputController {
 		        				}
 	        		}            	
 	             try {
-						Thread.sleep(1000);
+						Thread.sleep(1200);
 				}catch (InterruptedException e) {
 						System.out.println("error in: Thread.sleep(1000);");
 						e.printStackTrace();
