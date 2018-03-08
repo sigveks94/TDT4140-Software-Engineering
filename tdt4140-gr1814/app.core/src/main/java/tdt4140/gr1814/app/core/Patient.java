@@ -175,7 +175,6 @@ public class Patient{
 			}
 		}
 	}
-	
 	//This is the only way to update the current location of the patient object. 
 	//Aswell as updating the location it notifies all location listeners and if needed the responsible care takers.
 	public void changeLocation(Point newLoc) {
