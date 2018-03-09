@@ -17,15 +17,17 @@ public class Hyperlink_BrowserTest {
 	public void setUp() {
 		browser = new Hyperlink_Browser();
 	}
-	
+	/*
 	@Test
 	public void hyperlinkfailTest() {
 		assertFalse(browser.browse(failURL));
 	}
-	
+	*/
+	/*
 	@Test
 	public void hyperlinksuccessTest() {
 		assertTrue(browser.browse(successURL));
 	}
+	*/
 
 }

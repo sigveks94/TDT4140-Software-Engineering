@@ -85,6 +85,7 @@ public class Patient{
 	private List<OnLocationChangedListener> locationListeners;//Screencontroller running with the ApplicationDemo. Used in changeLocation() if patient is outside zone.
 	private boolean alarmSent = false;
 	private OnPatientAlarmListener screensController;
+	private boolean alarmActivated = true;
 	
 	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email,String deviceID) {
 		this.FirstName = FirstName;
@@ -104,6 +105,12 @@ public class Patient{
 	}
 	public String getSurname() {
 		return Surname;
+	}
+	public void deactivateAlarm() {
+		this.alarmActivated=false;
+	}
+	public void activateAlarm() {
+		this.alarmActivated=true;
 	}
 	public String getFullName() {
 		return FirstName+" "+Surname;
@@ -168,7 +175,6 @@ public class Patient{
 			}
 		}
 	}
-	
 	//This is the only way to update the current location of the patient object. 
 	//Aswell as updating the location it notifies all location listeners and if needed the responsible care takers.
 	public void changeLocation(Point newLoc) {
@@ -177,7 +183,7 @@ public class Patient{
 		
 		//If the current location is outside any permitted zone the respinsible care taker is alerted
 		if (zone != null && !(zone.isInsideZone(newLoc))) { 
-			if(!(screensController == null) && alarmSent == false) { //alarm is only set of once, the first time the patien is outside permitted zone.
+			if(((!(screensController == null) && alarmSent == false)) && (this.alarmActivated)) { //alarm is only set of once, the first time the patien is outside permitted zone also checks if alarm is activated.
 			screensController.OnPatientAlarm();
 			alarmSent = true;
 			}
