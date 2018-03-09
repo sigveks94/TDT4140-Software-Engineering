@@ -16,6 +16,7 @@
 		<module>app.ui</module>
 		
 		<module>GMapsFX</module>
+		<module>tdt4140.gr1814.webserver</module>
 	</modules>
 	<dependencies>
 		<dependency>
