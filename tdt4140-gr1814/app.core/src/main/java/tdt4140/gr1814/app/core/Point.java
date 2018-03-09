@@ -1,14 +1,15 @@
 package tdt4140.gr1814.app.core;
 
 import com.lynden.gmapsfx.javascript.object.LatLong;
+import java.util.ArrayList;
 
 public class Point {
 	/*USING 5 DECIMALS FOR ADEQUATE, BUT NOT ABUNDANT ACCURACY*/
 
-	
 private String deviceId;
 private double latitude;
 private double longtitude;
+private ArrayList<Double> returnArray;
 
 public Point(String deviceId, double d, double e) {
 	this.deviceId=deviceId;
@@ -28,6 +29,13 @@ public String getDeviceId() {
 
 public LatLong getLatLong() {
 	return new LatLong(this.latitude, this.longtitude);
+}
+
+public ArrayList<Double> getPointToArrayForm(){
+	returnArray = new ArrayList<Double>();
+	returnArray.add(this.latitude);
+	returnArray.add(this.longtitude);
+	return returnArray;
 }
 
 @Override

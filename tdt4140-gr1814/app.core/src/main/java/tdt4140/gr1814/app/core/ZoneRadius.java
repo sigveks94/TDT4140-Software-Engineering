@@ -3,7 +3,7 @@
 
 //CLASS USED FOR WHEN ZONE IS FUNDAMENTAL RADIUS-TYPE
 package tdt4140.gr1814.app.core;
-public class ZoneRadius {
+public class ZoneRadius implements Zone{
 	private Double radius;
 	private Point centre;
 	private final Double defaultRadius = 100.0;
@@ -26,9 +26,6 @@ public class ZoneRadius {
 		return this.radius;
 	}
 	
-	public Point getCentre() {
-		return this.centre;
-	}
 	
 	public Double DegreestoRadians(Double d) {
 		return d*(2*Math.PI)/360;
@@ -47,8 +44,12 @@ public class ZoneRadius {
 		
 		return distanceMetres;
 	}
-	
+	@Override
 	public Boolean isInsideZone(Point p) {
 		return (radius > CalculateDistance(centre, p));
 	}
+	public Point getCentre() {
+		return centre;
+	}
+	
 }
