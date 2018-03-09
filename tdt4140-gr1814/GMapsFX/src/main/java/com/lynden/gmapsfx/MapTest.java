@@ -1,5 +1,7 @@
 package com.lynden.gmapsfx;
 
+import java.util.ArrayList;
+
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
 import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.MVCArray;
@@ -57,9 +59,33 @@ public class MapTest extends Application implements MapComponentInitializedListe
         Polygon pg = new Polygon(polyOpts);
         map.addMapShape(pg);
         
+        GetCoordinatesFromMap getCoo = new GetCoordinatesFromMap(pg.getPath());
+        getCoo.calculate();
+        ArrayList<double[]> arDo = getCoo.getLatLongSave();
+        
+        for(int k = 0 ; k < arDo.size() ; k++) {
+        	System.out.println(arDo.get(k)[0]);
+        	System.out.println(arDo.get(k)[1]);
+        	System.out.println("-----------------");
+        }
+        
+        
+        /*
+        MVCArray mvc2 = pg.getPath();
+        System.out.println(mvc2.getAt(0));
+        System.out.println(mvc2.getAt(1));
+        System.out.println(mvc2.getAt(2));
+        System.out.println(mvc2.getAt(3));
+        System.out.println(mvc2.getAt(4));
+        LatLong latLong = new LatLong(mvc2.getAt(0));
+        System.out.println(latLong.getLatitude());
+        System.out.println(latLong.getLongitude());
+        */
+        
+        /*
         InsideCheckTemp check = new InsideCheckTemp(latArr);
         System.out.println(check.checkInside(new LatLong(64.01,10.01)));
-        
+        */
         /*
         MVCArray polyBounds = pg.getPaths();
         JSObject jso = polyBounds.getAt(0);
