@@ -67,13 +67,7 @@ public class Patient{
 		return false;
 	}
 	
-	public static ArrayList<String> getPatientNames() {
-		ArrayList<String> patientList = new ArrayList<String>();
-		for (Patient p : patients) {
-			patientList.add(p.getFullName());
-		}
-		return patientList;
-	}
+
 	
 	
 //Instance

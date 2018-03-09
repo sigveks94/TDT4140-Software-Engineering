@@ -11,12 +11,12 @@
    <children>
       <AnchorPane layoutX="14.0" layoutY="2.0" maxHeight="92.0" minHeight="92.0" prefHeight="92.0" prefWidth="600.0" style="-fx-background-color: #f3f4f7; -fx-border-color: #000000; -fx-border-width: 0px 0px 1px 0px;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="menue_btn" layoutX="21.0" layoutY="17.0" mnemonicParsing="false" onAction="#goToMenue" style="-fx-background-color: #f3f4f7;" text="&lt; Menue" textFill="#fd5c63">
+            <Button fx:id="menu_btn" layoutX="21.0" layoutY="17.0" mnemonicParsing="false" onAction="#goToMenu" style="-fx-background-color: #f3f4f7;" text="&lt; Menu" textFill="#fd5c63" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Text layoutX="240.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patients">
+            <Text layoutX="240.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patients" AnchorPane.topAnchor="25.0">
                <font>
                   <Font size="31.0" />
                </font>
@@ -25,13 +25,18 @@
       </AnchorPane>
       <TextField fx:id="search_txt" layoutX="16.0" layoutY="140.0" onAction="#PatientSearch" prefHeight="26.0" prefWidth="268.0" promptText="Search" style="-fx-background-color: #f3f4f7;" AnchorPane.topAnchor="120.0" />
       <ListView fx:id="patient_list" layoutX="14.0" layoutY="177.0" prefHeight="310.0" prefWidth="270.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="170.0" />
-      <AnchorPane fx:id="patient_profile" layoutX="341.0" layoutY="120.0" prefHeight="359.0" prefWidth="200.0" style="-fx-background-color: #f3f4f7; -fx-border-color: lightgray; visibility: false;">
+      <AnchorPane fx:id="patient_profile" layoutX="341.0" layoutY="120.0" prefHeight="359.0" prefWidth="218.0" style="-fx-background-color: #f3f4f7; -fx-border-color: lightgray; visibility: false;">
          <children>
-            <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Profile" textAlignment="CENTER" underline="true" wrappingWidth="173.0000103712082" />
+            <Text layoutX="22.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Profile" textAlignment="CENTER" underline="true" wrappingWidth="173.0000103712082" AnchorPane.topAnchor="10.0" />
             <Text fx:id="patientInfo_txt" layoutX="36.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="info:" />
-            <Button layoutX="173.0" layoutY="1.0" mnemonicParsing="false" onAction="#closePatientProfile" prefHeight="26.0" prefWidth="24.0" style="-fx-background-color: #f3f4f7;" text="x" textAlignment="JUSTIFY" textFill="#fd5c63" />
-            <Button layoutX="48.0" layoutY="297.0" mnemonicParsing="false" style="-fx-background-color: #f3f4f7;" text="Patient Zone &gt;" textFill="#fd5c63" />
+            <Button layoutX="173.0" layoutY="1.0" mnemonicParsing="false" onAction="#closePatientProfile" prefHeight="26.0" prefWidth="24.0" style="-fx-background-color: #f3f4f7;" text="x" textAlignment="JUSTIFY" textFill="#fd5c63" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0" />
+            <Button onAction="#displayZoneMap" layoutX="48.0" layoutY="297.0" mnemonicParsing="false" style="-fx-background-color: #f3f4f7;" text="Patient Zone &gt;" textFill="#fd5c63" />
          </children>
       </AnchorPane>
+      <Text fx:id="search_error" fill="RED" layoutX="25.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" style="visibility: false;" text="error" wrappingWidth="359.18603515625">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

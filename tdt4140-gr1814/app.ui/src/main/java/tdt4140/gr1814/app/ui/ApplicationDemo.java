@@ -52,7 +52,8 @@ public class ApplicationDemo extends Application{
         //just for fun. Adding logo and title to the Java-application 
         stage.getIcons().add(new Image(ApplicationDemo.class.getResourceAsStream("RedCross.png"))); 
         stage.setTitle("Demo Sprint1");
-        
+        stage.setWidth(700);
+        stage.setHeight(500);
         stage.show();
     }
 
@@ -67,7 +68,7 @@ public class ApplicationDemo extends Application{
 	    	//Solution from home without vpn, or for when database is down;
 	    	Patient o = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "oscar@mail.no", "id1");
 	    	Patient h = Patient.newPatient("HAKON", "COLLETT", 'M', 12345678911l, 92484760, "Haakon-CB@mail.no", "id2");
-	    	
+	    	Patient s = Patient.newPatient("SIGVE", "SVENKERUD", 'M', 90987654321l, 92809043, "sigves_mor@mail.no", "id3");
 	    	
 	    	//Setting zone of the two pre-existing patients from the database. Set center to Gløshaugen-area
 	    	Point center1 = new Point(Patient.getPatient("id1").getID(), 63.418140, 10.402736);

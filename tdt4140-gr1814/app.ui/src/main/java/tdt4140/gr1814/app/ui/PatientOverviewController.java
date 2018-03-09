@@ -22,17 +22,22 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	
 	private ScreensController myController;
 	
+	private Patient currentPatientProfile;
+	
 	@FXML
-	Button menue_btn;
+	Button menu_btn;
 	@FXML
 	TextField search_txt;
 	@FXML
+	Text search_error;
+	@FXML
 	ListView<Patient> patient_list;
+	@FXML
+	AnchorPane patient_profile;
 	@FXML
 	Text patientInfo_txt;
 
-	@FXML
-	AnchorPane patient_profile;
+
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
@@ -44,11 +49,11 @@ public class PatientOverviewController implements Initializable, ControlledScree
 		List<Patient> patientStringList = Patient.patients;
 		ObservableList<Patient> patients = FXCollections.observableList(patientStringList);
 		patient_list.setItems(patients);
-
 		patient_list.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	        @Override
 	        public void handle(MouseEvent event) {
 	        		displayPatientProfile(patient_list.getSelectionModel().getSelectedItem());
+	        		currentPatientProfile = patient_list.getSelectionModel().getSelectedItem();
 	        }
 	    });
 		patient_list.setCellFactory(lv -> new ListCell<Patient>() {
@@ -67,16 +72,27 @@ public class PatientOverviewController implements Initializable, ControlledScree
         }
         
 	
-	public void goToMenue() {
+	public void goToMenu() {
 		myController.setScreen(ApplicationDemo.HomescreenID);
 	}
 	
 	public void PatientSearch() {
 		String name = search_txt.getText().toUpperCase();
+		Patient patientSearched = null;
 		for (Patient patient: patient_list.getItems()) {
 				if (patient.getFullName().equals(name)) {
-					displayPatientProfile(patient);
+					patientSearched = patient;
 				}
+			}
+		if (patientSearched != null) {
+			displayPatientProfile(patientSearched);
+			currentPatientProfile = patientSearched;
+			search_txt.setText("");
+			search_error.setVisible(false);
+		}
+		else {
+			search_error.setText("No patient with name: "+name);
+			search_error.setVisible(true);
 			}
 	}
 	
@@ -84,6 +100,11 @@ public class PatientOverviewController implements Initializable, ControlledScree
 		patientInfo_txt.setText(patient.toString());
 		//here we will add all the needed information about the patient
 		patient_profile.setVisible(true);
+		search_error.setVisible(false);
+	}
+	
+	public void displayZoneMap() {
+		System.out.println("display zone in map for: "+currentPatientProfile.getFullName());
 	}
 	
 	public void closePatientProfile() {
