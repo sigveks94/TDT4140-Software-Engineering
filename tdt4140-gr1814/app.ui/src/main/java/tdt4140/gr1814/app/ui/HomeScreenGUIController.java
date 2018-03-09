@@ -26,7 +26,7 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		MyPatients_btn.setDisable(true);//not yet created UI for MyPatients_btn
+		//MyPatients_btn.setDisable(true);//not yet created UI for MyPatients_btn
 		Settings_btn.setDisable(true);//not yet created UI for Settings_btn
 	}
 	
@@ -43,6 +43,11 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     @FXML//Change screen to 'mapView'-screen
     public void goToMap(ActionEvent event) {
 		myController.setScreen(ApplicationDemo.MapViewLayoutID);
+    }
+    
+    @FXML
+    public void goToDeletePatient() {
+    		myController.setScreen(ApplicationDemo.DeletePatientID);
     }
 
 }
