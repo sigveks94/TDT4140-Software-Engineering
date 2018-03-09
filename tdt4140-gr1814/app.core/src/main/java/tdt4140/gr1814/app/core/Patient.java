@@ -80,7 +80,7 @@ public class Patient{
 	private ArrayList<CareTaker> listeners = new ArrayList<CareTaker>(); 
 	//Location-related:
 	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
-	private ZoneRadius zone;
+	private Zone zone;
 	private Point currentLocation;
 	private List<OnLocationChangedListener> locationListeners;//Screencontroller running with the ApplicationDemo. Used in changeLocation() if patient is outside zone.
 	private boolean alarmSent = false;
@@ -147,14 +147,13 @@ public class Patient{
 	public String getID() {
 		return DeviceID;
 	}
-	
 	public void addZone(Point p, Double radius){
 		this.zone= new ZoneRadius(p, radius);
 	}
-	public void addZone(ZoneRadius zone) {
+	public void addZone(Zone zone) {
 		this.zone = zone;
 	}
-	public ZoneRadius getZone() {
+	public Zone getZone() {
 		return this.zone;
 	}
 	
