@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class ZoneTailored implements Zone{
 private ArrayList<Point> points;
 public ZoneTailored(Point ...args) {//CONSTRUCTOR TAKES VARARG PARAMETRES FROM MAP INTERFACE AND CONSTRUCTS A TAILORED ZONE OBJECT
+	points = new ArrayList<Point>();
 	for (Point arg : args) {
 		this.points.add(arg);
 	}
