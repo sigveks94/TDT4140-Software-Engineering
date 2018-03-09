@@ -47,7 +47,7 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     
     @FXML
     public void goToDeletePatient() {
-    		myController.setScreen(ApplicationDemo.DeletePatientID);
+    		myController.setScreen(ApplicationDemo.PatientOverviewID);
     }
 
 }
