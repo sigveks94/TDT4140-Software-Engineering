@@ -25,8 +25,10 @@ public class ApplicationDemo extends Application{
     public static String MapViewLayoutFile = "MapViewLayout.fxml";
     public static String AlarmID = "alarmScreen";                 
     public static String AlarmFile = "alarmScreen.fxml"; 
-    public static String DeletePatientID = "DeletePatient";
-    public static String DeletePatientFile = "DeletePatient.fxml";
+    //public static String DeletePatientID = "DeletePatient";
+    //public static String DeletePatientFile = "DeletePatient.fxml";
+    public static String PatientOverviewID = "PatientOverview";
+    public static String PatientOverviewFile = "PatientOverview.fxml";
     
     
     @Override
@@ -38,7 +40,8 @@ public class ApplicationDemo extends Application{
         ScreensContainer.loadScreen(ApplicationDemo.NewPatientID, ApplicationDemo.NewPatientFile);
         ScreensContainer.loadScreen(ApplicationDemo.MapViewLayoutID, ApplicationDemo.MapViewLayoutFile);
         ScreensContainer.loadScreen(ApplicationDemo.AlarmID, ApplicationDemo.AlarmFile);
-        ScreensContainer.loadScreen(ApplicationDemo.DeletePatientID, ApplicationDemo.DeletePatientFile);
+        //ScreensContainer.loadScreen(ApplicationDemo.DeletePatientID, ApplicationDemo.DeletePatientFile);
+        ScreensContainer.loadScreen(ApplicationDemo.PatientOverviewID, ApplicationDemo.PatientOverviewFile);
         
         ScreensContainer.setScreen(ApplicationDemo.HomescreenID);//screen is added to the root (set screen to the front of the stack).
         
@@ -56,15 +59,15 @@ public class ApplicationDemo extends Application{
 
 	public static void main(String[] args) throws SQLException, IOException {
 	    	//Demo Simulation. Loading pre-existing Person objects form database. 
-	    
+	    /*
 		Database database = new Database();
 	    	database.connect();
 	    	database.retrievePatients();
-		/*
+		*/
 	    	//Solution from home without vpn, or for when database is down;
-	    	Patient o = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "osca@mail.no", "id1");
-	    	Patient h = Patient.newPatient("HAKON", "COLLETT", 'M', 12345678911l, 92484760, "HCB@mail.no", "id2");
-	    	*/
+	    	Patient o = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "oscar@mail.no", "id1");
+	    	Patient h = Patient.newPatient("HAKON", "COLLETT", 'M', 12345678911l, 92484760, "Haakon-CB@mail.no", "id2");
+	    	
 	    	
 	    	//Setting zone of the two pre-existing patients from the database. Set center to Gløshaugen-area
 	    	Point center1 = new Point(Patient.getPatient("id1").getID(), 63.418140, 10.402736);
