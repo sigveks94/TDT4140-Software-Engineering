@@ -19,18 +19,19 @@ public class InsideCheckTemp {
 			} else {
 				k = i + 1;
 			}
-			if ((latLongs[i].getLongitude() <= p.getLongitude())&&(latLongs[k].getLongitude() > p.getLongitude())) {
+			if ((latLongs[i].getLongitude() < p.getLongitude())&&(latLongs[k].getLongitude() > p.getLongitude())) {
 				double midle = (p.getLongitude()) - latLongs[i].getLongitude()/(latLongs[k].getLongitude() - latLongs[i].getLongitude());
 				if (p.getLatitude() >= (midle * (latLongs[k].getLatitude() - latLongs[i].getLatitude())) + latLongs[i].getLatitude()) {
 					count += 1;
 				}
-			} else if ((latLongs[i].getLongitude() >= p.getLongitude())&&(latLongs[k].getLongitude() < p.getLongitude())) {
+			}else if ((latLongs[i].getLongitude() > p.getLongitude())&&(latLongs[k].getLongitude() < p.getLongitude())) {
 				double midle = (p.getLongitude() - latLongs[i].getLongitude())/(latLongs[k].getLongitude() - latLongs[i].getLongitude());
 				if (p.getLatitude() >= (midle * (latLongs[k].getLatitude() - latLongs[i].getLatitude())) + latLongs[i].getLatitude()) {
 					count += 1;
 				}
 			}
 		}
+		System.out.println(count);
 		return ((count % 2) == 1) ;
 	}
 }

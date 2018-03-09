@@ -58,7 +58,7 @@ public class MapTest extends Application implements MapComponentInitializedListe
         map.addMapShape(pg);
         
         InsideCheckTemp check = new InsideCheckTemp(latArr);
-        System.out.println(check.checkInside(new LatLong(63.5,10.5)));
+        System.out.println(check.checkInside(new LatLong(64.01,10.01)));
         
         /*
         MVCArray polyBounds = pg.getPaths();
