@@ -147,7 +147,6 @@ public class Patient{
 	public String getID() {
 		return DeviceID;
 	}
-	
 	public void addZone(Point p, Double radius){
 		this.zone= new ZoneRadius(p, radius);
 	}
