@@ -219,11 +219,11 @@ public class Patient{
 	@Override
 	public String toString() {
 		String output = "Name: "+this.getFullName()+
-						"\nGender: "+this.getGender()+
-						"\nSSN: "+this.getSSN()+
-						"\nDevice ID: "+this.getID()+
-						"\nNext of kin\nMobile: "+this.getNoK_cellphone()+
-						"\nEmail: "+this.getNoK_email();
+						"\n\nGender: "+this.getGender()+
+						"\n\nSSN: "+this.getSSN()+
+						"\n\nDevice ID: "+this.getID()+
+						"\n\n\tNext of kin\n\nMobile: "+this.getNoK_cellphone()+
+						"\n\nEmail: "+this.getNoK_email();
 		return output;
 	}
 

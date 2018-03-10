@@ -5,13 +5,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tdt4140.gr1814.app.ui.alarmScreenController">
+<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #f3f4f7;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tdt4140.gr1814.app.ui.alarmScreenController">
    <children>
-      <Button fx:id="Dismiss_btn" layoutX="47.0" layoutY="150.0" mnemonicParsing="false" onAction="#dismiss" text="Dismiss" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="20.0" />
-      <Button fx:id="showMap_btn" layoutX="151.0" layoutY="150.0" mnemonicParsing="false" onAction="#goToMap" text="Show in map" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="20.0" />
-      <Text fill="#d32121" layoutX="147.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ALARM" textAlignment="CENTER" wrappingWidth="107.0" AnchorPane.topAnchor="62.99609375">
+      <Button fx:id="Dismiss_btn" layoutX="47.0" layoutY="150.0" mnemonicParsing="false" onAction="#dismiss" style="-fx-background-color: #f3f4f7;" text="&lt; Dismiss" textFill="#fd5c63" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="20.0">
          <font>
-            <Font size="30.0" />
+            <Font name="System Bold" size="13.0" />
+         </font></Button>
+      <Button fx:id="showMap_btn" layoutX="151.0" layoutY="150.0" mnemonicParsing="false" onAction="#goToMap" style="-fx-background-color: #f3f4f7;" text="Show in map &gt;" textFill="#fd5c63" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="20.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></Button>
+      <Text fill="#d32121" layoutX="141.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ALARM" textAlignment="CENTER" wrappingWidth="118.99999380111694" AnchorPane.topAnchor="50.0625">
+         <font>
+            <Font size="32.0" />
          </font></Text>
       <Text layoutX="96.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient is outside permitted zone" textAlignment="CENTER" wrappingWidth="209.0" AnchorPane.topAnchor="98.0" />
    </children>
