@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import com.lynden.gmapsfx.GetCoordinatesFromMap;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
@@ -28,6 +29,7 @@ import javafx.scene.control.Button;
 import tdt4140.gr1814.app.core.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.Patient;
 import tdt4140.gr1814.app.core.Point;
+import tdt4140.gr1814.app.core.ZoneTailored;
 
 //This is the controller class that controls the mapview window
 public class MapViewController implements Initializable, MapComponentInitializedListener, OnLocationChangedListener,ControlledScreen{
@@ -35,6 +37,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	private ScreensController myController;
 	private boolean newZoneMap;//screen when adding new zone to a patient.
 	private Polygon mapPolygon;
+	private Patient currentPatient;
 	
 	//The hashmap holds track of all the patients that are currently being displayed in the map. Each patient has a marker associated with it, and by passing the patient as key the associated marker is return as the value
 	private Map<Patient, Marker> patientsOnMap;
@@ -158,6 +161,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	}
 	
 	public void zoneView(Patient currentPatient) {
+		this.currentPatient = currentPatient;
 		menu_btn.setVisible(false);
 		overview_btn.setVisible(true);
 		saveZone_btn.setVisible(true);
@@ -209,6 +213,14 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	}
 	
 	public void saveZone() {
+		GetCoordinatesFromMap getArray = new GetCoordinatesFromMap(mapPolygon.getPath());
+		getArray.calculate();
+		ArrayList<double[]> makePoints = getArray.getLatLongSave();
+		ArrayList<Point> pointList = new ArrayList<Point>();
+		for (double[] latLong : makePoints) {
+			pointList.add(new Point(currentPatient.getID(),latLong[0],latLong[1]));
+		}
+		currentPatient.addZone(new ZoneTailored(pointList));
 		System.out.println("SAVING...");
 	}
 	
