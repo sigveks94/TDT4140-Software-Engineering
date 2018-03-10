@@ -49,6 +49,7 @@ public class PatientOverviewController implements Initializable, ControlledScree
 		List<Patient> patientStringList = Patient.patients;
 		ObservableList<Patient> patients = FXCollections.observableList(patientStringList);
 		patient_list.setItems(patients);
+		
 		patient_list.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	        @Override
 	        public void handle(MouseEvent event) {

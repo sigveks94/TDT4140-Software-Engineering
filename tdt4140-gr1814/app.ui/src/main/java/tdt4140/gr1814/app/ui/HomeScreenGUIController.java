@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import tdt4140.gr1814.app.core.Patient;
 
 
@@ -23,6 +24,8 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     private Button ViewMap_btn;
     @FXML
     private Button Settings_btn;
+    @FXML
+    private AnchorPane profile_pane;
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -49,6 +52,12 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     @FXML
     public void goToDeletePatient() {
     		myController.setScreen(ApplicationDemo.PatientOverviewID);
+    }
+    
+    @FXML
+    public void toggleProfile() {
+    		if(profile_pane.isVisible()) {profile_pane.setVisible(false);}
+    		else {profile_pane.setVisible(true);}
     }
 
 }
