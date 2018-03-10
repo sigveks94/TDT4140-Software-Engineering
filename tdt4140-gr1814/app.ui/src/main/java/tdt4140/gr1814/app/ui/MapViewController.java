@@ -1,6 +1,7 @@
 package tdt4140.gr1814.app.ui;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,23 +152,35 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			if (marker != null) {
 			map.removeMarker(marker);
 		}}
-		//creating default editable zone
-        LatLong lat1 = new LatLong(63.3,10.1);
-        LatLong lat2 = new LatLong(63.4,10.1);
-        LatLong lat3 = new LatLong(63.4,10.2);
-        LatLong lat4 = new LatLong(63.3,10.2);
-        
-        LatLong[] latArr = new LatLong[] {lat1,lat2,lat3,lat4};
-        MVCArray mvc = new MVCArray(latArr);
-        
-        PolygonOptions polyOpts = new PolygonOptions()
+		PolygonOptions polyOpts;
+		LatLong[] latArr;
+		if (currentPatient.getZone() == null) {
+	        LatLong lat1 = new LatLong(63.3,10.1);
+	        LatLong lat2 = new LatLong(63.4,10.1);
+	        LatLong lat3 = new LatLong(63.4,10.2);
+	        LatLong lat4 = new LatLong(63.3,10.2);
+	        
+	        latArr = new LatLong[] {lat1,lat2,lat3,lat4};
+	        
+		} else {
+			ArrayList<LatLong> latLongArrayList = new ArrayList<>();
+			for (Point poi : currentPatient.getZone().getPoints()) {
+				latLongArrayList.add(new LatLong(poi.getLat(),poi.getLongt()));
+			}
+			latArr = new LatLong[latLongArrayList.size()];
+			for (int i = 0; i < latLongArrayList.size(); i++) {
+				latArr[i] = latLongArrayList.get(i);
+			}
+			
+		}
+		MVCArray mvc = new MVCArray(latArr);
+        polyOpts = new PolygonOptions()
         		.paths(mvc)
         		.strokeColor("red")
         		.fillColor("green")
         		.editable(true)
         		.strokeWeight(2)
         		.fillOpacity(0.4);
-        
         mapPolygon = new Polygon(polyOpts);
         map.addMapShape(mapPolygon);
 	}
