@@ -104,7 +104,7 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	}
 	
 	public void displayZoneMap() {
-		myController.getMapViewController().newZone(currentPatientProfile);
+		myController.getMapViewController().zoneView(currentPatientProfile);
 		myController.setScreen(ApplicationDemo.MapViewLayoutID);
 	}
 	

@@ -140,12 +140,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	
 	@FXML
 	public void goToHome(ActionEvent event) {
-		newZoneMap = false;
-		if (mapPolygon != null) {mapPolygon.getPath().clear();}
+		patientView();
 		myController.setScreen(ApplicationDemo.HomescreenID);
 	}
 	
-	public void newZone(Patient currentPatient) {
+	public void zoneView(Patient currentPatient) {
 		newZoneMap = true;
 		for (Patient p: Patient.patients) {
 			Marker marker = this.patientsOnMap.get(p);
@@ -171,6 +170,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
         
         mapPolygon = new Polygon(polyOpts);
         map.addMapShape(mapPolygon);
+	}
+	
+	public void patientView() {
+		newZoneMap = false;
+		if (mapPolygon != null) {mapPolygon.getPath().clear();}
 	}
 	
 	
