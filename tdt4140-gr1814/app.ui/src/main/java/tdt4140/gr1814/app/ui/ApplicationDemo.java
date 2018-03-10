@@ -97,7 +97,7 @@ public class ApplicationDemo extends Application{
 	    launch(args);    
 		}
 		
-	
+	//import removed by scenebuilder in MapViewLayout.fxml; <?import com.lynden.gmapsfx.*?>
     
 }
 

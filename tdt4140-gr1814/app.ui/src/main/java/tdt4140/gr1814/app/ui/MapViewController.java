@@ -51,6 +51,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	Button overview_btn;
 	@FXML
 	Button menu_btn;
+	@FXML
+	Button saveZone_btn;
 
 	//This method recieves a number of patient objects that will appear on the map. Aswell as adding the patient to the hashmap this mapview controller adds itself as a listener to the patient object. Whenever
 	//a patient gets it location updated this controller object will be notified in order to update the marker on the map
@@ -158,6 +160,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	public void zoneView(Patient currentPatient) {
 		menu_btn.setVisible(false);
 		overview_btn.setVisible(true);
+		saveZone_btn.setVisible(true);
 		newZoneMap = true;
 		for (Patient p: Patient.patients) {
 			Marker marker = this.patientsOnMap.get(p);
@@ -167,10 +170,10 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		PolygonOptions polyOpts;
 		LatLong[] latArr;
 		if (currentPatient.getZone() == null) {
-	        LatLong lat1 = new LatLong(63.3,10.1);
-	        LatLong lat2 = new LatLong(63.4,10.1);
-	        LatLong lat3 = new LatLong(63.4,10.2);
-	        LatLong lat4 = new LatLong(63.3,10.2);
+	        LatLong lat1 = new LatLong(63.426508,10.394743);
+	        LatLong lat2 = new LatLong(63.426451,10.397103);
+	        LatLong lat3 = new LatLong(63.425663,10.397103);
+	        LatLong lat4 = new LatLong(63.425414,10.394529);
 	        
 	        latArr = new LatLong[] {lat1,lat2,lat3,lat4};
 	        
@@ -200,8 +203,13 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	public void patientView() {
 		menu_btn.setVisible(true);
 		overview_btn.setVisible(false);
+		saveZone_btn.setVisible(false);
 		newZoneMap = false;
 		if (mapPolygon != null) {mapPolygon.getPath().clear();}
+	}
+	
+	public void saveZone() {
+		System.out.println("SAVING...");
 	}
 	
 	
