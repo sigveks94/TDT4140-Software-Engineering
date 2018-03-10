@@ -7,6 +7,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.junit.After;
 
 public class ZoneTailoredTest {
@@ -16,16 +18,18 @@ public class ZoneTailoredTest {
 	
 	@Before
 	public void setUp() {
-		Point p1 = new Point("A72",52.0,32.0);
-		Point p2 = new Point("A73",53.0,32.0);
-		Point p3 = new Point("A74",53.0,33.0);
-		Point p4 = new Point("A75",52.0,33.0);
-		zone1 = new ZoneTailored(p1,p2,p3,p4);
-		Point p11 = new Point("A15",50.0,39.0);
-		Point p12 = new Point("A25",51.0,39.0);
-		Point p13 = new Point("A35",51.0,41.0);
-		Point p14 = new Point("A45",50.0,40.0);
-		zone2 = new ZoneTailored(p11,p12,p13,p14);
+		ArrayList<Point> arP1 = new ArrayList<>(); 
+		arP1.add(new Point("A72",52.0,32.0));
+		arP1.add(new Point("A73",53.0,32.0));
+		arP1.add(new Point("A74",53.0,33.0));
+		arP1.add(new Point("A75",52.0,33.0));
+		zone1 = new ZoneTailored(arP1);
+		ArrayList<Point> arP2 = new ArrayList<>(); 
+		arP2.add(new Point("A15",50.0,39.0));
+		arP2.add(new Point("A25",51.0,39.0));
+		arP2.add(new Point("A35",51.0,41.0));
+		arP2.add(new Point("A45",50.0,40.0));
+		zone2 = new ZoneTailored(arP2);
 	}
 	
 	@Test
