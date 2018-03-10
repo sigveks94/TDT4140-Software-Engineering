@@ -2,6 +2,7 @@ package tdt4140.gr1814.app.ui;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -74,18 +75,20 @@ public class ApplicationDemo extends Application{
 	    	Patient sigve = Patient.newPatient("SIGVE", "SVENKERUD", 'M', 90987654321l, 92809043, "sigves_mor@mail.no", "id3");
 	    	*/
 	    	//Setting zone of the two pre-existing patients from the database. Set center to Gløshaugen-area
-	    	Point upperLeft = new Point(Patient.getPatient("id1").getID(), 63.419943 , 10.398016);
-	    	Point upperRight = new Point(Patient.getPatient("id1").getID(), 63.420814 , 10.404067);
-	    	Point lowerRight = new Point(Patient.getPatient("id1").getID(), 63.416578 , 10.408401);
-	    	Point lowerLeft = new Point(Patient.getPatient("id1").getID(), 63.415330 , 10.401921);
-	    	Zone zone1 = new ZoneTailored(upperLeft,upperRight,lowerRight,lowerLeft);
+	    	ArrayList<Point> points1 = new ArrayList<>();
+	    	points1.add(new Point(Patient.getPatient("id1").getID(), 63.419943 , 10.398016));
+	    	points1.add(new Point(Patient.getPatient("id1").getID(), 63.420814 , 10.404067));
+	    	points1.add(new Point(Patient.getPatient("id1").getID(), 63.416578 , 10.408401));
+	    	points1.add(new Point(Patient.getPatient("id1").getID(), 63.415330 , 10.401921));
+	    	Zone zone1 = new ZoneTailored(points1);
 	    	Patient.getPatient("id1").addZone(zone1);
 
-	    	Point upperLeft2 = new Point(Patient.getPatient("id1").getID(), 63.418153 , 10.400591);
-	    	Point upperRight2 = new Point(Patient.getPatient("id1").getID(), 63.418825 , 10.405054);
-	    	Point lowerRight2 = new Point(Patient.getPatient("id1").getID(), 63.417116 , 10.407114);
-	    	Point lowerLeft2 = new Point(Patient.getPatient("id1").getID(), 63.416636 , 10.403337); 	
-	    	Zone zone2 = new ZoneTailored(upperLeft2,upperRight2,lowerRight2,lowerLeft2);
+	    	ArrayList<Point> points2 = new ArrayList<>();
+	    	points2.add(new Point(Patient.getPatient("id1").getID(), 63.418153 , 10.400591));
+	    	points2.add(new Point(Patient.getPatient("id1").getID(), 63.418825 , 10.405054));
+	    	points2.add(new Point(Patient.getPatient("id1").getID(), 63.417116 , 10.407114));
+	    	points2.add(new Point(Patient.getPatient("id1").getID(), 63.416636 , 10.403337)); 	
+	    	Zone zone2 = new ZoneTailored(points2);
 	    	Patient.getPatient("id2").addZone(zone2);
 
 	    	//Make 'morentilharald' responsible person for harald (from database 'id1'). This allows alarm finctionality
