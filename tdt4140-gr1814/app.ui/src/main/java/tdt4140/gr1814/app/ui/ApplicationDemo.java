@@ -13,6 +13,8 @@ import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.InputController;
 import tdt4140.gr1814.app.core.Patient;
 import tdt4140.gr1814.app.core.Point;
+import tdt4140.gr1814.app.core.Zone;
+import tdt4140.gr1814.app.core.ZoneTailored;
 
 public class ApplicationDemo extends Application{
 
@@ -29,8 +31,6 @@ public class ApplicationDemo extends Application{
     //public static String DeletePatientFile = "DeletePatient.fxml";
     public static String PatientOverviewID = "PatientOverview";
     public static String PatientOverviewFile = "PatientOverview.fxml";
-    //public static String MapZoneViewID = "MapZoneView";
-    //public static String MapZoneViewFile = "MapZoneView.fxml";
     
     
     @Override
@@ -74,11 +74,19 @@ public class ApplicationDemo extends Application{
 	    	Patient sigve = Patient.newPatient("SIGVE", "SVENKERUD", 'M', 90987654321l, 92809043, "sigves_mor@mail.no", "id3");
 	    	*/
 	    	//Setting zone of the two pre-existing patients from the database. Set center to Gløshaugen-area
-	    	Point center1 = new Point(Patient.getPatient("id1").getID(), 63.418140, 10.402736);
-	    	Patient.getPatient("id1").addZoneRadius(center1, 350.0);
+	    	Point upperLeft = new Point(Patient.getPatient("id1").getID(), 63.419943 , 10.398016);
+	    	Point upperRight = new Point(Patient.getPatient("id1").getID(), 63.420814 , 10.404067);
+	    	Point lowerRight = new Point(Patient.getPatient("id1").getID(), 63.416578 , 10.408401);
+	    	Point lowerLeft = new Point(Patient.getPatient("id1").getID(), 63.415330 , 10.401921);
+	    	Zone zone1 = new ZoneTailored(upperLeft,upperRight,lowerRight,lowerLeft);
+	    	Patient.getPatient("id1").addZone(zone1);
 
-	    	Point center2 = new Point(Patient.getPatient("id2").getID(), 63.418000, 10.402000);	    	
-	    	Patient.getPatient("id2").addZoneRadius(center2, 100.0);
+	    	Point upperLeft2 = new Point(Patient.getPatient("id1").getID(), 63.418153 , 10.400591);
+	    	Point upperRight2 = new Point(Patient.getPatient("id1").getID(), 63.418825 , 10.405054);
+	    	Point lowerRight2 = new Point(Patient.getPatient("id1").getID(), 63.417116 , 10.407114);
+	    	Point lowerLeft2 = new Point(Patient.getPatient("id1").getID(), 63.416636 , 10.403337); 	
+	    	Zone zone2 = new ZoneTailored(upperLeft2,upperRight2,lowerRight2,lowerLeft2);
+	    	Patient.getPatient("id2").addZone(zone2);
 
 	    	//Make 'morentilharald' responsible person for harald (from database 'id1'). This allows alarm finctionality
 	    	CareTaker HaraldsMother = new CareTaker("Harald's mother","pasword");

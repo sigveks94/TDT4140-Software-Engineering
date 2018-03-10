@@ -42,6 +42,7 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     
     @FXML//Change screen to 'mapView'-screen
     public void goToMap(ActionEvent event) {
+    		myController.getMapViewController().patientView();
 		myController.setScreen(ApplicationDemo.MapViewLayoutID);
     }
     

@@ -47,7 +47,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	GoogleMapView mapView;
 	@FXML
 	GoogleMap map;
-	
+	@FXML
+	Button overview_btn;
+	@FXML
+	Button menu_btn;
+
 	//This method recieves a number of patient objects that will appear on the map. Aswell as adding the patient to the hashmap this mapview controller adds itself as a listener to the patient object. Whenever
 	//a patient gets it location updated this controller object will be notified in order to update the marker on the map
 	public void addViewables(Patient... patients) {
@@ -145,7 +149,15 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		myController.setScreen(ApplicationDemo.HomescreenID);
 	}
 	
+	@FXML
+	public void goToOverview() {
+		patientView();
+		myController.setScreen(ApplicationDemo.PatientOverviewID);
+	}
+	
 	public void zoneView(Patient currentPatient) {
+		menu_btn.setVisible(false);
+		overview_btn.setVisible(true);
 		newZoneMap = true;
 		for (Patient p: Patient.patients) {
 			Marker marker = this.patientsOnMap.get(p);
@@ -186,6 +198,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	}
 	
 	public void patientView() {
+		menu_btn.setVisible(true);
+		overview_btn.setVisible(false);
 		newZoneMap = false;
 		if (mapPolygon != null) {mapPolygon.getPath().clear();}
 	}
