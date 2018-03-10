@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import tdt4140.gr1814.app.core.CareTaker;
+import tdt4140.gr1814.app.core.Caretaker;
 import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.InputController;
 import tdt4140.gr1814.app.core.Patient;
@@ -74,7 +74,7 @@ public class ApplicationDemo extends Application{
 	    	Patient.getPatient("id2").addZone(center2, 100.0);
 
 	    	//Make 'morentilharald' responsible person for harald (from database 'id1'). This allows alarm finctionality
-	    	CareTaker HaraldsMother = new CareTaker("Harald's mother","pasword");
+	    	Caretaker HaraldsMother = new Caretaker("Harald's mother","pasword");
 	    	Patient.getPatient("id1").addListeners(HaraldsMother); 	
 	    	
 	    //run both inputcontroller, handling inputstream, and the UI(application)

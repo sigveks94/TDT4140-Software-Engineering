@@ -77,7 +77,7 @@ public class Patient{
 	private Long SSN; //We will use the SSN as a key for finding the patient profile in the database
 	private int NoK_cellphone; //NoK  = next of kin
 	private String NoK_email;
-	private ArrayList<CareTaker> listeners = new ArrayList<CareTaker>(); 
+	private ArrayList<Caretaker> listeners = new ArrayList<Caretaker>(); 
 	//Location-related:
 	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
 	private ZoneRadius zone;
@@ -116,7 +116,7 @@ public class Patient{
 		return FirstName+" "+Surname;
 	}
 	
-	public ArrayList<CareTaker> getListeners(){
+	public ArrayList<Caretaker> getListeners(){
 		return this.listeners;
 	}
 
@@ -165,8 +165,8 @@ public class Patient{
 	}
 	
 
-	public void addListeners(CareTaker... caretakers) {
-		for (CareTaker c: caretakers) {
+	public void addListeners(Caretaker... caretakers) {
+		for (Caretaker c: caretakers) {
 			if (!(listeners.contains(c))) {
 				listeners.add(c);
 				if (!(c.getPatients().contains(this))) {
@@ -187,7 +187,7 @@ public class Patient{
 			screensController.OnPatientAlarm();
 			alarmSent = true;
 			}
-			for (CareTaker c: listeners) {
+			for (Caretaker c: listeners) {
 				c.incomingAlert(this, newLoc);
 				}
 		}else {alarmSent = false;} //the variable controlling that we only send one alarm-signal to controller is reset if patient is inside zone. 
