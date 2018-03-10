@@ -17,7 +17,7 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Button layoutX="531.0" layoutY="14.0" mnemonicParsing="false" onAction="#toggleProfile" prefHeight="28.0" prefWidth="55.0" style="-fx-background-color: #f3f4f7;" text="profile" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <Button fx:id="user_btn" layoutX="531.0" layoutY="14.0" mnemonicParsing="false" onAction="#toggleProfile" onMouseEntered="#Pdarken" onMouseExited="#Pbrighten" prefHeight="28.0" prefWidth="55.0" style="-fx-background-color: #f3f4f7;" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <graphic>
                   <ImageView fitHeight="45.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -28,58 +28,58 @@
             </Button>
          </children>
       </AnchorPane>
-      <Button fx:id="newProfile_btn" accessibleRole="IMAGE_VIEW" contentDisplay="CENTER" layoutX="54.0" layoutY="104.0" mnemonicParsing="false" onAction="#goToNewPatient" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #fd5c63;" AnchorPane.leftAnchor="54.0" AnchorPane.topAnchor="104.0">
+      <Button fx:id="newProfile_btn" accessibleRole="IMAGE_VIEW" contentDisplay="BOTTOM" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#goToNewPatient" onMouseEntered="#NPdarken" onMouseExited="#NPbrighten" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #e8715b;" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="105.0">
          <graphic>
-            <ImageView fitHeight="98.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="130.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@AddNewProfile.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Text fill="WHITE" layoutX="68.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Patient">
+      <Text fill="WHITE" layoutX="28.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Patient">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Button fx:id="MyPatients_btn" layoutX="214.0" layoutY="262.0" mnemonicParsing="false" onAction="#goToDeletePatient" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #1793d1;" AnchorPane.leftAnchor="214.0" AnchorPane.topAnchor="104.0">
+      <Button fx:id="MyPatients_btn" layoutX="174.0" layoutY="100.0" mnemonicParsing="false" onAction="#goToDeletePatient" onMouseEntered="#POdarken" onMouseExited="#PObrighten" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #30c39e;" AnchorPane.leftAnchor="174.0" AnchorPane.topAnchor="105.0">
          <graphic>
-            <ImageView fitHeight="98.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="128.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@innstillinger.png" />
+                  <Image url="@searcIcon.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Text fill="WHITE" layoutX="220.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Overview">
+      <Text fill="WHITE" layoutX="180.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Overview">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Button fx:id="ViewMap_btn" layoutX="54.0" layoutY="262.0" mnemonicParsing="false" onAction="#goToMap" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: c4dff6;" AnchorPane.leftAnchor="54.0" AnchorPane.topAnchor="262.0">
+      <Button fx:id="ViewMap_btn" layoutX="14.0" layoutY="258.0" mnemonicParsing="false" onAction="#goToMap" onMouseEntered="#PMdarken" onMouseExited="#PMbrighten" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: c4dff6;" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="265.0">
          <graphic>
-            <ImageView fitHeight="98.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="113.0" fitWidth="121.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Map_icon.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Text fill="WHITE" layoutX="68.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Map">
+      <Text fill="WHITE" layoutX="28.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Map">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Button fx:id="Settings_btn" layoutX="214.0" layoutY="104.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #30c39e;" AnchorPane.leftAnchor="214.0" AnchorPane.topAnchor="262.0">
+      <Button fx:id="Settings_btn" layoutX="174.0" layoutY="258.0" mnemonicParsing="false" onMouseEntered="#UBdarken" onMouseExited="#UBbrighten" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #4a8594;" AnchorPane.leftAnchor="174.0" AnchorPane.topAnchor="265.0">
          <graphic>
-            <ImageView fitHeight="90.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="90.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2">
                <image>
-                  <Image url="@patientrecords.png" />
+                  <Image url="@settingsIcon.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Text fill="WHITE" layoutX="226.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unused Button">
+      <Text fill="WHITE" layoutX="186.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unused Button">
          <font>
             <Font size="14.0" />
          </font>
