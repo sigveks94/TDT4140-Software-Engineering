@@ -13,7 +13,7 @@ public class GetCoordinatesFromMap {
 	public GetCoordinatesFromMap(MVCArray mvc) {
 		this.mvc = mvc;
 	}
-	public void calculate() {
+	public void calculate() { 
 		latLongSave = new ArrayList<>();
 		for (int i = 0 ; i < mvc.getLength() ; i++ ) {
 			LatLong tempLat = new LatLong(mvc.getAt(i));

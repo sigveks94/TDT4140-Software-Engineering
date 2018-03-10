@@ -16,5 +16,15 @@
          <font>
             <Font size="10.0" />
          </font></Button>
+      <Button fx:id="overview_btn" layoutX="103.0" layoutY="14.0" mnemonicParsing="false" onAction="#goToOverview" prefHeight="28.0" prefWidth="78.0" style="-fx-background-color: white;" text="&lt; Overview" textFill="#fd5c63" AnchorPane.leftAnchor="103.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
+      <Button fx:id="saveZone_btn" layoutX="505.0" layoutY="552.0" mnemonicParsing="false" onAction="#saveZone" prefHeight="28.0" prefWidth="78.0" style="-fx-background-color: white;" text="Save Zone &gt;" textFill="#fd5c63" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="50.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>
