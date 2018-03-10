@@ -10,12 +10,15 @@ import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
 import com.lynden.gmapsfx.javascript.object.LatLong;
+import com.lynden.gmapsfx.javascript.object.MVCArray;
 import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import com.lynden.gmapsfx.shapes.Circle;
 import com.lynden.gmapsfx.shapes.MapShapeOptions;
+import com.lynden.gmapsfx.shapes.Polygon;
+import com.lynden.gmapsfx.shapes.PolygonOptions;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +32,8 @@ import tdt4140.gr1814.app.core.Point;
 public class MapViewController implements Initializable, MapComponentInitializedListener, OnLocationChangedListener,ControlledScreen{
 
 	private ScreensController myController;
+	private boolean newZoneMap;//screen when adding new zone to a patient.
+	private Polygon mapPolygon;
 	
 	//The hashmap holds track of all the patients that are currently being displayed in the map. Each patient has a marker associated with it, and by passing the patient as key the associated marker is return as the value
 	private Map<Patient, Marker> patientsOnMap;
@@ -90,7 +95,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 					.position(new LatLong(p.getCurrentLocation().getLat(), p.getCurrentLocation().getLongt()))
 					.title(String.valueOf(p.getSSN())).visible(true)
 					.label(p.getFullName());
-			Marker marker = new Marker(markerOption);
+			Marker marker = new Marker(markerOption);			
 			map.addMarker(marker);
 			this.patientsOnMap.replace(p, marker);
 		}
@@ -123,7 +128,9 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		latlong = new LatLong(newLocation.getLat(), newLocation.getLongt());
 		marker = new Marker(new MarkerOptions().position(latlong).visible(true).label(patient.getFullName()));
 		this.patientsOnMap.replace(patient, marker);
+		if (!newZoneMap) {
 		map.addMarker(marker);
+		}
 	}
 
 	@Override
@@ -133,7 +140,37 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	
 	@FXML
 	public void goToHome(ActionEvent event) {
+		newZoneMap = false;
+		if (mapPolygon != null) {mapPolygon.getPath().clear();}
 		myController.setScreen(ApplicationDemo.HomescreenID);
+	}
+	
+	public void newZone(Patient currentPatient) {
+		newZoneMap = true;
+		for (Patient p: Patient.patients) {
+			Marker marker = this.patientsOnMap.get(p);
+			if (marker != null) {
+			map.removeMarker(marker);
+		}}
+		//creating default editable zone
+        LatLong lat1 = new LatLong(63.3,10.1);
+        LatLong lat2 = new LatLong(63.4,10.1);
+        LatLong lat3 = new LatLong(63.4,10.2);
+        LatLong lat4 = new LatLong(63.3,10.2);
+        
+        LatLong[] latArr = new LatLong[] {lat1,lat2,lat3,lat4};
+        MVCArray mvc = new MVCArray(latArr);
+        
+        PolygonOptions polyOpts = new PolygonOptions()
+        		.paths(mvc)
+        		.strokeColor("red")
+        		.fillColor("green")
+        		.editable(true)
+        		.strokeWeight(2)
+        		.fillOpacity(0.4);
+        
+        mapPolygon = new Polygon(polyOpts);
+        map.addMapShape(mapPolygon);
 	}
 	
 	

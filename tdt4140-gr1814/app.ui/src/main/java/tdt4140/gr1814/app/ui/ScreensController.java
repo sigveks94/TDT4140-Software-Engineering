@@ -19,6 +19,7 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
 	//Holds the screens to be displayed
     private HashMap<String, Node> screens = new HashMap<>();
     private static MapViewController MapController = new MapViewController();
+    private static MapZoneViewController MapZoneController = new MapZoneViewController();
     
     public ScreensController() {
         super();
@@ -43,9 +44,12 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
         try {
             FXMLLoader myLoader = new FXMLLoader(getClass().getResource(resource));
             if (name.equals("MapViewLayout")) {//Different way to add the controller for the MapViewLayout.fxml screen. 
-			MapController.addAllViewables(Patient.getAllPatients());//Adds all patient-objects from database to the map.
-			myLoader.setController(MapController);//make this controller, the controller of the screen
+            		MapController.addAllViewables(Patient.getAllPatients());//Adds all patient-objects from database to the map.
+            		myLoader.setController(MapController);//make this controller, the controller of the screen
 			}
+            if (name.equals("MapZoneView")) {
+            		myLoader.setController(MapZoneController);//make this controller, the controller of the screen
+            }
             Parent loadScreen = (Parent) myLoader.load();
             ControlledScreen myScreenControler = ((ControlledScreen) myLoader.getController());
             myScreenControler.setScreenParent(this);

@@ -29,6 +29,8 @@ public class ApplicationDemo extends Application{
     //public static String DeletePatientFile = "DeletePatient.fxml";
     public static String PatientOverviewID = "PatientOverview";
     public static String PatientOverviewFile = "PatientOverview.fxml";
+    //public static String MapZoneViewID = "MapZoneView";
+    //public static String MapZoneViewFile = "MapZoneView.fxml";
     
     
     @Override
@@ -42,6 +44,7 @@ public class ApplicationDemo extends Application{
         ScreensContainer.loadScreen(ApplicationDemo.AlarmID, ApplicationDemo.AlarmFile);
         //ScreensContainer.loadScreen(ApplicationDemo.DeletePatientID, ApplicationDemo.DeletePatientFile);
         ScreensContainer.loadScreen(ApplicationDemo.PatientOverviewID, ApplicationDemo.PatientOverviewFile);
+        //ScreensContainer.loadScreen(ApplicationDemo.MapZoneViewID, ApplicationDemo.MapZoneViewFile);
         
         ScreensContainer.setScreen(ApplicationDemo.HomescreenID);//screen is added to the root (set screen to the front of the stack).
         
