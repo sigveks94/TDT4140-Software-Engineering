@@ -2,6 +2,8 @@ package tdt4140.gr1814.app.core;
 
 import java.util.ArrayList;
 import java.util.Properties;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.*;
 
 public class Database {
@@ -151,7 +153,8 @@ public class Database {
 	}
 	
 	//returns an array with all the patients a caretaker is connected to
-	public ArrayList<ArrayList<String>> getCaretakersPatients(Caretaker caretaker) throws SQLException{
+	//TODO: Maybe make this return patient objects
+	public ArrayList<ArrayList<String>> retrieveCaretakersPatients(Caretaker caretaker) throws SQLException{
 		String username = caretaker.getUsername();
 		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName FROM PatientCaretaker "
 				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='"+username+"'";
@@ -159,8 +162,9 @@ public class Database {
 		
 	}
 	
-	//returns an array with all the caretakers that is connected to a patient
-	public ArrayList<ArrayList<String>> getPatientsCaretakers(Patient patient) throws SQLException{
+	//returns an array with all the caretakers that is connected to a patient.
+	//TODO: Make this return cartaker objects
+	public ArrayList<ArrayList<String>> retrievePatientsCaretakers(Patient patient) throws SQLException{
 		String patientSSN = Long.toString(patient.getSSN());
 		return query("SELECT PatientCaretaker.CaretakerUsername FROM PatientCaretaker "
 				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.PatSSN='"+patientSSN+"'");
@@ -175,29 +179,50 @@ public class Database {
 	
 	
 	//removes patient from the assigned caretaker
-	//TODO: Complete this method
-	public void removePatientFromCaretaker(Patient patient, Caretaker caretaker) {
-		
+	public void deletePatientCaretaker(Patient patient, Caretaker caretaker) {
+		String patientSSN = Long.toString(patient.getSSN());
+		String caretakerUsername = caretaker.getUsername();
+		update("DELETE FROM PatientCaretaker WHERE PatSSN = '"+patientSSN+"' AND CaretakerUsername = '"+caretakerUsername+"'");
 	}
 	
 	//TODO: make a method that returns the Zone a patient is connected to. this includes all the points in the zone in the right order
+	public ArrayList<ArrayList<String>> retrieveZone(Patient patient) throws SQLException {
+		String patientSSN=Long.toString(patient.getSSN());
+		return query("SELECT * FROM ZonePoint WHERE ZonePoint.ZoneID IN(SELECT ZoneID FROM Zone WHERE PatientSSN='"+patientSSN+"')");
+	}
 	//TODO: make a method that inserts points. Zone as input
-	//TODO: make a method that inserts a zone.
-	//TODO: make a method that inserts txt-files.
-	
-	
-	public static void main(String[] args) throws SQLException {
-		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
-		Patient p2 = Patient.newPatient("Hennie", "S�rensen", 'F', 99345678910l, 34534534, "hennie@gmail.com","id2");
+	//Maybe the lat and long can be PK?
+	public void insertZonePoints() {
 		
-		Caretaker c1 = new Caretaker("olsenboy","Engler123@");
-		Caretaker c2 = new Caretaker("motherofthree","Saga123@");
+	}
+	//TODO: make a method that inserts a zone. All zones must be connected to a person already in the db
+	public void insertZone(Patient patient, ZoneTailored zoneTailored) {
+		String SSN = Long.toString(patient.getSSN());
+		
+		
+	}
+	//this method inserts txt-files in the db
+	public void insertFile(int fileKey, String filename) throws FileNotFoundException {
+		FileHandler fh = new FileHandler();
+		String output = fh.read(filename);
+		update("INSERT INTO File(fileKey, text) VALUES("+fileKey+",'"+output+"')");
+	}
+	//retrieves txt-files from the db, returns a string
+	public String retrieveFile(int fileKey) throws SQLException {
+		return query("SELECT text FROM File WHERE fileKey="+fileKey).get(0).get(0);
+	}
+	
+	public static void main(String[] args) throws SQLException, FileNotFoundException {
+		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
+		//Patient p2 = Patient.newPatient("Hennie", "S�rensen", 'F', 99345678910l, 34534534, "hennie@gmail.com","id2");
+		//Caretaker c1 = new Caretaker("olsenboy","Engler123@");
+		//Caretaker c2 = new Caretaker("motherofthree","Saga123@");
 		
 		Database db = new Database();
 		db.connect();
-		System.out.println(db.retrievePatients());
-
-		
+		//db.insertFile(3, "test.txt");
+		//System.out.println(db.retrieveFile(3));
+		System.out.println(db.retrieveZone(p1));
 	}
 }
 
