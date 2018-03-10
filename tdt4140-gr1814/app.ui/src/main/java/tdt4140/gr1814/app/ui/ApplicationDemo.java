@@ -72,10 +72,10 @@ public class ApplicationDemo extends Application{
 	    	*/
 	    	//Setting zone of the two pre-existing patients from the database. Set center to Gløshaugen-area
 	    	Point center1 = new Point(Patient.getPatient("id1").getID(), 63.418140, 10.402736);
-	    	Patient.getPatient("id1").addZone(center1, 350.0);
+	    	Patient.getPatient("id1").addZoneRadius(center1, 350.0);
 
 	    	Point center2 = new Point(Patient.getPatient("id2").getID(), 63.418000, 10.402000);	    	
-	    	Patient.getPatient("id2").addZone(center2, 100.0);
+	    	Patient.getPatient("id2").addZoneRadius(center2, 100.0);
 
 	    	//Make 'morentilharald' responsible person for harald (from database 'id1'). This allows alarm finctionality
 	    	CareTaker HaraldsMother = new CareTaker("Harald's mother","pasword");

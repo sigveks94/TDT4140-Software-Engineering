@@ -94,7 +94,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			map.addMarker(marker);
 			this.patientsOnMap.replace(p, marker);
 		}
-		
+		//Implementing tailored zone
+		/*
 		//Adds the zone for each patient to the map so its visible for the user
 		for(Patient p : this.patientsOnMap.keySet()) {
 			if(p.getZone() == null) {
@@ -104,7 +105,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			zone.setCenter(p.getZone().getCentre().getLatLong());
 			zone.setRadius(p.getZone().getRadius());
 			map.addMapShape(zone);
-		}
+		}*/
 		
 	}
 
