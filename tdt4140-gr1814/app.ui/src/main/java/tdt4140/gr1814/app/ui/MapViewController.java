@@ -40,8 +40,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	@FXML
 	GoogleMapView mapView;
 	@FXML
-	Button back_button;
-	
 	GoogleMap map;
 	
 	//This method recieves a number of patient objects that will appear on the map. Aswell as adding the patient to the hashmap this mapview controller adds itself as a listener to the patient object. Whenever
