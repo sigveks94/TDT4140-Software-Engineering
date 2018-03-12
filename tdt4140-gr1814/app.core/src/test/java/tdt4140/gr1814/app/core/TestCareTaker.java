@@ -46,7 +46,7 @@ public class TestCareTaker {
 	@Test
 	public void checkGetAndAddPatients() {
 		Patient pat = Patient.newPatient("ForN","EtterN",'M',24076787291L,19747298,"example@ntnu.no","A92");
-		cT.addPatient(pat);
+		cT.addPatients(pat);
 		assertEquals(cT.getPatients().get(0),pat);
 	}
 	@Test
@@ -55,6 +55,7 @@ public class TestCareTaker {
 		pat.addListeners(cT);
 		assertEquals(pat.getListeners().get(0),cT);
 	}
+	
 	
 	@After
 	public void shutdown() {

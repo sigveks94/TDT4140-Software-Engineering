@@ -110,6 +110,16 @@ public class PatientTest {
 		assertEquals(patient.getGender(),"Male");
 		assertEquals(patient2.getGender(),"Female");
 	}
+	@Test
+	public void getPatient() {
+		assertEquals(Patient.getPatient("H822"),patient);
+	}
+	@Test
+	public void changeLocation() {
+		Point poi = new Point("H273",52.3,43.7);
+		patient.changeLocation(poi);
+		assertEquals(patient.getCurrentLocation(),poi);
+	}
 	
 	@After
 	public void tearDown() {

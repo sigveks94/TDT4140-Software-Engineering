@@ -56,36 +56,36 @@ public class Patient{
 		return patients;
 	}
 	
-	
-	
-	//Instance
-	
-	List<OnLocationChangedListener> locationListeners;
-	//Screencontroller running with the ApplicationDemo. Used in changeLocation() if patient is outside zone.
-	private boolean alarmSent = false;
-	OnPatientAlarmListener screensController;
-	
-	
-	public void registerListener(OnLocationChangedListener listener) {
-		if(!this.locationListeners.contains(listener)) {
-			this.locationListeners.add(listener);
+	public static boolean deletePatient(Long patientSSN) {
+		for (Patient p : patients) {
+			System.out.println(p.getSSN());
+			if(p.getSSN().equals(patientSSN)) {
+				patients.remove(p);
+				return true;
+			}
 		}
-		
+		return false;
 	}
 	
 	
+//Instance
 	
+	//Patient information:
 	private String FirstName;
 	private String Surname;
 	private char  Gender;
 	private Long SSN; //We will use the SSN as a key for finding the patient profile in the database
 	private int NoK_cellphone; //NoK  = next of kin
 	private String NoK_email;
-	private ArrayList<CareTaker> listeners = new ArrayList<CareTaker>();
+	private ArrayList<CareTaker> listeners = new ArrayList<CareTaker>(); 
 	//Location-related:
 	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
-	private ZoneRadius zone;
+	private Zone zone;
 	private Point currentLocation;
+	private List<OnLocationChangedListener> locationListeners;//Screencontroller running with the ApplicationDemo. Used in changeLocation() if patient is outside zone.
+	private boolean alarmSent = false;
+	private OnPatientAlarmListener screensController;
+	private boolean alarmActivated = true;
 	
 	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email,String deviceID) {
 		this.FirstName = FirstName;
@@ -103,17 +103,21 @@ public class Patient{
 	public String getFirstName() {
 		return FirstName;
 	}
-	
-	public ArrayList<CareTaker> getListeners(){
-		return this.listeners;
-	}
-	
 	public String getSurname() {
 		return Surname;
 	}
-	
+	public void deactivateAlarm() {
+		this.alarmActivated=false;
+	}
+	public void activateAlarm() {
+		this.alarmActivated=true;
+	}
 	public String getFullName() {
 		return FirstName+" "+Surname;
+	}
+	
+	public ArrayList<CareTaker> getListeners(){
+		return this.listeners;
 	}
 
 	public String getGender() {
@@ -143,15 +147,20 @@ public class Patient{
 	public String getID() {
 		return DeviceID;
 	}
-	
 	public void addZone(Point p, Double radius){
 		this.zone= new ZoneRadius(p, radius);
 	}
-	public void addZone(ZoneRadius zone) {
+	public void addZone(Zone zone) {
 		this.zone = zone;
 	}
-	public ZoneRadius getZone() {
+	public Zone getZone() {
 		return this.zone;
+	}
+	
+	public void registerListener(OnLocationChangedListener listener) { //connects the ScreensController to the patient
+		if(!this.locationListeners.contains(listener)) {
+			this.locationListeners.add(listener);
+		}	
 	}
 	
 
@@ -165,15 +174,15 @@ public class Patient{
 			}
 		}
 	}
-	
-	//This is the only way to update the current location of the patient object. Aswell as updating the location it notifies all location listeners and if needed the responsible care takers.
+	//This is the only way to update the current location of the patient object. 
+	//Aswell as updating the location it notifies all location listeners and if needed the responsible care takers.
 	public void changeLocation(Point newLoc) {
 		//Updates the current location
 		this.currentLocation = newLoc;
 		
 		//If the current location is outside any permitted zone the respinsible care taker is alerted
-		if (!(zone.isInsideZone(newLoc))) { //We need to add some kind of connection to the ScreensController so that we can display the alarmScreen.fxml
-			if(!(screensController == null) && alarmSent == false) { //alarm is only set of once, the first time the patien is outside permitted zone.
+		if (zone != null && !(zone.isInsideZone(newLoc))) { 
+			if(((!(screensController == null) && alarmSent == false)) && (this.alarmActivated)) { //alarm is only set of once, the first time the patien is outside permitted zone also checks if alarm is activated.
 			screensController.OnPatientAlarm();
 			alarmSent = true;
 			}
@@ -182,8 +191,6 @@ public class Patient{
 				}
 		}else {alarmSent = false;} //the variable controlling that we only send one alarm-signal to controller is reset if patient is inside zone. 
 		
-		
-		String devId = this.DeviceID;
 		
 		//This notifies all location listeners with the new location
 		for(OnLocationChangedListener l: this.locationListeners) {
@@ -196,7 +203,7 @@ public class Patient{
 						locationListeners.remove(l);
 						return;
 					}
-					l.onLocationChanged(devId, newLoc);
+					l.onLocationChanged(DeviceID, newLoc);
 				}
 			});
 		}
@@ -208,7 +215,12 @@ public class Patient{
 	
 	@Override
 	public String toString() {
-		String output = "Patient Profile\nName: "+this.getFullName()+"\nGender: "+this.getGender()+"\nSSN: "+this.getSSN()+"\nDevice ID: "+this.getID()+"\nNext of kin\nMobile: "+this.getNoK_cellphone()+"\nEmail: "+this.getNoK_email();
+		String output = "Patient Profile\nName: "+this.getFullName()+
+						"\nGender: "+this.getGender()+
+						"\nSSN: "+this.getSSN()+
+						"\nDevice ID: "+this.getID()+
+						"\nNext of kin\nMobile: "+this.getNoK_cellphone()+
+						"\nEmail: "+this.getNoK_email();
 		return output;
 	}
 

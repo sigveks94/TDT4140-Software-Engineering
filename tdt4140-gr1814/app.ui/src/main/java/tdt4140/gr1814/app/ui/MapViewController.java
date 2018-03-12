@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 import com.lynden.gmapsfx.GoogleMapView;
@@ -18,7 +17,6 @@ import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import com.lynden.gmapsfx.shapes.Circle;
 import com.lynden.gmapsfx.shapes.MapShapeOptions;
 
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -66,31 +64,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mapView.addMapInitializedListener(this); 
-		//this.track();
 	}
 
-
-	/*public void track() {//this is a temporary simulation of the tracking.
-		Task task = new Task<Void>() {
-            @Override
-            public Void call() {
-                while (true) {
-                	for (Patient p: Patient.patients) {
-                		 	p.changeLocation(new Point(p.getID(), p.getCurrentLocation().getLat() - 0.00003, p.getCurrentLocation().getLongt() + 0.00007 ));
-                	}
-                 try {
-						Thread.sleep(1000);
-				}catch (InterruptedException e) {
-						System.out.println("error in: Thread.sleep(1000);");
-						e.printStackTrace();
-					}
-                }
-            }
-        }; 
-        Thread simu_thread = new Thread(task);
-        simu_thread.setDaemon(true);
-        simu_thread.start();
-	}*/
 	
 	@Override
 	public void mapInitialized() {
@@ -99,14 +74,23 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		
 		//Sets the mapview type, denies clickable icons like markers marking shops and other facilities, disables streetview and enables zoomcontrol.
 		MapOptions mapOptions = new MapOptions();
-		mapOptions.center(mapCenter).zoom(14).mapType(MapTypeIdEnum.ROADMAP).clickableIcons(false).streetViewControl(false).zoomControl(true).fullscreenControl(false);
+		mapOptions.center(mapCenter)
+				  .zoom(13).mapType(MapTypeIdEnum.ROADMAP)
+				  .clickableIcons(false)
+				  .streetViewControl(false)
+				  .zoomControl(true)
+				  .fullscreenControl(false);
 		
 		map = mapView.createMap(mapOptions);
 		
 		//For every patient a marker is created and placed on the map on the location associated with each patient. The hashmap is updated aswell
 		for(Patient p: this.patientsOnMap.keySet()) {
+			if(p.getCurrentLocation() == null) {
+				continue;
+			}
 			MarkerOptions markerOption = new MarkerOptions()
-					.position(new LatLong(p.getCurrentLocation().getLat(), p.getCurrentLocation().getLongt())).title(String.valueOf(p.getSSN())).visible(true)
+					.position(new LatLong(p.getCurrentLocation().getLat(), p.getCurrentLocation().getLongt()))
+					.title(String.valueOf(p.getSSN())).visible(true)
 					.label(p.getFullName());
 			Marker marker = new Marker(markerOption);
 			map.addMarker(marker);
@@ -115,6 +99,9 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		
 		//Adds the zone for each patient to the map so its visible for the user
 		for(Patient p : this.patientsOnMap.keySet()) {
+			if(p.getZone() == null) {
+				continue;
+			}
 			Circle zone = new Circle();
 			zone.setCenter(p.getZone().getCentre().getLatLong());
 			zone.setRadius(p.getZone().getRadius());
@@ -127,7 +114,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	//The old marker associated with the patient is removed and a new is placed on the map with the new location. The hashmap is also updated.
 	@Override
 	public void onLocationChanged(String deviceId, Point newLocation) {
-		
 		Patient patient = Patient.getPatient(deviceId);
 		
 		Marker marker = this.patientsOnMap.get(patient);

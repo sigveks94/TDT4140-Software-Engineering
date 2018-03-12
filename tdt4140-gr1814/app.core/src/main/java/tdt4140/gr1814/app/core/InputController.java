@@ -11,7 +11,13 @@ public final class InputController {
 	//temporary simulation of recieving data and updating Patients currentLocation. 
 			static String inputstream = 
 					"id1:63.418140 10.402736 \r\n" +//1gamle kjemi
+					"id2:63.418000 10.402000 \r\n" +
+					"id1:63.418148 10.402730 \r\n" +//---1gamle kjemi
+					"id2:63.418008 10.402006 \r\n" + 
+					"id1:63.418140 10.402739 \r\n" +//1gamle kjemi
 					"id2:63.418000 10.402000 \r\n" + 
+					"id1:63.418148 10.402730 \r\n" +//1gamle kjemi
+					"id2:63.418002 10.402009 \r\n" + //---
 					"id1:63.418389 10.402392 \r\n" +//1
 					"id2:63.418010 10.402000 \r\n" + 
 					"id1:63.418663 10.402103 \r\n" +//1
@@ -43,8 +49,10 @@ public final class InputController {
 					"id1:63.422013 10.399308 \r\n" +//1lyskryss
 					"id2:63.418320 10.402000 \r\n" + 
 					"id1:63.422015 10.399309 \r\n" +//1lyskryss
+					"id3:63.424283 10.390847 \r\n" +//id3 nidelven
 					"id2:63.418425 10.402000 \r\n" + 
 					"id1:63.422234 10.399233 \r\n" +//1bunnpris
+					"id3:63.423890 10.395435 \r\n" +//id3 nidelven
 					"id2:63.418220 10.402000 \r\n" +
 					"id1:63.422234 10.399233 \r\n" +//1bunnpris
 					"id2:63.418370 10.402000 \r\n" + 
@@ -56,13 +64,37 @@ public final class InputController {
 					"id2:63.418120 10.402000 \r\n" +
 					"id1:63.421989 10.399383 \r\n" +//1
 					"id2:63.418250 10.402000 \r\n" + 
-					"id1:63.421806 10.399522";//1
+					"id1:63.421806 10.399522 \r\n" +//1
+					"id2:63.418230 10.402010 \r\n" + 
+					"id1:63.421743 10.399574 \r\n" +//1 
+					"id2:63.418210 10.402020 \r\n" + 
+					"id1:63.421444 10.399767 \r\n" +//1
+					"id2:63.418200 10.402030 \r\n" + 
+					"id1:63.421243 10.399874 \r\n" +//1
+					"id2:63.418220 10.402040 \r\n" + 
+					"id1:63.421108 10.400067 \r\n" +//1
+					"id2:63.418230 10.402050 \r\n" + 
+					"id1:63.420983 10.400389 \r\n" +//1
+					"id2:63.418240 10.402060 \r\n" + 
+					"id1:63.420811 10.400540 \r\n" +//1
+					"id2:63.418250 10.402070 \r\n" + 
+					"id1:63.420647 10.400754 \r\n" +//1
+					"id2:63.418240 10.402060 \r\n" + 
+					"id1:63.420484 10.400947 \r\n" +//1
+					"id2:63.418250 10.402070 \r\n" + 
+					"id1:63.420340 10.401119 \r\n" +//1
+					"id2:63.418250 10.402070 \r\n" + 
+					"id1:63.420177 10.401248 \r\n" +//1
+					"id2:63.418240 10.402060 \r\n" + 
+					"id1:63.419995 10.401484 \r\n" +//1
+					"id2:63.418250 10.402070 \r\n" + 
+					"id1:63.419783 10.401612";
 
 
 	public static void metamorphise() throws IOException{ 
 		BufferedReader reader = new BufferedReader(new StringReader(inputstream));//uses the temporary static String
 		//solution to get while-loop running at the same time as main thread running UI.
-		Task task = new Task<Void>() {
+		Task<Void> task = new Task<Void>() {
 	        @Override
 	        public Void call() throws IOException {
 	        		String line = "";
@@ -81,7 +113,7 @@ public final class InputController {
 		        				}
 	        		}            	
 	             try {
-						Thread.sleep(1000);
+						Thread.sleep(1200);
 				}catch (InterruptedException e) {
 						System.out.println("error in: Thread.sleep(1000);");
 						e.printStackTrace();
@@ -100,15 +132,8 @@ public final class InputController {
 		}
 		
 
-		
-
-		
-
 
 /*
-public ArrayList<Point> getPoints(){
-	return this.inputPoints;
-}
 
 @Override 
 public String toString() {
