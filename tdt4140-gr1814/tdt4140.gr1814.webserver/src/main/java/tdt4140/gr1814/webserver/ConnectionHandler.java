@@ -13,8 +13,6 @@ public class ConnectionHandler {
 	private Statement myStmt;
 	private ResultSet myRs=null;
 	
-	//THIS CLASS DOES NOT PROVIDE THE NECESSARY SECURITY FOR DATABASE MANIPULATION, THIS WILL BE IMPLEMENTED IN LATER SPRINTS
-	
 	
 	//connecting to the db
 	public void connect() {
