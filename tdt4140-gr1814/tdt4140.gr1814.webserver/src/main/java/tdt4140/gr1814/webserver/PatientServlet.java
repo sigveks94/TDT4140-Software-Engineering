@@ -2,6 +2,8 @@ package tdt4140.gr1814.webserver;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +23,13 @@ public class PatientServlet extends HttpServlet{
 	//Serial Version, if the servlet ever changes something that will have inpact on the http request,
 	//the serial version should also be updated
 	private static final long serialVersionUID = 1L;
+	
+	ConnectionHandler databaseConnection;
+	
+	public PatientServlet() {
+		databaseConnection = new ConnectionHandler();
+		databaseConnection.connect();
+	}
 	
 	/*
 	 * Get requests can handle following inputs and outputs:
@@ -49,9 +58,21 @@ public class PatientServlet extends HttpServlet{
 	private void getPatient(long SSN) {
 		//Dummy
 	}
+
 	
 	//Returns an array of all patients associated with the given caretaker
-	private Patient[] getMultiplePatients(String caretakerId) {
+	private ArrayList<ArrayList<String>> getMultiplePatients(String caretakerUsername) {
+		
+		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName FROM PatientCaretaker "
+				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='"+caretakerUsername+"'";
+		try {
+			ArrayList<ArrayList<String>> temp = databaseConnection.query(queryString);
+			System.out.println(temp);
+			return temp;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return null;
 	}
@@ -61,7 +82,5 @@ public class PatientServlet extends HttpServlet{
 		Gson jsonParser = new Gson();
 		return jsonParser.toJson(o);
 	}
-
-	
 	
 }

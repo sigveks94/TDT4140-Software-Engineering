@@ -8,24 +8,13 @@ xmlns="http://xmlns.jcp.org/xml/ns/javaee"
    version="3.1">
    
 	<display-name>Java Servlet</display-name>
-	<servlet>
-		<servlet-name>server</servlet-name>
-		<servlet-class>tdt4140.gr1814.webserver.Server</servlet-class>
-	</servlet>
 	
 	<servlet>
-		<servlet-name>getPatients</servlet-name>
-		<servlet-class>tdt4140.gr1814.webserver.FetchPatients</servlet-class>
+		<servlet-name>PatientServlet</servlet-name>
+		<servlet-class>tdt4140.gr1814.webserver.PatientServlet</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
-		<servlet-name>server</servlet-name>
-		<url-pattern>/test/*</url-pattern>
+		<servlet-name>PatientServlet</servlet-name>
+		<url-pattern>/patient/*</url-pattern>
 	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>getPatients</servlet-name>
-		<url-pattern>/get_patients</url-pattern>
-	</servlet-mapping>
-	
 </web-app>
