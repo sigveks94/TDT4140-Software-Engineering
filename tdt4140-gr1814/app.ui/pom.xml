@@ -18,11 +18,11 @@
 					<value>true</value>
 				</property>
 			</activation>
-			<!-- 
+			 
 			<properties>
 				<skip-ui-tests>true</skip-ui-tests>
 			</properties>
-			 -->
+			
 			<dependencies>
 				<dependency>
 		            <groupId>org.testfx</groupId>
