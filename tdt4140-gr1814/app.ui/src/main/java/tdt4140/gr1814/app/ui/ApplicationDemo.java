@@ -99,7 +99,7 @@ public class ApplicationDemo extends Application{
 	    	Patient.getPatient("id2").addZone(zone2);
 
 	    	//Make 'morentilharald' responsible person for harald (from database 'id1'). This allows alarm finctionality
-	    	Caretaker HaraldsMother = new Caretaker("Harald's mother","pasword");
+	    	Caretaker HaraldsMother = new Caretaker("Harald's mother","pasword","Heimstadveien 88");
 	    	Patient.getPatient("id1").addListeners(HaraldsMother); 	
 	    	
 	    //run both inputcontroller, handling inputstream, and the UI(application)
