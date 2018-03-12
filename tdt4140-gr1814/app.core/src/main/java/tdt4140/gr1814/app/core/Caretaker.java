@@ -7,13 +7,15 @@ public class Caretaker {
 
 	private String Username;
 	private String Password;
+	private String Address;
 	private ArrayList <Patient> Patients= new ArrayList<Patient>();
 	public static final String PasswordRegex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
 	
 	
-	public Caretaker(String Username, String Password) {
+	public Caretaker(String Username, String Password, String address) {
 		this.setUsername(Username);
-		this.setPassword(Password);	
+		this.setPassword(Password);
+		this.Address=address;
 	}
 	
 	public void addPatient(Patient...patient) {
@@ -44,6 +46,10 @@ public class Caretaker {
 
 	public String getPassword() {
 		return Password;
+	}
+	
+	public String getAddress() {
+		return Address;
 	}
 
 
