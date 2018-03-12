@@ -7,6 +7,9 @@ public class Caretaker {
 
 	private String Username;
 	private String Password;
+	private String Adress;
+
+
 	private ArrayList <Patient> Patients= new ArrayList<Patient>();
 	public static final String PasswordRegex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
 	
@@ -25,6 +28,14 @@ public class Caretaker {
 				}
 			}
 		}
+	}
+	
+	public String getAdress() {
+		return Adress;
+	}
+
+	public void setAdress(String adress) {
+		Adress = adress;
 	}
 	
 	public void incomingAlert(Patient patient, Point point) {

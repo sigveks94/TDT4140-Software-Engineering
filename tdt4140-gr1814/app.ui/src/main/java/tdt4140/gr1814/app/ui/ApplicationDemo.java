@@ -20,11 +20,8 @@ import tdt4140.gr1814.app.core.ZoneTailored;
 public class ApplicationDemo extends Application{
 	
 	//temporary info for caretaker
-	public static String username;
-	public static String adress;
-	public static String password;
-
-   
+	public static Caretaker applicationUser;
+	//nickname and filename for screens used in the application
     public static String HomescreenID = "HomeScreen";
     public static String HomescreenFile = "HomeScreenGUI.fxml";
     public static String NewPatientID = "NewPatient";
@@ -49,22 +46,20 @@ public class ApplicationDemo extends Application{
         
         StackPane root = new StackPane();//Back-to-front stack of children
         root.getChildren().addAll(ScreensContainer);//adds all screens from the ScreensContainer to the StackPane
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,700,500);
         stage.setScene(scene);
-        //just for fun. Adding logo and title to the Java-application 
+        //just for fun. Adding logo to the Java-application bar.
         stage.getIcons().add(new Image(ApplicationDemo.class.getResourceAsStream("RedCross.png"))); 
-        stage.setTitle("Demo Sprint1");
-        stage.setWidth(700);
-        stage.setHeight(500);
         stage.show();
     }
 
 
 	public static void main(String[] args) throws SQLException, IOException {
-	    	//Demo Simulation. Loading pre-existing Person objects form database. 
-		ApplicationDemo.username = "Tempe Omsorgsenter";
-		ApplicationDemo.adress = "Valøyvegen 12, \n7031 Trondheim, Norge";
-	    
+	    	//Demo Simulation. 
+		ApplicationDemo.applicationUser = new Caretaker("Tempe Omsorgsenter","passord");
+		ApplicationDemo.applicationUser.setAdress("Valøyvegen 12, \n7031 Trondheim, Norge");
+		
+	    //Loading pre-existing Person objects form database.
 		Database database = new Database();
 	    	database.connect();
 	    	database.retrievePatients();
@@ -84,12 +79,13 @@ public class ApplicationDemo extends Application{
 	    	Patient.getPatient("id1").addZone(zone1);
 
 	    	ArrayList<Point> points2 = new ArrayList<>();
-	    	points2.add(new Point(Patient.getPatient("id1").getID(), 63.418153 , 10.400591));
-	    	points2.add(new Point(Patient.getPatient("id1").getID(), 63.418825 , 10.405054));
-	    	points2.add(new Point(Patient.getPatient("id1").getID(), 63.417116 , 10.407114));
-	    	points2.add(new Point(Patient.getPatient("id1").getID(), 63.416636 , 10.403337)); 	
+	    	points2.add(new Point(Patient.getPatient("id2").getID(), 63.418153 , 10.400591));
+	    	points2.add(new Point(Patient.getPatient("id2").getID(), 63.418825 , 10.405054));
+	    	points2.add(new Point(Patient.getPatient("id2").getID(), 63.417116 , 10.407114));
+	    	points2.add(new Point(Patient.getPatient("id2").getID(), 63.416636 , 10.403337)); 	
 	    	Zone zone2 = new ZoneTailored(points2);
 	    	Patient.getPatient("id2").addZone(zone2);
+	    	Patient.getPatient("id2").setAlarmActivated(false);
 
 	    	//Make 'morentilharald' responsible person for harald (from database 'id1'). This allows alarm finctionality
 	    	Caretaker HaraldsMother = new Caretaker("Harald's mother","pasword");
