@@ -17,6 +17,7 @@ public int getNumberOfPoints() {
 public ArrayList<Point> getPoints(){
 	return this.points;
 }
+@Override
 public ArrayList<ArrayList<Double>> getPointsToDatabaseFormat(){ //RETURNS THIS ZONE WITH ITS POINTS AS A DOUBLE ARRAY IN ORDER TO USE INDEXES AS ORDER NUMBER
 	ArrayList<ArrayList<Double>> arrayToDB = new ArrayList<>();
 	for (Point p:points) {
