@@ -33,7 +33,6 @@ public class PatientServlet extends HttpServlet{
 	
 	/*
 	 * Get requests can handle following inputs and outputs:
-	 * - SSN : returns single patient
 	 * - caretaker_id: returns all the patients associated with this care taker
 	 */
 	
@@ -53,10 +52,6 @@ public class PatientServlet extends HttpServlet{
 		}
 		
 		
-	}
-	
-	private void getPatient(long SSN) {
-		//Dummy
 	}
 
 	
