@@ -173,6 +173,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		}}
 		PolygonOptions polyOpts;
 		LatLong[] latArr;
+		String fillcolor = null;
 		if (currentPatient.getZone() == null) {
 	        LatLong lat1 = new LatLong(63.426508,10.394743);
 	        LatLong lat2 = new LatLong(63.426451,10.397103);
@@ -180,6 +181,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	        LatLong lat4 = new LatLong(63.425414,10.394529);
 	        
 	        latArr = new LatLong[] {lat1,lat2,lat3,lat4};
+	        fillcolor = "red";
 	        
 		} else {
 			ArrayList<LatLong> latLongArrayList = new ArrayList<>();
@@ -190,17 +192,18 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			for (int i = 0; i < latLongArrayList.size(); i++) {
 				latArr[i] = latLongArrayList.get(i);
 			}
-			
+			fillcolor = "green";
 		}
 		MVCArray mvc = new MVCArray(latArr);
         polyOpts = new PolygonOptions()
         		.paths(mvc)
-        		.strokeColor("red")
-        		.fillColor("green")
+        		.strokeColor("black")
+        		.fillColor(fillcolor)
         		.editable(true)
-        		.strokeWeight(2)
+        		.strokeWeight(1)
         		.fillOpacity(0.4);
         mapPolygon = new Polygon(polyOpts);
+        mapPolygon.setDraggable(true);
         map.addMapShape(mapPolygon);
 	}
 	
@@ -222,6 +225,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		}
 		currentPatient.addZone(new ZoneTailored(pointList));
 		System.out.println("SAVING...");
+		map.removeMapShape(mapPolygon);
+		zoneView(currentPatient);
 	}
 	
 	
