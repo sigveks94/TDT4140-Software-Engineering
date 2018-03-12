@@ -200,7 +200,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		saveZone_btn.setVisible(false);
 		newZoneMap = false;
 		if (mapPolygon != null) {mapPolygon.getPath().clear();}
-		
+		 //display last location when opening map. solves problem of dissapearing markers when inputstream is over
 		for (Patient p: Patient.patients) { //display last location when opening map. solves problem of dissapearing markers when inputstream is over
 			if (p.getCurrentLocation() != null) {
 			onLocationChanged(p.getID(),p.getCurrentLocation());
