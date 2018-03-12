@@ -19,6 +19,7 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
 	//Holds the screens to be displayed
     private HashMap<String, Node> screens = new HashMap<>();
     private static MapViewController MapController = new MapViewController();
+    private static PatientOverviewController OverviewController = new PatientOverviewController();
     
     public ScreensController() {
         super();
@@ -46,6 +47,9 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
             		MapController.addAllViewables(Patient.getAllPatients());//Adds all patient-objects from database to the map.
             		myLoader.setController(MapController);//make this controller, the controller of the screen
 			}
+            if (name.equals("PatientOverview")) {//Different way to add the controller for the PatientOverview.fxml screen. 
+        		myLoader.setController(OverviewController);//make this controller, the controller of the screen
+		}         
             Parent loadScreen = (Parent) myLoader.load();
             ControlledScreen myScreenControler = ((ControlledScreen) myLoader.getController());
             myScreenControler.setScreenParent(this);
@@ -82,6 +86,9 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
     public MapViewController getMapViewController() {
     		return MapController;
     }
+    public PatientOverviewController getOverviewController() {
+		return OverviewController;
+}
 
 	@Override
 	public void OnPatientAlarm() { //this class implements onPatientAlarmListener. Function 'catches' alarm set of in patient class
