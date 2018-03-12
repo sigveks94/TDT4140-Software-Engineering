@@ -82,7 +82,6 @@ public class Database {
 		try {
             myStmt = myConn.createStatement();
             myStmt.executeUpdate(query);
-            System.out.println("Success.");
         } catch (Exception e) {
             System.out.println("The update query failed. Check your sql syntax.");
             e.printStackTrace();
@@ -177,7 +176,6 @@ public class Database {
 		update("INSERT INTO PatientCaretaker(PatSSN, DepUsername) VALUES('"+patientSSN+"','"+username+"');");
 	}
 	
-	
 	//removes patient from the assigned caretaker
 	public void deletePatientCaretaker(Patient patient, Caretaker caretaker) {
 		String patientSSN = Long.toString(patient.getSSN());
@@ -185,44 +183,70 @@ public class Database {
 		update("DELETE FROM PatientCaretaker WHERE PatSSN = '"+patientSSN+"' AND CaretakerUsername = '"+caretakerUsername+"'");
 	}
 	
-	//TODO: make a method that returns the Zone a patient is connected to. this includes all the points in the zone in the right order
+	//A method that inserts a zone. All zones must be connected to a person already in the db
+	public void insertZone(Patient patient, ZoneTailored zoneTailored) throws SQLException {
+		String SSN = Long.toString(patient.getSSN());
+		ArrayList<ArrayList<Double>> zonePoints = zoneTailored.getPointsToDatabaseFormat();
+		int zoneID = generateZoneKey();
+		update("INSERT INTO Zone(ZoneID, PatientSSN) VALUES("+zoneID+",'"+SSN+"')");
+		for (int i=0;i<zonePoints.size(); i++) {
+			update("INSERT INTO ZonePoint(ZonePointID, Lat, Longt, PointOrder, ZoneID) VALUES("+generateZonePointKey()+","+zonePoints.get(i).get(0)+","+zonePoints.get(i).get(1)+", "+i+","+zoneID+")");
+		}
+	}
+	
+	//returns the Zone a patient is connected to. this includes all the points in the zone in the right order
 	public ArrayList<ArrayList<String>> retrieveZone(Patient patient) throws SQLException {
 		String patientSSN=Long.toString(patient.getSSN());
 		return query("SELECT * FROM ZonePoint WHERE ZonePoint.ZoneID IN(SELECT ZoneID FROM Zone WHERE PatientSSN='"+patientSSN+"')");
 	}
-	//TODO: make a method that inserts points. Zone as input
-	//Maybe the lat and long can be PK?
-	public void insertZonePoints() {
-		
-	}
-	//TODO: make a method that inserts a zone. All zones must be connected to a person already in the db
-	public void insertZone(Patient patient, ZoneTailored zoneTailored) {
-		String SSN = Long.toString(patient.getSSN());
-		
-		
-	}
+	
 	//this method inserts txt-files in the db
 	public void insertFile(int fileKey, String filename) throws FileNotFoundException {
 		FileHandler fh = new FileHandler();
 		String output = fh.read(filename);
 		update("INSERT INTO File(fileKey, text) VALUES("+fileKey+",'"+output+"')");
 	}
+	
 	//retrieves txt-files from the db, returns a string
 	public String retrieveFile(int fileKey) throws SQLException {
 		return query("SELECT text FROM File WHERE fileKey="+fileKey).get(0).get(0);
 	}
 	
+	//finds the maximum id number in the zone table.
+	public int findMaxIDZone() throws SQLException {
+		ArrayList<ArrayList<String>> maxID = query("SELECT MAX(ZoneID) FROM Zone");
+		String id = maxID.get(0).get(0);
+		if(id==null) {
+			return 0;
+		}
+		return Integer.parseInt(id);
+	}
+	
+	//finds the maximum id number in the zonePoint table.
+	public int findMaxIDZonePoint() throws SQLException {
+		ArrayList<ArrayList<String>> maxID = query("SELECT MAX(ZonePointID) FROM ZonePoint");
+		String id = maxID.get(0).get(0);
+		if(id==null) {
+			return 0;
+		}
+		return Integer.parseInt(id);
+	}
+	
+	//generates a key for a ZonePoint based on the maxId already in the db
+	public int generateZonePointKey() throws SQLException {
+		int maxKey=findMaxIDZonePoint();
+		return maxKey+=1;
+	}
+	
+	//generates a key for a Zone based on the maxId already in the db
+	public int generateZoneKey() throws SQLException {
+		int maxKey=findMaxIDZone();
+		return maxKey+=1;
+	}
+	
 	public static void main(String[] args) throws SQLException, FileNotFoundException {
-		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
-		//Patient p2 = Patient.newPatient("Hennie", "S�rensen", 'F', 99345678910l, 34534534, "hennie@gmail.com","id2");
-		//Caretaker c1 = new Caretaker("olsenboy","Engler123@");
-		//Caretaker c2 = new Caretaker("motherofthree","Saga123@");
+		//Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
 		
-		Database db = new Database();
-		db.connect();
-		//db.insertFile(3, "test.txt");
-		//System.out.println(db.retrieveFile(3));
-		System.out.println(db.retrieveZone(p1));
 	}
 }
 
