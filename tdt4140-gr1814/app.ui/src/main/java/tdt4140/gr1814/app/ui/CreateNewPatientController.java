@@ -102,7 +102,7 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 			//Saving patient to database. (should check if this works before adding to static list (Patient.patients) )
 			Database database = new Database();
 			database.connect();
-			database.insert(patient);
+			database.insertPatient(patient);
 			System.out.println(patient);
 			//Adding and saving patient completed. change scene to homescreen:
 			this.goToHomescreen(null);
