@@ -1,6 +1,16 @@
 package tdt4140.gr1814.webserver;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 public class ZoneServlet extends HttpServlet{
 
@@ -15,6 +25,49 @@ public class ZoneServlet extends HttpServlet{
 		databaseConnection.connect();
 	}
 	
+	/*
+	 * Get requests can handle following inputs and outputs:
+	 * - patientId : returns the zone associated with the patient given
+	 */
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		//Fetches the response input stream in order to echo answer back to the requester
+		PrintWriter echoWriter = resp.getWriter();
+		
+		//If a SSN is passed, the response should be the zone associated with this patient
+		if(req.getParameter("ssn") != null) {
+			Long ssn = null;
+			try {
+				ssn = Long.valueOf(req.getParameter("ssn"));
+			}
+			catch(NumberFormatException exception) {
+				exception.printStackTrace();
+				return;
+			}
+			
+			echoWriter.print(toJson(getZone(ssn)));
+			echoWriter.flush();
+			echoWriter.close();
+		}
+		
+	}
+	
+	private ArrayList<ArrayList<String>> getZone(long ssn){
+		try {
+			return databaseConnection.query("SELECT * FROM ZonePoint INNER JOIN Zone ON Zone.ZoneID = ZonePoint.ZoneID WHERE Zone.PatientSSN LIKE '" + ssn + "'");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private String toJson(Object o) {
+		Gson jsonParser = new Gson();
+		return jsonParser.toJson(o);
+	}
 	
 	
 }
