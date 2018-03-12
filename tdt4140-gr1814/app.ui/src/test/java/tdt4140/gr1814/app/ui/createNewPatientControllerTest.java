@@ -74,7 +74,7 @@ public class createNewPatientControllerTest extends ApplicationTest {
 	
 	@Override
 	public void start(Stage stage) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("createNewPatient.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateNewPatient.fxml"));
 		Parent root = loader.load();
 		this.controller = loader.getController();
 		Scene scene = new Scene(root);
