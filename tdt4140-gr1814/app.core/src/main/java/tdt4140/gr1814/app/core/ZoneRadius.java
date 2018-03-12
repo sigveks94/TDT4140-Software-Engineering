@@ -3,6 +3,9 @@
 
 //CLASS USED FOR WHEN ZONE IS FUNDAMENTAL RADIUS-TYPE
 package tdt4140.gr1814.app.core;
+
+import java.util.ArrayList;
+
 public class ZoneRadius implements Zone{
 	private Double radius;
 	private Point centre;
@@ -50,6 +53,12 @@ public class ZoneRadius implements Zone{
 	}
 	public Point getCentre() {
 		return centre;
+	}
+	@Override
+	public ArrayList<Point> getPoints() {
+		ArrayList<Point> arPoi = new ArrayList<Point>();
+		arPoi.add(centre);
+		return arPoi;
 	}
 	
 }

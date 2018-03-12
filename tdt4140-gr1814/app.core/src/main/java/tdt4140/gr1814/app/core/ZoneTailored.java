@@ -6,11 +6,8 @@ import java.util.ArrayList;
 
 public class ZoneTailored implements Zone{
 private ArrayList<Point> points;
-public ZoneTailored(Point ...args) {//CONSTRUCTOR TAKES VARARG PARAMETRES FROM MAP INTERFACE AND CONSTRUCTS A TAILORED ZONE OBJECT
-	points = new ArrayList<Point>();
-	for (Point arg : args) {
-		this.points.add(arg);
-	}
+public ZoneTailored(ArrayList<Point> points) {
+	this.points = points;
 }
 
 public int getNumberOfPoints() {
@@ -40,6 +37,7 @@ public Boolean isInsideZone(Point p) {
 		} else {
 			k = i + 1;
 		}
+		System.out.println(i + " : " + k);
 		if ((points.get(i).getLongt() <= p.getLongt())&&(points.get(k).getLongt() > p.getLongt())) {
 			double midle = (p.getLongt()) - points.get(i).getLongt()/(points.get(k).getLongt() - points.get(i).getLongt());
 			if (p.getLat() >= (midle * (points.get(k).getLat() - points.get(i).getLat())) + points.get(i).getLat()) {
@@ -52,6 +50,7 @@ public Boolean isInsideZone(Point p) {
 			}
 		}
 	}
+	System.out.println(count);
 	return ((count % 2) == 1) ;
 }
 }

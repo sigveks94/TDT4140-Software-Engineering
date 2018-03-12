@@ -29,6 +29,7 @@ public class alarmScreenController implements Initializable, ControlledScreen{
 	}
 	
 	public void goToMap() {
+		myController.getMapViewController().patientView();
 		myController.setScreen(ApplicationDemo.MapViewLayoutID);
 		Stage stage = (Stage) Dismiss_btn.getScene().getWindow();
 		stage.close();

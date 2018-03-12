@@ -58,6 +58,7 @@ public class MapTest extends Application implements MapComponentInitializedListe
         
         Polygon pg = new Polygon(polyOpts);
         map.addMapShape(pg);
+        pg.getPath().clear();
         
         GetCoordinatesFromMap getCoo = new GetCoordinatesFromMap(pg.getPath());
         getCoo.calculate();

@@ -3,7 +3,7 @@ package tdt4140.gr1814.app.core;
 import java.util.ArrayList;
 
 
-public class CareTaker {
+public class Caretaker {
 
 	private String Username;
 	private String Password;
@@ -11,7 +11,7 @@ public class CareTaker {
 	public static final String PasswordRegex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
 	
 	
-	public CareTaker(String Username, String Password) {
+	public Caretaker(String Username, String Password) {
 		this.setUsername(Username);
 		this.setPassword(Password);	
 	}

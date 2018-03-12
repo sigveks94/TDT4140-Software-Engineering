@@ -67,6 +67,8 @@ public class Patient{
 		return false;
 	}
 	
+
+	
 	
 //Instance
 	
@@ -77,7 +79,7 @@ public class Patient{
 	private Long SSN; //We will use the SSN as a key for finding the patient profile in the database
 	private int NoK_cellphone; //NoK  = next of kin
 	private String NoK_email;
-	private ArrayList<CareTaker> listeners = new ArrayList<CareTaker>(); 
+	private ArrayList<Caretaker> listeners = new ArrayList<Caretaker>(); 
 	//Location-related:
 	private String DeviceID; //We will use the DeviceID to connect the incoming GPS-signals to the corresponding patient profile
 	private Zone zone;
@@ -116,7 +118,7 @@ public class Patient{
 		return FirstName+" "+Surname;
 	}
 	
-	public ArrayList<CareTaker> getListeners(){
+	public ArrayList<Caretaker> getListeners(){
 		return this.listeners;
 	}
 
@@ -147,7 +149,8 @@ public class Patient{
 	public String getID() {
 		return DeviceID;
 	}
-	public void addZone(Point p, Double radius){
+	
+	public void addZoneRadius(Point p, Double radius){
 		this.zone= new ZoneRadius(p, radius);
 	}
 	public void addZone(Zone zone) {
@@ -164,8 +167,8 @@ public class Patient{
 	}
 	
 
-	public void addListeners(CareTaker... caretakers) {
-		for (CareTaker c: caretakers) {
+	public void addListeners(Caretaker... caretakers) {
+		for (Caretaker c: caretakers) {
 			if (!(listeners.contains(c))) {
 				listeners.add(c);
 				if (!(c.getPatients().contains(this))) {
@@ -186,7 +189,7 @@ public class Patient{
 			screensController.OnPatientAlarm();
 			alarmSent = true;
 			}
-			for (CareTaker c: listeners) {
+			for (Caretaker c: listeners) {
 				c.incomingAlert(this, newLoc);
 				}
 		}else {alarmSent = false;} //the variable controlling that we only send one alarm-signal to controller is reset if patient is inside zone. 
@@ -215,12 +218,12 @@ public class Patient{
 	
 	@Override
 	public String toString() {
-		String output = "Patient Profile\nName: "+this.getFullName()+
-						"\nGender: "+this.getGender()+
-						"\nSSN: "+this.getSSN()+
-						"\nDevice ID: "+this.getID()+
-						"\nNext of kin\nMobile: "+this.getNoK_cellphone()+
-						"\nEmail: "+this.getNoK_email();
+		String output = "Name: "+this.getFullName()+
+						"\n\nGender: "+this.getGender()+
+						"\n\nSSN: "+this.getSSN()+
+						"\n\nDevice ID: "+this.getID()+
+						"\n\n\tNext of kin\n\nMobile: "+this.getNoK_cellphone()+
+						"\n\nEmail: "+this.getNoK_email();
 		return output;
 	}
 
