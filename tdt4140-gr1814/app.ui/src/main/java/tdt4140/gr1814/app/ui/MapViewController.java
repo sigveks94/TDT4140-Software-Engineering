@@ -95,23 +95,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
 				  .fullscreenControl(false);
 		
 		map = mapView.createMap(mapOptions);
-		
-		//For every patient a marker is created and placed on the map on the location associated with each patient. The hashmap is updated aswell
-		for(Patient p: this.patientsOnMap.keySet()) {
-			if(p.getCurrentLocation() == null) {
-				continue;
-			}
-			MarkerOptions markerOption = new MarkerOptions()
-					.position(new LatLong(p.getCurrentLocation().getLat(), p.getCurrentLocation().getLongt()))
-					.title(String.valueOf(p.getSSN())).visible(true)
-					.label(p.getFullName());
-			Marker marker = new Marker(markerOption);			
-			map.addMarker(marker);
-			this.patientsOnMap.replace(p, marker);
-		}
+
 		//Implementing tailored zone
 		/*
 		//Adds the zone for each patient to the map so its visible for the user
+		/*
 		for(Patient p : this.patientsOnMap.keySet()) {
 			if(p.getZone() == null) {
 				continue;
@@ -120,7 +108,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			zone.setCenter(p.getZone().getCentre().getLatLong());
 			zone.setRadius(p.getZone().getRadius());
 			map.addMapShape(zone);
-		}*/
+		}
+		*/
 		
 	}
 
@@ -132,7 +121,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		
 		Marker marker = this.patientsOnMap.get(patient);
 		if(marker != null) {
-			map.removeMarker(this.patientsOnMap.get(patient));
+			map.removeMarker(patientsOnMap.get(patient));
 		}
 		LatLong latlong = null;
 		latlong = new LatLong(newLocation.getLat(), newLocation.getLongt());
@@ -142,7 +131,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		map.addMarker(marker);
 		}
 	}
-
+	
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
 		myController = screenParent;	
@@ -213,6 +202,13 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		saveZone_btn.setVisible(false);
 		newZoneMap = false;
 		if (mapPolygon != null) {mapPolygon.getPath().clear();}
+		
+		for (Patient p: Patient.patients) { //display last location when opening map. solves problem of dissapearing markers when inputstream is over
+			if (p.getCurrentLocation() != null) {
+			onLocationChanged(p.getID(),p.getCurrentLocation());
+			}
+		}
+		
 	}
 	
 	public void saveZone() {
