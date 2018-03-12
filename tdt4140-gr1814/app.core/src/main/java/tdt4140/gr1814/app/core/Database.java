@@ -19,12 +19,10 @@ public class Database {
 	public void connect() {
 		try {
 			myConn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/hara_database?autoReconnect=true&useSSL=false","hara_db","gruppe14");
-		
 		}catch (Exception ex){
 				ex.printStackTrace();
 			}
 		}
-	
 	
 	//Retrieves patients from DB using queries
 	public ArrayList<Patient> retrievePatients() throws SQLException {
@@ -136,12 +134,14 @@ public class Database {
 	public boolean insertCareTaker(Caretaker caretaker) {
 		String username = caretaker.getUsername();
 		String password = caretaker.getPassword();
+		String address = caretaker.getAddress();
+		
 		if(username == null || password == null) {
-			System.out.println("Password invalid");
+			System.out.println("Error from database class. Password invalid");
 			return false;
 		}
-		update("INSERT INTO Caretaker(Username, Password) "
-        		+ "VALUES ('"+username+"', '"+password+"');");
+		update("INSERT INTO Caretaker(Username, Password, Address) "
+        		+ "VALUES ('"+username+"', '"+password+"','"+address+"');");
 		return true;
 	}
 	
@@ -153,20 +153,31 @@ public class Database {
 	
 	//returns an array with all the patients a caretaker is connected to
 	//TODO: Maybe make this return patient objects
-	public ArrayList<ArrayList<String>> retrieveCaretakersPatients(Caretaker caretaker) throws SQLException{
+	public ArrayList<Patient> retrieveCaretakersPatients(Caretaker caretaker) throws SQLException{
 		String username = caretaker.getUsername();
-		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName FROM PatientCaretaker "
+		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName, Patient.Gender, Patient.PhoneNumber, Patient.Email, Patient.DeviceID FROM PatientCaretaker "
 				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='"+username+"'";
-		return query(queryString);
-		
+		ArrayList<ArrayList<String>> patients =  query(queryString);
+		ArrayList<Patient> result = new ArrayList();
+		for(int i=0; i<patients.size();i++) {
+			Patient p = Patient.newPatient(patients.get(i).get(1), patients.get(i).get(2), patients.get(i).get(3).charAt(0), Long.parseLong(patients.get(i).get(0)), Integer.parseInt(patients.get(i).get(4)), patients.get(i).get(5), patients.get(i).get(6));
+			result.add(p);
+		}
+		return result;
 	}
 	
 	//returns an array with all the caretakers that is connected to a patient.
 	//TODO: Make this return cartaker objects
-	public ArrayList<ArrayList<String>> retrievePatientsCaretakers(Patient patient) throws SQLException{
+	public ArrayList<Caretaker> retrievePatientsCaretakers(Patient patient) throws SQLException{
 		String patientSSN = Long.toString(patient.getSSN());
-		return query("SELECT PatientCaretaker.CaretakerUsername FROM PatientCaretaker "
-				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.PatSSN='"+patientSSN+"'");
+		ArrayList<ArrayList<String>> caretakers =  query("SELECT Caretaker.Username, Caretaker.Password, Caretaker.Address FROM PatientCaretaker "
+				+ "JOIN Caretaker ON PatientCaretaker.CaretakerUsername=Caretaker.Username WHERE PatientCaretaker.PatSSN='"+patientSSN+"'");
+		ArrayList<Caretaker> result = new ArrayList();
+		for(int i=0; i<caretakers.size();i++) {
+			Caretaker c = new Caretaker(caretakers.get(i).get(0), caretakers.get(i).get(1), caretakers.get(i).get(2));
+			result.add(c);
+		}
+		return result;
 	}
 	
 	//assigns patients to caretakers
@@ -194,10 +205,24 @@ public class Database {
 		}
 	}
 	
+	//deletes ALL zones a patient is connected to
+	public void deleteZone(Patient patient) {
+		String SSN = Long.toString(patient.getSSN());
+		update("DELETE FROM Zone WHERE PatientSSN='"+SSN+"'");
+	}
+	
 	//returns the Zone a patient is connected to. this includes all the points in the zone in the right order
-	public ArrayList<ArrayList<String>> retrieveZone(Patient patient) throws SQLException {
+	public ArrayList<ArrayList<Double>> retrieveZone(Patient patient) throws SQLException {
 		String patientSSN=Long.toString(patient.getSSN());
-		return query("SELECT * FROM ZonePoint WHERE ZonePoint.ZoneID IN(SELECT ZoneID FROM Zone WHERE PatientSSN='"+patientSSN+"')");
+		ArrayList<ArrayList<String>> zones = query("SELECT ZonePoint.Lat, ZonePoint.Longt FROM ZonePoint WHERE ZonePoint.ZoneID IN(SELECT ZoneID FROM Zone WHERE PatientSSN='"+patientSSN+"')");
+		ArrayList<ArrayList<Double>> result = new ArrayList();
+		for(int i=0; i<zones.size();i++) {
+			ArrayList<Double> latLongs = new ArrayList();
+			latLongs.add(Double.parseDouble(zones.get(i).get(0)));
+			latLongs.add(Double.parseDouble(zones.get(i).get(1)));
+			result.add(latLongs);
+			}
+		return result;
 	}
 	
 	//this method inserts txt-files in the db
@@ -213,7 +238,7 @@ public class Database {
 	}
 	
 	//finds the maximum id number in the zone table.
-	public int findMaxIDZone() throws SQLException {
+	private int findMaxIDZone() throws SQLException {
 		ArrayList<ArrayList<String>> maxID = query("SELECT MAX(ZoneID) FROM Zone");
 		String id = maxID.get(0).get(0);
 		if(id==null) {
@@ -223,7 +248,7 @@ public class Database {
 	}
 	
 	//finds the maximum id number in the zonePoint table.
-	public int findMaxIDZonePoint() throws SQLException {
+	private int findMaxIDZonePoint() throws SQLException {
 		ArrayList<ArrayList<String>> maxID = query("SELECT MAX(ZonePointID) FROM ZonePoint");
 		String id = maxID.get(0).get(0);
 		if(id==null) {
@@ -233,19 +258,37 @@ public class Database {
 	}
 	
 	//generates a key for a ZonePoint based on the maxId already in the db
-	public int generateZonePointKey() throws SQLException {
+	private int generateZonePointKey() throws SQLException {
 		int maxKey=findMaxIDZonePoint();
 		return maxKey+=1;
 	}
 	
 	//generates a key for a Zone based on the maxId already in the db
-	public int generateZoneKey() throws SQLException {
+	private int generateZoneKey() throws SQLException {
 		int maxKey=findMaxIDZone();
 		return maxKey+=1;
 	}
 	
+	public Caretaker checkPassword(String username, String inputPassword) throws SQLException {
+		ArrayList<ArrayList<String>> caretaker = query("SELECT * FROM Caretaker WHERE Username ='"+username+"'");
+		if(caretaker.isEmpty()) {
+			return null;
+		}
+		String password=caretaker.get(0).get(1);
+		if(password.equals(inputPassword)) {
+			return new Caretaker(caretaker.get(0).get(0),password,caretaker.get(0).get(2));
+		}
+		return null;
+	}
+	
 	public static void main(String[] args) throws SQLException, FileNotFoundException {
-		//Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
+		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
+		Caretaker c1 = new Caretaker("motherofthree","Saga123@1","Jordmorjordet 1");
+		Caretaker c2 = new Caretaker("iceroadtruckerfan","beef&Burger3","Rallarveien 3");
+		Database db = new Database();
+		db.connect();
+		
+		System.out.println(db.insertCareTaker(c2));
 		
 	}
 }
