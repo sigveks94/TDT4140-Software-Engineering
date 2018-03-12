@@ -3,6 +3,7 @@ package tdt4140.gr1814.app.ui;
 import tdt4140.gr1814.app.core.OnPatientAlarmListener;
 import tdt4140.gr1814.app.core.Patient;
 
+import java.io.IOException;
 import java.util.HashMap;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -20,12 +21,26 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
     private HashMap<String, Node> screens = new HashMap<>();
     private static MapViewController MapController = new MapViewController();
     private static PatientOverviewController OverviewController = new PatientOverviewController();
+    private Stage alarmStage;
+
     
     public ScreensController() {
         super();
         for (Patient p : Patient.patients) {
         		p.addAlarmListener(this);
         }
+		this.alarmStage = new Stage();
+		loadAlarmStage();
+		
+    }
+    
+    public void loadAlarmStage() {
+	    	FXMLLoader myLoader = new FXMLLoader(getClass().getResource("alarmScreen.fxml"));
+			try {
+				Parent loadScreen = (Parent) myLoader.load();
+				Scene alarmScene = new Scene((Parent) loadScreen,400,200);
+				this.alarmStage.setScene(alarmScene);
+			} catch (IOException e) {e.printStackTrace();}
     }
 
     //Add the screen to the hashmap
@@ -95,15 +110,9 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				Stage stage = new Stage();
-				Node alarmscreen = getScreen(ApplicationDemo.AlarmID);
-				Scene scene = new Scene((Parent) alarmscreen,400,200);
-		        stage.setScene(scene);
-		        stage.show();
+				alarmStage.show();
 			}
-			
 		});
-		
 	}
     
     

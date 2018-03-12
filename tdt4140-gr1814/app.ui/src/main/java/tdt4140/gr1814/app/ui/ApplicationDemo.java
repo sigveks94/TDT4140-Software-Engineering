@@ -31,10 +31,6 @@ public class ApplicationDemo extends Application{
     public static String NewPatientFile = "CreateNewPatient.fxml";
     public static String MapViewLayoutID = "MapViewLayout";
     public static String MapViewLayoutFile = "MapViewLayout.fxml";
-    public static String AlarmID = "alarmScreen";                 
-    public static String AlarmFile = "alarmScreen.fxml"; 
-    //public static String DeletePatientID = "DeletePatient";
-    //public static String DeletePatientFile = "DeletePatient.fxml";
     public static String PatientOverviewID = "PatientOverview";
     public static String PatientOverviewFile = "PatientOverview.fxml";
     
@@ -47,10 +43,7 @@ public class ApplicationDemo extends Application{
         ScreensContainer.loadScreen(ApplicationDemo.HomescreenID, ApplicationDemo.HomescreenFile);
         ScreensContainer.loadScreen(ApplicationDemo.NewPatientID, ApplicationDemo.NewPatientFile);
         ScreensContainer.loadScreen(ApplicationDemo.MapViewLayoutID, ApplicationDemo.MapViewLayoutFile);
-        ScreensContainer.loadScreen(ApplicationDemo.AlarmID, ApplicationDemo.AlarmFile);
-        //ScreensContainer.loadScreen(ApplicationDemo.DeletePatientID, ApplicationDemo.DeletePatientFile);
         ScreensContainer.loadScreen(ApplicationDemo.PatientOverviewID, ApplicationDemo.PatientOverviewFile);
-        //ScreensContainer.loadScreen(ApplicationDemo.MapZoneViewID, ApplicationDemo.MapZoneViewFile);
         
         ScreensContainer.setScreen(ApplicationDemo.HomescreenID);//screen is added to the root (set screen to the front of the stack).
         
