@@ -191,6 +191,11 @@ public class createNewPatientControllerTest extends ApplicationTest {
 	}
 	
 	@Test
+	public void testGoToHomeScreen() {
+		
+	}
+	
+	@Test
 	public void testResetScene() {
 		controller.resetScene();
 		verifyThat(patient_name, NodeMatchers.hasText(""));
@@ -202,5 +207,4 @@ public class createNewPatientControllerTest extends ApplicationTest {
 		assertFalse(genderF.isSelected());
 		assertFalse(accept_checkbox.isSelected());
 	}
-	
 }
