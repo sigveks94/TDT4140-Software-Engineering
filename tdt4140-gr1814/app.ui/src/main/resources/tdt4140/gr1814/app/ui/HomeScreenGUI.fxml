@@ -13,7 +13,7 @@
    <children>
       <AnchorPane layoutY="-1.0" maxHeight="92.0" minHeight="92.0" prefHeight="92.0" prefWidth="600.0" style="-fx-background-color: #f3f4f7; -fx-border-color: #000000; -fx-border-width: 0px 0px 1px 0px;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text layoutX="14.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="'PRODUCT NAME'" textAlignment="CENTER" wrappingWidth="215.935546875" AnchorPane.topAnchor="50.0">
+            <Text layoutX="14.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="'PRODUCT NAME'" textAlignment="CENTER" wrappingWidth="215.935546875" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="50.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -29,7 +29,7 @@
             </Button>
          </children>
       </AnchorPane>
-      <Button fx:id="newProfile_btn" accessibleRole="IMAGE_VIEW" contentDisplay="BOTTOM" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#goToNewPatient" onMouseEntered="#NPdarken" onMouseExited="#NPbrighten" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: #e8715b;" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="105.0">
+      <Button fx:id="newProfile_btn" accessibleRole="IMAGE_VIEW" contentDisplay="BOTTOM" layoutX="32.0" layoutY="105.0" mnemonicParsing="false" onAction="#goToNewPatient" onMouseEntered="#NPdarken" onMouseExited="#NPbrighten" prefHeight="175.0" prefWidth="175.0" style="-fx-background-color: #e8715b;" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="100.0">
          <graphic>
             <ImageView fitHeight="130.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" scaleX="1.1" scaleY="1.1">
                <image>
@@ -38,12 +38,12 @@
             </ImageView>
          </graphic>
       </Button>
-      <Text fill="WHITE" layoutX="28.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Patient" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="115.0">
+      <Text fill="WHITE" layoutX="43.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Patient" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="115.46484375">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Button fx:id="MyPatients_btn" layoutX="174.0" layoutY="100.0" mnemonicParsing="false" onAction="#goToDeletePatient" onMouseEntered="#POdarken" onMouseExited="#PObrighten" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: #30c39e;" AnchorPane.leftAnchor="184.0" AnchorPane.topAnchor="105.0">
+      <Button fx:id="MyPatients_btn" layoutX="202.0" layoutY="105.0" mnemonicParsing="false" onAction="#goToDeletePatient" onMouseEntered="#POdarken" onMouseExited="#PObrighten" prefHeight="175.0" prefWidth="175.0" style="-fx-background-color: #30c39e;" AnchorPane.leftAnchor="217.0" AnchorPane.topAnchor="100.0">
          <graphic>
             <ImageView fitHeight="128.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true" scaleX="1.1" scaleY="1.1">
                <image>
@@ -52,12 +52,12 @@
             </ImageView>
          </graphic>
       </Button>
-      <Text fill="WHITE" layoutX="180.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Overview" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="115.0">
+      <Text fill="WHITE" layoutX="213.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Overview" AnchorPane.leftAnchor="235.0" AnchorPane.topAnchor="115.46484375">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Button fx:id="ViewMap_btn" layoutX="14.0" layoutY="258.0" mnemonicParsing="false" onAction="#goToMap" onMouseEntered="#PMdarken" onMouseExited="#PMbrighten" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: c4dff6;" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="275.0">
+      <Button fx:id="ViewMap_btn" layoutX="32.0" layoutY="275.0" mnemonicParsing="false" onAction="#goToMap" onMouseEntered="#PMdarken" onMouseExited="#PMbrighten" prefHeight="175.0" prefWidth="175.0" style="-fx-background-color: c4dff6;" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="285.0">
          <graphic>
             <ImageView fitHeight="113.0" fitWidth="121.0" pickOnBounds="true" preserveRatio="true" scaleX="1.1" scaleY="1.1">
                <image>
@@ -66,12 +66,12 @@
             </ImageView>
          </graphic>
       </Button>
-      <Text fill="WHITE" layoutX="28.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Map" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="285.0">
+      <Text fill="WHITE" layoutX="43.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Map" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="301.0">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Button fx:id="Settings_btn" layoutX="174.0" layoutY="258.0" mnemonicParsing="false" onMouseEntered="#UBdarken" onMouseExited="#UBbrighten" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: #4a8594;" AnchorPane.leftAnchor="184.0" AnchorPane.topAnchor="275.0">
+      <Button fx:id="Settings_btn" layoutX="202.0" layoutY="275.0" mnemonicParsing="false" onMouseEntered="#UBdarken" onMouseExited="#UBbrighten" prefHeight="175.0" prefWidth="175.0" style="-fx-background-color: #4a8594;" AnchorPane.leftAnchor="217.0" AnchorPane.topAnchor="285.0">
          <graphic>
             <ImageView fitHeight="90.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true" scaleX="1.55" scaleY="1.55">
                <image>
@@ -80,17 +80,17 @@
             </ImageView>
          </graphic>
       </Button>
-      <Text fill="WHITE" layoutX="186.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unused Button" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="285.0">
+      <Text fill="WHITE" layoutX="213.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unused Button" AnchorPane.leftAnchor="235.0" AnchorPane.topAnchor="301.0">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <AnchorPane fx:id="profile_pane" layoutX="402.0" layoutY="105.0" maxHeight="250.0" maxWidth="184.0" prefHeight="160.0" prefWidth="184.0" style="-fx-background-color: #f3f4f7; -fx-border-color: lightgray; visibility: false;" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="105.0">
+      <AnchorPane fx:id="profile_pane" layoutX="402.0" layoutY="100.0" maxHeight="250.0" maxWidth="184.0" prefHeight="175.0" prefWidth="184.0" style="-fx-background-color: #dbe0e3; -fx-border-color: lightgray; visibility: false;" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="100.0">
          <children>
-            <QuadCurve controlX="-50.0" controlY="-100.0" endX="50.0" fill="#f3f4f7" layoutX="129.0" layoutY="39.0" rotate="-103.0" startX="-50.0" stroke="#f3f4f7" strokeType="INSIDE" />
+            <QuadCurve controlX="-50.0" controlY="-100.0" endX="50.0" fill="#dbe0e3" layoutX="129.0" layoutY="39.0" rotate="-103.0" startX="-50.0" stroke="#dbe0e3" strokeType="INSIDE" />
             <Text fx:id="username_txt" layoutX="1.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" textAlignment="CENTER" wrappingWidth="180.99999725818634" AnchorPane.topAnchor="16.0" />
-            <Button layoutX="19.0" layoutY="94.0" mnemonicParsing="false" style="-fx-background-color: #f3f4f7;" text="Change Password &gt;" textFill="#fd5c63" AnchorPane.rightAnchor="15.0" />
-            <Button layoutX="91.0" layoutY="120.0" mnemonicParsing="false" style="-fx-background-color: #f3f4f7;" text="Logout &gt;" textFill="#fd5c63" AnchorPane.rightAnchor="15.0" />
+            <Button layoutX="19.0" layoutY="94.0" mnemonicParsing="false" style="-fx-background-color: #dbe0e3;" text="Change Password &gt;" textFill="#fd5c63" AnchorPane.rightAnchor="15.0" />
+            <Button layoutX="91.0" layoutY="120.0" mnemonicParsing="false" onAction="#Logout" style="-fx-background-color: #dbe0e3;" text="Logout &gt;" textFill="#fd5c63" AnchorPane.rightAnchor="15.0" />
             <Hyperlink fx:id="userAdr_txt" layoutX="1.0" layoutY="44.0" prefHeight="43.0" prefWidth="181.0" text="Hyperlink" textAlignment="CENTER" />
          </children>
       </AnchorPane>

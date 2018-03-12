@@ -18,6 +18,11 @@ import tdt4140.gr1814.app.core.Zone;
 import tdt4140.gr1814.app.core.ZoneTailored;
 
 public class ApplicationDemo extends Application{
+	
+	//temporary info for caretaker
+	public static String username;
+	public static String adress;
+	public static String password;
 
    
     public static String HomescreenID = "HomeScreen";
@@ -64,6 +69,8 @@ public class ApplicationDemo extends Application{
 
 	public static void main(String[] args) throws SQLException, IOException {
 	    	//Demo Simulation. Loading pre-existing Person objects form database. 
+		ApplicationDemo.username = "Tempe Omsorgsenter";
+		ApplicationDemo.adress = "Valøyvegen 12, \n7031 Trondheim, Norge";
 	    
 		Database database = new Database();
 	    	database.connect();

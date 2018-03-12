@@ -13,6 +13,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import tdt4140.gr1814.app.core.Patient;
 
 
@@ -144,4 +145,10 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
         colorAdjust.setBrightness(0.0);
     		Settings_btn.setEffect(colorAdjust);
     }
+    
+   @FXML
+   public void Logout() {
+	   Stage stage = (Stage) profile_pane.getScene().getWindow();
+	   stage.close();
+   }
 }
