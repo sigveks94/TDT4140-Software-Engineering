@@ -70,7 +70,7 @@ public class PatientTest {
 	}	
 	@Test
 	public void testAddListeners() {
-		CareTaker cT = new CareTaker("Example3","1H8j24s4@");
+		Caretaker cT = new Caretaker("Example3","1H8j24s4@");
 		patient.addListeners(cT);
 		assertEquals(cT.getPatients().get(0),patient);
 		patient2.addListeners(cT);
@@ -109,6 +109,16 @@ public class PatientTest {
 	public void getGenderTest() {
 		assertEquals(patient.getGender(),"Male");
 		assertEquals(patient2.getGender(),"Female");
+	}
+	@Test
+	public void getPatient() {
+		assertEquals(Patient.getPatient("H822"),patient);
+	}
+	@Test
+	public void changeLocation() {
+		Point poi = new Point("H273",52.3,43.7);
+		patient.changeLocation(poi);
+		assertEquals(patient.getCurrentLocation(),poi);
 	}
 	
 	@After

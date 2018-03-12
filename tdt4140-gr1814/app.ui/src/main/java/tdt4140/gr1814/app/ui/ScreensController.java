@@ -4,8 +4,6 @@ import tdt4140.gr1814.app.core.OnPatientAlarmListener;
 import tdt4140.gr1814.app.core.Patient;
 
 import java.util.HashMap;
-import java.util.List;
-
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -20,7 +18,8 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
     
 	//Holds the screens to be displayed
     private HashMap<String, Node> screens = new HashMap<>();
-    public static MapViewController MapController = new MapViewController();
+    private static MapViewController MapController = new MapViewController();
+    private static PatientOverviewController OverviewController = new PatientOverviewController();
     
     public ScreensController() {
         super();
@@ -45,9 +44,12 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
         try {
             FXMLLoader myLoader = new FXMLLoader(getClass().getResource(resource));
             if (name.equals("MapViewLayout")) {//Different way to add the controller for the MapViewLayout.fxml screen. 
-			MapController.addAllViewables(Patient.getAllPatients());//Adds all patient-objects from database to the map.
-			myLoader.setController(MapController);//make this controller, the controller of the screen
+            		MapController.addAllViewables(Patient.getAllPatients());//Adds all patient-objects from database to the map.
+            		myLoader.setController(MapController);//make this controller, the controller of the screen
 			}
+            if (name.equals("PatientOverview")) {//Different way to add the controller for the PatientOverview.fxml screen. 
+        		myLoader.setController(OverviewController);//make this controller, the controller of the screen
+		}         
             Parent loadScreen = (Parent) myLoader.load();
             ControlledScreen myScreenControler = ((ControlledScreen) myLoader.getController());
             myScreenControler.setScreenParent(this);
@@ -67,11 +69,11 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
         if (screens.get(name) != null) {  
             if (!getChildren().isEmpty()) {    //if there is more than one screen
                 getChildren().remove(0);                    //remove the displayed screen
-                getChildren().add(0, screens.get(name)); 
+                getChildren().add(0, screens.get(name));
             } 
-            else {getChildren().add(screens.get(name));}       //no one else been displayed, then just show
+            else {getChildren().add(screens.get(name));}//no one else been displayed, then just show       
         } 
-        else {System.out.println("screen hasn't been loaded!!! \n");}
+        else {System.out.println("screen hasn't been loaded!!!");}
     }
 
     //This method will remove the screen with the given name from the collection of screens
@@ -80,18 +82,22 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
             System.out.println("Screen didn't exist");
         }
     }
+    
+    public MapViewController getMapViewController() {
+    		return MapController;
+    }
+    public PatientOverviewController getOverviewController() {
+		return OverviewController;
+}
 
 	@Override
-	public void OnPatientAlarm() {
-		System.out.println("alarm in controller");
-		
+	public void OnPatientAlarm() { //this class implements onPatientAlarmListener. Function 'catches' alarm set of in patient class
 		Platform.runLater(new Runnable() {
-
 			@Override
 			public void run() {
 				Stage stage = new Stage();
 				Node alarmscreen = getScreen(ApplicationDemo.AlarmID);
-				Scene scene = new Scene((Parent) alarmscreen,300,300);
+				Scene scene = new Scene((Parent) alarmscreen,400,200);
 		        stage.setScene(scene);
 		        stage.show();
 			}

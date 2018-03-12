@@ -12,9 +12,19 @@
         <GoogleMapView fx:id="mapView" prefHeight="750.0" prefWidth="761.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-0.0" AnchorPane.topAnchor="0.0" />
         <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="26.0" layoutY="29.0" prefHeight="478.0" prefWidth="221.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="88.0" BorderPane.alignment="CENTER">
 		</VBox>
-      <Button fx:id="back_button" layoutX="103.0" layoutY="15.0" mnemonicParsing="false" onAction="#goToHome" prefHeight="28.0" prefWidth="37.0" text="Back" AnchorPane.leftAnchor="103.0" AnchorPane.topAnchor="10.5">
+      <Button fx:id="menu_btn" layoutX="102.0" layoutY="11.0" mnemonicParsing="false" onAction="#goToHome" prefHeight="28.0" prefWidth="52.0" style="-fx-background-color: white;" text="&lt; Menu" textFill="#fd5c63" AnchorPane.leftAnchor="103.0" AnchorPane.topAnchor="10.0">
          <font>
             <Font size="10.0" />
          </font></Button>
+      <Button fx:id="overview_btn" layoutX="103.0" layoutY="14.0" mnemonicParsing="false" onAction="#goToOverview" prefHeight="28.0" prefWidth="78.0" style="-fx-background-color: white;" text="&lt; Overview" textFill="#fd5c63" AnchorPane.leftAnchor="103.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
+      <Button fx:id="saveZone_btn" layoutX="505.0" layoutY="552.0" mnemonicParsing="false" onAction="#saveZone" prefHeight="28.0" prefWidth="78.0" style="-fx-background-color: white;" text="Save Zone &gt;" textFill="#fd5c63" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="50.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>
