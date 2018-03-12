@@ -110,6 +110,13 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	
 	public void displayPatientProfile(Patient patient) {
 		patientInfo_txt.setText(patient.toString());
+		if(patient.getAlarmActivated()) {
+			alarm_btn.setText("ON");
+			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: #30c39e;");
+		}else {
+			alarm_btn.setText("OFF");
+			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: red;");
+		}
 		//here we will add all the needed information about the patient
 		patient_profile.setVisible(true);
 		search_error.setVisible(false);
@@ -126,10 +133,12 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	
 	public void changeAlarmSetting() {
 		if (alarm_btn.getText().equals("ON")) {
+			currentPatientProfile.setAlarmActivated(false);
 			alarm_btn.setText("OFF");
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: red;");
 		}
 		else {
+			currentPatientProfile.setAlarmActivated(true);
 			alarm_btn.setText("ON");
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: #30c39e;");
 		}
