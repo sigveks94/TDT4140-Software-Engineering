@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import tdt4140.gr1814.app.core.Caretaker;
+import tdt4140.gr1814.app.core.DataFetchController;
 import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.InputController;
 import tdt4140.gr1814.app.core.Patient;
@@ -72,9 +73,14 @@ public class ApplicationDemo extends Application{
 		ApplicationDemo.username = "Tempe Omsorgsenter";
 		ApplicationDemo.adress = "Valøyvegen 12, \n7031 Trondheim, Norge";
 	    
+		//New database interface
+		DataFetchController dataFetchController = new DataFetchController();
+		dataFetchController.fetchPatients("motherofthree"); //This is supposed to be given by the log in
+		
+		//Old database interface
 		Database database = new Database();
 	    	database.connect();
-	    	database.retrievePatients();
+	    	//database.retrievePatients();
 		/*
 	    	//Solution from home without vpn, or for when database is down;
 	    	Patient oscar = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "oscar@mail.no", "id1");

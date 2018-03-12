@@ -16,6 +16,8 @@ import tdt4140.gr1814.app.core.Patient;
 
 /*
  * 	This is the HttpServlet supposed to handle database queries concerning the patient objects
+ * 	PS: This class uses the static method Patient.newPatient just like the client application. Even though the server and the client is running on the same computer in the demos, they
+ * 		does not use the same static pool since they are started as separate application in the OS.
  */
 
 public class PatientServlet extends HttpServlet{
@@ -39,6 +41,8 @@ public class PatientServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		test();
+		
 		//Fetches the response input stream in order to echo answer back to the requester
 		PrintWriter echoWriter = resp.getWriter();
 		
@@ -53,29 +57,53 @@ public class PatientServlet extends HttpServlet{
 		
 		
 	}
-
+	
+	public void test() {
+		System.out.println("A:" + Patient.getAllPatients().size());
+	}
 	
 	//Returns an array of all patients associated with the given caretaker
-	private ArrayList<ArrayList<String>> getMultiplePatients(String caretakerUsername) {
+	private ArrayList<Patient> getMultiplePatients(String caretakerUsername) {
 		
-		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName FROM PatientCaretaker "
-				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='"+caretakerUsername+"'";
+		//Query for retrieving all patients associated with given caretaker
+		String queryString = "SELECT Patient.* FROM PatientCaretaker "
+				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='" + caretakerUsername + "'";
+		
+		//The list which stores query result
+		ArrayList<ArrayList<String>> result = null;
+		
+		//Executes the query, result is stored in a double arraylist
 		try {
-			ArrayList<ArrayList<String>> temp = databaseConnection.query(queryString);
-			System.out.println(temp);
-			return temp;
+			result = databaseConnection.query(queryString);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return null;
+		//List to store actual patient objects in
+		ArrayList<Patient> patients = new ArrayList<>();
+		
+		for(ArrayList<String> p: result) {
+			long SSN = Long.valueOf(p.get(0));
+			String firstName = p.get(1);
+			String surName = p.get(2);
+			char gender = p.get(3).charAt(0);
+			int cellPhone = Integer.valueOf(p.get(4));
+			String mail = p.get(5);
+			String deviceId = p.get(6);
+			patients.add(Patient.newPatient(firstName, surName, gender, SSN, cellPhone, mail, deviceId));
+		}
+		
+		
+		return patients;
 	}
 	
-	//Takes a object of any type and converts it to a string on the json pattern
+	//Takes any kind of object and parses it into a string on the JSON pattern
 	private String toJson(Object o) {
 		Gson jsonParser = new Gson();
 		return jsonParser.toJson(o);
 	}
 	
+	
 }
+
+
