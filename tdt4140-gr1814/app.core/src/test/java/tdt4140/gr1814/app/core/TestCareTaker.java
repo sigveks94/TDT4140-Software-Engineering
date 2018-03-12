@@ -8,11 +8,11 @@ import org.junit.Test;
 
 public class TestCareTaker {
 
-	private CareTaker cT;
+	private Caretaker cT;
 	
 	@Before
 	public void setUp() {
-		cT = new CareTaker("Example1","1H8j24s4@");
+		cT = new Caretaker("Example1","1H8j24s4@");
 	}
 	
 	@Test

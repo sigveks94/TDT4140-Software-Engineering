@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import tdt4140.gr1814.app.core.CareTaker;
+import tdt4140.gr1814.app.core.Caretaker;
 import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.InputController;
 import tdt4140.gr1814.app.core.Patient;
@@ -18,6 +18,11 @@ import tdt4140.gr1814.app.core.Zone;
 import tdt4140.gr1814.app.core.ZoneTailored;
 
 public class ApplicationDemo extends Application{
+	
+	//temporary info for caretaker
+	public static String username;
+	public static String adress;
+	public static String password;
 
    
     public static String HomescreenID = "HomeScreen";
@@ -64,6 +69,8 @@ public class ApplicationDemo extends Application{
 
 	public static void main(String[] args) throws SQLException, IOException {
 	    	//Demo Simulation. Loading pre-existing Person objects form database. 
+		ApplicationDemo.username = "Tempe Omsorgsenter";
+		ApplicationDemo.adress = "Valøyvegen 12, \n7031 Trondheim, Norge";
 	    
 		Database database = new Database();
 	    	database.connect();
@@ -92,7 +99,7 @@ public class ApplicationDemo extends Application{
 	    	Patient.getPatient("id2").addZone(zone2);
 
 	    	//Make 'morentilharald' responsible person for harald (from database 'id1'). This allows alarm finctionality
-	    	CareTaker HaraldsMother = new CareTaker("Harald's mother","pasword");
+	    	Caretaker HaraldsMother = new Caretaker("Harald's mother","pasword");
 	    	Patient.getPatient("id1").addListeners(HaraldsMother); 	
 	    	
 	    //run both inputcontroller, handling inputstream, and the UI(application)

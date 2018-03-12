@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tdt4140.gr1814.app.ui.PatientOverviewController">
+<AnchorPane prefHeight="480.0" prefWidth="636.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <AnchorPane layoutX="14.0" layoutY="2.0" maxHeight="92.0" minHeight="92.0" prefHeight="92.0" prefWidth="600.0" style="-fx-background-color: #f3f4f7; -fx-border-color: #000000; -fx-border-width: 0px 0px 1px 0px;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -18,7 +18,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Text layoutX="240.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patients" AnchorPane.topAnchor="25.0">
+            <Text layoutX="282.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patients" AnchorPane.topAnchor="27.029296875">
                <font>
                   <Font size="31.0" />
                </font>
@@ -31,16 +31,19 @@
          </children>
       </AnchorPane>
       <TextField fx:id="search_txt" layoutX="16.0" layoutY="140.0" onAction="#PatientSearch" prefHeight="26.0" prefWidth="268.0" promptText="Search" style="-fx-background-color: #f3f4f7;" AnchorPane.topAnchor="120.0" />
-      <ListView fx:id="patient_list" layoutX="14.0" layoutY="177.0" prefHeight="310.0" prefWidth="270.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="170.0" />
-      <AnchorPane fx:id="patient_profile" layoutX="341.0" layoutY="120.0" prefHeight="359.0" prefWidth="218.0" style="-fx-background-color: #f3f4f7; -fx-border-color: lightgray; visibility: false;">
+      <ListView fx:id="patient_list" layoutX="14.0" layoutY="177.0" prefHeight="299.0" prefWidth="270.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="170.0" />
+      <AnchorPane fx:id="patient_profile" layoutX="341.0" layoutY="120.0" prefHeight="349.0" prefWidth="246.0" style="-fx-background-color: #f3f4f7; -fx-border-color: lightgray; visibility: false;">
          <children>
-            <Text fill="WHITE" layoutX="22.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Profile" textAlignment="CENTER" wrappingWidth="173.0000103712082" AnchorPane.topAnchor="10.0">
+            <Text fill="WHITE" layoutX="1.0" layoutY="38.203125" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Profile" textAlignment="CENTER" wrappingWidth="202.0000103712082" AnchorPane.topAnchor="14.0">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font name="System Bold" size="24.0" />
                </font></Text>
-            <Text fx:id="patientInfo_txt" layoutX="36.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="info:" />
+            <Text fx:id="patientInfo_txt" layoutX="55.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="info:" />
             <Button layoutX="173.0" layoutY="1.0" mnemonicParsing="false" onAction="#closePatientProfile" prefHeight="26.0" prefWidth="24.0" style="-fx-background-color: #f3f4f7;" text="x" textAlignment="JUSTIFY" textFill="#fd5c63" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0" />
-            <Button layoutX="48.0" layoutY="297.0" mnemonicParsing="false" onAction="#displayZoneMap" style="-fx-background-color: #f3f4f7;" text="Patient Zone &gt;" textFill="#fd5c63" />
+            <Button layoutX="69.0" layoutY="291.0" mnemonicParsing="false" onAction="#displayZoneMap" style="-fx-background-color: #f3f4f7;" text="Patient Zone &gt;" textAlignment="CENTER" textFill="#fd5c63" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="66.0" />
+            <Button fx:id="alarm_btn" layoutX="122.0" layoutY="276.0" mnemonicParsing="false" onAction="#changeAlarmSetting" onMouseEntered="#alarmDarken" onMouseExited="#alarmBrighten" prefHeight="28.0" prefWidth="48.0" style="-fx-background-color: #f3f4f7; -fx-border-color: white;" text="ON" textAlignment="CENTER" textFill="#30c39e" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="121.0" />
+            <Text layoutX="81.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alarm:" AnchorPane.bottomAnchor="56.0" AnchorPane.leftAnchor="78.0" />
+            <Button layoutX="43.0" layoutY="322.0" mnemonicParsing="false" onAction="#delete_patient" style="-fx-background-color: #f3f4f7;" text="Delete Patient Profile &gt;" textFill="#fd5c63" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="39.0" />
          </children>
       </AnchorPane>
       <Text fx:id="search_error" fill="RED" layoutX="25.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" style="visibility: false;" text="error" wrappingWidth="359.18603515625">

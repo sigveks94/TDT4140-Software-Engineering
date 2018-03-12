@@ -65,20 +65,6 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//manage 'terms of use'-hyperlink request
-		TermsOfUse.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override
-		    public void handle(ActionEvent event) {
-		        Hyperlink_Browser.browse("https://www.datatilsynet.no/rettigheter-og-plikter/overvaking-og-sporing/lokalisering/");
-		    }
-		});
-		//Try to create new profile when add-button is pressed 
-		add_button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) { 
-            		Create_Patient_Profile();
-            	}
-        });
 		//Making shure you can only check one gender checkbox (this does not work when using 'space' to check the boxes)
 		genderM.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
@@ -95,8 +81,8 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 	}
 	
 	
-	
-	private void Create_Patient_Profile(){
+	@FXML
+	public void Create_Patient_Profile(){
 		boolean termsaccepted = this.CheckTermsofUse();
 		//Validating input:
 		String firstname = this.ValidateText(patient_name, firstnameError);
@@ -112,10 +98,11 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email, deviceId);
 			patient.addAlarmListener(myController); //makes the Screencontroller a listener to recieve alarm-screen when outside zone. 
 			myController.getMapViewController().addViewables(patient); //addind new patient to map-tracking
-			//Saving patient to database.
+			myController.getOverviewController().updatePatientList();//updating patient overview list
+			//Saving patient to database. (should check if this works before adding to static list (Patient.patients) )
 			Database database = new Database();
 			database.connect();
-			database.insert(patient);
+			database.insertPatient(patient);
 			System.out.println(patient);
 			//Adding and saving patient completed. change scene to homescreen:
 			this.goToHomescreen(null);
@@ -199,6 +186,10 @@ public class CreateNewPatientController implements Initializable, ControlledScre
     			accept_checkbox.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
     			return false;
 	}}
+	@FXML
+	public void browseTerms() {
+		Hyperlink_Browser.browse("https://www.datatilsynet.no/rettigheter-og-plikter/overvaking-og-sporing/lokalisering/");
+	}
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) {

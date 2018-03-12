@@ -13,29 +13,36 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.Patient;
 
 public class PatientOverviewController implements Initializable, ControlledScreen{
 	
 	private ScreensController myController;
-	
 	private Patient currentPatientProfile;
 	
 	@FXML
-	Button menu_btn;
+	private Button menu_btn;
 	@FXML
-	TextField search_txt;
+	private TextField search_txt;
 	@FXML
-	Text search_error;
+	private Text search_error;
 	@FXML
-	ListView<Patient> patient_list;
+	private ListView<Patient> patient_list;
 	@FXML
-	AnchorPane patient_profile;
+	private AnchorPane patient_profile;
 	@FXML
-	Text patientInfo_txt;
+	private Text patientInfo_txt;
+	@FXML
+	private Button alarm_btn;
+
+
 
 
 
@@ -46,9 +53,7 @@ public class PatientOverviewController implements Initializable, ControlledScree
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		List<Patient> patientStringList = Patient.patients;
-		ObservableList<Patient> patients = FXCollections.observableList(patientStringList);
-		patient_list.setItems(patients);
+		updatePatientList();
 		patient_list.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	        @Override
 	        public void handle(MouseEvent event) {
@@ -56,6 +61,12 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	        		currentPatientProfile = patient_list.getSelectionModel().getSelectedItem();
 	        }
 	    });
+        }
+	
+	public void updatePatientList() {
+		List<Patient> patientStringList = Patient.patients;
+		ObservableList<Patient> patients = FXCollections.observableList(patientStringList);
+		patient_list.setItems(patients);
 		patient_list.setCellFactory(lv -> new ListCell<Patient>() {
 		    @Override
 		    public void updateItem(Patient pat, boolean empty) {
@@ -69,7 +80,7 @@ public class PatientOverviewController implements Initializable, ControlledScree
 		    }
 		});
 		
-        }
+	}
         
 	
 	public void goToMenu() {
@@ -93,6 +104,7 @@ public class PatientOverviewController implements Initializable, ControlledScree
 		else {
 			search_error.setText("No patient with name: "+name);
 			search_error.setVisible(true);
+			patient_profile.setVisible(false);
 			}
 	}
 	
@@ -111,6 +123,44 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	public void closePatientProfile() {
 		patient_profile.setVisible(false);
 	}
+	
+	public void changeAlarmSetting() {
+		if (alarm_btn.getText().equals("ON")) {
+			alarm_btn.setText("OFF");
+			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: red;");
+		}
+		else {
+			alarm_btn.setText("ON");
+			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: #30c39e;");
+		}
+	}
+	public void alarmDarken() {
+		ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setBrightness(-0.1);
+        alarm_btn.setEffect(colorAdjust);
+	}
+	public void alarmBrighten() {
+		ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setBrightness(0.0);
+        alarm_btn.setEffect(colorAdjust);
+	}
+	public void delete_patient() {
+		Long patientSSN = currentPatientProfile.getSSN();
+		if(Patient.deletePatient(patientSSN)) { //if this patient exists in the static list in Patient.java, this will be deleted, and we will delete the person from the database as well
+			updatePatientList();
+			Database db = new Database();
+			db.connect();
+			db.update("DELETE FROM Patient WHERE SSN = "+String.valueOf(patientSSN)+";");
+			System.out.println("Deleted patient with SSN: "+String.valueOf(patientSSN));
+			patientInfo_txt.setText("Deleted patient with SSN: \n"+String.valueOf(patientSSN));
+			try {Thread.sleep(500);} 
+			catch (InterruptedException e) {e.printStackTrace();}
+			patient_profile.setVisible(false);	
+		}else {//if we do not find a patient with this SSN in the static list in Patient.java
+			System.out.println("No person with SSN: "+String.valueOf(patientSSN));
+		}
+	}
+
 
 }
         
