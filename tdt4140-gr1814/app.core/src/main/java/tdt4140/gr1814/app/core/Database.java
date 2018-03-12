@@ -14,8 +14,8 @@ public class Database {
 	
 	//THIS CLASS DOES NOT PROVIDE THE NECESSARY SECURITY FOR DATABASE MANIPULATION, THIS WILL BE IMPLEMENTED IN LATER SPRINTS
 	
+	//*************************************CONNECTING*************************************
 	
-	//connecting to the db
 	public void connect() {
 		try {
 			myConn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/hara_database?autoReconnect=true&useSSL=false","hara_db","gruppe14");
@@ -24,6 +24,92 @@ public class Database {
 			}
 		}
 	
+	
+	
+	
+	
+	//*************************************GETTERS*************************************
+	
+		public Connection getConnection() {
+			return myConn;
+		}
+		
+		public Statement getStatement() {
+			return myStmt;
+		}
+		
+		public ResultSet getResultSet() {
+			return myRs;
+		}
+		
+		
+		
+		
+	
+	//*************************************GENERAL SQL HELP METHODS*************************************
+	
+		//a general method for changing the db(delete, insert, update), used as a help method.
+		public void update(String query) {
+			try {
+	            myStmt = myConn.createStatement();
+	            myStmt.executeUpdate(query);
+	        } catch (Exception e) {
+	            System.out.println("The update query failed. Check your sql syntax.");
+	            e.printStackTrace();
+	        }
+		}
+		
+		//a general method for querying the db(select-queries), used as a help method
+		public ArrayList<ArrayList<String>> query(String query) throws SQLException {
+			try {
+				if (myConn != null) {
+					myStmt = myConn.createStatement();
+					myStmt.executeQuery(query);
+					myRs = myStmt.getResultSet();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			ArrayList<ArrayList<String>> returnList = new ArrayList<ArrayList<String>>();
+			if (myRs != null) {
+				while (myRs.next()) {
+		            int index = 1;
+		            ArrayList<String> innerList = new ArrayList<String>();
+		            while (true) {
+		                try {
+		                    String temp = myRs.getString(index);
+		                    innerList.add(temp);
+		                    index++;
+		                }catch (Exception e) {
+		                    break;
+		                }
+		            }
+		            returnList.add(innerList);
+		        }
+			}
+			return returnList;
+		}
+		
+		
+		
+		
+	
+	//*************************************PATIENT*************************************
+	
+	//inserts a patient into the db
+	public void insertPatient(Patient patient) {
+		String firstName = patient.getFirstName();
+		String surname = patient.getSurname();
+		String SSN = Long.toString(patient.getSSN());
+		String phoneNumber=Integer.toString(patient.getNoK_cellphone());
+		String email = patient.getNoK_email();
+		String gender = patient.getGender();
+		String deviceID = patient.getID();
+		
+		update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID) "
+            		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"');");
+    }
+		
 	//Retrieves patients from DB using queries
 	public ArrayList<Patient> retrievePatients() throws SQLException {
 		try {
@@ -35,7 +121,7 @@ public class Database {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		ArrayList<Patient> returnList = new ArrayList(); //we never use this list..
+		ArrayList<Patient> returnList = new ArrayList();
 		if (myRs != null) {
 			while (myRs.next()) {
 	            int index = 1;
@@ -56,79 +142,16 @@ public class Database {
 		return returnList;
 	}
 	
-	//inserts a patient into the db
-	public void insertPatient(Patient patient) {
-		String firstName = patient.getFirstName();
-		String surname = patient.getSurname();
-		String SSN = Long.toString(patient.getSSN());
-		String phoneNumber=Integer.toString(patient.getNoK_cellphone());
-		String email = patient.getNoK_email();
-		String gender = patient.getGender();
-		String deviceID = patient.getID();
-		
-		update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID) "
-            		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"');");
-    }
-	
 	public void deletePatient(Patient patient) {
 		String SSN = Long.toString(patient.getSSN());
 		update("DELETE FROM Patient WHERE SSN = +"+SSN+"");
 	}
 	
-	//a general method for updating the db, used as a help method.
-	public void update(String query) {
-		try {
-            myStmt = myConn.createStatement();
-            myStmt.executeUpdate(query);
-        } catch (Exception e) {
-            System.out.println("The update query failed. Check your sql syntax.");
-            e.printStackTrace();
-        }
-	}
 	
-	//a general method for querying the db, used as a help method
-	public ArrayList<ArrayList<String>> query(String query) throws SQLException {
-		try {
-			if (myConn != null) {
-				myStmt = myConn.createStatement();
-				myStmt.executeQuery(query);
-				myRs = myStmt.getResultSet();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		ArrayList<ArrayList<String>> returnList = new ArrayList<ArrayList<String>>();
-		if (myRs != null) {
-			while (myRs.next()) {
-	            int index = 1;
-	            ArrayList<String> innerList = new ArrayList<String>();
-	            while (true) {
-	                try {
-	                    String temp = myRs.getString(index);
-	                    innerList.add(temp);
-	                    index++;
-	                }catch (Exception e) {
-	                    break;
-	                }
-	            }
-	            returnList.add(innerList);
-	        }
-		}
-		return returnList;
-	}
 	
-	// getters for testing
-	public Connection getConnection() {
-		return myConn;
-	}
 	
-	public Statement getStatement() {
-		return myStmt;
-	}
 	
-	public ResultSet getResultSet() {
-		return myRs;
-	}
+	//*************************************CARETAKER*************************************
 	
 	//inserts caretaker into the db
 	public boolean insertCareTaker(Caretaker caretaker) {
@@ -151,8 +174,13 @@ public class Database {
 		update("DELETE FROM Caretaker WHERE Username = '"+username+"';");
 	}
 	
+	
+	
+	
+	
+	//*************************************PATIENT-CARETAKER METHODS*************************************
+	
 	//returns an array with all the patients a caretaker is connected to
-	//TODO: Maybe make this return patient objects
 	public ArrayList<Patient> retrieveCaretakersPatients(Caretaker caretaker) throws SQLException{
 		String username = caretaker.getUsername();
 		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName, Patient.Gender, Patient.PhoneNumber, Patient.Email, Patient.DeviceID FROM PatientCaretaker "
@@ -167,7 +195,6 @@ public class Database {
 	}
 	
 	//returns an array with all the caretakers that is connected to a patient.
-	//TODO: Make this return cartaker objects
 	public ArrayList<Caretaker> retrievePatientsCaretakers(Patient patient) throws SQLException{
 		String patientSSN = Long.toString(patient.getSSN());
 		ArrayList<ArrayList<String>> caretakers =  query("SELECT Caretaker.Username, Caretaker.Password, Caretaker.Address FROM PatientCaretaker "
@@ -193,6 +220,12 @@ public class Database {
 		String caretakerUsername = caretaker.getUsername();
 		update("DELETE FROM PatientCaretaker WHERE PatSSN = '"+patientSSN+"' AND CaretakerUsername = '"+caretakerUsername+"'");
 	}
+	
+	
+	
+	
+	
+	//*************************************ZONE*************************************
 	
 	//A method that inserts a zone. All zones must be connected to a person already in the db
 	public void insertZone(Patient patient, ZoneTailored zoneTailored) throws SQLException {
@@ -223,18 +256,6 @@ public class Database {
 			result.add(latLongs);
 			}
 		return result;
-	}
-	
-	//this method inserts txt-files in the db
-	public void insertFile(int fileKey, String filename) throws FileNotFoundException {
-		FileHandler fh = new FileHandler();
-		String output = fh.read(filename);
-		update("INSERT INTO File(fileKey, text) VALUES("+fileKey+",'"+output+"')");
-	}
-	
-	//retrieves txt-files from the db, returns a string
-	public String retrieveFile(int fileKey) throws SQLException {
-		return query("SELECT text FROM File WHERE fileKey="+fileKey).get(0).get(0);
 	}
 	
 	//finds the maximum id number in the zone table.
@@ -268,7 +289,33 @@ public class Database {
 		int maxKey=findMaxIDZone();
 		return maxKey+=1;
 	}
+		
+		
+		
+		
 	
+	//*************************************FILE*************************************
+	
+	//this method inserts txt-files in the db
+	public void insertFile(int fileKey, String filename) throws FileNotFoundException {
+		FileHandler fh = new FileHandler();
+		String output = fh.read(filename);
+		update("INSERT INTO File(fileKey, text) VALUES("+fileKey+",'"+output+"')");
+	}
+	
+	//retrieves txt-files from the db, returns a string
+	public String retrieveFile(int fileKey) throws SQLException {
+		return query("SELECT text FROM File WHERE fileKey="+fileKey).get(0).get(0);
+	}
+	
+	
+	
+	
+	
+	//*************************************LOGIN*************************************
+	
+	//checks if the password for the username is correct. If it is, the method returns the corresponding caretaker object. 
+	//If the username don't exist or the password is wrong, the method returns null.
 	public Caretaker checkPassword(String username, String inputPassword) throws SQLException {
 		ArrayList<ArrayList<String>> caretaker = query("SELECT * FROM Caretaker WHERE Username ='"+username+"'");
 		if(caretaker.isEmpty()) {
@@ -281,15 +328,14 @@ public class Database {
 		return null;
 	}
 	
+	
+	
+	
+	//main
 	public static void main(String[] args) throws SQLException, FileNotFoundException {
 		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
 		Caretaker c1 = new Caretaker("motherofthree","Saga123@1","Jordmorjordet 1");
 		Caretaker c2 = new Caretaker("iceroadtruckerfan","beef&Burger3","Rallarveien 3");
-		Database db = new Database();
-		db.connect();
-		
-		System.out.println(db.insertCareTaker(c2));
-		
 	}
 }
 
