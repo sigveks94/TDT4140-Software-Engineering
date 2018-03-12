@@ -1,6 +1,7 @@
 package tdt4140.gr1814.app.ui;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import tdt4140.gr1814.app.core.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.Patient;
+import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.Point;
 import tdt4140.gr1814.app.core.ZoneTailored;
 
@@ -215,7 +217,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		if (mapPolygon != null) {mapPolygon.getPath().clear();}
 	}
 	
-	public void saveZone() {
+	public void saveZone() throws SQLException {
 		GetCoordinatesFromMap getArray = new GetCoordinatesFromMap(mapPolygon.getPath());
 		getArray.calculate();
 		ArrayList<double[]> makePoints = getArray.getLatLongSave();
@@ -227,6 +229,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		System.out.println("SAVING...");
 		map.removeMapShape(mapPolygon);
 		zoneView(currentPatient);
+		Database db = new Database();
+		db.insertZone(currentPatient, (ZoneTailored) currentPatient.getZone());
 	}
 	
 	
