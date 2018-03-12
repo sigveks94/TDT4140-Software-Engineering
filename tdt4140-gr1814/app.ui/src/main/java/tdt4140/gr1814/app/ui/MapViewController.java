@@ -98,6 +98,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		}
 		
 		//Adds the zone for each patient to the map so its visible for the user
+		/*
 		for(Patient p : this.patientsOnMap.keySet()) {
 			if(p.getZone() == null) {
 				continue;
@@ -107,6 +108,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			zone.setRadius(p.getZone().getRadius());
 			map.addMapShape(zone);
 		}
+		*/
 		
 	}
 
@@ -126,7 +128,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		this.patientsOnMap.replace(patient, marker);
 		map.addMarker(marker);
 	}
-
+	
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
 		myController = screenParent;	
