@@ -27,7 +27,7 @@ public class DatabaseTest{
 	public void setUp() throws SQLException {
 		db = new Database();
 		db.connect();
-		db.insert(p1);
+		db.insertPatient(p1);
 	}
 	
 	public void connectionTest() throws NullPointerException {
@@ -43,7 +43,7 @@ public class DatabaseTest{
 	@Test
 	public void insertTest() throws SQLException {
 		Patient p10 = Patient.newPatient("Johan", "Bach", 'M', 75648923657l, 90846431, "mozart@gmail.com","ID123");
-		db.insert(p10);
+		db.insertPatient(p10);
 		ArrayList<ArrayList<String>> actual = db.query("SELECT * FROM Patient WHERE SSN = 75648923657");
 		ArrayList<ArrayList<String>> expected = new ArrayList<ArrayList<String>>();
 		ArrayList<String> testArray3 = new ArrayList<String>();
@@ -57,7 +57,7 @@ public class DatabaseTest{
 		testArray3.add("ID123");
 		
 		expected.add(testArray3);
-		db.delete(p10);
+		db.deletePatient(p10);
 		assertEquals(expected, actual);
 	}
 	
@@ -66,8 +66,8 @@ public class DatabaseTest{
 	@Test
 	public void deleteTest() throws SQLException {
 		Patient p2 = Patient.newPatient("Frida", "Kahlo", 'F', 18274635178l, 55558888, "kahlo@gmail.com","dID123");
-		db.insert(p2);
-		db.delete(p2);
+		db.insertPatient(p2);
+		db.deletePatient(p2);
 		ArrayList<String> arr = new ArrayList<String>();
 		assertEquals(arr, db.query("SELECT * FROM Patient WHERE SSN = 18274635178;"));
 	}
@@ -84,7 +84,7 @@ public class DatabaseTest{
 	
 	@After
 	public void tearDown() {
-		db.delete(p1);
+		db.deletePatient(p1);
 		p1 = null;
 	}
 	

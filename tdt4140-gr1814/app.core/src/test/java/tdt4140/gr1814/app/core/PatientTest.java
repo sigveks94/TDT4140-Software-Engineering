@@ -70,7 +70,7 @@ public class PatientTest {
 	}	
 	@Test
 	public void testAddListeners() {
-		CareTaker cT = new CareTaker("Example3","1H8j24s4@");
+		Caretaker cT = new Caretaker("Example3","1H8j24s4@");
 		patient.addListeners(cT);
 		assertEquals(cT.getPatients().get(0),patient);
 		patient2.addListeners(cT);
