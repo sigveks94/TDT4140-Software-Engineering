@@ -12,6 +12,7 @@ public final class InputController {
 			static String inputstream = 
 					"id1:63.418140 10.402736 \r\n" +//1gamle kjemi
 					"id2:63.418000 10.402000 \r\n" +
+					"id3:63.423992 10.394109 \r\n" +//3 broen
 					"id1:63.418148 10.402730 \r\n" +//---1gamle kjemi
 					"id2:63.418008 10.402006 \r\n" + 
 					"id1:63.418140 10.402739 \r\n" +//1gamle kjemi
@@ -49,7 +50,7 @@ public final class InputController {
 					"id1:63.422013 10.399308 \r\n" +//1lyskryss
 					"id2:63.418320 10.402000 \r\n" + 
 					"id1:63.422015 10.399309 \r\n" +//1lyskryss
-					"id3:63.424283 10.390847 \r\n" +//id3 nidelven
+					"id3:63.424283 10.395430 \r\n" +//id3 nidelven
 					"id2:63.418425 10.402000 \r\n" + 
 					"id1:63.422234 10.399233 \r\n" +//1bunnpris
 					"id3:63.423890 10.395435 \r\n" +//id3 nidelven

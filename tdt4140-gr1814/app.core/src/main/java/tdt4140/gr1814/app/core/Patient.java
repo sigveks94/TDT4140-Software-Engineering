@@ -67,6 +67,8 @@ public class Patient{
 		return false;
 	}
 	
+
+	
 	
 //Instance
 	
@@ -147,7 +149,8 @@ public class Patient{
 	public String getID() {
 		return DeviceID;
 	}
-	public void addZone(Point p, Double radius){
+	
+	public void addZoneRadius(Point p, Double radius){
 		this.zone= new ZoneRadius(p, radius);
 	}
 	public void addZone(Zone zone) {
@@ -215,12 +218,12 @@ public class Patient{
 	
 	@Override
 	public String toString() {
-		String output = "Patient Profile\nName: "+this.getFullName()+
-						"\nGender: "+this.getGender()+
-						"\nSSN: "+this.getSSN()+
-						"\nDevice ID: "+this.getID()+
-						"\nNext of kin\nMobile: "+this.getNoK_cellphone()+
-						"\nEmail: "+this.getNoK_email();
+		String output = "Name: "+this.getFullName()+
+						"\n\nGender: "+this.getGender()+
+						"\n\nSSN: "+this.getSSN()+
+						"\n\nDevice ID: "+this.getID()+
+						"\n\n\tNext of kin\n\nMobile: "+this.getNoK_cellphone()+
+						"\n\nEmail: "+this.getNoK_email();
 		return output;
 	}
 
