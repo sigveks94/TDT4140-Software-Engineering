@@ -9,7 +9,12 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -41,6 +46,8 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	private Text patientInfo_txt;
 	@FXML
 	private Button alarm_btn;
+	@FXML
+	private DialogPane delete_warning;
 
 
 
@@ -154,20 +161,45 @@ public class PatientOverviewController implements Initializable, ControlledScree
         alarm_btn.setEffect(colorAdjust);
 	}
 	public void delete_patient() {
-		Long patientSSN = currentPatientProfile.getSSN();
-		if(Patient.deletePatient(patientSSN)) { //if this patient exists in the static list in Patient.java, this will be deleted, and we will delete the person from the database as well
-			updatePatientList();
-			Database db = new Database();
-			db.connect();
-			db.update("DELETE FROM Patient WHERE SSN = "+String.valueOf(patientSSN)+";");
-			System.out.println("Deleted patient with SSN: "+String.valueOf(patientSSN));
-			patientInfo_txt.setText("Deleted patient with SSN: \n"+String.valueOf(patientSSN));
-			try {Thread.sleep(500);} 
-			catch (InterruptedException e) {e.printStackTrace();}
-			patient_profile.setVisible(false);	
-		}else {//if we do not find a patient with this SSN in the static list in Patient.java
-			System.out.println("No person with SSN: "+String.valueOf(patientSSN));
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete patient?", ButtonType.YES, ButtonType.NO);
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.YES) {
+			Long patientSSN = currentPatientProfile.getSSN();
+			if(Patient.deletePatient(patientSSN)) { //if this patient exists in the static list in Patient.java, this will be deleted, and we will delete the person from the database as well
+				updatePatientList();
+				Database db = new Database();
+				db.connect();
+				db.update("DELETE FROM Patient WHERE SSN = "+String.valueOf(patientSSN)+";");
+				System.out.println("Deleted patient with SSN: "+String.valueOf(patientSSN));
+				patientInfo_txt.setText("Deleted patient with SSN: \n"+String.valueOf(patientSSN));
+				try {Thread.sleep(500);} 
+				catch (InterruptedException e) {e.printStackTrace();}
+				patient_profile.setVisible(false);	
+			}else {//if we do not find a patient with this SSN in the static list in Patient.java
+				System.out.println("No person with SSN: "+String.valueOf(patientSSN));
+			}
 		}
+
+	}
+
+	@Override
+	public void showAlarm() {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE,ButtonType.OK);
+		alert.setTitle("");
+		alert.setHeaderText("\t\t\t     ALARM!");
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.setStyle("-fx-background-color: #f3f4f7;");
+		Image image = new Image(ApplicationDemo.class.getResourceAsStream("mapWarning.png"));
+		ImageView imageView = new ImageView(image);
+		alert.setGraphic(imageView);
+		alert.showAndWait();
+		if (alert.getResult() == ButtonType.CLOSE) {alert.close();}
+		if (alert.getResult() == ButtonType.OK) {
+			myController.getMapViewController().patientView();
+			myController.setScreen(ApplicationDemo.MapViewLayoutID);
+			}
+		
 	}
 
 
