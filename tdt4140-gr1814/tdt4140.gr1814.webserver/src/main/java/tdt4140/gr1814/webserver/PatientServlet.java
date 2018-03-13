@@ -34,15 +34,12 @@ public class PatientServlet extends HttpServlet{
 	}
 	
 	/*
-	 * Get requests can handle following inputs and outputs:
+	 * GET requests can handle following inputs and outputs:
 	 * - caretaker_id: returns all the patients associated with this care taker
 	 */
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		test();
-		
 		//Fetches the response input stream in order to echo answer back to the requester
 		PrintWriter echoWriter = resp.getWriter();
 		
@@ -57,10 +54,26 @@ public class PatientServlet extends HttpServlet{
 		
 		
 	}
+
+	/*
+	 * POST Request can be called for inserting a patientobject into the database
+	 */
 	
-	public void test() {
-		System.out.println("A:" + Patient.getAllPatients().size());
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
+		String firstName = req.getParameter("firstname");
+		String surname = req.getParameter("surname");
+		String SSN = req.getParameter("ssn");
+		String phoneNumber = req.getParameter("phone");
+		String email = req.getParameter("email");
+		String gender = req.getParameter("gender");
+		String deviceID = req.getParameter("id");
+		databaseConnection.update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
+        		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"','1');");
 	}
+	
+	
+	
 	
 	//Returns an array of all patients associated with the given caretaker
 	private ArrayList<Patient> getMultiplePatients(String caretakerUsername) {
@@ -93,11 +106,11 @@ public class PatientServlet extends HttpServlet{
 			patients.add(Patient.newPatient(firstName, surName, gender, SSN, cellPhone, mail, deviceId));
 		}
 		
-		
 		return patients;
 	}
 	
 	//Takes any kind of object and parses it into a string on the JSON pattern
+	//Is used to take a list of patient objects ans json serialize it
 	private String toJson(Object o) {
 		Gson jsonParser = new Gson();
 		return jsonParser.toJson(o);
