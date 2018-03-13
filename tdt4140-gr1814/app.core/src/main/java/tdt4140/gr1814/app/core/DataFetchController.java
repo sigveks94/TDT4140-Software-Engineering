@@ -97,6 +97,7 @@ public class DataFetchController {
 
 	public void insertNewPatient(Patient patient) {
 		
+		//Opens a connection to the server
 		HttpURLConnection connection = this.connect("patient?");
 		
 		if(connection == null) {
@@ -104,6 +105,7 @@ public class DataFetchController {
 			return;
 		}
 		
+		//Sets requestMethod to POST and enables the outputStream
 		try {
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
@@ -112,14 +114,10 @@ public class DataFetchController {
 		}
 		
 		//Insert Request String
-				String params = "firstname=" + patient.getFirstName() +"&surname=" + patient.getSurname() + "&ssn=" + patient.getSSN() + "&phone=" + patient.getNoK_cellphone() +
-						"&email=" + patient.getNoK_email() + "&gender=" + patient.getGender() + "&id=" + patient.getID();
-		
-				System.out.println(params);
-		
-		
-				
-		//Send request
+			String params = "firstname=" + patient.getFirstName() +"&surname=" + patient.getSurname() + "&ssn=" + patient.getSSN() + "&phone=" + patient.getNoK_cellphone() +
+					"&email=" + patient.getNoK_email() + "&gender=" + patient.getGender() + "&id=" + patient.getID();
+			
+		//Pass the arguments through the outputstream
 		try {
 	      DataOutputStream wr = new DataOutputStream (
 	                  connection.getOutputStream ());
@@ -131,6 +129,7 @@ public class DataFetchController {
 			e.printStackTrace();
 		}
 		
+		//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
 		try {
 			InputStream connectionInputStream = connection.getInputStream();
 		} catch (IOException e) {
