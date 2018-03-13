@@ -12,7 +12,10 @@ import java.net.URL;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 /*
@@ -60,7 +63,6 @@ public class DataFetchController {
 		try {
 			connection.setRequestMethod("GET");
 		} catch (ProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -79,6 +81,19 @@ public class DataFetchController {
 		//TODO
 		//Convert from JSON and create patients via the Patient.newPatient interface.
 		
+		Gson gson = new Gson();
 		
+		JsonParser jsonParser = new JsonParser();
+		JsonArray jsonArray = (JsonArray) jsonParser.parse(content);
+		for(JsonElement j: jsonArray) {
+			try {
+				JsonObject o = gson.fromJson(j, JsonObject.class);
+				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString());
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println(Patient.getAllPatients().size());
 	}
 }
