@@ -34,6 +34,7 @@ public class DataFetchController {
 	public static void main(String[] args) {
 		DataFetchController controller = new DataFetchController();
 		controller.fetchPatients("motherofthree");
+		controller.insertNewPatient(Patient.newPatient("arne", "bjarne", 'M', 12345432178l, 87382953, "arne@bjarne.com", "id32"));
 	}
 	
 	//Method for establishing connection with the server. The postfix is used to determine which servlet to access
@@ -60,6 +61,7 @@ public class DataFetchController {
 			System.out.println("Connection trouble...");
 			return;
 		}
+		
 		try {
 			connection.setRequestMethod("GET");
 		} catch (ProtocolException e) {
@@ -78,9 +80,6 @@ public class DataFetchController {
 			e.printStackTrace();
 		}
 		
-		//TODO
-		//Convert from JSON and create patients via the Patient.newPatient interface.
-		
 		Gson gson = new Gson();
 		
 		JsonParser jsonParser = new JsonParser();
@@ -94,6 +93,50 @@ public class DataFetchController {
 				e.printStackTrace();
 			}
 		}
-		System.out.println(Patient.getAllPatients().size());
+	}
+
+	public void insertNewPatient(Patient patient) {
+		
+		HttpURLConnection connection = this.connect("patient?");
+		
+		if(connection == null) {
+			System.out.println("Connection trouble...");
+			return;
+		}
+		
+		try {
+			connection.setRequestMethod("POST");
+			connection.setDoOutput(true);
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		}
+		
+		//Insert Request String
+				String params = "firstname=" + patient.getFirstName() +"&surname=" + patient.getSurname() + "&ssn=" + patient.getSSN() + "&phone=" + patient.getNoK_cellphone() +
+						"&email=" + patient.getNoK_email() + "&gender=" + patient.getGender() + "&id=" + patient.getID();
+		
+				System.out.println(params);
+		
+		
+				
+		//Send request
+		try {
+	      DataOutputStream wr = new DataOutputStream (
+	                  connection.getOutputStream ());
+	      wr.writeBytes (params);
+	      wr.flush ();
+	      wr.close ();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			InputStream connectionInputStream = connection.getInputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
