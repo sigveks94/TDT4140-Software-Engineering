@@ -105,9 +105,10 @@ public class Database {
 		String email = patient.getNoK_email();
 		String gender = patient.getGender();
 		String deviceID = patient.getID();
+		int alarmActivated = 1;
 		
-		update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID) "
-            		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"');");
+		update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
+            		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"', "+alarmActivated+");");
     }
 		
 	//Retrieves patients from DB using queries
@@ -183,7 +184,7 @@ public class Database {
 	//returns an array with all the patients a caretaker is connected to
 	public ArrayList<Patient> retrieveCaretakersPatients(Caretaker caretaker) throws SQLException{
 		String username = caretaker.getUsername();
-		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName, Patient.Gender, Patient.PhoneNumber, Patient.Email, Patient.DeviceID FROM PatientCaretaker "
+		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName, Patient.Gender, Patient.PhoneNumber, Patient.Email, Patient.DeviceID, Patient.alarmActivated FROM PatientCaretaker "
 				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='"+username+"'";
 		ArrayList<ArrayList<String>> patients =  query(queryString);
 		ArrayList<Patient> result = new ArrayList();
