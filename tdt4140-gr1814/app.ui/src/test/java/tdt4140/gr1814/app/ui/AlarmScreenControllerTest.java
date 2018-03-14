@@ -14,7 +14,6 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
 
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -77,12 +76,12 @@ public class AlarmScreenControllerTest extends ApplicationTest {
 	
 	@Test
 	public void testDismiss_btn() {
-		verifyThat(Dismiss_btn, NodeMatchers.hasText("Dismiss"));
+		verifyThat(Dismiss_btn, NodeMatchers.hasText("< Dismiss"));
 		
 	}
 	
 	@Test
 	public void testShowMap_btn() {
-		verifyThat(showMap_btn, NodeMatchers.hasText("Show in map"));
+		verifyThat(showMap_btn, NodeMatchers.hasText("Show in map >"));
 	}
 }
