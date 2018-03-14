@@ -14,7 +14,7 @@ public class Database {
 	
 	//THIS CLASS DOES NOT PROVIDE THE NECESSARY SECURITY FOR DATABASE MANIPULATION, THIS WILL BE IMPLEMENTED IN LATER SPRINTS
 	
-	//*************************************CONNECTING*************************************
+	//******************************************************CONNECTING******************************************************
 	
 	public void connect() {
 		try {
@@ -28,7 +28,7 @@ public class Database {
 	
 	
 	
-	//*************************************GETTERS*************************************
+	//******************************************************GETTERS******************************************************
 	
 		public Connection getConnection() {
 			return myConn;
@@ -46,7 +46,7 @@ public class Database {
 		
 		
 	
-	//*************************************GENERAL SQL HELP METHODS*************************************
+	//******************************************************GENERAL SQL HELP METHODS******************************************************
 	
 		//a general method for changing the db(delete, insert, update), used as a help method.
 		public void update(String query) {
@@ -94,7 +94,7 @@ public class Database {
 		
 		
 	
-	//*************************************PATIENT*************************************
+	//******************************************************PATIENT******************************************************
 	
 	//inserts a patient into the db
 	public void insertPatient(Patient patient) {
@@ -105,9 +105,10 @@ public class Database {
 		String email = patient.getNoK_email();
 		String gender = patient.getGender();
 		String deviceID = patient.getID();
+		int alarmActivated = 1;
 		
-		update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID) "
-            		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"');");
+		update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
+            		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"', "+alarmActivated+");");
     }
 		
 	//Retrieves patients from DB using queries
@@ -151,7 +152,7 @@ public class Database {
 	
 	
 	
-	//*************************************CARETAKER*************************************
+	//******************************************************CARETAKER******************************************************
 	
 	//inserts caretaker into the db
 	public boolean insertCareTaker(Caretaker caretaker) {
@@ -178,12 +179,12 @@ public class Database {
 	
 	
 	
-	//*************************************PATIENT-CARETAKER METHODS*************************************
+	//******************************************************PATIENT-CARETAKER METHODS******************************************************
 	
 	//returns an array with all the patients a caretaker is connected to
 	public ArrayList<Patient> retrieveCaretakersPatients(Caretaker caretaker) throws SQLException{
 		String username = caretaker.getUsername();
-		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName, Patient.Gender, Patient.PhoneNumber, Patient.Email, Patient.DeviceID FROM PatientCaretaker "
+		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName, Patient.Gender, Patient.PhoneNumber, Patient.Email, Patient.DeviceID, Patient.alarmActivated FROM PatientCaretaker "
 				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='"+username+"'";
 		ArrayList<ArrayList<String>> patients =  query(queryString);
 		ArrayList<Patient> result = new ArrayList();
@@ -225,7 +226,7 @@ public class Database {
 	
 	
 	
-	//*************************************ZONE*************************************
+	//******************************************************ZONE******************************************************
 	
 	//A method that inserts a zone. All zones must be connected to a person already in the db
 	public void insertZone(Patient patient, ZoneTailored zoneTailored) throws SQLException {
@@ -289,12 +290,30 @@ public class Database {
 		int maxKey=findMaxIDZone();
 		return maxKey+=1;
 	}
-		
+	
+	
+	
+	
+	
+	//******************************************************ALARM******************************************************
+	
+	//activates the alarm for a patient
+	public void activateAlarmActivated(Patient patient) {
+		String SSN = Long.toString(patient.getSSN());
+		update("UPDATE Patient SET alarmActivated = 1 WHERE SSN ='"+SSN+"'");
+	}
+	
+	//deactivates the alarm for a patient
+	public void deactivateAlarmActivated(Patient patient) {
+		String SSN = Long.toString(patient.getSSN());
+		update("UPDATE Patient SET alarmActivated = 0 WHERE SSN ='"+SSN+"'");
+	}
+	
 		
 		
 		
 	
-	//*************************************FILE*************************************
+	//******************************************************FILE******************************************************
 	
 	//this method inserts txt-files in the db
 	public void insertFile(int fileKey, String filename) throws FileNotFoundException {
@@ -312,7 +331,7 @@ public class Database {
 	
 	
 	
-	//*************************************LOGIN*************************************
+	//******************************************************LOGIN******************************************************
 	
 	//checks if the password for the username is correct. If it is, the method returns the corresponding caretaker object. 
 	//If the username don't exist or the password is wrong, the method returns null.
@@ -336,6 +355,23 @@ public class Database {
 		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
 		Caretaker c1 = new Caretaker("motherofthree","Saga123@1","Jordmorjordet 1");
 		Caretaker c2 = new Caretaker("iceroadtruckerfan","beef&Burger3","Rallarveien 3");
+		
+		Point point1 = new Point("deviceID3",225.56,347.89999);
+		Point point2 = new Point("deviceID3",223.56,323.89999);
+		Point point3 = new Point("deviceID3",227.56,389.89999);
+		Point point4 = new Point("deviceID3",221.56,312.89999);
+		ArrayList<Point> arr = new ArrayList();
+		arr.add(point1);
+		arr.add(point2);
+		arr.add(point3);
+		arr.add(point4);
+		ZoneTailored zone = new ZoneTailored(arr);
+		
+		Database db = new Database();
+		db.connect();
+		
+		db.insertZone(p1, zone);
+		
 	}
 }
 
