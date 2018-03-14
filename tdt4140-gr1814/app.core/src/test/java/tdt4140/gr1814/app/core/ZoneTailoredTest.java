@@ -48,32 +48,32 @@ public class ZoneTailoredTest {
 	@Test
 	public void isInsideTest1() {
 		Point p5 = new Point("A76",52.5,32.5);
-		//assertTrue(zone1.isInsideZone(p5));
+		assertTrue(zone1.isInsideZone(p5));
 	}
 	
 	@Test
 	public void isInsideAndOutsideTest2() {
 		Point p15 = new Point("A92",50.5,40.49);
 		Point p16 = new Point("A93",50.5,40.51);
-		//assertTrue(zone2.isInsideZone(p15));
-		//assertFalse(zone2.isInsideZone(p16));
+		assertTrue(zone2.isInsideZone(p15));
+		assertFalse(zone2.isInsideZone(p16));
 	}
-//	@Test
-//	public void isInsideAndOutsideTest3() {
-//		Point p17 = new Point("A94",11.24,24.39);
-//		Point p18 = new Point("A95",24.53,26.84);
-//		Point p19 = new Point("A96",17.13,6.61);
-//		Point p20 = new Point("A97",28.68,9.45);
-//		assertTrue(zone3.isInsideZone(p17));
-//		assertFalse(zone3.isInsideZone(p18));
-//		assertFalse(zone3.isInsideZone(p19));
-//		assertTrue(zone3.isInsideZone(p20));
-//	}
+	@Test
+	public void isInsideAndOutsideTest3() {
+		Point p17 = new Point("A94",11.24,24.39);
+		Point p18 = new Point("A95",24.53,26.84);
+		Point p19 = new Point("A96",17.13,6.61);
+		Point p20 = new Point("A97",28.68,9.45);
+		assertTrue(zone3.isInsideZone(p17));
+		assertFalse(zone3.isInsideZone(p18));
+		assertFalse(zone3.isInsideZone(p19));
+		assertTrue(zone3.isInsideZone(p20));
+	}
 	
 	@Test
 	public void isOutsideTest1() {
 		Point p6 = new Point("A77",53.5,32.5);
-		//assertFalse(zone1.isInsideZone(p6));
+		assertFalse(zone1.isInsideZone(p6));
 	}
 	
 	@After
