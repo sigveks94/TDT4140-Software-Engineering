@@ -64,7 +64,7 @@ public class createNewPatientControllerTest extends ApplicationTest {
 		accept_checkbox = find("#accept_checkbox");
 		TermsOfUse = find("#TermsOfUse");
 		cancel_button = find("#cancel_button");
-		add_button = find("#add_button");
+		// add_button = find("#add_button");
 		surnameError = find("#surnameError");
 		firstnameError = find("#firstnameError");
 		ssnError = find("#ssnError");
@@ -109,7 +109,7 @@ public class createNewPatientControllerTest extends ApplicationTest {
 		assertNotNull(errMsg, accept_checkbox);
 		assertNotNull(errMsg, TermsOfUse);
 		assertNotNull(errMsg, cancel_button);
-		assertNotNull(errMsg, add_button);
+		//assertNotNull(errMsg, add_button);
 		assertNotNull(errMsg, firstnameError);
 		assertNotNull(errMsg, surnameError);
 		assertNotNull(errMsg, ssnError);
