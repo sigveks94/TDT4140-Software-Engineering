@@ -43,12 +43,15 @@ public class PatientServlet extends HttpServlet{
 		//Fetches the response input stream in order to echo answer back to the requester
 		PrintWriter echoWriter = resp.getWriter();
 		
-		//If a care taker id is passed as a argument, the response should be a list of all the patients associated with
-		//this care taker
+		//If a caretaker id is passed as a argument, the response should be a list of all the patients associated with this caretaker
 		if(req.getParameter("caretaker_id") != null) {
 			echoWriter.print(toJson(getMultiplePatients(req.getParameter("caretaker_id"))));
 			echoWriter.flush();
 			echoWriter.close();
+			return;
+		}
+		else {
+			resp.setStatus(400); //If none of the expected parameters are recieved the 400 Bad Request status is set
 			return;
 		}
 		
@@ -56,7 +59,9 @@ public class PatientServlet extends HttpServlet{
 	}
 
 	/*
-	 * POST Request can be called for inserting a patientobject into the database
+	 * POST Request can be called for inserting a patient object into the database
+	 * This request expects the follow parameters : firstname, surname, SSN, phone number, email, gender and deviceID
+	 * If any of these parameters are missing the insertion will not go through and an appropriate status code should be sent back to the requester
 	 */
 	
 	@Override
@@ -68,8 +73,40 @@ public class PatientServlet extends HttpServlet{
 		String email = req.getParameter("email");
 		String gender = req.getParameter("gender");
 		String deviceID = req.getParameter("id");
-		databaseConnection.update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
-        		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"','1');");
+		
+		if(firstName == null || surname == null || SSN == null || phoneNumber == null || email == null || gender == null || deviceID == null) {
+			resp.setStatus(400); //Bad Request status
+			return;
+		}
+		try {
+			Long.parseLong(SSN);
+			if(SSN.length() != 11) {
+				resp.setStatus(400); //Bad Request status
+				return;
+			}
+		}
+		catch(NumberFormatException numberException) {
+			numberException.printStackTrace();
+			resp.setStatus(400); //Bad Request status
+			return;
+		}
+		try {
+			Integer.parseInt(phoneNumber);
+		}
+		catch(NumberFormatException numberException) {
+			numberException.printStackTrace();
+			resp.setStatus(400); //Bad Request Status
+			return;
+		}
+		
+		
+		if(databaseConnection.update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
+        		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"','1');")) {
+			resp.setStatus(200);//OK response
+		}
+		else {
+			resp.setStatus(500);//Internal DB error response
+		}
 	}
 	
 	
@@ -90,6 +127,7 @@ public class PatientServlet extends HttpServlet{
 			result = databaseConnection.query(queryString);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
 		
 		//List to store actual patient objects in
@@ -110,7 +148,7 @@ public class PatientServlet extends HttpServlet{
 	}
 	
 	//Takes any kind of object and parses it into a string on the JSON pattern
-	//Is used to take a list of patient objects ans json serialize it
+	//Is used to take a list of patient objects and json serialize it
 	private String toJson(Object o) {
 		Gson jsonParser = new Gson();
 		return jsonParser.toJson(o);
