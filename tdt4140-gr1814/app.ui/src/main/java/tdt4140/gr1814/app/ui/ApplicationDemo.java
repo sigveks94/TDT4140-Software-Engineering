@@ -20,21 +20,14 @@ import tdt4140.gr1814.app.core.ZoneTailored;
 public class ApplicationDemo extends Application{
 	
 	//temporary info for caretaker
-	public static String username;
-	public static String adress;
-	public static String password;
-
-   
+	public static Caretaker applicationUser;
+	//nickname and filename for screens used in the application
     public static String HomescreenID = "HomeScreen";
     public static String HomescreenFile = "HomeScreenGUI.fxml";
     public static String NewPatientID = "NewPatient";
     public static String NewPatientFile = "CreateNewPatient.fxml";
     public static String MapViewLayoutID = "MapViewLayout";
     public static String MapViewLayoutFile = "MapViewLayout.fxml";
-    public static String AlarmID = "alarmScreen";                 
-    public static String AlarmFile = "alarmScreen.fxml"; 
-    //public static String DeletePatientID = "DeletePatient";
-    //public static String DeletePatientFile = "DeletePatient.fxml";
     public static String PatientOverviewID = "PatientOverview";
     public static String PatientOverviewFile = "PatientOverview.fxml";
     
@@ -47,31 +40,25 @@ public class ApplicationDemo extends Application{
         ScreensContainer.loadScreen(ApplicationDemo.HomescreenID, ApplicationDemo.HomescreenFile);
         ScreensContainer.loadScreen(ApplicationDemo.NewPatientID, ApplicationDemo.NewPatientFile);
         ScreensContainer.loadScreen(ApplicationDemo.MapViewLayoutID, ApplicationDemo.MapViewLayoutFile);
-        ScreensContainer.loadScreen(ApplicationDemo.AlarmID, ApplicationDemo.AlarmFile);
-        //ScreensContainer.loadScreen(ApplicationDemo.DeletePatientID, ApplicationDemo.DeletePatientFile);
         ScreensContainer.loadScreen(ApplicationDemo.PatientOverviewID, ApplicationDemo.PatientOverviewFile);
-        //ScreensContainer.loadScreen(ApplicationDemo.MapZoneViewID, ApplicationDemo.MapZoneViewFile);
         
         ScreensContainer.setScreen(ApplicationDemo.HomescreenID);//screen is added to the root (set screen to the front of the stack).
         
         StackPane root = new StackPane();//Back-to-front stack of children
         root.getChildren().addAll(ScreensContainer);//adds all screens from the ScreensContainer to the StackPane
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,700,500);
         stage.setScene(scene);
-        //just for fun. Adding logo and title to the Java-application 
+        //just for fun. Adding logo to the Java-application bar.
         stage.getIcons().add(new Image(ApplicationDemo.class.getResourceAsStream("RedCross.png"))); 
-        stage.setTitle("Demo Sprint1");
-        stage.setWidth(700);
-        stage.setHeight(500);
         stage.show();
     }
 
 
 	public static void main(String[] args) throws SQLException, IOException {
-	    	//Demo Simulation. Loading pre-existing Person objects form database. 
-		ApplicationDemo.username = "Tempe Omsorgsenter";
-		ApplicationDemo.adress = "Valøyvegen 12, \n7031 Trondheim, Norge";
-	    
+	    	//Demo Simulation. 
+		ApplicationDemo.applicationUser = new Caretaker("Tempe Omsorgsenter","passord","Valøyvegen 12, \\n7031 Trondheim, Norge");
+
+	    //Loading pre-existing Person objects form database.
 		Database database = new Database();
 	    	database.connect();
 	    	database.retrievePatients();

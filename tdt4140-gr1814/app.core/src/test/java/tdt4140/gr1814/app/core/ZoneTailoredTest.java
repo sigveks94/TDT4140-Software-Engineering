@@ -48,15 +48,15 @@ public class ZoneTailoredTest {
 	@Test
 	public void isInsideTest1() {
 		Point p5 = new Point("A76",52.5,32.5);
-		//assertTrue(zone1.isInsideZone(p5));
+		assertTrue(zone1.isInsideZone(p5));
 	}
 	
 	@Test
 	public void isInsideAndOutsideTest2() {
 		Point p15 = new Point("A92",50.5,40.49);
 		Point p16 = new Point("A93",50.5,40.51);
-		//assertTrue(zone2.isInsideZone(p15));
-		//assertFalse(zone2.isInsideZone(p16));
+		assertTrue(zone2.isInsideZone(p15));
+		assertFalse(zone2.isInsideZone(p16));
 	}
 	@Test
 	public void isInsideAndOutsideTest3() {
@@ -73,7 +73,7 @@ public class ZoneTailoredTest {
 	@Test
 	public void isOutsideTest1() {
 		Point p6 = new Point("A77",53.5,32.5);
-		//assertFalse(zone1.isInsideZone(p6));
+		assertFalse(zone1.isInsideZone(p6));
 	}
 	
 	@After
