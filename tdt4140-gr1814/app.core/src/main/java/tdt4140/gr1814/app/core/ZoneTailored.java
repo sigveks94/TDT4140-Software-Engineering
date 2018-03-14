@@ -10,6 +10,15 @@ public ZoneTailored(ArrayList<Point> points) {
 	this.points = points;
 }
 
+
+public static ArrayList<Point> doubleArrayListToSingleArrayListPoints(ArrayList<ArrayList<Double>> darr){
+	ArrayList<Point> outer = new ArrayList<>();
+	for (ArrayList<Double> latlong : darr) {
+		outer.add(new Point(""+latlong.get(0), latlong.get(1), latlong.get(2)));
+	}
+	return outer;
+}
+
 public int getNumberOfPoints() {
 	return points.size();
 }
@@ -17,6 +26,7 @@ public int getNumberOfPoints() {
 public ArrayList<Point> getPoints(){
 	return this.points;
 }
+@Override
 public ArrayList<ArrayList<Double>> getPointsToDatabaseFormat(){ //RETURNS THIS ZONE WITH ITS POINTS AS A DOUBLE ARRAY IN ORDER TO USE INDEXES AS ORDER NUMBER
 	ArrayList<ArrayList<Double>> arrayToDB = new ArrayList<>();
 	for (Point p:points) {
@@ -24,6 +34,7 @@ public ArrayList<ArrayList<Double>> getPointsToDatabaseFormat(){ //RETURNS THIS 
 	}
 	return arrayToDB;	
 }
+
 @Override
 public Boolean isInsideZone(Point p) {
 	//Checks how many times the point crosses any line when you go south from the point
@@ -37,9 +48,9 @@ public Boolean isInsideZone(Point p) {
 		} else {
 			k = i + 1;
 		}
-		System.out.println(i + " : " + k);
+		//System.out.println(i + " : " + k);
 		if ((points.get(i).getLongt() <= p.getLongt())&&(points.get(k).getLongt() > p.getLongt())) {
-			double midle = (p.getLongt()) - points.get(i).getLongt()/(points.get(k).getLongt() - points.get(i).getLongt());
+			double midle = (p.getLongt() - points.get(i).getLongt())/(points.get(k).getLongt() - points.get(i).getLongt());
 			if (p.getLat() >= (midle * (points.get(k).getLat() - points.get(i).getLat())) + points.get(i).getLat()) {
 				count += 1;
 			}
@@ -50,7 +61,7 @@ public Boolean isInsideZone(Point p) {
 			}
 		}
 	}
-	System.out.println(count);
+	//System.out.println(count);
 	return ((count % 2) == 1) ;
 }
 }

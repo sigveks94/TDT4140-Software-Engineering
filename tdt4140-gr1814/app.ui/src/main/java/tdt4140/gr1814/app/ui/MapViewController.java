@@ -1,6 +1,7 @@
 package tdt4140.gr1814.app.ui;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +26,15 @@ import com.lynden.gmapsfx.shapes.PolygonOptions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import tdt4140.gr1814.app.core.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.Patient;
+import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.Point;
 import tdt4140.gr1814.app.core.ZoneTailored;
 
@@ -148,7 +155,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		patientView();
 		myController.setScreen(ApplicationDemo.PatientOverviewID);
 	}
-	
 	public void zoneView(Patient currentPatient) {
 		this.currentPatient = currentPatient;
 		menu_btn.setVisible(false);
@@ -202,7 +208,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		saveZone_btn.setVisible(false);
 		newZoneMap = false;
 		if (mapPolygon != null) {mapPolygon.getPath().clear();}
-		
+		 //display last location when opening map. solves problem of dissapearing markers when inputstream is over
 		for (Patient p: Patient.patients) { //display last location when opening map. solves problem of dissapearing markers when inputstream is over
 			if (p.getCurrentLocation() != null) {
 			onLocationChanged(p.getID(),p.getCurrentLocation());
@@ -211,7 +217,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		
 	}
 	
-	public void saveZone() {
+	public void saveZone() throws SQLException {
 		GetCoordinatesFromMap getArray = new GetCoordinatesFromMap(mapPolygon.getPath());
 		getArray.calculate();
 		ArrayList<double[]> makePoints = getArray.getLatLongSave();
@@ -223,6 +229,27 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		System.out.println("SAVING...");
 		map.removeMapShape(mapPolygon);
 		zoneView(currentPatient);
+		Database db = new Database();
+		db.connect();
+		db.deleteZone(currentPatient);
+		ZoneTailored zone = (ZoneTailored) currentPatient.getZone();
+		db.insertZone(currentPatient, zone);
+	}
+
+	@Override
+	public void showAlarm() {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE, ButtonType.OK);
+		alert.setTitle("");
+		alert.setHeaderText("\t\t\t     ALARM!");
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.setStyle("-fx-background-color: #f3f4f7;");
+		Image image = new Image(ApplicationDemo.class.getResourceAsStream("mapWarning.png"));
+		ImageView imageView = new ImageView(image);
+		alert.setGraphic(imageView);
+		alert.showAndWait();
+		if (alert.getResult() == ButtonType.OK) {patientView();}
+		if (alert.getResult() == ButtonType.CLOSE) {alert.close();;}
+		
 	}
 	
 	
