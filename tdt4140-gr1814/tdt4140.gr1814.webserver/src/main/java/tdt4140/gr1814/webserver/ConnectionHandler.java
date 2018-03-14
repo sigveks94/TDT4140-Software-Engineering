@@ -23,16 +23,9 @@ public class ConnectionHandler {
 	
 	
 	//a general method for updating the db, used as a help method.
-	public boolean update(String query) {
-		try {
+	public void update(String query) throws SQLException {
             myStmt = myConn.createStatement();
             myStmt.executeUpdate(query);
-        } catch (Exception e) {
-            System.out.println("The update query failed. Check your sql syntax.");
-            e.printStackTrace();
-            return false;
-        }
-		return true;
 	}
 	
 	//a general method for querying the db, used as a help method
