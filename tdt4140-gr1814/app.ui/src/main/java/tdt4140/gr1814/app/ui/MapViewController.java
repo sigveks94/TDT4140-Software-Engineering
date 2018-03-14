@@ -150,7 +150,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		patientView();
 		myController.setScreen(ApplicationDemo.PatientOverviewID);
 	}
-	
 	public void zoneView(Patient currentPatient) {
 		this.currentPatient = currentPatient;
 		menu_btn.setVisible(false);
