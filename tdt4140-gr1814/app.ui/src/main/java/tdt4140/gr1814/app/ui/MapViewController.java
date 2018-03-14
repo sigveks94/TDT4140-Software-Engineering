@@ -226,7 +226,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		map.removeMapShape(mapPolygon);
 		zoneView(currentPatient);
 		Database db = new Database();
-		db.insertZone(currentPatient, (ZoneTailored) currentPatient.getZone());
+		db.connect();
+		db.deleteZone(currentPatient);
+		ZoneTailored zone = (ZoneTailored) currentPatient.getZone();
+		//System.out.println("ZoneTailored:" + zone.getPointsToDatabaseFormat() );
+		db.insertZone(currentPatient, zone);
 	}
 	
 	

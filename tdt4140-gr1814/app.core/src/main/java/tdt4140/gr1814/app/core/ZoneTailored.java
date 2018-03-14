@@ -10,6 +10,15 @@ public ZoneTailored(ArrayList<Point> points) {
 	this.points = points;
 }
 
+
+public static ArrayList<Point> doubleArrayListToSingleArrayListPoints(ArrayList<ArrayList<Double>> darr){
+	ArrayList<Point> outer = new ArrayList<>();
+	for (ArrayList<Double> latlong : darr) {
+		outer.add(new Point(""+latlong.get(0), latlong.get(1), latlong.get(2)));
+	}
+	return outer;
+}
+
 public int getNumberOfPoints() {
 	return points.size();
 }
@@ -25,6 +34,7 @@ public ArrayList<ArrayList<Double>> getPointsToDatabaseFormat(){ //RETURNS THIS 
 	}
 	return arrayToDB;	
 }
+
 @Override
 public Boolean isInsideZone(Point p) {
 	//Checks how many times the point crosses any line when you go south from the point
