@@ -74,7 +74,7 @@ public class createNewPatientControllerTest extends ApplicationTest {
 	
 	@Override
 	public void start(Stage stage) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("createNewPatient.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateNewPatient.fxml"));
 		Parent root = loader.load();
 		this.controller = loader.getController();
 		Scene scene = new Scene(root);
@@ -191,6 +191,11 @@ public class createNewPatientControllerTest extends ApplicationTest {
 	}
 	
 	@Test
+	public void testGoToHomeScreen() {
+		
+	}
+	
+	@Test
 	public void testResetScene() {
 		controller.resetScene();
 		verifyThat(patient_name, NodeMatchers.hasText(""));
@@ -202,5 +207,4 @@ public class createNewPatientControllerTest extends ApplicationTest {
 		assertFalse(genderF.isSelected());
 		assertFalse(accept_checkbox.isSelected());
 	}
-	
 }
