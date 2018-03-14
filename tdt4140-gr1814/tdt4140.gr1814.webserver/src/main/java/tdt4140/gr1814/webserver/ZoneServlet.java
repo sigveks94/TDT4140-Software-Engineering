@@ -84,6 +84,65 @@ public class ZoneServlet extends HttpServlet{
 		
 	}
 	
+	/*
+	 * The POST Request handles requests for inserting new zones and updating current ones
+	 * Expected parameters: ssn, lat, long, point_order
+	 */
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		this.establishConnection(resp);
+		
+		String ssn = req.getParameter("ssn");
+		String lat = req.getParameter("lat");
+		String longt = req.getParameter("long");
+		String point_order = req.getParameter("point_order");
+		System.out.println(ssn + " " + lat + " " + longt + " " + point_order);
+		
+		String zoneId = null;
+		
+		String query = "SELECT MAX(ZoneID) AS zoneID FROM ZonePoint";
+		try {
+			zoneId = databaseConnection.query(query).get(0).get(0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500); //Internal DB Error
+			return;
+		}
+		if(zoneId == null) {
+			resp.setStatus(500); //Internal DB Error
+			return;
+		}
+		try {
+			zoneId = String.valueOf((Integer.parseInt(zoneId) + 1));
+		}
+		catch(NumberFormatException e) {
+			e.printStackTrace();
+			resp.setStatus(500); //Internal DB Error
+			return;
+		}
+		
+		query = "INSERT INTO Zone (ZoneID, PatientSSN) VALUES (" + zoneId + "," + ssn + ")";
+		try {
+			databaseConnection.update(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500); //Internal DB Error
+			return;
+		}
+		
+		query = "INSERT INTO ZonePoint (Lat, Longt, PointOrder, ZoneID, DeviceID) VALUES (" + lat +"," + longt + "," + point_order + "," + zoneId + "id99)";
+		try {
+			databaseConnection.update(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500); //Internal DB Error
+			return;
+		}
+		resp.setStatus(200);
+	}
+	
 	//Private method for getting zones associated with a single patient given the SSN of the patient
 	private ArrayList<ArrayList<String>> getZone(long ssn){
 		try {
