@@ -64,7 +64,7 @@ public class createNewPatientControllerTest extends ApplicationTest {
 		accept_checkbox = find("#accept_checkbox");
 		TermsOfUse = find("#TermsOfUse");
 		cancel_button = find("#cancel_button");
-		add_button = find("#add_button");
+		// add_button = find("#add_button");
 		surnameError = find("#surnameError");
 		firstnameError = find("#firstnameError");
 		ssnError = find("#ssnError");
@@ -74,7 +74,7 @@ public class createNewPatientControllerTest extends ApplicationTest {
 	
 	@Override
 	public void start(Stage stage) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("createNewPatient.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateNewPatient.fxml"));
 		Parent root = loader.load();
 		this.controller = loader.getController();
 		Scene scene = new Scene(root);
@@ -109,7 +109,7 @@ public class createNewPatientControllerTest extends ApplicationTest {
 		assertNotNull(errMsg, accept_checkbox);
 		assertNotNull(errMsg, TermsOfUse);
 		assertNotNull(errMsg, cancel_button);
-		assertNotNull(errMsg, add_button);
+		//assertNotNull(errMsg, add_button);
 		assertNotNull(errMsg, firstnameError);
 		assertNotNull(errMsg, surnameError);
 		assertNotNull(errMsg, ssnError);
@@ -191,6 +191,11 @@ public class createNewPatientControllerTest extends ApplicationTest {
 	}
 	
 	@Test
+	public void testGoToHomeScreen() {
+		
+	}
+	
+	@Test
 	public void testResetScene() {
 		controller.resetScene();
 		verifyThat(patient_name, NodeMatchers.hasText(""));
@@ -202,5 +207,4 @@ public class createNewPatientControllerTest extends ApplicationTest {
 		assertFalse(genderF.isSelected());
 		assertFalse(accept_checkbox.isSelected());
 	}
-	
 }
