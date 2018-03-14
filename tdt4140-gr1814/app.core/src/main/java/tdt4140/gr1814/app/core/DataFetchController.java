@@ -25,7 +25,7 @@ import com.google.gson.reflect.TypeToken;
 public class DataFetchController {
 	
 	//The port the server is listening for http requests on
-	private final int serverPort = 8085;
+	private final int serverPort = 8080;
 	
 	public DataFetchController() {
 		
@@ -33,8 +33,63 @@ public class DataFetchController {
 	
 	public static void main(String[] args) {
 		DataFetchController controller = new DataFetchController();
-		controller.fetchPatients("motherofthree");
-		controller.insertNewPatient(Patient.newPatient("arne", "bjarne", 'M', 12345432178l, 87382953, "arne@bjarne.com", "id32"));
+		Caretaker c = controller.logIn("olsenboy", "Engler123@");
+		System.out.println(c.getUsername());
+	}
+	
+	public Caretaker logIn(String username, String password) {
+		
+		//Opens a connection to the server
+			HttpURLConnection connection = this.connect("login");
+			
+			if(connection == null) {
+				System.out.println("Connection trouble...");
+				return null;
+			}
+			
+			//Sets requestMethod to POST and enables the outputStream
+			try {
+				connection.setRequestMethod("POST");
+				connection.setDoOutput(true);
+			} catch (ProtocolException e) {
+				e.printStackTrace();
+			}
+			
+			//Insert Request String
+				String params = "username=" + username + "&password=" + password;
+				
+			//Pass the arguments through the outputstream
+			try {
+		      DataOutputStream wr = new DataOutputStream (
+		                  connection.getOutputStream ());
+		      wr.writeBytes (params);
+		      wr.flush ();
+		      wr.close ();
+			}
+			catch(IOException e) {
+				e.printStackTrace();
+			}
+			
+			//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
+			try {
+				InputStream connectionInputStream = connection.getInputStream();
+				BufferedReader reader = new BufferedReader(new InputStreamReader(connectionInputStream));
+				String content = "";
+				String line = "";
+				while((line = reader.readLine())!= null) {
+					content += line;
+				}
+				Gson gson = new Gson();
+				JsonObject o = gson.fromJson(content, JsonObject.class);
+				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password");
+				return caretaker;
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		return null;
 	}
 	
 	//Method for establishing connection with the server. The postfix is used to determine which servlet to access
