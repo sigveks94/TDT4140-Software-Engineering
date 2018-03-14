@@ -15,16 +15,10 @@ public class ConnectionHandler {
 	
 	
 	//connecting to the db
-	public void connect() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			myConn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/hara_database?autoReconnect=true&useSSL=false","hara_db","gruppe14");
-		
-		}catch (Exception ex){
-				ex.printStackTrace();
-			}
-		}
-	
+	public void connect() throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		myConn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/hara_database?autoReconnect=true&useSSL=false","hara_db","gruppe14");
+	}
 	
 	
 	

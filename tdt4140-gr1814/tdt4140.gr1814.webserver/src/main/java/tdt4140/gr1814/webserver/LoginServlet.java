@@ -15,10 +15,17 @@ public class LoginServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	ConnectionHandler databaseConnection;
 	
-	public LoginServlet() {
-		databaseConnection = new ConnectionHandler();
-		databaseConnection.connect();
-	}
+	//Privat method for establishing connection with the database
+		private void establishConnection(HttpServletResponse resp) {
+			databaseConnection = new ConnectionHandler();
+			try {
+				databaseConnection.connect();
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+				resp.setStatus(500); //Internal DB error
+				return;
+			} 
+		}
 	
 	/*
 	 * POST REQUEST for login
@@ -26,6 +33,8 @@ public class LoginServlet extends HttpServlet{
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+			this.establishConnection(resp);
 		
 			//The request expects the two given parameters
 			String username = req.getParameter("username");

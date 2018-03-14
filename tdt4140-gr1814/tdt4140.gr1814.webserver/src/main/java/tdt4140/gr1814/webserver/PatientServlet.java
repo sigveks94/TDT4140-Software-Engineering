@@ -28,10 +28,17 @@ public class PatientServlet extends HttpServlet{
 	
 	ConnectionHandler databaseConnection;
 	
-	public PatientServlet() {
-		databaseConnection = new ConnectionHandler();
-		databaseConnection.connect();
-	}
+	//Privat method for establishing connection with the database
+		private void establishConnection(HttpServletResponse resp) {
+			databaseConnection = new ConnectionHandler();
+			try {
+				databaseConnection.connect();
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+				resp.setStatus(500); //Internal DB error
+				return;
+			} 
+		}
 	
 	/*
 	 * GET requests can handle following inputs and outputs:
@@ -40,6 +47,9 @@ public class PatientServlet extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		this.establishConnection(resp);
+		
 		//Fetches the response input stream in order to echo answer back to the requester
 		PrintWriter echoWriter = resp.getWriter();
 		
@@ -66,6 +76,8 @@ public class PatientServlet extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
+		
+		this.establishConnection(resp);
 		String firstName = req.getParameter("firstname");
 		String surname = req.getParameter("surname");
 		String SSN = req.getParameter("ssn");
