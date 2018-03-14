@@ -138,14 +138,14 @@ public class Database {
 	            }
 	            Patient patient  = Patient.newPatient(innerList.get(1), innerList.get(2), innerList.get(3).charAt(0), Long.parseLong(innerList.get(0)),  
 	            		Integer.parseInt(innerList.get(4)),innerList.get(5), innerList.get(6));
-	            /*Zone zone = retrieveZone(patient);
-	            patient.addZone(zone);
-	            if (zone!=null) {
-	                patient.addZone(zone);
-	                }*/
 	            
 	            returnList.add(patient);
 	        }
+		}
+		
+		for(Patient p : returnList) {
+			Zone z = retrieveZone(p);
+			p.addZone(z);
 		}
 		return returnList;
 	}
@@ -207,11 +207,12 @@ public class Database {
 		for(int i=0; i<patients.size();i++) {
 			Patient p = Patient.newPatient(patients.get(i).get(1), patients.get(i).get(2), patients.get(i).get(3).charAt(0), 
 					Long.parseLong(patients.get(i).get(0)), Integer.parseInt(patients.get(i).get(4)), patients.get(i).get(5), patients.get(i).get(6));
-			/*Zone zone = retrieveZone(p);
-			if (zone!=null) {
-            p.addZone(zone);
-            }*/
 			result.add(p);
+		}
+		
+		for(Patient p : result) {
+			Zone z = retrieveZone(p);
+			p.addZone(z);
 		}
 		return result;
 	}
@@ -258,8 +259,6 @@ public class Database {
 		update("INSERT INTO Zone(ZoneID, PatientSSN) VALUES("+zoneID+",'"+SSN+"')");
 		for (int i=0;i<points.size(); i++) {
 			update("INSERT INTO ZonePoint(ZonePointID, Lat, Longt, PointOrder, ZoneID, DeviceID) VALUES("+generateZonePointKey()+","
-					+ ""+points.get(i).getLat()+","+points.get(i).getLongt()+", "+i+","+zoneID+", '"+points.get(i).getDeviceId()+"')");
-			System.out.println("INSERT INTO ZonePoint(ZonePointID, Lat, Longt, PointOrder, ZoneID, DeviceID) VALUES("+generateZonePointKey()+","
 					+ ""+points.get(i).getLat()+","+points.get(i).getLongt()+", "+i+","+zoneID+", '"+points.get(i).getDeviceId()+"')");
 		}
 	}
@@ -399,7 +398,7 @@ public class Database {
 		
 		Database db = new Database();
 		db.connect();
-		System.out.println(db.retrieveZone(p1));
+		System.out.println(db.retrievePatients());
 		
 		
 	}

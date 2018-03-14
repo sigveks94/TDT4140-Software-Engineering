@@ -228,7 +228,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		db.connect();
 		db.deleteZone(currentPatient);
 		ZoneTailored zone = (ZoneTailored) currentPatient.getZone();
-		//System.out.println("ZoneTailored:" + zone.getPointsToDatabaseFormat() );
 		db.insertZone(currentPatient, zone);
 	}
 	
