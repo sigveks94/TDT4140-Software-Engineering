@@ -22,6 +22,8 @@ public class ApplicationDemo extends Application{
 	//temporary info for caretaker
 	public static Caretaker applicationUser;
 	//nickname and filename for screens used in the application
+    public static String LoginID = "LoginScreen";
+    public static String LoginFile = "LoginScreen.fxml";
     public static String HomescreenID = "HomeScreen";
     public static String HomescreenFile = "HomeScreenGUI.fxml";
     public static String NewPatientID = "NewPatient";
@@ -37,12 +39,13 @@ public class ApplicationDemo extends Application{
         //Create a container for the different scenes. Add all scenes to the containers hashmap
         ScreensController ScreensContainer = new ScreensController();
         
+        ScreensContainer.loadScreen(ApplicationDemo.LoginID, ApplicationDemo.LoginFile);
         ScreensContainer.loadScreen(ApplicationDemo.HomescreenID, ApplicationDemo.HomescreenFile);
         ScreensContainer.loadScreen(ApplicationDemo.NewPatientID, ApplicationDemo.NewPatientFile);
         ScreensContainer.loadScreen(ApplicationDemo.MapViewLayoutID, ApplicationDemo.MapViewLayoutFile);
         ScreensContainer.loadScreen(ApplicationDemo.PatientOverviewID, ApplicationDemo.PatientOverviewFile);
         
-        ScreensContainer.setScreen(ApplicationDemo.HomescreenID);//screen is added to the root (set screen to the front of the stack).
+        ScreensContainer.setScreen(ApplicationDemo.LoginID);//screen is added to the root (set screen to the front of the stack).
         
         StackPane root = new StackPane();//Back-to-front stack of children
         root.getChildren().addAll(ScreensContainer);//adds all screens from the ScreensContainer to the StackPane

@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="464.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tdt4140.gr1814.app.ui.HomeScreenGUIController">
    <children>
-      <AnchorPane layoutY="-1.0" maxHeight="92.0" minHeight="92.0" prefHeight="92.0" prefWidth="600.0" style="-fx-background-color: #f3f4f7; -fx-border-color: #000000; -fx-border-width: 0px 0px 1px 0px;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane layoutY="0.0" maxHeight="92.0" minHeight="92.0" prefHeight="92.0" prefWidth="600.0" style="-fx-background-color: #f3f4f7; -fx-border-color: #000000; -fx-border-width: 0px 0px 1px 0px;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Text layoutX="14.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="'PRODUCT NAME'" textAlignment="CENTER" wrappingWidth="215.935546875" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="50.0">
                <font>

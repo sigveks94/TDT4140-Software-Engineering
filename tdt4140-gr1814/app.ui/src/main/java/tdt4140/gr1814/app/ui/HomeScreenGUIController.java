@@ -85,8 +85,7 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     
    @FXML
    public void Logout() {
-	   Stage stage = (Stage) profile_pane.getScene().getWindow();
-	   stage.close();
+	   myController.setScreen(ApplicationDemo.LoginID);
    }
 
 	@Override
