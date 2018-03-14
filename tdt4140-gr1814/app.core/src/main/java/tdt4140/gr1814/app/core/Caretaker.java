@@ -55,10 +55,6 @@ public class Caretaker {
 	public String getPassword() {
 		return Password;
 	}
-	
-	public String getAddress() {
-		return Address;
-	}
 
 
 	public void setPassword(String password) {
