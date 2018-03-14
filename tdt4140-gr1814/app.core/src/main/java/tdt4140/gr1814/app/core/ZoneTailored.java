@@ -38,7 +38,7 @@ public Boolean isInsideZone(Point p) {
 			k = i + 1;
 		}
 		if ((points.get(i).getLongt() <= p.getLongt())&&(points.get(k).getLongt() > p.getLongt())) {
-			double midle = (p.getLongt()) - points.get(i).getLongt()/(points.get(k).getLongt() - points.get(i).getLongt());
+			double midle = (p.getLongt() - points.get(i).getLongt())/(points.get(k).getLongt() - points.get(i).getLongt());
 			if (p.getLat() >= (midle * (points.get(k).getLat() - points.get(i).getLat())) + points.get(i).getLat()) {
 				count += 1;
 			}
