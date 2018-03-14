@@ -81,7 +81,7 @@ public class DataFetchController {
 				}
 				Gson gson = new Gson();
 				JsonObject o = gson.fromJson(content, JsonObject.class);
-				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password");
+				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", "email");
 				return caretaker;
 				
 			} catch (IOException e) {
