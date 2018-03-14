@@ -28,6 +28,7 @@ public class ZoneServlet extends HttpServlet{
 	/*
 	 * Get requests can handle following inputs and outputs:
 	 * - patientId : returns the zone associated with the patient given
+	 * - caretaker_id : returns all zones associated with all patients associated with the given caretaker
 	 */
 	
 	@Override
@@ -51,12 +52,29 @@ public class ZoneServlet extends HttpServlet{
 			echoWriter.flush();
 			echoWriter.close();
 		}
+		//If the given argument is a caretaker username
+		else if(req.getParameter("caretaker_id") != null){;
+			echoWriter.print(toJson(getAllZones(req.getParameter("caretaker_id"))));
+			echoWriter.flush();
+			echoWriter.close();
+		}
 		
 	}
 	
 	private ArrayList<ArrayList<String>> getZone(long ssn){
 		try {
 			return databaseConnection.query("SELECT * FROM ZonePoint INNER JOIN Zone ON Zone.ZoneID = ZonePoint.ZoneID WHERE Zone.PatientSSN LIKE '" + ssn + "'");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private ArrayList<ArrayList<String>> getAllZones(String caretakerId){
+		try {
+			return databaseConnection.query("SELECT Zone.patientSSN, ZonePoint.*, PatientCaretaker.CaretakerUsername FROM ZonePoint NATURAL JOIN Zone "
+					+ "INNER JOIN PatientCaretaker ON Zone.PatientSSN = PatientCaretaker.PatSSN WHERE PatientCaretaker.CaretakerUsername = '" + caretakerId + "'");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
