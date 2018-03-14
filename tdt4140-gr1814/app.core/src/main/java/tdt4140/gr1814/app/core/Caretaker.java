@@ -29,6 +29,14 @@ public class Caretaker {
 		}
 	}
 	
+	public String getAddress() {
+		return Address;
+	}
+
+	public void setAddress(String address) {
+		Address = address;
+	}
+	
 	public void incomingAlert(Patient patient, Point point) {
 		System.out.println("ALARM!! For caretaker: " + this.getUsername() +  ". Patient: " + patient.getFullName() + " is currently outside allowed zone. Current position: " + 
 		point.getLat() + " " + point.getLongt());
@@ -46,10 +54,6 @@ public class Caretaker {
 
 	public String getPassword() {
 		return Password;
-	}
-	
-	public String getAddress() {
-		return Address;
 	}
 
 
