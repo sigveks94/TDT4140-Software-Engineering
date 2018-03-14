@@ -95,7 +95,14 @@ public class Database {
 		
 	
 	//******************************************************PATIENT******************************************************
-	
+	public static int convertFromBooleanToInt(boolean bool) {
+		if (bool) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
 	//inserts a patient into the db
 	public void insertPatient(Patient patient) {
 		String firstName = patient.getFirstName();
@@ -105,7 +112,7 @@ public class Database {
 		String email = patient.getNoK_email();
 		String gender = patient.getGender();
 		String deviceID = patient.getID();
-		int alarmActivated = 1;
+		int alarmActivated = convertFromBooleanToInt(patient.getAlarmActivated());
 		
 		update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
             		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"', "+alarmActivated+");");
@@ -137,7 +144,7 @@ public class Database {
 	                }
 	            }
 	            Patient patient  = Patient.newPatient(innerList.get(1), innerList.get(2), innerList.get(3).charAt(0), Long.parseLong(innerList.get(0)),  
-	            		Integer.parseInt(innerList.get(4)),innerList.get(5), innerList.get(6));
+	            		Integer.parseInt(innerList.get(4)),innerList.get(5), innerList.get(6), convertFromIntToboolean(innerList.get(7)));
 	            
 	            returnList.add(patient);
 	        }
@@ -196,6 +203,16 @@ public class Database {
 	
 	//******************************************************PATIENT-CARETAKER METHODS******************************************************
 	
+	public static boolean convertFromIntToboolean(String i) {
+		if (i.equals("0")){
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	
 	//returns an array with all the patients a caretaker is connected to
 	public ArrayList<Patient> retrieveCaretakersPatients(Caretaker caretaker) throws SQLException{
 		String username = caretaker.getUsername();
@@ -206,7 +223,8 @@ public class Database {
 		ArrayList<Patient> result = new ArrayList();
 		for(int i=0; i<patients.size();i++) {
 			Patient p = Patient.newPatient(patients.get(i).get(1), patients.get(i).get(2), patients.get(i).get(3).charAt(0), 
-					Long.parseLong(patients.get(i).get(0)), Integer.parseInt(patients.get(i).get(4)), patients.get(i).get(5), patients.get(i).get(6));
+					Long.parseLong(patients.get(i).get(0)), Integer.parseInt(patients.get(i).get(4)), patients.get(i).get(5), patients.get(i).get(6), 
+					convertFromIntToboolean(patients.get(i).get(7)));
 			result.add(p);
 		}
 		
@@ -236,6 +254,7 @@ public class Database {
 		String username = caretaker.getUsername();
 		update("INSERT INTO PatientCaretaker(PatSSN, DepUsername) VALUES('"+patientSSN+"','"+username+"');");
 	}
+	
 	
 	//removes patient from the assigned caretaker
 	public void deletePatientCaretaker(Patient patient, Caretaker caretaker) {
@@ -381,7 +400,7 @@ public class Database {
 	
 	//main
 	public static void main(String[] args) throws SQLException, FileNotFoundException {
-		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
+		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1", true);
 		Caretaker c1 = new Caretaker("motherofthree","Saga123@1","Jordmorjordet 1");
 		Caretaker c2 = new Caretaker("iceroadtruckerfan","beef&Burger3","Rallarveien 3");
 		
