@@ -81,7 +81,7 @@ public class DataFetchController {
 				}
 				Gson gson = new Gson();
 				JsonObject o = gson.fromJson(content, JsonObject.class);
-				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password");
+				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password",o.get("email").getAsString());
 				return caretaker;
 				
 			} catch (IOException e) {
@@ -150,6 +150,24 @@ public class DataFetchController {
 		}
 	}
 
+	public void getPatientsZones(Caretaker caretaker) {
+		HttpURLConnection connection = this.connect("zone?caretaker_id=" + caretaker.getUsername());
+		
+		if(connection == null) {
+			System.out.println("Connection trouble...");
+			return;
+		}
+		
+		try {
+			connection.setRequestMethod("GET");
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
 	public void insertNewPatient(Patient patient) {
 		
 		//Opens a connection to the server
