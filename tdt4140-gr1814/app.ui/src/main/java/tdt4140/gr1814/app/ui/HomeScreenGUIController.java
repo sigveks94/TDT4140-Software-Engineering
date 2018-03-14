@@ -48,8 +48,8 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
 		if (ApplicationDemo.applicationUser.getUsername() != null) {
 		username_txt.setText(ApplicationDemo.applicationUser.getUsername());
 		}
-		if (ApplicationDemo.applicationUser.getAdress() != null) {
-		userAdr_txt.setText(ApplicationDemo.applicationUser.getAdress());
+		if (ApplicationDemo.applicationUser.getAddress() != null) {
+		userAdr_txt.setText(ApplicationDemo.applicationUser.getAddress());
 		}
 	}
 	

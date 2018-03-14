@@ -7,7 +7,7 @@ public class Caretaker {
 
 	private String Username;
 	private String Password;
-	private String Adress;
+	private String Address;
 
 
 	private ArrayList <Patient> Patients= new ArrayList<Patient>();
@@ -30,12 +30,12 @@ public class Caretaker {
 		}
 	}
 	
-	public String getAdress() {
-		return Adress;
+	public String getAddress() {
+		return Address;
 	}
 
-	public void setAdress(String adress) {
-		Adress = adress;
+	public void setAddress(String address) {
+		Address = address;
 	}
 	
 	public void incomingAlert(Patient patient, Point point) {

@@ -57,18 +57,18 @@ public class ApplicationDemo extends Application{
 	public static void main(String[] args) throws SQLException, IOException {
 	    	//Demo Simulation. 
 		ApplicationDemo.applicationUser = new Caretaker("Tempe Omsorgsenter","passord");
-		ApplicationDemo.applicationUser.setAdress("Valøyvegen 12, \n7031 Trondheim, Norge");
-		
+		ApplicationDemo.applicationUser.setAddress("Valøyvegen 12, \n7031 Trondheim, Norge");
+
 	    //Loading pre-existing Person objects form database.
 		Database database = new Database();
 	    	database.connect();
 	    	database.retrievePatients();
-		/*
+	/*
 	    	//Solution from home without vpn, or for when database is down;
 	    	Patient oscar = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "oscar@mail.no", "id1");
 	    	Patient hakon = Patient.newPatient("HAKON", "COLLETT", 'M', 12345678911l, 92484760, "Haakon-CB@mail.no", "id2");
 	    	Patient sigve = Patient.newPatient("SIGVE", "SVENKERUD", 'M', 90987654321l, 92809043, "sigves_mor@mail.no", "id3");
-	    	*/
+	*/   	
 	    	//Setting zone of the two pre-existing patients from the database. Set center to Gløshaugen-area
 	    	ArrayList<Point> points1 = new ArrayList<>();
 	    	points1.add(new Point(Patient.getPatient("id1").getID(), 63.419943 , 10.398016));
