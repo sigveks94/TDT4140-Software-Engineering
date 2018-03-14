@@ -112,7 +112,6 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 	@Test
 	public void goToMapTest() {
 		profile_pane.setVisible(true);
-		controller.goToMap(ActionEvent -> );
 	}
 	
 	@Test
