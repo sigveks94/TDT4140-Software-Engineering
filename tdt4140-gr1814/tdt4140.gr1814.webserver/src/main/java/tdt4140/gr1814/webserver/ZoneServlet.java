@@ -22,15 +22,16 @@ public class ZoneServlet extends HttpServlet{
 	//The connection helper class
 	ConnectionHandler databaseConnection;
 	
-	//Privat method for establishing connection with the database
-	private void establishConnection(HttpServletResponse resp) {
+	//Private method for establishing connection with the database
+	private boolean establishConnection(HttpServletResponse resp) {
 		databaseConnection = new ConnectionHandler();
 		try {
 			databaseConnection.connect();
+			return true;
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			resp.setStatus(500); //Internal DB error
-			return;
+			return false;
 		} 
 	}
 	
@@ -43,7 +44,10 @@ public class ZoneServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		//Establishes connection with the database
-		this.establishConnection(resp);
+		if(!this.establishConnection(resp)) {
+			resp.setStatus(500); //Internal DB Issues
+			return;
+		}
 		
 		//Fetches the response input stream in order to echo answer back to the requester
 		PrintWriter echoWriter = resp.getWriter();
@@ -164,7 +168,7 @@ public class ZoneServlet extends HttpServlet{
 		return null;
 	}
 	
-	//Takes an ArrayList holding an ArrayList of strings as paramter. This should essentially cosist of a list of zonecursors from the SQL Query.
+	//Takes an ArrayList holding an ArrayList of strings as paramater. This should essentially cosist of a list of zonecursors from the SQL Query.
 	//This method parses the list into a JSON serialized String on the format: {{"zone_id":1,"ssn":12345678901,"lat":63.41949000273954,"long":10.397296119049088,"point_order": 5},{ --==--}}
 	private String toJson(ArrayList<ArrayList<String>> result) {
 		

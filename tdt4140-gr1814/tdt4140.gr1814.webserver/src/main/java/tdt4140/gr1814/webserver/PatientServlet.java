@@ -29,14 +29,16 @@ public class PatientServlet extends HttpServlet{
 	ConnectionHandler databaseConnection;
 	
 	//Privat method for establishing connection with the database
-		private void establishConnection(HttpServletResponse resp) {
+		private boolean establishConnection(HttpServletResponse resp) {
 			databaseConnection = new ConnectionHandler();
+			
 			try {
 				databaseConnection.connect();
+				return true;
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 				resp.setStatus(500); //Internal DB error
-				return;
+				return false;
 			} 
 		}
 	
@@ -48,7 +50,10 @@ public class PatientServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		this.establishConnection(resp);
+		if(!this.establishConnection(resp)) {
+			resp.setStatus(500); //Internal DB Error
+			return;
+		}
 		
 		//Fetches the response input stream in order to echo answer back to the requester
 		PrintWriter echoWriter = resp.getWriter();
@@ -111,14 +116,15 @@ public class PatientServlet extends HttpServlet{
 			return;
 		}
 		
-		
-		if(databaseConnection.update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
-        		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"','1');")) {
-			resp.setStatus(200);//OK response
+		try {
+			databaseConnection.update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
+					+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"','1')");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500); //Internal DB Error
+			return;
 		}
-		else {
-			resp.setStatus(500);//Internal DB error response
-		}
+		resp.setStatus(200); //OK
 	}
 	
 	
