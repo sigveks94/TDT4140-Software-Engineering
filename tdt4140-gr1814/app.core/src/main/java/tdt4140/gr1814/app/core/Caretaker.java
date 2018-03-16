@@ -7,17 +7,37 @@ public class Caretaker {
 
 	private String Username;
 	private String Password;
+	private String FirstName;
+	private String Lastname;	
 	private String Address;
 	private ArrayList <Patient> Patients= new ArrayList<Patient>();
 	public static final String PasswordRegex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
 	
 	
-	public Caretaker(String Username, String Password, String address) {
+	public Caretaker(String Username, String Password, String Firstname, String Lastname, String address) {
 		this.setUsername(Username);
 		this.setPassword(Password);
 		this.Address=address;
+		this.FirstName=Firstname;
+		this.Lastname=Lastname;
 	}
 	
+	public String getFirstName() {
+		return FirstName;
+	}
+
+	public void setFirstName(String firstName) {
+		FirstName = firstName;
+	}
+
+	public String getLastname() {
+		return Lastname;
+	}
+
+	public void setLastname(String lastname) {
+		Lastname = lastname;
+	}
+
 	public void addPatient(Patient...patient) {
 		for (Patient p: patient) {
 			if (!(Patients.contains(p))) {

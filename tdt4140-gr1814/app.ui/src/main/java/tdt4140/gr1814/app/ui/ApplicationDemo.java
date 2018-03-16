@@ -56,7 +56,7 @@ public class ApplicationDemo extends Application{
 
 	public static void main(String[] args) throws SQLException, IOException {
 	    	//Demo Simulation. 
-		ApplicationDemo.applicationUser = new Caretaker("Tempe Omsorgsenter","passord","Valøyvegen 12, \\n7031 Trondheim, Norge");
+		ApplicationDemo.applicationUser = new Caretaker("Tempe Omsorgsenter","passord","Navn","Navnesen","Valøyvegen 12, \\n7031 Trondheim, Norge");
 
 	    //Loading pre-existing Person objects form database.
 		Database database = new Database();
@@ -71,7 +71,7 @@ public class ApplicationDemo extends Application{
 	    */
 	    	
 	    	//Make 'morentilharald' responsible person for harald (from database 'id1'). This allows alarm finctionality
-	    	Caretaker HaraldsMother = new Caretaker("Harald's mother","pasword","Heimstadveien 88");
+	    	Caretaker HaraldsMother = new Caretaker("Harald's mother","pasword","Mor","Moresen","Heimstadveien 88");
 	    	Patient.getPatient("id1").addListeners(HaraldsMother); 	
 	    	
 	    //run both inputcontroller, handling inputstream, and the UI(application)
