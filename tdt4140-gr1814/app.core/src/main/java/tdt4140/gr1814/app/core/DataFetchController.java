@@ -34,7 +34,14 @@ public class DataFetchController {
 	
 	public static void main(String[] args) {
 		DataFetchController controller = new DataFetchController();
+		controller.fetchPatients("motherofthree");
 		controller.getPatientsZones(new Caretaker("motherofthree","ps","k"));
+		for (Patient pat : Patient.getAllPatients()) {
+			System.out.println(pat.toString());
+			for (Point poi : pat.getZone().getPoints()) {
+				System.out.println(poi.getLat() + " : " + poi.getLongt());
+			}
+		}
 	}
 	
 	public Caretaker logIn(String username, String password) {
@@ -188,17 +195,17 @@ public class DataFetchController {
 				if (prevZoneID == -1) {
 					prevZoneID = o.get("zone_id").getAsInt();
 					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
-							o.get("lat").getAsDouble(),o.get("long").getAsLong()));
+							o.get("lat").getAsDouble(),o.get("long").getAsDouble()));
 				} else if (prevZoneID == o.get("zone_id").getAsInt()) {
 					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
-							o.get("lat").getAsDouble(),o.get("long").getAsLong()));
+							o.get("lat").getAsDouble(),o.get("long").getAsDouble()));
 				} else if (prevZoneID < o.get("zone_id").getAsInt()) {
 					Zone zone = new ZoneTailored(points);
 					Patient.getPatient(points.get(0).getDeviceId()).addZone(zone);
 					prevZoneID = o.get("zone_id").getAsInt();
 					points = new ArrayList<>();
 					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
-							o.get("lat").getAsDouble(),o.get("long").getAsLong()));
+							o.get("lat").getAsDouble(),o.get("long").getAsDouble()));
 				} else {
 					throw new Exception("Something went wrong with creating a new zone");
 				}
