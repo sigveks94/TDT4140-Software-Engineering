@@ -59,7 +59,7 @@ public class ApplicationDemo extends Application{
 
 	public static void main(String[] args) throws SQLException, IOException {
 	    	//Demo Simulation. 
-		ApplicationDemo.applicationUser = new Caretaker("Tempe Omsorgsenter","passord","Valøyvegen 12, \\n7031 Trondheim, Norge");
+		ApplicationDemo.applicationUser = new Caretaker("Tempe Omsorgsenter","passord","Valøyvegen 12,\n7031 Trondheim, Norge");
 
 	    //Loading pre-existing Person objects form database.
 		Database database = new Database();
