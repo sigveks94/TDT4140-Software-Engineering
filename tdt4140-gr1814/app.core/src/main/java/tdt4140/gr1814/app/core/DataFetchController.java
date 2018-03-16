@@ -37,7 +37,9 @@ public class DataFetchController {
 		controller.fetchPatients("motherofthree");
 		controller.getPatientsZones(new Caretaker("motherofthree","ps","k"));
 		for (Patient pat : Patient.getAllPatients()) {
-			System.out.println(pat.toString());
+			//System.out.println(pat.toString());
+			//System.out.println(pat.getZone());
+			
 			for (Point poi : pat.getZone().getPoints()) {
 				System.out.println(poi.getLat() + " : " + poi.getLongt());
 			}
@@ -184,18 +186,24 @@ public class DataFetchController {
 			e.printStackTrace();
 		}
 		Gson gson = new Gson();
-		
 		JsonParser jsonParser = new JsonParser();
 		JsonArray jsonArray = (JsonArray) jsonParser.parse(content);
 		int prevZoneID = -1;
+		int nr = 0;
 		ArrayList<Point> points = new ArrayList<>();
 		for(JsonElement j: jsonArray) {
 			try {
+				nr++;
 				JsonObject o = gson.fromJson(j, JsonObject.class);
 				if (prevZoneID == -1) {
 					prevZoneID = o.get("zone_id").getAsInt();
 					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
 							o.get("lat").getAsDouble(),o.get("long").getAsDouble()));
+				} else if ((nr == jsonArray.size())) {
+					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
+							o.get("lat").getAsDouble(),o.get("long").getAsDouble()));
+					Zone zone = new ZoneTailored(points);
+					Patient.getPatient(points.get(0).getDeviceId()).addZone(zone);
 				} else if (prevZoneID == o.get("zone_id").getAsInt()) {
 					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
 							o.get("lat").getAsDouble(),o.get("long").getAsDouble()));
