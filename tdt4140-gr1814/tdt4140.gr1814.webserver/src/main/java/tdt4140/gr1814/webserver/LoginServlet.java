@@ -50,8 +50,12 @@ public class LoginServlet extends HttpServlet{
 				if(password.equals(password)) {
 					//If the request has made it this far the log in is succesful. The outputstream then prints back the username and sets the response code to OK
 					PrintWriter writer = resp.getWriter();
-					writer.print("{\"username\":\"" + caretaker.get(0).get(0) + "\"}");
+					writer.print("{\"username\":\"" + caretaker.get(0).get(0) + "\", \"email\": \"" + caretaker.get(0).get(2) + "\"}");
 					resp.setStatus(200); //OK - Code
+					return;
+				}
+				else {
+					resp.setStatus(401); //Unauthorized 
 					return;
 				}
 				
