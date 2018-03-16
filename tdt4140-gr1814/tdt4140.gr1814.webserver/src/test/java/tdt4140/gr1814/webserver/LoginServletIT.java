@@ -12,8 +12,7 @@ public class LoginServletIT{
 	
 	@Before
 	public void setUp() {
-		databaseConnection = new ConnectionHandler();
-		databaseConnection.connect();
+		
 	}
 	
 	@Test

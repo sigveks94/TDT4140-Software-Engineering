@@ -26,7 +26,7 @@ import com.google.gson.reflect.TypeToken;
 public class DataFetchController {
 	
 	//The port the server is listening for http requests on
-	private final int serverPort = 8080;
+	private final int serverPort = 8085;
 	
 	public DataFetchController() {
 		
@@ -34,8 +34,7 @@ public class DataFetchController {
 	
 	public static void main(String[] args) {
 		DataFetchController controller = new DataFetchController();
-		Caretaker c = controller.logIn("olsenboy", "Engler123@");
-		System.out.println(c.getUsername());
+		controller.insertZone();
 	}
 	
 	public Caretaker logIn(String username, String password) {
@@ -82,7 +81,9 @@ public class DataFetchController {
 				}
 				Gson gson = new Gson();
 				JsonObject o = gson.fromJson(content, JsonObject.class);
+				
 				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password",o.get("email").getAsString());
+
 				return caretaker;
 				
 			} catch (IOException e) {
@@ -251,5 +252,46 @@ public class DataFetchController {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void insertZone() {
+		//Opens a connection to the server
+		HttpURLConnection connection = this.connect("zone");
+		
+		if(connection == null) {
+			System.out.println("Connection trouble...");
+			return;
+		}
+		
+		//Sets requestMethod to POST and enables the outputStream
+		try {
+			connection.setRequestMethod("POST");
+			connection.setDoOutput(true);
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		}
+		
+		//Insert Request String
+			String params = "ssn=12345678919&lat=63.02235&long=10.234554&point_order=2";
+			
+		//Pass the arguments through the outputstream
+		try {
+	      DataOutputStream wr = new DataOutputStream (
+	                  connection.getOutputStream ());
+	      wr.writeBytes (params);
+	      wr.flush ();
+	      wr.close ();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
+		try {
+			InputStream connectionInputStream = connection.getInputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
