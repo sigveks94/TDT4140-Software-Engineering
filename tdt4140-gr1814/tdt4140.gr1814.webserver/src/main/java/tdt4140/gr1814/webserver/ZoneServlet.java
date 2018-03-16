@@ -9,7 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
-//This is the sevlet supposed to handle all fetching and updating of zones in the database
+/*
+ * This servlet has the follow functions:
+ * 		- Fetching all zones associated with a caretaker
+ * 		- Fetching all zones associated with a ssn
+ * 		- Inserting a zone to a database connecting it to the corresponding ssn
+ */
 public class ZoneServlet extends HttpServlet{
 
 	//Serial Version, if the servlet ever changes something that will have inpact on the http request,
@@ -94,7 +99,11 @@ public class ZoneServlet extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		this.establishConnection(resp);
+		//Establishes connection with the database
+		if(!this.establishConnection(resp)) {
+			resp.setStatus(500); //Internal DB Issues
+			return;
+		}
 		
 		String ssn = req.getParameter("ssn");
 		String lat = req.getParameter("lat");
