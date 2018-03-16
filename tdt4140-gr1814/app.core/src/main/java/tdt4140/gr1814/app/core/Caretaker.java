@@ -13,7 +13,6 @@ public class Caretaker {
 	private ArrayList <Patient> Patients= new ArrayList<Patient>();
 	public static final String PasswordRegex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
 	
-	
 	public Caretaker(String Username, String Password, String Firstname, String Lastname, String address) {
 		this.setUsername(Username);
 		this.setPassword(Password);
