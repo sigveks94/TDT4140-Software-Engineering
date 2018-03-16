@@ -65,30 +65,14 @@ public class ApplicationDemo extends Application{
 		Database database = new Database();
 	    	database.connect();
 	    	database.retrievePatients();
-	/*
-	    	//Solution from home without vpn, or for when database is down;
+	    	
+		/*
+	    	Solution from home without vpn, or for when database is down;
 	    	Patient oscar = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "oscar@mail.no", "id1");
 	    	Patient hakon = Patient.newPatient("HAKON", "COLLETT", 'M', 12345678911l, 92484760, "Haakon-CB@mail.no", "id2");
 	    	Patient sigve = Patient.newPatient("SIGVE", "SVENKERUD", 'M', 90987654321l, 92809043, "sigves_mor@mail.no", "id3");
-	*/   	
-	    	//Setting zone of the two pre-existing patients from the database. Set center to Gløshaugen-area
-	    	ArrayList<Point> points1 = new ArrayList<>();
-	    	points1.add(new Point(Patient.getPatient("id1").getID(), 63.419943 , 10.398016));
-	    	points1.add(new Point(Patient.getPatient("id1").getID(), 63.420814 , 10.404067));
-	    	points1.add(new Point(Patient.getPatient("id1").getID(), 63.416578 , 10.408401));
-	    	points1.add(new Point(Patient.getPatient("id1").getID(), 63.415330 , 10.401921));
-	    	Zone zone1 = new ZoneTailored(points1);
-	    	Patient.getPatient("id1").addZone(zone1);
-
-	    	ArrayList<Point> points2 = new ArrayList<>();
-	    	points2.add(new Point(Patient.getPatient("id2").getID(), 63.418153 , 10.400591));
-	    	points2.add(new Point(Patient.getPatient("id2").getID(), 63.418825 , 10.405054));
-	    	points2.add(new Point(Patient.getPatient("id2").getID(), 63.417116 , 10.407114));
-	    	points2.add(new Point(Patient.getPatient("id2").getID(), 63.416636 , 10.403337)); 	
-	    	Zone zone2 = new ZoneTailored(points2);
-	    	Patient.getPatient("id2").addZone(zone2);
-	    	Patient.getPatient("id2").setAlarmActivated(false);
-
+	    */
+	    	
 	    	//Make 'morentilharald' responsible person for harald (from database 'id1'). This allows alarm finctionality
 	    	Caretaker HaraldsMother = new Caretaker("Harald's mother","pasword","Heimstadveien 88");
 	    	Patient.getPatient("id1").addListeners(HaraldsMother); 	
