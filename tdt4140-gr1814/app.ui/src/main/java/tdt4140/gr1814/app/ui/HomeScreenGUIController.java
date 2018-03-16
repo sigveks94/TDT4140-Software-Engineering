@@ -4,6 +4,7 @@ package tdt4140.gr1814.app.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import tdt4140.gr1814.app.core.Caretaker;
 import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.Patient;
@@ -123,6 +125,13 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     				ApplicationDemo.applicationUser.setPassword(newPassword1.getText());
         			passwordError.setVisible(false);
         			passwordSuccessMsg.setVisible(true);
+        			
+	        	    	FadeTransition ft = new FadeTransition(Duration.millis(500), passwordPane);
+	        	    	ft.setFromValue(1.0);
+	        	    	ft.setToValue(0.0);
+	        	    	ft.setCycleCount(1);
+	        	    	ft.setDelay(Duration.millis(1000));
+	        		ft.play();
         			System.out.println("changed the password to: "+newPassword1.getText()+" verify: "+newPassword2.getText());
     			}else {
     				passwordError.setText("Password syntax error");
