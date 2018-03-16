@@ -27,6 +27,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tdt4140.gr1814.app.core.Caretaker;
 
 public class HomeScreenGUIControllerTest extends ApplicationTest {
 	
@@ -37,6 +38,8 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 	private AnchorPane profile_pane;
 	private Text username_txt;
 	private Hyperlink userAdr_txt;
+	
+	private Caretaker applicationUser;
 	
 	@BeforeClass
 	public static void headless() {
@@ -55,13 +58,15 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 		user_btn = find("#user_btn");
 		profile_pane = find("#profile_pane");
 		username_txt = find("#username_txt");
-		userAdr_txt = find("#userAd_txt");
+		userAdr_txt = find("#userAdr_txt");
+		applicationUser = new Caretaker("finn", "abcdefg", "lolman");
 	}
 	
 	@Override
 	public void start(Stage stage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("HomeScreenGUI.fxml"));
 		Parent root = loader.load();
+		// loader.getController() returns null, why? The correct controller is assosiated with the FXML-file.
 		this.controller = loader.getController();
 		Scene scene = new Scene(root);
 		
