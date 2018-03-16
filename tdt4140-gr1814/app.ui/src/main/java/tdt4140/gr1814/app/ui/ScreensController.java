@@ -89,5 +89,4 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
 		});
 	}
     
-    
-}
+} 
