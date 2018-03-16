@@ -13,12 +13,15 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.PasswordField;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tdt4140.gr1814.app.core.Caretaker;
+import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.Patient;
 
 
@@ -42,15 +45,20 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     private Text username_txt;
     @FXML
     private Hyperlink userAdr_txt;
+    @FXML
+    private AnchorPane passwordPane;
+    @FXML
+    private PasswordField newPassword1;
+    @FXML
+    private PasswordField newPassword2;
+    @FXML
+    private Text passwordError;
+    @FXML
+    private Text passwordSuccessMsg;
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		if (ApplicationDemo.applicationUser.getUsername() != null) {
-		username_txt.setText(ApplicationDemo.applicationUser.getUsername());
-		}
-		if (ApplicationDemo.applicationUser.getAddress() != null) {
-		userAdr_txt.setText(ApplicationDemo.applicationUser.getAddress());
-		}
+		
 	}
 	
 	@Override
@@ -79,14 +87,58 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     
     @FXML
     public void toggleProfile() {
-    		if(profile_pane.isVisible()) {profile_pane.setVisible(false);}
-    		else {profile_pane.setVisible(true);}
+    		if(profile_pane.isVisible()) {
+    			profile_pane.setVisible(false);
+    			passwordPane.setVisible(false);
+    		}
+    		else {
+    			if (ApplicationDemo.applicationUser.getUsername() != null) {
+    				username_txt.setText(ApplicationDemo.applicationUser.getUsername());
+    				}
+			if (ApplicationDemo.applicationUser.getAddress() != null) {
+				userAdr_txt.setText(ApplicationDemo.applicationUser.getAddress());
+				}
+    			profile_pane.setVisible(true);}
+    }
+    
+    @FXML
+    public void openPassword(){
+    		passwordPane.setVisible(true);
+    }
+    
+    public void closePassword() {
+    		newPassword1.clear();
+    		newPassword2.clear();
+    		passwordError.setVisible(false);
+    		passwordSuccessMsg.setVisible(false);
+    		passwordPane.setVisible(false);
+    }
+    @FXML
+    public void changePassword(){
+    		if(newPassword1.getText().equals(newPassword2.getText())) {
+    			if(Caretaker.checkPassword(newPassword1.getText())) {
+    				Database database = new Database();
+    				database.connect();
+    				database.updatePassword(ApplicationDemo.applicationUser, newPassword1.getText());
+    				ApplicationDemo.applicationUser.setPassword(newPassword1.getText());
+        			passwordError.setVisible(false);
+        			passwordSuccessMsg.setVisible(true);
+        			System.out.println("changed the password to: "+newPassword1.getText()+" verify: "+newPassword2.getText());
+    			}else {
+    				passwordError.setText("Password syntax error");
+    				passwordError.setVisible(true);
+    			}
+    		}else {
+    			passwordError.setText("passwords do not match");
+    			passwordError.setVisible(true);
+    			newPassword2.setText("");
+    			}
+    		
     }
     
    @FXML
    public void Logout() {
-	   Stage stage = (Stage) profile_pane.getScene().getWindow();
-	   stage.close();
+	   myController.setScreen(ApplicationDemo.LoginID);
    }
 
 	@Override

@@ -70,7 +70,7 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	    });
         }
 	
-	public void updatePatientList() {
+	public void updatePatientList() {		
 		List<Patient> patientStringList = Patient.patients;
 		ObservableList<Patient> patients = FXCollections.observableList(patientStringList);
 		patient_list.setItems(patients);
