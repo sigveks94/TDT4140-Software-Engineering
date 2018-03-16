@@ -19,7 +19,7 @@ public class ZoneServlet extends HttpServlet{
 	//The connection helper class
 	ConnectionHandler databaseConnection;
 	
-	//Privat method for establishing connection with the database
+	//Private method for establishing connection with the database
 	private void establishConnection(HttpServletResponse resp) {
 		databaseConnection = new ConnectionHandler();
 		try {
@@ -166,11 +166,15 @@ public class ZoneServlet extends HttpServlet{
 	//This method parses the list into a JSON serialized String on the format: {{"zone_id":1,"ssn":12345678901,"lat":63.41949000273954,"long":10.397296119049088,"point_order": 5},{ --==--}}
 	private String toJson(ArrayList<ArrayList<String>> result) {
 		
-		String json = "{";
+		if(result.size() < 1) {
+			return "[]";
+		}
+		
+		String json = "[";
 		for(ArrayList<String> lst: result) {
 			json += "{\"zone_id\":" + lst.get(5) + ",\"ssn\":" + lst.get(0) + ",\"lat\":" + lst.get(2) + ",\"long\":" + lst.get(3) + ",\"point_order\":" + lst.get(4) + "},";
 		}
 		
-		return json.substring(0, json.length()-1) + "}";
+		return json.substring(0, json.length()-1) + "]";
 	}
 }
