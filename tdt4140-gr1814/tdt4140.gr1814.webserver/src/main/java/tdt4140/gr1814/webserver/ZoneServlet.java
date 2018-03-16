@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
-
+import javax.servlet.http.HttpServletResponse; 
 //This is the sevlet supposed to handle all fetching and updating of zones in the database
 public class ZoneServlet extends HttpServlet{
 
@@ -51,10 +48,10 @@ public class ZoneServlet extends HttpServlet{
 		//If a SSN is passed, the response should be the zone associated with this patient
 		if(req.getParameter("ssn") != null) {
 			Long ssn = null;
-			try { //Tries to parse to long, if parse failes the argument is considered invalid
+			try { //Tries to parse to long, if parse fails the argument is considered invalid
 				ssn = Long.valueOf(req.getParameter("ssn"));
 				//Even though the parse works it does not prove this is a valid SSN, this checks that the given SSN is in fact 11 digits long
-				if(req.getParameter("ssb").length()!= 11) {
+				if(req.getParameter("ssn").length() != 11) {
 					resp.setStatus(400); //Bad Request Code
 					return;
 				}
@@ -157,7 +154,8 @@ public class ZoneServlet extends HttpServlet{
 	private ArrayList<ArrayList<String>> getAllZones(String caretakerId){
 		try {
 			return databaseConnection.query("SELECT Zone.patientSSN, ZonePoint.*, PatientCaretaker.CaretakerUsername FROM ZonePoint NATURAL JOIN Zone "
-					+ "INNER JOIN PatientCaretaker ON Zone.PatientSSN = PatientCaretaker.PatSSN WHERE PatientCaretaker.CaretakerUsername = '" + caretakerId + "'");
+					+ "INNER JOIN PatientCaretaker ON Zone.PatientSSN = PatientCaretaker.PatSSN WHERE PatientCaretaker.CaretakerUsername = '" 
+					+ caretakerId + "' ORDER BY ZonePoint.ZoneID ASC, ZonePoint.PointOrder ASC");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
