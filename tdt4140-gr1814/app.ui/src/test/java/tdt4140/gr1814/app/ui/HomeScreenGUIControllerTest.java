@@ -155,4 +155,5 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 	public void Settings_btnTest() {
 		//clickOn(Settings_btn);
 	}
+	*/
 }
