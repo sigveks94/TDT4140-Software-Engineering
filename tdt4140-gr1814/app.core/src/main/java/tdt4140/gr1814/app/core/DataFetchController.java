@@ -34,7 +34,7 @@ public class DataFetchController {
 	
 	public static void main(String[] args) {
 		DataFetchController controller = new DataFetchController();
-		controller.insertZone();
+		controller.getPatientsZones(new Caretaker("motherofthree","ps","k"));
 	}
 	
 	public Caretaker logIn(String username, String password) {
@@ -205,7 +205,7 @@ public class DataFetchController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		} return;
 		
 		
 	}
