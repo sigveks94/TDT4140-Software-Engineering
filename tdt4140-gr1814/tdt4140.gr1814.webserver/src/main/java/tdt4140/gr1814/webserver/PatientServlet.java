@@ -111,14 +111,15 @@ public class PatientServlet extends HttpServlet{
 			return;
 		}
 		
+		try {
+			databaseConnection.update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
+					+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"','1');");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500); //Internal DB Error
+		}
 		
-		if(databaseConnection.update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
-        		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"','1');")) {
-			resp.setStatus(200);//OK response
-		}
-		else {
-			resp.setStatus(500);//Internal DB error response
-		}
+		resp.setStatus(200);//OK response
 	}
 	
 	
