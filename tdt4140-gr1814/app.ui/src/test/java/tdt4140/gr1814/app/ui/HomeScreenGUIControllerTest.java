@@ -1,27 +1,21 @@
 package tdt4140.gr1814.app.ui;
 
-import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.stage.Stage;
 
 public class HomeScreenGUIControllerTest extends ApplicationTest {
 	
-	private HomeScreenGUIController controller;
+	//private HomeScreenGUIController controller;
 	
 	private Button newProfile_btn, MyPatients_btn, ViewMap_btn,
 			Settings_btn;
@@ -41,7 +35,7 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 		ViewMap_btn = find("#ViewMap_btn");
 		Settings_btn = find("#Settings_btn");
 	}
-	
+	/*
 	@Override
 	public void start(Stage stage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().
@@ -55,7 +49,7 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 		stage.show();
 		stage.toFront();
 	}
-	
+	*/
 	@After
 	public void teardown() throws TimeoutException {
 		FxToolkit.hideStage();
@@ -66,7 +60,7 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 	public <T extends Node> T find(final String query) {
 		return lookup(query).query();
 	}
-	
+	/*
 	@Test
 	public void newProfile_btnTest() {
 		clickOn(newProfile_btn);
@@ -86,5 +80,6 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 	public void Settings_btnTest() {
 		//clickOn(Settings_btn);
 	}
+	*/
 	
 }
