@@ -125,6 +125,7 @@ public class PatientServlet extends HttpServlet{
 			return;
 		}
 		resp.setStatus(200); //OK
+
 	}
 	
 	
