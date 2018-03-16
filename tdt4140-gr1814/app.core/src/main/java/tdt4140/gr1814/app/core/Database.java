@@ -390,7 +390,7 @@ public class Database {
 		}
 		String password=caretaker.get(0).get(1);
 		if(password.equals(inputPassword)) {
-			return new Caretaker(username,password,caretaker.get(0).get(4));
+			return new Caretaker(username,password,caretaker.get(0).get(2),caretaker.get(0).get(3),caretaker.get(0).get(4));
 		}
 		return null;
 	}
