@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -163,7 +164,47 @@ public class DataFetchController {
 		} catch (ProtocolException e) {
 			e.printStackTrace();
 		}
+		String content = "";
+		try {
+			InputStream input = connection.getInputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(input));
+			String line = "";
+			while((line = br.readLine()) != null) {
+				content += line;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Gson gson = new Gson();
 		
+		JsonParser jsonParser = new JsonParser();
+		JsonArray jsonArray = (JsonArray) jsonParser.parse(content);
+		int prevZoneID = -1;
+		ArrayList<Point> points = new ArrayList<>();
+		for(JsonElement j: jsonArray) {
+			try {
+				JsonObject o = gson.fromJson(j, JsonObject.class);
+				if (prevZoneID == -1) {
+					prevZoneID = o.get("zone_id").getAsInt();
+					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
+							o.get("lat").getAsDouble(),o.get("long").getAsLong()));
+				} else if (prevZoneID == o.get("zone_id").getAsInt()) {
+					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
+							o.get("lat").getAsDouble(),o.get("long").getAsLong()));
+				} else if (prevZoneID < o.get("zone_id").getAsInt()) {
+					Zone zone = new ZoneTailored(points);
+					Patient.getPatient(points.get(0).getDeviceId()).addZone(zone);
+					prevZoneID = o.get("zone_id").getAsInt();
+					points = new ArrayList<>();
+					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
+							o.get("lat").getAsDouble(),o.get("long").getAsLong()));
+				} else {
+					throw new Exception("Something went wrong with creating a new zone");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 		
 	}
