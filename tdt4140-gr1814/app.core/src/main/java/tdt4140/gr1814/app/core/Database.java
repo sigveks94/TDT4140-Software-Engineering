@@ -5,6 +5,7 @@ import java.util.Properties;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import tdt4140.gr1814.app.core.Caretaker;
 
 public class Database {
 	
@@ -364,16 +365,21 @@ public class Database {
 	
 	//checks if the password for the username is correct. If it is, the method returns the username 
 	//If the username don't exist or the password is wrong, the method returns null.
-	public String checkPassword(String username, String inputPassword) throws SQLException {
+	public Caretaker checkPassword(String username, String inputPassword) throws SQLException {
 		ArrayList<ArrayList<String>> caretaker = query("SELECT * FROM Caretaker WHERE Username ='"+username+"'");
 		if(caretaker.isEmpty()) {
 			return null;
 		}
 		String password=caretaker.get(0).get(1);
 		if(password.equals(inputPassword)) {
-			return username;
+			return new Caretaker(username,password,caretaker.get(0).get(4));
 		}
 		return null;
+	}
+	
+	public void updatePassword(Caretaker caretaker, String newPassword) {
+		String username = caretaker.getUsername();
+			update("UPDATE Caretaker SET Password = '"+newPassword+"' WHERE Username = '"+username+"'");
 	}
 	
 	

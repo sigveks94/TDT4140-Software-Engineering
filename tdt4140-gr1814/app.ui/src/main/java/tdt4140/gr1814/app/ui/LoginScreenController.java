@@ -1,6 +1,7 @@
 package tdt4140.gr1814.app.ui;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.animation.FadeTransition;
@@ -18,6 +19,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import tdt4140.gr1814.app.core.Caretaker;
+import tdt4140.gr1814.app.core.Database;
 
 public class LoginScreenController implements Initializable, ControlledScreen{
 
@@ -55,7 +58,7 @@ public class LoginScreenController implements Initializable, ControlledScreen{
     }
     
     public void showLogin() {
-	    	FadeTransition ft = new FadeTransition(Duration.millis(300), login_pane);
+	    	FadeTransition ft = new FadeTransition(Duration.millis(500), login_pane);
 	    	ft.setFromValue(0.0);
 	    	ft.setToValue(1.0);
 	    	ft.setCycleCount(1);
@@ -67,9 +70,18 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 	@FXML
 	public void goToHome() throws InterruptedException {
 		if((username.getText().length() > 0) && (passwd.getText().length() > 0)) {
-			username.clear();
-			passwd.clear();
-			myController.setScreen(ApplicationDemo.HomescreenID);
+			Database database = new Database();
+			database.connect();
+			Caretaker systemUser = null;
+			try {
+			systemUser = database.checkPassword(username.getText(), passwd.getText());
+			}catch(SQLException e){e.printStackTrace();}
+			if (systemUser != null) {
+				username.clear();
+				passwd.clear();
+				ApplicationDemo.applicationUser = systemUser;
+				myController.setScreen(ApplicationDemo.HomescreenID);
+			}else {loginError.setVisible(true);}
 		}else {loginError.setVisible(true);}
 	}
 	
