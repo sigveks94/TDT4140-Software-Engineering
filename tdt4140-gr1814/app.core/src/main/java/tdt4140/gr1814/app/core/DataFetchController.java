@@ -36,14 +36,16 @@ public class DataFetchController {
 		DataFetchController controller = new DataFetchController();
 		controller.fetchPatients("motherofthree");
 		controller.getPatientsZones(new Caretaker("motherofthree","ps","k"));
-		for (Patient pat : Patient.getAllPatients()) {
+		//for (Patient pat : Patient.getAllPatients()) {
 			//System.out.println(pat.toString());
 			//System.out.println(pat.getZone());
-			
+			/*
 			for (Point poi : pat.getZone().getPoints()) {
 				System.out.println(poi.getLat() + " : " + poi.getLongt());
-			}
-		}
+			}*/
+		//}
+		//System.out.println(Patient.getAllPatients());
+		controller.insertZone(Patient.getAllPatients().get(0));
 	}
 	
 	public Caretaker logIn(String username, String password) {
@@ -269,7 +271,7 @@ public class DataFetchController {
 		
 	}
 	
-	public void insertZone() {
+	public void insertZone(Patient patient) {
 		//Opens a connection to the server
 		HttpURLConnection connection = this.connect("zone");
 		
@@ -287,13 +289,24 @@ public class DataFetchController {
 		}
 		
 		//Insert Request String
-			String params = "ssn=12345678919&lat=63.02235&long=10.234554&point_order=2";
+			Zone zone = patient.getZone();
+			String sendStr = "ssn=" + patient.getSSN() + "&zone=[";
+			int order = 0;
+			for (Point poi : zone.getPoints()) {
+				sendStr += "{" + order + "," + poi.getLat() + "," + poi.getLongt() + "}";
+				order++;
+				if (order < zone.getPoints().size()) {
+					sendStr += ",";
+				}
+				
+			} sendStr += "]";
+			
 			
 		//Pass the arguments through the outputstream
 		try {
 	      DataOutputStream wr = new DataOutputStream (
 	                  connection.getOutputStream ());
-	      wr.writeBytes (params);
+	      wr.writeBytes (sendStr);
 	      wr.flush ();
 	      wr.close ();
 		}
