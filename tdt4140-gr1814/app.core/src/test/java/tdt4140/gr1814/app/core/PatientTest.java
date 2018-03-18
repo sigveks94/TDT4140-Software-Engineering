@@ -38,8 +38,8 @@ public class PatientTest {
 		String dev2 = "A289";
 		
 		
-		patient = Patient.newPatient(firstname,surname,gender,SSN,phone,email,dev1);
-		patient2 = Patient.newPatient(firstname,surname2,gender2,SSN2,phone2,email2,dev2);
+		patient = Patient.newPatient(firstname,surname,gender,SSN,phone,email,dev1, true);
+		patient2 = Patient.newPatient(firstname,surname2,gender2,SSN2,phone2,email2,dev2, true);
 	}
 	
 	@Test
@@ -70,7 +70,7 @@ public class PatientTest {
 	}	
 	@Test
 	public void testAddListeners() {
-		Caretaker cT = new Caretaker("Example3","1H8j24s4@","øvreveg 2");
+		Caretaker cT = new Caretaker("Example3","1H8j24s4@","arne", "øvreveg 2");
 		patient.addListeners(cT);
 		assertEquals(cT.getPatients().get(0),patient);
 		patient2.addListeners(cT);
@@ -102,7 +102,7 @@ public class PatientTest {
 	*/
 	@Test
 	public void makingNewPatientWithUsedSSN() {
-		Patient patient3 = Patient.newPatient("Exam", "Ple", 'M', 12345678910L, 27929342, "at@at.at", "H723");
+		Patient patient3 = Patient.newPatient("Exam", "Ple", 'M', 12345678910L, 27929342, "at@at.at", "H723", true);
 		assertEquals(patient3,patient);
 	}
 	@Test

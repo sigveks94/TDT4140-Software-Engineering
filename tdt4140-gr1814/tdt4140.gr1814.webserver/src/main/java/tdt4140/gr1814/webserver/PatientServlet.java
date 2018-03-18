@@ -186,7 +186,12 @@ public class PatientServlet extends HttpServlet{
 			int cellPhone = Integer.valueOf(p.get(4));
 			String mail = p.get(5);
 			String deviceId = p.get(6);
-			patients.add(Patient.newPatient(firstName, surName, gender, SSN, cellPhone, mail, deviceId));
+			int alarmVal = Integer.parseInt(p.get(7));
+			boolean alarm = true;
+			if(alarmVal != 1){
+				alarm = false;
+			}
+			patients.add(Patient.newPatient(firstName, surName, gender, SSN, cellPhone, mail, deviceId, alarm));
 		}
 		
 		return patients;

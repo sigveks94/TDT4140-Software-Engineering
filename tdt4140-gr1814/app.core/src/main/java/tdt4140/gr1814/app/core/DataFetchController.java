@@ -80,7 +80,7 @@ public class DataFetchController {
 				}
 				Gson gson = new Gson();
 				JsonObject o = gson.fromJson(content, JsonObject.class);
-				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", "email");
+				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", "email", "adress");
 				return caretaker;
 				
 			} catch (IOException e) {
@@ -141,7 +141,7 @@ public class DataFetchController {
 		for(JsonElement j: jsonArray) {
 			try {
 				JsonObject o = gson.fromJson(j, JsonObject.class);
-				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString());
+				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), o.get("AlarmActivated").getAsBoolean());
 			}
 			catch(Exception e) {
 				e.printStackTrace();

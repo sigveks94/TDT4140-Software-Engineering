@@ -187,7 +187,7 @@ public class Patient{
 		//If the current location is outside any permitted zone the respinsible care taker is alerted
 		if (zone != null && !(zone.isInsideZone(newLoc)) && (this.alarmActivated)) { 
 			if(!(screensController == null) && alarmSent == false) { //alarm is only set of once, the first time the patien is outside permitted zone also checks if alarm is activated.
-			screensController.OnPatientAlarm();
+			screensController.OnPatientAlarm(this);
 			alarmSent = true;
 			}
 			for (Caretaker c: listeners) {
