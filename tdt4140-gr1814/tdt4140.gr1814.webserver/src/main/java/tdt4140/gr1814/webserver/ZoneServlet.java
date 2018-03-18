@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -93,7 +94,7 @@ public class ZoneServlet extends HttpServlet{
 	
 	/*
 	 * The POST Request handles requests for inserting new zones and updating current ones
-	 * Expected parameters: ssn, lat, long, point_order
+	 * Expected parameters: ssn, and a list of {lat, long, point_order}
 	 */
 	
 	@Override
@@ -106,14 +107,15 @@ public class ZoneServlet extends HttpServlet{
 		}
 		
 		String ssn = req.getParameter("ssn");
-		String lat = req.getParameter("lat");
-		String longt = req.getParameter("long");
-		String point_order = req.getParameter("point_order");
-		System.out.println(ssn + " " + lat + " " + longt + " " + point_order);
+		String zone = req.getParameter("zone");
+		if(ssn == null || ssn.length() != 11 || zone == null) {
+			resp.setStatus(400); //Bad Request
+			return;
+		}
 		
 		String zoneId = null;
 		
-		String query = "SELECT MAX(ZoneID) AS zoneID FROM ZonePoint";
+		String query = "SELECT MAX(ZoneID) AS zoneID FROM Zone";
 		try {
 			zoneId = databaseConnection.query(query).get(0).get(0);
 		} catch (SQLException e) {
@@ -143,14 +145,23 @@ public class ZoneServlet extends HttpServlet{
 			return;
 		}
 		
-		query = "INSERT INTO ZonePoint (Lat, Longt, PointOrder, ZoneID, DeviceID) VALUES (" + lat +"," + longt + "," + point_order + "," + zoneId + "id99)";
-		try {
-			databaseConnection.update(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			resp.setStatus(500); //Internal DB Error
-			return;
+		
+		zone = zone.substring(1);
+		List<ZonePointWrapper> lst = new ArrayList<>();
+		while(zone.length() > 0) {
+			ZonePointWrapper zp = new ZonePointWrapper(zone.substring(0, zone.indexOf('}') + 1));
+			query = "INSERT INTO ZonePoint (Lat, Longt, PointOrder, ZoneId, DeviceID) VALUES (" + zp.lat + ", " + zp.longt + ", " + zp.order + ", " + zoneId + ", \"??\");";
+			try {
+				this.databaseConnection.update(query);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				resp.setStatus(500); //INTERNAL DB ERROR
+				return;
+			}
+			zone = zone.substring(zone.indexOf('}') + 2);
 		}
+		
+		//all good!
 		resp.setStatus(200);
 	}
 	
@@ -164,7 +175,7 @@ public class ZoneServlet extends HttpServlet{
 		return null;
 	}
 	
-	//Private method that fetches all zones associated with all the patients assoiated with a given care taker given by the care taker username
+	//Private method that fetches all zones associated with all the patients associated with a given care taker given by the care taker username
 	private ArrayList<ArrayList<String>> getAllZones(String caretakerId){
 		try {
 			return databaseConnection.query("SELECT Zone.patientSSN, ZonePoint.*, PatientCaretaker.CaretakerUsername FROM ZonePoint NATURAL JOIN Zone "
@@ -191,4 +202,24 @@ public class ZoneServlet extends HttpServlet{
 		
 		return json.substring(0, json.length()-1) + "]";
 	}
+	
+	private class ZonePointWrapper{
+		String lat;
+		String longt;
+		int order;
+		
+		//Constructor expects a string with format: {lat, long, order}
+		ZonePointWrapper(String param){
+			param = param.substring(1);
+			order = Integer.parseInt(param.substring(0, param.indexOf(',')));
+			param = param.substring(param.indexOf(',') + 1);
+			lat = param.substring(0, param.indexOf(','));
+			param = param.substring(param.indexOf(',') + 1);
+			longt = param.substring(0, param.indexOf('}'));
+		}
+	}
+	
 }
+
+
+
