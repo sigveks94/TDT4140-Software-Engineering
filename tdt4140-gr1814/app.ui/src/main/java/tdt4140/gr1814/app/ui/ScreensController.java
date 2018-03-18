@@ -78,13 +78,13 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
 
     //Function 'catches' alarm set of in patient class, and shows it as an alert on current screen.
 	@Override
-	public void OnPatientAlarm() { 
+	public void OnPatientAlarm(Patient patient) { 
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				FXMLLoader loader =(FXMLLoader) getChildren().get(0).getUserData();
 				ControlledScreen controller = loader.getController();
-				controller.showAlarm();
+				controller.showAlarm(patient);
 			}
 		});
 	}
