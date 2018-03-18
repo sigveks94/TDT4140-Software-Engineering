@@ -5,6 +5,7 @@ import java.util.Properties;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import tdt4140.gr1814.app.core.Caretaker;
 
 public class Database {
 	
@@ -95,7 +96,16 @@ public class Database {
 		
 	
 	//******************************************************PATIENT******************************************************
-	
+	public static int convertFromBooleanToInt(boolean bool) {
+		if (bool) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
+
+		
 	//inserts a patient into the db
 	public void insertPatient(Patient patient) {
 		String firstName = patient.getFirstName();
@@ -105,7 +115,7 @@ public class Database {
 		String email = patient.getNoK_email();
 		String gender = patient.getGender();
 		String deviceID = patient.getID();
-		int alarmActivated = 1;
+		int alarmActivated = convertFromBooleanToInt(patient.getAlarmActivated());
 		
 		update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
             		+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"', "+alarmActivated+");");
@@ -136,9 +146,16 @@ public class Database {
 	                    break;
 	                }
 	            }
-	            Patient patient  = Patient.newPatient(innerList.get(1), innerList.get(2), innerList.get(3).charAt(0), Long.parseLong(innerList.get(0)),  Integer.parseInt(innerList.get(4)),innerList.get(5), innerList.get(6));
+	            Patient patient  = Patient.newPatient(innerList.get(1), innerList.get(2), innerList.get(3).charAt(0), Long.parseLong(innerList.get(0)),  
+	            		Integer.parseInt(innerList.get(4)),innerList.get(5), innerList.get(6),convertFromIntToboolean(innerList.get(7)));
+	            
 	            returnList.add(patient);
 	        }
+		}
+		
+		for(Patient p : returnList) {
+			Zone z = retrieveZone(p);
+			p.addZone(z);
 		}
 		return returnList;
 	}
@@ -150,7 +167,15 @@ public class Database {
 	
 	
 	
-	
+	public static boolean convertFromIntToboolean(String i) {
+		if (i.equals("0")){
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 	
 	//******************************************************CARETAKER******************************************************
 	
@@ -175,6 +200,14 @@ public class Database {
 		update("DELETE FROM Caretaker WHERE Username = '"+username+"';");
 	}
 	
+	public Caretaker retrieveCaretaker(Caretaker c) throws SQLException {
+		ArrayList<ArrayList<String>> caretaker = query("SELECT * FROM Caretaker WHERE Username ='"+c.getUsername()+"'");
+		if(caretaker.isEmpty()) {
+			return null;
+		}
+		return new Caretaker(caretaker.get(0).get(0),caretaker.get(0).get(1),caretaker.get(0).get(2), caretaker.get(0).get(4));
+	}
+	
 	
 	
 	
@@ -184,13 +217,20 @@ public class Database {
 	//returns an array with all the patients a caretaker is connected to
 	public ArrayList<Patient> retrieveCaretakersPatients(Caretaker caretaker) throws SQLException{
 		String username = caretaker.getUsername();
-		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName, Patient.Gender, Patient.PhoneNumber, Patient.Email, Patient.DeviceID, Patient.alarmActivated FROM PatientCaretaker "
+		String queryString = "SELECT Patient.SSN, Patient.FirstName, Patient.LastName, Patient.Gender, Patient.PhoneNumber, Patient.Email, "
+				+ "Patient.DeviceID, Patient.alarmActivated FROM PatientCaretaker "
 				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='"+username+"'";
 		ArrayList<ArrayList<String>> patients =  query(queryString);
 		ArrayList<Patient> result = new ArrayList();
 		for(int i=0; i<patients.size();i++) {
-			Patient p = Patient.newPatient(patients.get(i).get(1), patients.get(i).get(2), patients.get(i).get(3).charAt(0), Long.parseLong(patients.get(i).get(0)), Integer.parseInt(patients.get(i).get(4)), patients.get(i).get(5), patients.get(i).get(6));
+			Patient p = Patient.newPatient(patients.get(i).get(1), patients.get(i).get(2), patients.get(i).get(3).charAt(0), 
+					Long.parseLong(patients.get(i).get(0)), Integer.parseInt(patients.get(i).get(4)), patients.get(i).get(5), patients.get(i).get(6),convertFromIntToboolean(patients.get(i).get(7)));
 			result.add(p);
+		}
+		
+		for(Patient p : result) {
+			Zone z = retrieveZone(p);
+			p.addZone(z);
 		}
 		return result;
 	}
@@ -202,7 +242,7 @@ public class Database {
 				+ "JOIN Caretaker ON PatientCaretaker.CaretakerUsername=Caretaker.Username WHERE PatientCaretaker.PatSSN='"+patientSSN+"'");
 		ArrayList<Caretaker> result = new ArrayList();
 		for(int i=0; i<caretakers.size();i++) {
-			Caretaker c = new Caretaker(caretakers.get(i).get(0), caretakers.get(i).get(1), caretakers.get(i).get(2));
+			Caretaker c = new Caretaker(caretakers.get(i).get(0), caretakers.get(i).get(1), caretakers.get(i).get(2),caretakers.get(i).get(4));
 			result.add(c);
 		}
 		return result;
@@ -231,11 +271,13 @@ public class Database {
 	//A method that inserts a zone. All zones must be connected to a person already in the db
 	public void insertZone(Patient patient, ZoneTailored zoneTailored) throws SQLException {
 		String SSN = Long.toString(patient.getSSN());
-		ArrayList<ArrayList<Double>> zonePoints = zoneTailored.getPointsToDatabaseFormat();
+		//ArrayList<ArrayList<Double>> zonePoints = zoneTailored.getPointsToDatabaseFormat();
+		ArrayList<Point> points = zoneTailored.getPoints();
 		int zoneID = generateZoneKey();
 		update("INSERT INTO Zone(ZoneID, PatientSSN) VALUES("+zoneID+",'"+SSN+"')");
-		for (int i=0;i<zonePoints.size(); i++) {
-			update("INSERT INTO ZonePoint(ZonePointID, Lat, Longt, PointOrder, ZoneID) VALUES("+generateZonePointKey()+","+zonePoints.get(i).get(0)+","+zonePoints.get(i).get(1)+", "+i+","+zoneID+")");
+		for (int i=0;i<points.size(); i++) {
+			update("INSERT INTO ZonePoint(ZonePointID, Lat, Longt, PointOrder, ZoneID, DeviceID) VALUES("+generateZonePointKey()+","
+					+ ""+points.get(i).getLat()+","+points.get(i).getLongt()+", "+i+","+zoneID+", '"+points.get(i).getDeviceId()+"')");
 		}
 	}
 	
@@ -246,17 +288,22 @@ public class Database {
 	}
 	
 	//returns the Zone a patient is connected to. this includes all the points in the zone in the right order
-	public ArrayList<ArrayList<Double>> retrieveZone(Patient patient) throws SQLException {
+	public Zone retrieveZone(Patient patient) throws SQLException {
 		String patientSSN=Long.toString(patient.getSSN());
-		ArrayList<ArrayList<String>> zones = query("SELECT ZonePoint.Lat, ZonePoint.Longt FROM ZonePoint WHERE ZonePoint.ZoneID IN(SELECT ZoneID FROM Zone WHERE PatientSSN='"+patientSSN+"')");
-		ArrayList<ArrayList<Double>> result = new ArrayList();
+		ArrayList<ArrayList<String>> zones = query("SELECT ZonePoint.Lat, ZonePoint.Longt, ZonePoint.DeviceID FROM ZonePoint WHERE ZonePoint.ZoneID "
+				+ "IN(SELECT ZoneID FROM Zone WHERE PatientSSN='"+patientSSN+"')");
+		ArrayList<Point> points = new ArrayList();
+		
+		if(zones.size()==0) {
+			return null;
+		}
+		
 		for(int i=0; i<zones.size();i++) {
-			ArrayList<Double> latLongs = new ArrayList();
-			latLongs.add(Double.parseDouble(zones.get(i).get(0)));
-			latLongs.add(Double.parseDouble(zones.get(i).get(1)));
-			result.add(latLongs);
+			Point p = new Point(zones.get(i).get(2), Double.parseDouble(zones.get(i).get(0)), Double.parseDouble(zones.get(i).get(1)));
+			points.add(p);
 			}
-		return result;
+		Zone zone = new ZoneTailored(points);
+		return zone;
 	}
 	
 	//finds the maximum id number in the zone table.
@@ -333,7 +380,7 @@ public class Database {
 	
 	//******************************************************LOGIN******************************************************
 	
-	//checks if the password for the username is correct. If it is, the method returns the corresponding caretaker object. 
+	//checks if the password for the username is correct. If it is, the method returns the username 
 	//If the username don't exist or the password is wrong, the method returns null.
 	public Caretaker checkPassword(String username, String inputPassword) throws SQLException {
 		ArrayList<ArrayList<String>> caretaker = query("SELECT * FROM Caretaker WHERE Username ='"+username+"'");
@@ -342,9 +389,14 @@ public class Database {
 		}
 		String password=caretaker.get(0).get(1);
 		if(password.equals(inputPassword)) {
-			return new Caretaker(caretaker.get(0).get(0),password,caretaker.get(0).get(2));
+			return new Caretaker(username,password,caretaker.get(0).get(2),caretaker.get(0).get(4));
 		}
 		return null;
+	}
+	
+	public void updatePassword(Caretaker caretaker, String newPassword) {
+		String username = caretaker.getUsername();
+			update("UPDATE Caretaker SET Password = '"+newPassword+"' WHERE Username = '"+username+"'");
 	}
 	
 	
@@ -352,11 +404,11 @@ public class Database {
 	
 	//main
 	public static void main(String[] args) throws SQLException, FileNotFoundException {
-		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
-		Caretaker c1 = new Caretaker("motherofthree","Saga123@1","Jordmorjordet 1");
-		Caretaker c2 = new Caretaker("iceroadtruckerfan","beef&Burger3","Rallarveien 3");
+		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1", true);
+		Caretaker c1 = new Caretaker("motherofthree","Saga123@1","Saga omsorgssenter","Jordmorjordet 1");
+		Caretaker c2 = new Caretaker("iceroadtruckerfan","beef&Burger3","Rallar omsorgssenter","Rallarveien 3");
 		
-		Point point1 = new Point("deviceID3",225.56,347.89999);
+		Point point1 = new Point("deviceID3",225.56,347.12345678911234567891);
 		Point point2 = new Point("deviceID3",223.56,323.89999);
 		Point point3 = new Point("deviceID3",227.56,389.89999);
 		Point point4 = new Point("deviceID3",221.56,312.89999);
@@ -369,8 +421,8 @@ public class Database {
 		
 		Database db = new Database();
 		db.connect();
+		System.out.println(db.retrievePatients());
 		
-		db.insertZone(p1, zone);
 		
 	}
 }

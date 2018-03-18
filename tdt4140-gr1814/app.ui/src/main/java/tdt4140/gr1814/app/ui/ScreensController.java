@@ -8,9 +8,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 
 
@@ -20,12 +18,11 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
     private HashMap<String, Node> screens = new HashMap<>();
     private static MapViewController MapController = new MapViewController();
     private static PatientOverviewController OverviewController = new PatientOverviewController();
+
     
     public ScreensController() {
         super();
-        for (Patient p : Patient.patients) {
-        		p.addAlarmListener(this);
-        }
+        for (Patient p : Patient.patients) {p.addAlarmListener(this);}		
     }
 
     //Add the screen to the hashmap
@@ -48,16 +45,16 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
             		myLoader.setController(MapController);//make this controller, the controller of the screen
 			}
             if (name.equals("PatientOverview")) {//Different way to add the controller for the PatientOverview.fxml screen. 
-        		myLoader.setController(OverviewController);//make this controller, the controller of the screen
-		}         
+        			myLoader.setController(OverviewController);//make this controller, the controller of the screen
+            }         
             Parent loadScreen = (Parent) myLoader.load();
+            loadScreen.setUserData(myLoader);//saves loader as user data in the Node. Makes it possible to access conroller-instance.
             ControlledScreen myScreenControler = ((ControlledScreen) myLoader.getController());
             myScreenControler.setScreenParent(this);
             addScreen(name, loadScreen);
         } catch (Exception e) {
         		System.out.println("Did not add Screen");
-            e.printStackTrace();
-            
+            e.printStackTrace();    
         }
     }
 
@@ -70,41 +67,26 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
             if (!getChildren().isEmpty()) {    //if there is more than one screen
                 getChildren().remove(0);                    //remove the displayed screen
                 getChildren().add(0, screens.get(name));
-            } 
-            else {getChildren().add(screens.get(name));}//no one else been displayed, then just show       
-        } 
-        else {System.out.println("screen hasn't been loaded!!!");}
-    }
-
-    //This method will remove the screen with the given name from the collection of screens
-    public void unloadScreen(String name) {
-        if (screens.remove(name) == null) {
-            System.out.println("Screen didn't exist");
-        }
+            }else {getChildren().add(screens.get(name));}//no one else been displayed, then just show       
+        }else {System.out.println("screen hasn't been loaded!!!");}
     }
     
-    public MapViewController getMapViewController() {
-    		return MapController;
-    }
-    public PatientOverviewController getOverviewController() {
-		return OverviewController;
-}
+    //Getters for map- and overview-controller
+    public MapViewController getMapViewController() {return MapController;}
+    
+    public PatientOverviewController getOverviewController() {return OverviewController;}
 
+    //Function 'catches' alarm set of in patient class, and shows it as an alert on current screen.
 	@Override
-	public void OnPatientAlarm() { //this class implements onPatientAlarmListener. Function 'catches' alarm set of in patient class
+	public void OnPatientAlarm(Patient patient) { 
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				Stage stage = new Stage();
-				Node alarmscreen = getScreen(ApplicationDemo.AlarmID);
-				Scene scene = new Scene((Parent) alarmscreen,400,200);
-		        stage.setScene(scene);
-		        stage.show();
+				FXMLLoader loader =(FXMLLoader) getChildren().get(0).getUserData();
+				ControlledScreen controller = loader.getController();
+				controller.showAlarm(patient);
 			}
-			
 		});
-		
 	}
     
-    
-}
+} 

@@ -8,13 +8,15 @@ public class Caretaker {
 	private String Username;
 	private String Password;
 	private String Address;
+	private String Name;
 	private ArrayList <Patient> Patients= new ArrayList<Patient>();
 	public static final String PasswordRegex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
 	
 	
-	public Caretaker(String Username, String Password, String address) {
+	public Caretaker(String Username, String Password, String name,String address) {
 		this.setUsername(Username);
 		this.setPassword(Password);
+		this.Name=name;
 		this.Address=address;
 	}
 	
@@ -29,8 +31,20 @@ public class Caretaker {
 		}
 	}
 	
+	public String getName() {
+		return Name;
+	}
+	
+	public String getAddress() {
+		return Address;
+	}
+
+	public void setAddress(String address) {
+		Address = address;
+	}
+	
 	public void incomingAlert(Patient patient, Point point) {
-		System.out.println("ALARM!! For caretaker: " + this.getUsername() +  ". Patient: " + patient.getFullName() + " is currently outside allowed zone. Current position: " + 
+		System.out.println("ALARM!! For caretaker: " + this.getName() +  ". Patient: " + patient.getFullName() + " is currently outside allowed zone. Current position: " + 
 		point.getLat() + " " + point.getLongt());
 	}
 	
@@ -47,10 +61,6 @@ public class Caretaker {
 	public String getPassword() {
 		return Password;
 	}
-	
-	public String getAddress() {
-		return Address;
-	}
 
 
 	public void setPassword(String password) {
@@ -65,6 +75,22 @@ public class Caretaker {
 		//(?=\\S+$) no whitespace allowed in the entire string
 		//.{8,} at least 8 characters
 	}
+	
+	public static boolean checkPassword(String password) {
+		if (password.matches(PasswordRegex)) {
+			return true;
+		}
+		//PasswordRegex explained;
+		//(?=.*[0-9]) a digit must occur at least once
+		//(?=.*[a-z]) a lower case letter must occur at least once
+		//(?=.*[A-Z]) an upper case letter must occur at least once
+		//(?=.*[@#$%^&+=]) a special character must occur at least once
+		//(?=\\S+$) no whitespace allowed in the entire string
+		//.{8,} at least 8 characters
+		return false;
+	}
+	
+	
 
 	public ArrayList <Patient> getPatients() {
 		return Patients;
