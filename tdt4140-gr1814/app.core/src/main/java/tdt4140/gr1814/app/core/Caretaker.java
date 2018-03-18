@@ -8,13 +8,15 @@ public class Caretaker {
 	private String Username;
 	private String Password;
 	private String Address;
+	private String Name;
 	private ArrayList <Patient> Patients= new ArrayList<Patient>();
 	public static final String PasswordRegex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
 	
 	
-	public Caretaker(String Username, String Password, String address) {
+	public Caretaker(String Username, String Password, String name,String address) {
 		this.setUsername(Username);
 		this.setPassword(Password);
+		this.Name=name;
 		this.Address=address;
 	}
 	
@@ -29,6 +31,10 @@ public class Caretaker {
 		}
 	}
 	
+	public String getName() {
+		return Name;
+	}
+	
 	public String getAddress() {
 		return Address;
 	}
@@ -38,7 +44,7 @@ public class Caretaker {
 	}
 	
 	public void incomingAlert(Patient patient, Point point) {
-		System.out.println("ALARM!! For caretaker: " + this.getUsername() +  ". Patient: " + patient.getFullName() + " is currently outside allowed zone. Current position: " + 
+		System.out.println("ALARM!! For caretaker: " + this.getName() +  ". Patient: " + patient.getFullName() + " is currently outside allowed zone. Current position: " + 
 		point.getLat() + " " + point.getLongt());
 	}
 	

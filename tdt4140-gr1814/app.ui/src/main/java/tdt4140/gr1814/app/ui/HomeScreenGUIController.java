@@ -11,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
@@ -94,8 +93,8 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     			passwordPane.setVisible(false);
     		}
     		else {
-    			if (ApplicationDemo.applicationUser.getUsername() != null) {
-    				username_txt.setText(ApplicationDemo.applicationUser.getUsername());
+    			if (ApplicationDemo.applicationUser.getName() != null) {
+    				username_txt.setText(ApplicationDemo.applicationUser.getName());
     				}
 			if (ApplicationDemo.applicationUser.getAddress() != null) {
 				userAdr_txt.setText(ApplicationDemo.applicationUser.getAddress());
@@ -126,7 +125,7 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
         			passwordError.setVisible(false);
         			passwordSuccessMsg.setVisible(true);
         			
-	        	    	FadeTransition ft = new FadeTransition(Duration.millis(500), passwordPane);
+	        	    	FadeTransition ft = new FadeTransition(Duration.millis(300), passwordPane);
 	        	    	ft.setFromValue(1.0);
 	        	    	ft.setToValue(0.0);
 	        	    	ft.setCycleCount(1);
@@ -151,7 +150,7 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
    }
 
 	@Override
-	public void showAlarm() {
+	public void showAlarm(Patient patient) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE, ButtonType.OK);
 		alert.setTitle("");
 		alert.setHeaderText("\t\t\t     ALARM!");
@@ -162,7 +161,11 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
 		alert.setGraphic(imageView);
 		alert.showAndWait();
 		if (alert.getResult() == ButtonType.CLOSE) {alert.close();}
-		if (alert.getResult() == ButtonType.OK) {goToMap(null);}
+		if (alert.getResult() == ButtonType.OK) {
+			goToMap(null);
+			myController.getMapViewController().map.setCenter(patient.getCurrentLocation().getLatLong());
+			myController.getMapViewController().map.setZoom(15);
+		}
 	}
 	
 	 //live changes in button color when mouse hover over.
