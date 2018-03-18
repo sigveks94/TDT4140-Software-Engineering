@@ -101,7 +101,7 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 		
 		//If all input values are valid. Create new patient-object.
 		if(firstname != null && surname != null && SSN != null && NoK_mobile != 0 && email != null && termsaccepted) {
-			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email, deviceId);
+			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email, deviceId, true);
 			patient.addAlarmListener(myController); //makes the Screencontroller a listener to recieve alarm-screen when outside zone. 
 			myController.getMapViewController().addViewables(patient); //addind new patient to map-tracking
 			myController.getOverviewController().updatePatientList();//updating patient overview list
@@ -223,7 +223,7 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 	
 
 	@Override
-	public void showAlarm() {
+	public void showAlarm(Patient patient) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE,ButtonType.OK);
 		alert.setTitle("");
 		alert.setHeaderText("\t\t\t     ALARM!");
@@ -236,6 +236,8 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 		if (alert.getResult() == ButtonType.CLOSE) {alert.close();}
 		if (alert.getResult() == ButtonType.OK) {		
 			this.resetScene();
+			myController.getMapViewController().map.setCenter(patient.getCurrentLocation().getLatLong());
+			myController.getMapViewController().map.setZoom(15);
 			myController.getMapViewController().patientView();
 			myController.setScreen(ApplicationDemo.MapViewLayoutID);
 			}

@@ -139,15 +139,19 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	}
 	
 	public void changeAlarmSetting() {
+		Database db = new Database();
+		db.connect();
 		if (alarm_btn.getText().equals("ON")) {
 			currentPatientProfile.setAlarmActivated(false);
 			alarm_btn.setText("OFF");
+			db.deactivateAlarmActivated(currentPatientProfile);
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: red;");
 		}
 		else {
 			currentPatientProfile.setAlarmActivated(true);
 			alarm_btn.setText("ON");
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: #30c39e;");
+			db.activateAlarmActivated(currentPatientProfile);
 		}
 	}
 	public void alarmDarken() {
@@ -184,7 +188,7 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	}
 
 	@Override
-	public void showAlarm() {
+	public void showAlarm(Patient patient) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE,ButtonType.OK);
 		alert.setTitle("");
 		alert.setHeaderText("\t\t\t     ALARM!");
@@ -197,6 +201,8 @@ public class PatientOverviewController implements Initializable, ControlledScree
 		if (alert.getResult() == ButtonType.CLOSE) {alert.close();}
 		if (alert.getResult() == ButtonType.OK) {
 			myController.getMapViewController().patientView();
+			myController.getMapViewController().map.setCenter(patient.getCurrentLocation().getLatLong());
+			myController.getMapViewController().map.setZoom(15);
 			myController.setScreen(ApplicationDemo.MapViewLayoutID);
 			}
 		
