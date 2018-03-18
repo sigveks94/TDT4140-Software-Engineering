@@ -91,6 +91,21 @@ public class PatientServlet extends HttpServlet{
 		String gender = req.getParameter("gender");
 		String deviceID = req.getParameter("id");
 		
+		if(req.getParameter("delete") != null && req.getParameter("delete").contentEquals("yes")) {
+			if(req.getParameter("ssn") == null || req.getParameter("ssn").length() != 11) {
+				resp.setStatus(400); //Bad Request
+				return;
+			}
+			if(this.deletePatient(req.getParameter("ssn"))) {
+				resp.setStatus(200);
+				return;
+			}
+			else {
+				resp.setStatus(500); //Internal DB Error
+				return;
+			}
+		}
+		
 		if(firstName == null || surname == null || SSN == null || phoneNumber == null || email == null || gender == null || deviceID == null) {
 			resp.setStatus(400); //Bad Request status
 			return;
@@ -129,7 +144,18 @@ public class PatientServlet extends HttpServlet{
 	}
 	
 	
-	
+	//Removes a patient from the database
+	private boolean deletePatient(String ssn) {
+		String query = "DELETE FROM Patient WHERE SSN LIKE " + ssn + ";";
+		try {
+			this.databaseConnection.update(query);
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 	//Returns an array of all patients associated with the given caretaker
 	private ArrayList<Patient> getMultiplePatients(String caretakerUsername) {
