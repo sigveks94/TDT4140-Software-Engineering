@@ -95,6 +95,7 @@ public class ZoneServlet extends HttpServlet{
 	/*
 	 * The POST Request handles requests for inserting new zones and updating current ones
 	 * Expected parameters: ssn, and a list of {lat, long, point_order}
+	 * If parameter delete=yes exists, the zone given by the ssn is deleted from the database
 	 */
 	
 	@Override
@@ -104,6 +105,23 @@ public class ZoneServlet extends HttpServlet{
 		if(!this.establishConnection(resp)) {
 			resp.setStatus(500); //Internal DB Issues
 			return;
+		}
+		
+		if(req.getParameter("delete") != null && req.getParameter("delete").contentEquals("yes")){
+			if(req.getParameter("ssn") == null || req.getParameter("ssn").length() != 11) {
+				resp.setStatus(400); //Bad Request
+				return;
+			}
+			
+			if(this.deleteZone(req.getParameter("ssn"))) {
+				resp.setStatus(200);
+				return;
+			}
+			else {
+				resp.setStatus(500); //Internal DB Error
+				return;
+			}
+			
 		}
 		
 		String ssn = req.getParameter("ssn");
@@ -165,6 +183,18 @@ public class ZoneServlet extends HttpServlet{
 		resp.setStatus(200);
 	}
 	
+	//deletes the zone given by the ssn
+	private boolean deleteZone(String ssn) {
+		String query = "DELETE FROM Zone WHERE PatientSSN LIKE " + ssn + ";";
+		try {
+			this.databaseConnection.update(query);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	//Private method for getting zones associated with a single patient given the SSN of the patient
 	private ArrayList<ArrayList<String>> getZone(long ssn){
 		try {
@@ -203,6 +233,7 @@ public class ZoneServlet extends HttpServlet{
 		return json.substring(0, json.length()-1) + "]";
 	}
 	
+	//Wrapper class for extracting the information from the request parameter
 	private class ZonePointWrapper{
 		String lat;
 		String longt;
