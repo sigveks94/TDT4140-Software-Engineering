@@ -14,7 +14,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import tdt4140.gr1814.app.core.Patient;
+import participants.Patient;
 
 
 public class HomeScreenGUIController implements Initializable, ControlledScreen {

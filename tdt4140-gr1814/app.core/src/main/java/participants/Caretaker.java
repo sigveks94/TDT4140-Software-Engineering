@@ -1,6 +1,8 @@
-package tdt4140.gr1814.app.core;
+package participants;
 
 import java.util.ArrayList;
+
+import zones.Point;
 
 
 public class Caretaker {

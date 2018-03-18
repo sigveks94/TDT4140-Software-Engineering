@@ -6,6 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import participants.Caretaker;
+import participants.Patient;
+
 public class TestCareTaker {
 
 	private Caretaker cT;

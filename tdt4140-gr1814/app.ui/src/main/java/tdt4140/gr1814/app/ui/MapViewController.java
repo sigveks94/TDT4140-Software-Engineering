@@ -26,10 +26,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import tdt4140.gr1814.app.core.OnLocationChangedListener;
-import tdt4140.gr1814.app.core.Patient;
-import tdt4140.gr1814.app.core.Point;
-import tdt4140.gr1814.app.core.ZoneTailored;
+import listeners.OnLocationChangedListener;
+import participants.Patient;
+import zones.Point;
+import zones.ZoneTailored;
 
 //This is the controller class that controls the mapview window
 public class MapViewController implements Initializable, MapComponentInitializedListener, OnLocationChangedListener,ControlledScreen{

@@ -1,4 +1,4 @@
-package tdt4140.gr1814.app.core;
+package listeners;
 
 public interface OnPatientAlarmListener {
 	

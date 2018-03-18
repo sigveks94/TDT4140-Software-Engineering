@@ -1,8 +1,5 @@
 package tdt4140.gr1814.app.ui;
 
-import tdt4140.gr1814.app.core.OnPatientAlarmListener;
-import tdt4140.gr1814.app.core.Patient;
-
 import java.util.HashMap;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import listeners.OnPatientAlarmListener;
+import participants.Patient;
 
 
 

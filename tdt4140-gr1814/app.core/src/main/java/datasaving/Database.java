@@ -1,7 +1,13 @@
-package tdt4140.gr1814.app.core;
+package datasaving;
 
 import java.util.ArrayList;
 import java.util.Properties;
+
+import participants.Caretaker;
+import participants.Patient;
+import zones.Point;
+import zones.ZoneTailored;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.*;

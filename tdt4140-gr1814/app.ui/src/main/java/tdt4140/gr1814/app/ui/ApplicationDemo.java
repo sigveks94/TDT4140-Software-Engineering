@@ -4,19 +4,19 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import datasaving.DataFetchController;
+import datasaving.Database;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import tdt4140.gr1814.app.core.Caretaker;
-import tdt4140.gr1814.app.core.DataFetchController;
-import tdt4140.gr1814.app.core.Database;
+import participants.Caretaker;
+import participants.Patient;
 import tdt4140.gr1814.app.core.InputController;
-import tdt4140.gr1814.app.core.Patient;
-import tdt4140.gr1814.app.core.Point;
-import tdt4140.gr1814.app.core.Zone;
-import tdt4140.gr1814.app.core.ZoneTailored;
+import zones.Point;
+import zones.Zone;
+import zones.ZoneTailored;
 
 public class ApplicationDemo extends Application{
 	

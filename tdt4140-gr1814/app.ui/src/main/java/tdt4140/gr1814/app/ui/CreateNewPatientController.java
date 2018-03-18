@@ -1,11 +1,10 @@
 package tdt4140.gr1814.app.ui;
 
-import tdt4140.gr1814.app.core.Patient;
-import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.Hyperlink_Browser;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import participants.Patient;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
@@ -18,6 +17,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import datasaving.Database;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 

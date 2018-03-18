@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import datasaving.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -19,8 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import tdt4140.gr1814.app.core.Database;
-import tdt4140.gr1814.app.core.Patient;
+import participants.Patient;
 
 public class PatientOverviewController implements Initializable, ControlledScreen{
 	

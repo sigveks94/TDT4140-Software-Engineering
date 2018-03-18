@@ -1,4 +1,4 @@
-package tdt4140.gr1814.app.core;
+package datasaving;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,6 +18,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+
+import participants.Caretaker;
+import participants.Patient;
+import zones.Point;
+import zones.Zone;
+import zones.ZoneTailored;
 
 /*
  * Class for establishing connection with the webserver and fetching data as well as passing data to the DB

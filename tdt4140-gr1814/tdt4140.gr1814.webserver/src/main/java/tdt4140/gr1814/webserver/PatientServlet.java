@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import tdt4140.gr1814.app.core.Patient;
+import participants.Patient;
 
 /*
  * 	This is the HttpServlet supposed to handle database queries concerning the patient objects
