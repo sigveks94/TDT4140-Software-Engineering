@@ -100,7 +100,7 @@
                         <Font name="System Bold" size="10.0" />
                      </font>
                   </Button>
-                  <Button layoutX="139.0" layoutY="1.0" mnemonicParsing="false" onAction="#closePassword" style="-fx-background-color: dbe0e3;" text="X" textFill="#fd5c63" />
+                  <Button layoutX="139.0" layoutY="1.0" mnemonicParsing="false" onAction="#closePassword" style="-fx-background-color: dbe0e3;" text="X" textFill="#fd5c63" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="1.0" />
                   <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter new password" />
                   <Text layoutX="15.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm new password" />
                   <PasswordField fx:id="newPassword1" layoutX="16.0" layoutY="43.0" />

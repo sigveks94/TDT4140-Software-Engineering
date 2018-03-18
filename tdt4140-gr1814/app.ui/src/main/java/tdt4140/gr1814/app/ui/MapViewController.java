@@ -237,7 +237,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	}
 
 	@Override
-	public void showAlarm() {
+	public void showAlarm(Patient patient) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE, ButtonType.OK);
 		alert.setTitle("");
 		alert.setHeaderText("\t\t\t     ALARM!");
@@ -247,7 +247,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		ImageView imageView = new ImageView(image);
 		alert.setGraphic(imageView);
 		alert.showAndWait();
-		if (alert.getResult() == ButtonType.OK) {patientView();}
+		if (alert.getResult() == ButtonType.OK) {
+			map.setCenter(patient.getCurrentLocation().getLatLong());
+			myController.getMapViewController().map.setZoom(15);
+			patientView();
+			}
 		if (alert.getResult() == ButtonType.CLOSE) {alert.close();;}
 		
 	}
