@@ -82,8 +82,12 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 				username.clear();
 				passwd.clear();
 				ApplicationDemo.applicationUser = systemUser;
-				myController.setScreen(ApplicationDemo.HomescreenID);
-				datafetcher.fetchPatients(systemUser.getUsername());
+				datafetcher.fetchPatients(systemUser);
+				datafetcher.getPatientsZones(systemUser);
+				ApplicationDemo.loadScreens();
+			    try {InputController.metamorphise();//this is running on a seperate threa
+				}catch (IOException e) {e.printStackTrace();} 
+			    
 			}else {loginError.setVisible(true);}
 		}else {loginError.setVisible(true);}
 	}

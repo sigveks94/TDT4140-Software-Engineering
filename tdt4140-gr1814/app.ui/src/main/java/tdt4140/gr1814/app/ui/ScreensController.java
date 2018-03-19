@@ -22,8 +22,6 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
 
     
     public ScreensController() {
-        super();
-        for (Patient p : Patient.patients) {p.addAlarmListener(this);}		
     }
 
     //Add the screen to the hashmap

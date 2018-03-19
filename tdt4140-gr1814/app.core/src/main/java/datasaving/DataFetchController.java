@@ -37,21 +37,7 @@ public class DataFetchController {
 		
 	}
 	
-	public static void main(String[] args) {
-		DataFetchController controller = new DataFetchController();
-		controller.fetchPatients("motherofthree");
-		controller.getPatientsZones(new Caretaker("motherofthree","ps","k","s","s"));
-		//for (Patient pat : Patient.getAllPatients()) {
-			//System.out.println(pat.toString());
-			//System.out.println(pat.getZone());
-			/*
-			for (Point poi : pat.getZone().getPoints()) {
-				System.out.println(poi.getLat() + " : " + poi.getLongt());
-			}*/
-		//}
-		//System.out.println(Patient.getAllPatients());
-		controller.insertZone(Patient.getAllPatients().get(0));
-	}
+	
 	
 	public Caretaker logIn(String username, String password) {
 		
@@ -167,9 +153,9 @@ public class DataFetchController {
 	}
 	
 	
-	public void fetchPatients(String caretakerId) {
+	public void fetchPatients(Caretaker caretaker) {
 	
-		HttpURLConnection connection = this.connect("patient?caretaker_id=" + caretakerId);
+		HttpURLConnection connection = this.connect("patient?caretaker_id=" + caretaker.getUsername());
 		
 		if(connection == null) {
 			System.out.println("Connection trouble...");
@@ -201,7 +187,8 @@ public class DataFetchController {
 		for(JsonElement j: jsonArray) {
 			try {
 				JsonObject o = gson.fromJson(j, JsonObject.class);
-				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), o.get("AlarmActivated").getAsBoolean());
+				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), o.get("alarmActivated").getAsBoolean());
+				Patient.getPatient(o.get("SSN").getAsLong()).addListeners(caretaker);
 			}
 			catch(Exception e) {
 				e.printStackTrace();
