@@ -1,4 +1,4 @@
-package tdt4140.gr1814.webserver;
+package tdt4140.gr1814.webserver.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import participants.Patient;
+import tdt4140.gr1814.app.core.participants.Patient;
+import tdt4140.gr1814.webserver.ConnectionHandler;
 
 /*
  * 	This is the HttpServlet supposed to handle database queries concerning the patient objects
@@ -106,6 +107,40 @@ public class PatientServlet extends HttpServlet{
 			}
 		}
 		
+		if(req.getParameter("activate") != null && req.getParameter("ssn")!= null){
+			String ssn = req.getParameter("ssn");
+			if(ssn.length() != 11) {
+				resp.setStatus(400); //Bad Request
+				return;
+			}
+			
+			boolean activate = Boolean.parseBoolean(req.getParameter("activate"));
+			
+			if(this.activateAlarm(ssn, activate)) {
+				resp.setStatus(200);
+				return;
+			}
+			else {
+				resp.setStatus(500);
+				return;
+			}
+			
+		}
+		//For binding a patient to a caretaker
+		if(req.getParameter("caretaker_id") != null && req.getParameter("ssn") != null) {
+			System.out.println("POST!");
+			String query = "INSERT INTO PatientCaretaker (PatSSN, CaretakerUsername) VALUES (" + SSN + ", \"" +  req.getParameter("caretaker_id") + "\");";
+			try {
+				this.databaseConnection.update(query);
+				resp.setStatus(200);
+				return;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				resp.setStatus(500); //DB ERROR
+				return;
+			}
+		}
+		
 		if(firstName == null || surname == null || SSN == null || phoneNumber == null || email == null || gender == null || deviceID == null) {
 			resp.setStatus(400); //Bad Request status
 			return;
@@ -152,6 +187,21 @@ public class PatientServlet extends HttpServlet{
 			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	private boolean activateAlarm(String ssn, boolean activate) {
+		int active = 0;
+		if(activate) {
+			active = 1;
+		}
+		String query = "UPDATE Patient SET alarmActivated = '" + active + "' WHERE SSN = " + ssn + ";";
+		try {
+			this.databaseConnection.update(query);
+			return true;
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}

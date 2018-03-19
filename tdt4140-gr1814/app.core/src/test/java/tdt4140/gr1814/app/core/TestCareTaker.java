@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import participants.Caretaker;
-import participants.Patient;
+import tdt4140.gr1814.app.core.participants.Caretaker;
+import tdt4140.gr1814.app.core.participants.Patient;
 
 public class TestCareTaker {
 
@@ -54,7 +54,7 @@ public class TestCareTaker {
 	}
 	@Test
 	public void listenerTest() {
-		Patient pat = Patient.newPatient("ForN","EtterN",'M',24076787391L,19747298,"example@ntnu.no","A92", true );
+		Patient pat = Patient.newPatient("ForN","EtterN",'M',24076787391L,19747298,"example@ntnu.no","A92", true);
 		pat.addListeners(cT);
 		assertEquals(pat.getListeners().get(0),cT);
 	}

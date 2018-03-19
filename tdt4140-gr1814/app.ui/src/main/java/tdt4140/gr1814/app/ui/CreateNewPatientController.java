@@ -6,11 +6,11 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import datasaving.Database;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -22,8 +22,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import participants.Patient;
 import tdt4140.gr1814.app.core.Hyperlink_Browser;
+import tdt4140.gr1814.app.core.datasaving.DataFetchController;
+import tdt4140.gr1814.app.core.participants.Patient;
 
 
 // This is a simple controller for the 'CreateNewPatient.fxml' UI, validating and creating a Patient-object. 
@@ -104,9 +105,9 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 			myController.getMapViewController().addViewables(patient); //addind new patient to map-tracking
 			myController.getOverviewController().updatePatientList();//updating patient overview list
 			//Saving patient to database. (should check if this works before adding to static list (Patient.patients) )
-			Database database = new Database();
-			database.connect();
-			database.insertPatient(patient);
+			DataFetchController dataInsert = new DataFetchController();
+			dataInsert.insertNewPatient(patient);
+			dataInsert.caretakerForPatient(ApplicationDemo.applicationUser, patient);
 			System.out.println(patient);
 			//Adding and saving patient completed. change scene to homescreen:
 			this.goToHomescreen(null);
@@ -242,4 +243,5 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 	
 	
 }
+
 

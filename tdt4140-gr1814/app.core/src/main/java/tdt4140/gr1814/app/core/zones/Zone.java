@@ -1,4 +1,4 @@
-package zones;
+package tdt4140.gr1814.app.core.zones;
 
 import java.util.ArrayList;
 

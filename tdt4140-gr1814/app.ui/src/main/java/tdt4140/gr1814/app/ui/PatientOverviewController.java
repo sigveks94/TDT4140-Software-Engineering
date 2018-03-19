@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import datasaving.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -25,7 +24,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import participants.Patient;
+import tdt4140.gr1814.app.core.datasaving.DataFetchController;
+import tdt4140.gr1814.app.core.participants.Patient;
 
 public class PatientOverviewController implements Initializable, ControlledScreen{
 	
@@ -139,19 +139,18 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	}
 	
 	public void changeAlarmSetting() {
-		Database db = new Database();
-		db.connect();
+		DataFetchController controller = new DataFetchController();
 		if (alarm_btn.getText().equals("ON")) {
 			currentPatientProfile.setAlarmActivated(false);
 			alarm_btn.setText("OFF");
-			db.deactivateAlarmActivated(currentPatientProfile);
+			controller.activateAlarmActivated(currentPatientProfile,false);//webserver
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: red;");
 		}
 		else {
 			currentPatientProfile.setAlarmActivated(true);
 			alarm_btn.setText("ON");
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: #30c39e;");
-			db.activateAlarmActivated(currentPatientProfile);
+			controller.activateAlarmActivated(currentPatientProfile,true);//webserver
 		}
 	}
 	public void alarmDarken() {
@@ -172,9 +171,10 @@ public class PatientOverviewController implements Initializable, ControlledScree
 			Long patientSSN = currentPatientProfile.getSSN();
 			if(Patient.deletePatient(patientSSN)) { //if this patient exists in the static list in Patient.java, this will be deleted, and we will delete the person from the database as well
 				updatePatientList();
-				Database db = new Database();
-				db.connect();
-				db.update("DELETE FROM Patient WHERE SSN = "+String.valueOf(patientSSN)+";");
+				DataFetchController controller = new DataFetchController();
+				controller.deletePatient(currentPatientProfile);
+				Patient.patients.remove(currentPatientProfile);
+				myController.getMapViewController().removePatientFromMap(currentPatientProfile);
 				System.out.println("Deleted patient with SSN: "+String.valueOf(patientSSN));
 				patientInfo_txt.setText("Deleted patient with SSN: \n"+String.valueOf(patientSSN));
 				try {Thread.sleep(500);} 
@@ -210,4 +210,3 @@ public class PatientOverviewController implements Initializable, ControlledScree
 
 
 }
-        
