@@ -6,13 +6,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import participants.Caretaker;
+import participants.Patient;
+
 public class TestCareTaker {
 
 	private Caretaker cT;
 	
 	@Before
 	public void setUp() {
-		cT = new Caretaker("Example1","1H8j24s4@","arne", "nedrevei 3");
+		cT = new Caretaker("Example1","1H8j24s4@","test","test","nedrevei 3");
 	}
 	
 	@Test

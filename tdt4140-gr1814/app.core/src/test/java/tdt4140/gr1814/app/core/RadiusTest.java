@@ -8,6 +8,9 @@ import org.junit.Test;
 
 import com.lynden.gmapsfx.javascript.object.LatLong;
 
+import zones.Point;
+import zones.ZoneRadius;
+
 public class RadiusTest {
 
 	private Point center = null;

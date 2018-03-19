@@ -1,4 +1,4 @@
-package tdt4140.gr1814.app.core;
+package datasaving;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -9,14 +9,19 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
+
+import participants.Caretaker;
+import participants.Patient;
+import zones.Point;
+import zones.Zone;
+import zones.ZoneTailored;
 
 /*
  * Class for establishing connection with the webserver and fetching data as well as passing data to the DB
@@ -33,7 +38,18 @@ public class DataFetchController {
 	
 	public static void main(String[] args) {
 		DataFetchController controller = new DataFetchController();
-		controller.insertZone();
+		controller.fetchPatients("motherofthree");
+		controller.getPatientsZones(new Caretaker("motherofthree","ps","k","s","s"));
+		//for (Patient pat : Patient.getAllPatients()) {
+			//System.out.println(pat.toString());
+			//System.out.println(pat.getZone());
+			/*
+			for (Point poi : pat.getZone().getPoints()) {
+				System.out.println(poi.getLat() + " : " + poi.getLongt());
+			}*/
+		//}
+		//System.out.println(Patient.getAllPatients());
+		controller.insertZone(Patient.getAllPatients().get(0));
 	}
 	
 	public Caretaker logIn(String username, String password) {
@@ -80,7 +96,7 @@ public class DataFetchController {
 				}
 				Gson gson = new Gson();
 				JsonObject o = gson.fromJson(content, JsonObject.class);
-				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", o.get("address").getAsString(), "{address}");
+				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", "Firstname", "lastname", o.get("address").getAsString());
 				return caretaker;
 				
 			} catch (IOException e) {
@@ -149,6 +165,70 @@ public class DataFetchController {
 		}
 	}
 
+	public void getPatientsZones(Caretaker caretaker) {
+		HttpURLConnection connection = this.connect("zone?caretaker_id=" + caretaker.getUsername());
+		
+		if(connection == null) {
+			System.out.println("Connection trouble...");
+			return;
+		}
+		
+		try {
+			connection.setRequestMethod("GET");
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		}
+		String content = "";
+		try {
+			InputStream input = connection.getInputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(input));
+			String line = "";
+			while((line = br.readLine()) != null) {
+				content += line;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Gson gson = new Gson();
+		JsonParser jsonParser = new JsonParser();
+		JsonArray jsonArray = (JsonArray) jsonParser.parse(content);
+		int prevZoneID = -1;
+		int nr = 0;
+		ArrayList<Point> points = new ArrayList<>();
+		for(JsonElement j: jsonArray) {
+			try {
+				nr++;
+				JsonObject o = gson.fromJson(j, JsonObject.class);
+				if (prevZoneID == -1) {
+					prevZoneID = o.get("zone_id").getAsInt();
+					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
+							o.get("lat").getAsDouble(),o.get("long").getAsDouble()));
+				} else if ((nr == jsonArray.size())) {
+					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
+							o.get("lat").getAsDouble(),o.get("long").getAsDouble()));
+					Zone zone = new ZoneTailored(points);
+					Patient.getPatient(points.get(0).getDeviceId()).addZone(zone);
+				} else if (prevZoneID == o.get("zone_id").getAsInt()) {
+					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
+							o.get("lat").getAsDouble(),o.get("long").getAsDouble()));
+				} else if (prevZoneID < o.get("zone_id").getAsInt()) {
+					Zone zone = new ZoneTailored(points);
+					Patient.getPatient(points.get(0).getDeviceId()).addZone(zone);
+					prevZoneID = o.get("zone_id").getAsInt();
+					points = new ArrayList<>();
+					points.add(new Point(Patient.getPatient(o.get("ssn").getAsLong()).getID(),
+							o.get("lat").getAsDouble(),o.get("long").getAsDouble()));
+				} else {
+					throw new Exception("Something went wrong with creating a new zone");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} return;
+		
+		
+	}
+	
 	public void insertNewPatient(Patient patient) {
 		
 		//Opens a connection to the server
@@ -193,7 +273,7 @@ public class DataFetchController {
 		
 	}
 	
-	public void insertZone() {
+	public void insertZone(Patient patient) {
 		//Opens a connection to the server
 		HttpURLConnection connection = this.connect("zone");
 		
@@ -211,13 +291,24 @@ public class DataFetchController {
 		}
 		
 		//Insert Request String
-			String params = "ssn=12345678919&lat=63.02235&long=10.234554&point_order=2";
+			Zone zone = patient.getZone();
+			String sendStr = "ssn=" + patient.getSSN() + "&zone=[";
+			int order = 0;
+			for (Point poi : zone.getPoints()) {
+				sendStr += "{" + order + "," + poi.getLat() + "," + poi.getLongt() + "}";
+				order++;
+				if (order < zone.getPoints().size()) {
+					sendStr += ",";
+				}
+				
+			} sendStr += "]";
+			
 			
 		//Pass the arguments through the outputstream
 		try {
 	      DataOutputStream wr = new DataOutputStream (
 	                  connection.getOutputStream ());
-	      wr.writeBytes (params);
+	      wr.writeBytes (sendStr);
 	      wr.flush ();
 	      wr.close ();
 		}

@@ -1,6 +1,6 @@
 package tdt4140.gr1814.app.ui;
 
-import tdt4140.gr1814.app.core.Patient;
+import participants.Patient;
 
 public interface ControlledScreen {
     

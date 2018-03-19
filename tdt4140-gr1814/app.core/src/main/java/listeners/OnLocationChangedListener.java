@@ -1,4 +1,6 @@
-package tdt4140.gr1814.app.core;
+package listeners;
+
+import zones.Point;
 
 //Functional interface which is supposed to be implemented in every class that would like to retrieve information whenever a object get its location changed.
 

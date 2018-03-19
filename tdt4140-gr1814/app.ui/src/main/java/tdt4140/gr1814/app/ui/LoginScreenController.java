@@ -5,6 +5,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import datasaving.DataFetchController;
+import datasaving.Database;
 import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,11 +23,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import tdt4140.gr1814.app.core.Caretaker;
-import tdt4140.gr1814.app.core.DataFetchController;
-import tdt4140.gr1814.app.core.Database;
+import participants.Caretaker;
+import participants.Patient;
 import tdt4140.gr1814.app.core.InputController;
-import tdt4140.gr1814.app.core.Patient;
 
 public class LoginScreenController implements Initializable, ControlledScreen{
 
@@ -60,12 +60,6 @@ public class LoginScreenController implements Initializable, ControlledScreen{
     				sigve.setVisible(true);
     				}
     			});
-    		passwd.setOnKeyPressed((event) -> { if(event.getCode() == KeyCode.ENTER) { try {
-				goToHome();
-			} catch (InterruptedException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} } });
     }
     
     public void showLogin() {
@@ -73,23 +67,25 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 	    	ft.setFromValue(0.0);
 	    	ft.setToValue(1.0);
 	    	ft.setCycleCount(1);
-	    	ft.setDelay(Duration.millis(700));
-	    	ft.play();
+	    	ft.setDelay(Duration.millis(1000));
+		ft.play();
+
     }
 	
 	@FXML
-	public void goToHome() throws InterruptedException, IOException {
+	public void goToHome() throws InterruptedException {
 		if((username.getText().length() > 0) && (passwd.getText().length() > 0)) {
-			DataFetchController fetcher = new DataFetchController();
+			Database database = new Database();
+			database.connect();
 			Caretaker systemUser = null;
-			systemUser = fetcher.logIn(username.getText(), passwd.getText());
+			try {
+			systemUser = database.checkPassword(username.getText(), passwd.getText());
+			}catch(SQLException e){e.printStackTrace();}
 			if (systemUser != null) {
 				username.clear();
 				passwd.clear();
 				ApplicationDemo.applicationUser = systemUser;
-				Patient.getPatient("id1").addListeners(systemUser); //test: adds the user as a caretaker for person with deviceID = id1
 				myController.setScreen(ApplicationDemo.HomescreenID);
-				InputController.metamorphise(); //tracking when logged in, this is running on a seperate thread
 			}else {loginError.setVisible(true);}
 		}else {loginError.setVisible(true);}
 	}
@@ -101,9 +97,19 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 	}
 	@Override
 	public void showAlarm(Patient patient) {
-		System.out.println("Alarm! In login scene, so did not show");
-	}  
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE, ButtonType.OK);
+		alert.setTitle("");
+		alert.setHeaderText("\t\t\t     ALARM!");
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.setStyle("-fx-background-color: #f3f4f7;");
+		Image image = new Image(ApplicationDemo.class.getResourceAsStream("mapWarning.png"));
+		ImageView imageView = new ImageView(image);
+		alert.setGraphic(imageView);
+		alert.showAndWait();
+		if (alert.getResult() == ButtonType.OK) {myController.getMapViewController().patientView();}
+		if (alert.getResult() == ButtonType.CLOSE) {alert.close();;}
+		
+	}
     
 
 }
-
