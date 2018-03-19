@@ -139,27 +139,34 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	}
 	
 	public void changeAlarmSetting() {
+		Database db = new Database();
+		db.connect();
 		if (alarm_btn.getText().equals("ON")) {
 			currentPatientProfile.setAlarmActivated(false);
 			alarm_btn.setText("OFF");
+			db.deactivateAlarmActivated(currentPatientProfile);
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: red;");
 		}
 		else {
 			currentPatientProfile.setAlarmActivated(true);
 			alarm_btn.setText("ON");
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: #30c39e;");
+			db.activateAlarmActivated(currentPatientProfile);
 		}
 	}
+	
 	public void alarmDarken() {
 		ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setBrightness(-0.1);
         alarm_btn.setEffect(colorAdjust);
 	}
+	
 	public void alarmBrighten() {
 		ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setBrightness(0.0);
         alarm_btn.setEffect(colorAdjust);
 	}
+	
 	public void delete_patient() {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete patient?", ButtonType.YES, ButtonType.NO);
 		alert.showAndWait();

@@ -67,8 +67,8 @@ public class PatientOverViewControllerTest extends ApplicationTest {
 		patient_profile = find("#patient_profile");
 		delete_warning = find("#delete_warning");
 		
-		this.p1 = new Patient("ab", "cd", 'M', 10000000000L, 10101010, "abcd@mail.com", "id450");
-		this.p2 = new Patient("ef", "gh", 'M', 10000000001L, 10101011, "efgh@mail.com", "id451");
+		this.p1 = new Patient("ab", "cd", 'M', 10000000000L, 10101010, "abcd@mail.com", "id450", true);
+		this.p2 = new Patient("ef", "gh", 'M', 10000000001L, 10101011, "efgh@mail.com", "id451", true);
 		ObservableList<Patient> items = FXCollections.observableArrayList(p1, p2);
 		patient_list.setItems(items);
 	}

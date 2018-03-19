@@ -48,8 +48,8 @@ public class FetchPatients extends HttpServlet{
 		
 		//------------------------------ Temporary ------------------------------------------
 		Gson jsonParser = new Gson();
-		Patient p = Patient.newPatient("Kjellaug", "Bjurgan", 'F', 12345678911l, 47673232, "geir@live.no", "id6");
-		Patient x = Patient.newPatient("Gregers", "Grhezvors", 'M', 12345378911l, 98352463, "geir@live.no", "id7");
+		Patient p = Patient.newPatient("Kjellaug", "Bjurgan", 'F', 12345678911l, 47673232, "geir@live.no", "id6", true);
+		Patient x = Patient.newPatient("Gregers", "Grhezvors", 'M', 12345378911l, 98352463, "geir@live.no", "id7", true);
 		Patient[] z = {p, x};
 		String jsonP = jsonParser.toJson(z);
 		
