@@ -144,14 +144,14 @@ public class PatientOverviewController implements Initializable, ControlledScree
 		if (alarm_btn.getText().equals("ON")) {
 			currentPatientProfile.setAlarmActivated(false);
 			alarm_btn.setText("OFF");
-			db.deactivateAlarmActivated(currentPatientProfile);
+			db.deactivateAlarmActivated(currentPatientProfile);//webserver
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: red;");
 		}
 		else {
 			currentPatientProfile.setAlarmActivated(true);
 			alarm_btn.setText("ON");
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: #30c39e;");
-			db.activateAlarmActivated(currentPatientProfile);
+			db.activateAlarmActivated(currentPatientProfile);//webserver
 		}
 	}
 	public void alarmDarken() {

@@ -109,7 +109,7 @@ public final class InputController {
 		        		Double number1 = Double.parseDouble(second);
 		        		Double number2 = Double.parseDouble(third);
 		        		
-		        		for (Patient p: Patient.patients) {
+		        		for (Patient p: Patient.getAllPatients()) {
 		        			if (p.getID().equals(first)) {
 		        				Point point = new Point(first, number1,number2);
 		        				p.changeLocation(point);
