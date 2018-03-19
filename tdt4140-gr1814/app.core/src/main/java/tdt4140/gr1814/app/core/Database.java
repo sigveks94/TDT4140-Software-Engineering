@@ -5,6 +5,7 @@ import java.util.Properties;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import tdt4140.gr1814.app.core.Caretaker;
 
 public class Database {
 	
@@ -123,6 +124,7 @@ public class Database {
 			e.printStackTrace();
 		}
 		ArrayList<Patient> returnList = new ArrayList();
+		
 		if (myRs != null) {
 			while (myRs.next()) {
 	            int index = 1;
@@ -141,12 +143,18 @@ public class Database {
 	            
 	            returnList.add(patient);
 	        }
+			
 		}
 		
 		for(Patient p : returnList) {
 			Zone z = retrieveZone(p);
 			p.addZone(z);
 		}
+		
+		if(returnList.isEmpty()) {
+			return null;
+		}
+		
 		return returnList;
 	}
 	
@@ -165,14 +173,16 @@ public class Database {
 	public boolean insertCareTaker(Caretaker caretaker) {
 		String username = caretaker.getUsername();
 		String password = caretaker.getPassword();
+		String firstName = caretaker.getFirstName();
+		String lastName = caretaker.getLastname();
 		String address = caretaker.getAddress();
 		
 		if(username == null || password == null) {
 			System.out.println("Error from database class. Password invalid");
 			return false;
 		}
-		update("INSERT INTO Caretaker(Username, Password, Address) "
-        		+ "VALUES ('"+username+"', '"+password+"','"+address+"');");
+		update("INSERT INTO Caretaker(Username, Password, Firstname, Lastname, Address) "
+        		+ "VALUES ('"+username+"', '"+password+"', '"+firstName+"','"+lastName+"','"+address+"');");
 		return true;
 	}
 	
@@ -184,10 +194,11 @@ public class Database {
 	
 	public Caretaker retrieveCaretaker(Caretaker c) throws SQLException {
 		ArrayList<ArrayList<String>> caretaker = query("SELECT * FROM Caretaker WHERE Username ='"+c.getUsername()+"'");
+		
 		if(caretaker.isEmpty()) {
 			return null;
 		}
-		return new Caretaker(caretaker.get(0).get(0),caretaker.get(0).get(1),caretaker.get(0).get(2));
+		return new Caretaker(caretaker.get(0).get(0),caretaker.get(0).get(1), caretaker.get(0).get(2),caretaker.get(0).get(3),caretaker.get(0).get(4));
 	}
 	
 	
@@ -203,6 +214,11 @@ public class Database {
 				+ "Patient.DeviceID, Patient.alarmActivated FROM PatientCaretaker "
 				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='"+username+"'";
 		ArrayList<ArrayList<String>> patients =  query(queryString);
+		
+		if(patients.isEmpty()) {
+			return null;
+		}
+		
 		ArrayList<Patient> result = new ArrayList();
 		for(int i=0; i<patients.size();i++) {
 			Patient p = Patient.newPatient(patients.get(i).get(1), patients.get(i).get(2), patients.get(i).get(3).charAt(0), 
@@ -220,11 +236,14 @@ public class Database {
 	//returns an array with all the caretakers that is connected to a patient.
 	public ArrayList<Caretaker> retrievePatientsCaretakers(Patient patient) throws SQLException{
 		String patientSSN = Long.toString(patient.getSSN());
-		ArrayList<ArrayList<String>> caretakers =  query("SELECT Caretaker.Username, Caretaker.Password, Caretaker.Address FROM PatientCaretaker "
-				+ "JOIN Caretaker ON PatientCaretaker.CaretakerUsername=Caretaker.Username WHERE PatientCaretaker.PatSSN='"+patientSSN+"'");
+		ArrayList<ArrayList<String>> caretakers =  query("SELECT Caretaker.Username, Caretaker.Password, Caretaker.Firstname, Caretaker.Lastname, Caretaker.Address "
+				+ "FROM PatientCaretaker JOIN Caretaker ON PatientCaretaker.CaretakerUsername=Caretaker.Username WHERE PatientCaretaker.PatSSN='"+patientSSN+"'");
+		if(caretakers.isEmpty()) {
+			return null;
+		}
 		ArrayList<Caretaker> result = new ArrayList();
 		for(int i=0; i<caretakers.size();i++) {
-			Caretaker c = new Caretaker(caretakers.get(i).get(0), caretakers.get(i).get(1), caretakers.get(i).get(2));
+			Caretaker c = new Caretaker(caretakers.get(i).get(0), caretakers.get(i).get(1), caretakers.get(i).get(2), caretakers.get(i).get(3), caretakers.get(i).get(4));
 			result.add(c);
 		}
 		return result;
@@ -364,16 +383,21 @@ public class Database {
 	
 	//checks if the password for the username is correct. If it is, the method returns the username 
 	//If the username don't exist or the password is wrong, the method returns null.
-	public String checkPassword(String username, String inputPassword) throws SQLException {
+	public Caretaker checkPassword(String username, String inputPassword) throws SQLException {
 		ArrayList<ArrayList<String>> caretaker = query("SELECT * FROM Caretaker WHERE Username ='"+username+"'");
 		if(caretaker.isEmpty()) {
 			return null;
 		}
 		String password=caretaker.get(0).get(1);
 		if(password.equals(inputPassword)) {
-			return username;
+			return new Caretaker(username,password,caretaker.get(0).get(2),caretaker.get(0).get(3),caretaker.get(0).get(4));
 		}
 		return null;
+	}
+	
+	public void updatePassword(Caretaker caretaker, String newPassword) {
+		String username = caretaker.getUsername();
+			update("UPDATE Caretaker SET Password = '"+newPassword+"' WHERE Username = '"+username+"'");
 	}
 	
 	
@@ -382,8 +406,8 @@ public class Database {
 	//main
 	public static void main(String[] args) throws SQLException, FileNotFoundException {
 		Patient p1 = Patient.newPatient("Harald", "Bach", 'M', 12345678919l, 90887878, "harald@gmail.com","id1");
-		Caretaker c1 = new Caretaker("motherofthree","Saga123@1","Jordmorjordet 1");
-		Caretaker c2 = new Caretaker("iceroadtruckerfan","beef&Burger3","Rallarveien 3");
+		Caretaker c1 = new Caretaker("motherofthree","Saga123@1", "Reidun", "Roth","Jordmorjordet 1");
+		Caretaker c2 = new Caretaker("iceroadtruckerfan","beef&Burger3","Reidar","Ramm","Rallarveien 3");
 		
 		Point point1 = new Point("deviceID3",225.56,347.12345678911234567891);
 		Point point2 = new Point("deviceID3",223.56,323.89999);
@@ -398,10 +422,7 @@ public class Database {
 		
 		Database db = new Database();
 		db.connect();
-		System.out.println(db.retrievePatients());
 		
 		
 	}
 }
-
-

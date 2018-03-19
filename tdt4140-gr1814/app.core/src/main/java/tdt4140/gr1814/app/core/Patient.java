@@ -87,7 +87,7 @@ public class Patient{
 	private List<OnLocationChangedListener> locationListeners;//Screencontroller running with the ApplicationDemo. Used in changeLocation() if patient is outside zone.
 	private boolean alarmSent = false;
 	private OnPatientAlarmListener screensController;
-	private boolean alarmActivated = true;
+	private boolean alarmActivated;
 	
 	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email,String deviceID) {
 		this.FirstName = FirstName;
