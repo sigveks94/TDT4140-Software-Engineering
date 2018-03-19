@@ -25,7 +25,7 @@ import com.google.gson.reflect.TypeToken;
 public class DataFetchController {
 	
 	//The port the server is listening for http requests on
-	private final int serverPort = 8085;
+	private final int serverPort = 8080;
 	
 	public DataFetchController() {
 		
@@ -80,7 +80,7 @@ public class DataFetchController {
 				}
 				Gson gson = new Gson();
 				JsonObject o = gson.fromJson(content, JsonObject.class);
-				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", "email", "adress");
+				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", o.get("address").getAsString(), "{address}");
 				return caretaker;
 				
 			} catch (IOException e) {

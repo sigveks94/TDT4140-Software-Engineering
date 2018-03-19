@@ -22,6 +22,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import tdt4140.gr1814.app.core.Caretaker;
+import tdt4140.gr1814.app.core.DataFetchController;
 import tdt4140.gr1814.app.core.Database;
 import tdt4140.gr1814.app.core.InputController;
 import tdt4140.gr1814.app.core.Patient;
@@ -73,19 +74,15 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 	    	ft.setToValue(1.0);
 	    	ft.setCycleCount(1);
 	    	ft.setDelay(Duration.millis(700));
-		ft.play();
-
+	    	ft.play();
     }
 	
 	@FXML
 	public void goToHome() throws InterruptedException, IOException {
 		if((username.getText().length() > 0) && (passwd.getText().length() > 0)) {
-			Database database = new Database();
-			database.connect();
+			DataFetchController fetcher = new DataFetchController();
 			Caretaker systemUser = null;
-			try {
-			systemUser = database.checkPassword(username.getText(), passwd.getText());
-			}catch(SQLException e){e.printStackTrace();}
+			systemUser = fetcher.logIn(username.getText(), passwd.getText());
 			if (systemUser != null) {
 				username.clear();
 				passwd.clear();
