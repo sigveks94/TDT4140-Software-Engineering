@@ -154,7 +154,7 @@ public class DataFetchController {
 	
 	public void fetchPatients(Caretaker systemUser) {
 	
-		HttpURLConnection connection = this.connect("patient?caretaker_id=" + systemUser);
+		HttpURLConnection connection = this.connect("patient?caretaker_id=" + systemUser.getUsername());
 		
 		if(connection == null) {
 			System.out.println("Connection trouble...");
@@ -178,7 +178,6 @@ public class DataFetchController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		Gson gson = new Gson();
 		
 		JsonParser jsonParser = new JsonParser();
@@ -186,7 +185,7 @@ public class DataFetchController {
 		for(JsonElement j: jsonArray) {
 			try {
 				JsonObject o = gson.fromJson(j, JsonObject.class);
-				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), o.get("AlarmActivated").getAsBoolean());
+				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), o.get("alarmActivated").getAsBoolean());
 			}
 			catch(Exception e) {
 				e.printStackTrace();
