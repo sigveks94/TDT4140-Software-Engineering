@@ -20,7 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import tdt4140.gr1814.app.core.datasaving.Database;
+import tdt4140.gr1814.app.core.datasaving.DataFetchController;
 import tdt4140.gr1814.app.core.participants.Caretaker;
 import tdt4140.gr1814.app.core.participants.Patient;
 
@@ -118,8 +118,7 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     public void changePassword(){
     		if(newPassword1.getText().equals(newPassword2.getText())) {
     			if(Caretaker.checkPassword(newPassword1.getText())) {
-    				Database database = new Database();
-    				database.connect();
+    				DataFetchController database = new DataFetchController();
     				database.updatePassword(ApplicationDemo.applicationUser, newPassword1.getText());
     				ApplicationDemo.applicationUser.setPassword(newPassword1.getText());
         			passwordError.setVisible(false);

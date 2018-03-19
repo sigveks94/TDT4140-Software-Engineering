@@ -72,7 +72,7 @@ public class CaretakerServlet extends HttpServlet{
 			return false;
 		}
 		
-		query = "UPDATE Caretaker SET Password = \"" + newPassword + "\"";
+		query = "UPDATE Caretaker SET Password = \"" + newPassword + "\" WHERE Username LIKE \"" + caretakerUsername + "\";";
 		try {
 			databaseConnection.update(query);
 			return true;

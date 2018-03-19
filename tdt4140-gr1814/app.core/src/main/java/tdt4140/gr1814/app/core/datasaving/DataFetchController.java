@@ -27,6 +27,7 @@ import tdt4140.gr1814.app.core.zones.ZoneTailored;
  * Class for establishing connection with the webserver and fetching data as well as passing data to the DB
  */
 
+
 public class DataFetchController {
 	
 	//The port the server is listening for http requests on
@@ -106,6 +107,49 @@ public class DataFetchController {
 		
 		return null;
 	}
+	
+	public void updatePassword(Caretaker caretaker, String newPassword) {
+		//Opens a connection to the server
+				HttpURLConnection connection = this.connect("caretaker");
+				
+				if(connection == null) {
+					System.out.println("Connection trouble...");
+					return;
+				}
+				
+				//Sets requestMethod to POST and enables the outputStream
+				try {
+					connection.setRequestMethod("POST");
+					connection.setDoOutput(true);
+				} catch (ProtocolException e) {
+					e.printStackTrace();
+				}
+				
+				//Insert Request String
+				String sendStr = "username=" + caretaker.getUsername() + "&password=" + newPassword;
+					
+					
+				//Pass the arguments through the outputstream
+				try {
+			      DataOutputStream wr = new DataOutputStream (
+			                  connection.getOutputStream ());
+			      wr.writeBytes (sendStr);
+			      wr.flush ();
+			      wr.close ();
+				}
+				catch(IOException e) {
+					e.printStackTrace();
+				}
+				
+				//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
+				try {
+					InputStream connectionInputStream = connection.getInputStream();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+	
 	
 	//Method for establishing connection with the server. The postfix is used to determine which servlet to access
 	private HttpURLConnection connect(String postfix) {
