@@ -150,6 +150,47 @@ public class DataFetchController {
 		
 		return null;
 	}
+	public void deletePatient(Patient patient) {
+		//Opens a connection to the server
+				HttpURLConnection connection = this.connect("patient?");
+				
+				if(connection == null) {
+					System.out.println("Connection trouble...");
+					return;
+				}
+				
+				//Sets requestMethod to POST and enables the outputStream
+				try {
+					connection.setRequestMethod("POST");
+					connection.setDoOutput(true);
+				} catch (ProtocolException e) {
+					e.printStackTrace();
+				}
+				
+				//Insert Request String
+				String params = "ssn=" + patient.getSSN() + "&delete=yes";
+				
+				//Pass the arguments through the outputstream
+				try {
+			      DataOutputStream wr = new DataOutputStream (
+			                  connection.getOutputStream ());
+			      wr.writeBytes (params);
+			      wr.flush ();
+			      wr.close ();
+				}
+				catch(IOException e) {
+					e.printStackTrace();
+				}
+				
+				//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
+				try {
+					InputStream connectionInputStream = connection.getInputStream();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
 	
 	
 	public void fetchPatients(Caretaker systemUser) {
