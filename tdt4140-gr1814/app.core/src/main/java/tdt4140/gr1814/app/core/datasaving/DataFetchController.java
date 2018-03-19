@@ -167,7 +167,7 @@ public class DataFetchController {
 		}
 		
 		//Insert Request String
-		String params = "ssn=" + patient.getSSN() + "&activate" + bool.toString();
+		String params = "ssn=" + patient.getSSN() + "&activate=" + bool.toString();
 		
 		//Pass the arguments through the outputstream
 		try {
@@ -208,7 +208,7 @@ public class DataFetchController {
 		}
 		
 		//Insert Request String
-		String params = "caretaker_id=" + caretaker.getUsername() + "&patient=" + patient.getSSN();
+		String params = "caretaker_id=" + caretaker.getUsername() + "&ssn=" + patient.getSSN();
 		
 		//Pass the arguments through the outputstream
 		try {

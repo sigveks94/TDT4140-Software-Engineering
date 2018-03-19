@@ -128,6 +128,7 @@ public class PatientServlet extends HttpServlet{
 		}
 		//For binding a patient to a caretaker
 		if(req.getParameter("caretaker_id") != null && req.getParameter("ssn") != null) {
+			System.out.println("POST!");
 			String query = "INSERT INTO PatientCaretaker (PatSSN, CaretakerUsername) VALUES (" + SSN + ", \"" +  req.getParameter("caretaker_id") + "\");";
 			try {
 				this.databaseConnection.update(query);
