@@ -10,14 +10,12 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
 import participants.Caretaker;
 import participants.Patient;
@@ -41,7 +39,7 @@ public class DataFetchController {
 	public static void main(String[] args) {
 		DataFetchController controller = new DataFetchController();
 		controller.fetchPatients("motherofthree");
-		controller.getPatientsZones(new Caretaker("motherofthree","ps","k"));
+		controller.getPatientsZones(new Caretaker("motherofthree","ps","k","s","s"));
 		//for (Patient pat : Patient.getAllPatients()) {
 			//System.out.println(pat.toString());
 			//System.out.println(pat.getZone());
@@ -99,7 +97,7 @@ public class DataFetchController {
 				Gson gson = new Gson();
 				JsonObject o = gson.fromJson(content, JsonObject.class);
 				
-				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password",o.get("email").getAsString());
+				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password",o.get("email").getAsString(),"s","s");
 
 				return caretaker;
 				

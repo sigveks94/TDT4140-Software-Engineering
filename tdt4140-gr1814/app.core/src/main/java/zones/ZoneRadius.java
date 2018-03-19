@@ -60,5 +60,10 @@ public class ZoneRadius implements Zone{
 		arPoi.add(centre);
 		return arPoi;
 	}
+	@Override
+	public ArrayList<ArrayList<Double>> getPointsToDatabaseFormat() {
+		// Never used in this class
+		return null;
+	}
 	
 }

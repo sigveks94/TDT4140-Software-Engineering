@@ -74,7 +74,7 @@ public class PatientTest {
 	}	
 	@Test
 	public void testAddListeners() {
-		Caretaker cT = new Caretaker("Example3","1H8j24s4@","øvreveg 2");
+		Caretaker cT = new Caretaker("Example3","1H8j24s4@","test","test","øvreveg 2");
 		patient.addListeners(cT);
 		assertEquals(cT.getPatients().get(0),patient);
 		patient2.addListeners(cT);

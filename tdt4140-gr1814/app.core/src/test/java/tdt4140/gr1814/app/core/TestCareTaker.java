@@ -15,7 +15,7 @@ public class TestCareTaker {
 	
 	@Before
 	public void setUp() {
-		cT = new Caretaker("Example1","1H8j24s4@","nedrevei 3");
+		cT = new Caretaker("Example1","1H8j24s4@","test","test","nedrevei 3");
 	}
 	
 	@Test

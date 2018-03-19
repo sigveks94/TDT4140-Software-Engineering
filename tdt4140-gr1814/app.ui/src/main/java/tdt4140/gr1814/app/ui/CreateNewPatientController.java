@@ -1,25 +1,28 @@
 package tdt4140.gr1814.app.ui;
 
-import tdt4140.gr1814.app.core.Hyperlink_Browser;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
-import participants.Patient;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Hyperlink;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-
-
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import datasaving.Database;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
+import participants.Patient;
+import tdt4140.gr1814.app.core.Hyperlink_Browser;
 
 
 // This is a simple controller for the 'CreateNewPatient.fxml' UI, validating and creating a Patient-object. 
@@ -111,7 +114,7 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 	
 	// VALIDATION OF ALL INPUT-FIELDS (considering moving the validation process to setters inside the patient-class)
 	
-	//Validate that textFields ony contain letters
+	//Validate that textFields contains only letters
 	private String ValidateText(TextField inputField, Text inputError) {
 		String text = inputField.getText();
 		if (text.matches("[a-zA-Z]+")){
@@ -209,9 +212,31 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 		NoK_email.setText("");
 		patient_name.setText("");
 		patient_surname.setText("");	
+		deviceID.setText("");
 		accept_checkbox.setSelected(false);
 		genderM.setSelected(false);
 		genderF.setSelected(false);
+	}
+	
+
+	@Override
+	public void showAlarm() {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE,ButtonType.OK);
+		alert.setTitle("");
+		alert.setHeaderText("\t\t\t     ALARM!");
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.setStyle("-fx-background-color: #f3f4f7;");
+		Image image = new Image(ApplicationDemo.class.getResourceAsStream("mapWarning.png"));
+		ImageView imageView = new ImageView(image);
+		alert.setGraphic(imageView);
+		alert.showAndWait();
+		if (alert.getResult() == ButtonType.CLOSE) {alert.close();}
+		if (alert.getResult() == ButtonType.OK) {		
+			this.resetScene();
+			myController.getMapViewController().patientView();
+			myController.setScreen(ApplicationDemo.MapViewLayoutID);
+			}
+		
 	}
 	
 	
