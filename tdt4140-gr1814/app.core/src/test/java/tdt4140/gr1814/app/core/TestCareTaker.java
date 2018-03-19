@@ -45,13 +45,13 @@ public class TestCareTaker {
 	
 	@Test
 	public void checkGetAndAddPatients() {
-		Patient pat = Patient.newPatient("ForN","EtterN",'M',24076787291L,19747298,"example@ntnu.no","A92", true);
+		Patient pat = Patient.newPatient("ForN","EtterN",'M',24076787291L,19747298,"example@ntnu.no","A92");
 		cT.addPatients(pat);
 		assertEquals(cT.getPatients().get(0),pat);
 	}
 	@Test
 	public void listenerTest() {
-		Patient pat = Patient.newPatient("ForN","EtterN",'M',24076787391L,19747298,"example@ntnu.no","A92", true);
+		Patient pat = Patient.newPatient("ForN","EtterN",'M',24076787391L,19747298,"example@ntnu.no","A92");
 		pat.addListeners(cT);
 		assertEquals(pat.getListeners().get(0),cT);
 	}
