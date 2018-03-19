@@ -33,7 +33,6 @@ public class ApplicationDemo extends Application{
     public static String PatientOverviewID = "PatientOverview";
     public static String PatientOverviewFile = "PatientOverview.fxml";
     
-    
     @Override
     public void start(Stage stage) {
         //Create a container for the different scenes. Add all scenes to the containers hashmap
