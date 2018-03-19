@@ -1,31 +1,29 @@
+
 package tdt4140.gr1814.app.ui;
-
-import tdt4140.gr1814.app.core.Patient;
-import tdt4140.gr1814.app.core.Database;
-import tdt4140.gr1814.app.core.Hyperlink_Browser;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Hyperlink;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import datasaving.Database;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
+import participants.Patient;
+import tdt4140.gr1814.app.core.Hyperlink_Browser;
 
 
 // This is a simple controller for the 'CreateNewPatient.fxml' UI, validating and creating a Patient-object. 
@@ -236,8 +234,6 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 		if (alert.getResult() == ButtonType.CLOSE) {alert.close();}
 		if (alert.getResult() == ButtonType.OK) {		
 			this.resetScene();
-			myController.getMapViewController().map.setCenter(patient.getCurrentLocation().getLatLong());
-			myController.getMapViewController().map.setZoom(15);
 			myController.getMapViewController().patientView();
 			myController.setScreen(ApplicationDemo.MapViewLayoutID);
 			}
@@ -246,6 +242,4 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 	
 	
 }
-	
-
 

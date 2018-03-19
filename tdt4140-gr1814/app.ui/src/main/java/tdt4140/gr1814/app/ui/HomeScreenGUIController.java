@@ -4,6 +4,8 @@ package tdt4140.gr1814.app.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import datasaving.DataFetchController;
+import datasaving.Database;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,11 +21,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
-import tdt4140.gr1814.app.core.Caretaker;
-import tdt4140.gr1814.app.core.Database;
-import tdt4140.gr1814.app.core.Patient;
+import participants.Caretaker;
+import participants.Patient;
+
 
 
 public class HomeScreenGUIController implements Initializable, ControlledScreen {
@@ -118,8 +119,7 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     public void changePassword(){
     		if(newPassword1.getText().equals(newPassword2.getText())) {
     			if(Caretaker.checkPassword(newPassword1.getText())) {
-    				Database database = new Database();
-    				database.connect();
+    				DataFetchController database = new DataFetchController();
     				database.updatePassword(ApplicationDemo.applicationUser, newPassword1.getText());
     				ApplicationDemo.applicationUser.setPassword(newPassword1.getText());
         			passwordError.setVisible(false);

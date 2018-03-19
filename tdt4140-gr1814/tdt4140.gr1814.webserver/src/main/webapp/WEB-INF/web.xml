@@ -9,12 +9,47 @@ xmlns="http://xmlns.jcp.org/xml/ns/javaee"
    
 	<display-name>Java Servlet</display-name>
 	
+	<!-- Servlets -->
 	<servlet>
 		<servlet-name>PatientServlet</servlet-name>
 		<servlet-class>tdt4140.gr1814.webserver.PatientServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>ZoneServlet</servlet-name>
+		<servlet-class>tdt4140.gr1814.webserver.ZoneServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>tdt4140.gr1814.webserver.LoginServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>CaretakerServlet</servlet-name>
+		<servlet-class>tdt4140.gr1814.webserver.CaretakerServlet</servlet-class>
+	</servlet>
+	
+	
+	<!-- Mappings -->
 	<servlet-mapping>
 		<servlet-name>PatientServlet</servlet-name>
 		<url-pattern>/patient/*</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>ZoneServlet</servlet-name>
+		<url-pattern>/zone/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/login/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>CaretakerServlet</servlet-name>
+		<url-pattern>/caretaker/*</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

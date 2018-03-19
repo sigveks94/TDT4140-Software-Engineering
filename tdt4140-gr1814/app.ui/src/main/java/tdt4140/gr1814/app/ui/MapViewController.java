@@ -18,11 +18,10 @@ import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
-import com.lynden.gmapsfx.shapes.Circle;
-import com.lynden.gmapsfx.shapes.MapShapeOptions;
 import com.lynden.gmapsfx.shapes.Polygon;
 import com.lynden.gmapsfx.shapes.PolygonOptions;
 
+import datasaving.Database;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,11 +31,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import tdt4140.gr1814.app.core.OnLocationChangedListener;
-import tdt4140.gr1814.app.core.Patient;
-import tdt4140.gr1814.app.core.Database;
-import tdt4140.gr1814.app.core.Point;
-import tdt4140.gr1814.app.core.ZoneTailored;
+import listeners.OnLocationChangedListener;
+import participants.Patient;
+import zones.Point;
+import zones.ZoneTailored;
+
 
 //This is the controller class that controls the mapview window
 public class MapViewController implements Initializable, MapComponentInitializedListener, OnLocationChangedListener,ControlledScreen{

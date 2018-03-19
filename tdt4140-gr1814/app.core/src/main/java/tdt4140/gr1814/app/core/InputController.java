@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import javafx.concurrent.Task;
+import participants.Patient;
+import zones.Point;
 
 
 public final class InputController {
