@@ -254,5 +254,10 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		
 	}
 	
+	public void removePatientFromMap(Patient patient) {
+		Marker marker =patientsOnMap.get(patient);
+		map.removeMarker(marker);
+	}
+	
 	
 }

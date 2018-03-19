@@ -173,6 +173,8 @@ public class PatientOverviewController implements Initializable, ControlledScree
 				updatePatientList();
 				DataFetchController controller = new DataFetchController();
 				controller.deletePatient(currentPatientProfile);
+				Patient.patients.remove(currentPatientProfile);
+				myController.getMapViewController().removePatientFromMap(currentPatientProfile);
 				System.out.println("Deleted patient with SSN: "+String.valueOf(patientSSN));
 				patientInfo_txt.setText("Deleted patient with SSN: \n"+String.valueOf(patientSSN));
 				try {Thread.sleep(500);} 
