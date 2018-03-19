@@ -23,7 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import tdt4140.gr1814.app.core.Hyperlink_Browser;
-import tdt4140.gr1814.app.core.datasaving.Database;
+import tdt4140.gr1814.app.core.datasaving.DataFetchController;
 import tdt4140.gr1814.app.core.participants.Patient;
 
 
@@ -105,9 +105,9 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 			myController.getMapViewController().addViewables(patient); //addind new patient to map-tracking
 			myController.getOverviewController().updatePatientList();//updating patient overview list
 			//Saving patient to database. (should check if this works before adding to static list (Patient.patients) )
-			Database database = new Database();
-			database.connect();
-			database.insertPatient(patient);
+			DataFetchController dataInsert = new DataFetchController();
+			dataInsert.insertNewPatient(patient);
+			dataInsert.caretakerForPatient(ApplicationDemo.applicationUser, patient);
 			System.out.println(patient);
 			//Adding and saving patient completed. change scene to homescreen:
 			this.goToHomescreen(null);

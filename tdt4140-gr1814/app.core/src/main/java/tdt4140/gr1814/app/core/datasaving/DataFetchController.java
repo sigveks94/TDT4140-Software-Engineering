@@ -150,11 +150,175 @@ public class DataFetchController {
 		
 		return null;
 	}
+	public void activateAlarmActivated(Patient patient,Boolean bool) {
+		HttpURLConnection connection = this.connect("patient?");
+		
+		if(connection == null) {
+			System.out.println("Connection trouble...");
+			return;
+		}
+		
+		//Sets requestMethod to POST and enables the outputStream
+		try {
+			connection.setRequestMethod("POST");
+			connection.setDoOutput(true);
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		}
+		
+		//Insert Request String
+		String params = "ssn=" + patient.getSSN() + "&activate=" + bool.toString();
+		
+		//Pass the arguments through the outputstream
+		try {
+	      DataOutputStream wr = new DataOutputStream (
+	                  connection.getOutputStream ());
+	      wr.writeBytes (params);
+	      wr.flush ();
+	      wr.close ();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
+		try {
+			InputStream connectionInputStream = connection.getInputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void caretakerForPatient(Caretaker caretaker,Patient patient) {
+		HttpURLConnection connection = this.connect("patient?");
+		
+		if(connection == null) {
+			System.out.println("Connection trouble...");
+			return;
+		}
+		
+		//Sets requestMethod to POST and enables the outputStream
+		try {
+			connection.setRequestMethod("POST");
+			connection.setDoOutput(true);
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		}
+		
+		//Insert Request String
+		String params = "caretaker_id=" + caretaker.getUsername() + "&ssn=" + patient.getSSN();
+		
+		//Pass the arguments through the outputstream
+		try {
+	      DataOutputStream wr = new DataOutputStream (
+	                  connection.getOutputStream ());
+	      wr.writeBytes (params);
+	      wr.flush ();
+	      wr.close ();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
+		try {
+			InputStream connectionInputStream = connection.getInputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void deleteZone(Patient patient) {
+		HttpURLConnection connection = this.connect("zone?");
+		
+		if(connection == null) {
+			System.out.println("Connection trouble...");
+			return;
+		}
+		
+		//Sets requestMethod to POST and enables the outputStream
+		try {
+			connection.setRequestMethod("POST");
+			connection.setDoOutput(true);
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		}
+		
+		//Insert Request String
+		String params = "ssn=" + patient.getSSN() + "&delete=yes";
+		
+		//Pass the arguments through the outputstream
+		try {
+	      DataOutputStream wr = new DataOutputStream (
+	                  connection.getOutputStream ());
+	      wr.writeBytes (params);
+	      wr.flush ();
+	      wr.close ();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
+		try {
+			InputStream connectionInputStream = connection.getInputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void deletePatient(Patient patient) {
+		//Opens a connection to the server
+				HttpURLConnection connection = this.connect("patient?");
+				
+				if(connection == null) {
+					System.out.println("Connection trouble...");
+					return;
+				}
+				
+				//Sets requestMethod to POST and enables the outputStream
+				try {
+					connection.setRequestMethod("POST");
+					connection.setDoOutput(true);
+				} catch (ProtocolException e) {
+					e.printStackTrace();
+				}
+				
+				//Insert Request String
+				String params = "ssn=" + patient.getSSN() + "&delete=yes";
+				
+				//Pass the arguments through the outputstream
+				try {
+			      DataOutputStream wr = new DataOutputStream (
+			                  connection.getOutputStream ());
+			      wr.writeBytes (params);
+			      wr.flush ();
+			      wr.close ();
+				}
+				catch(IOException e) {
+					e.printStackTrace();
+				}
+				
+				//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
+				try {
+					InputStream connectionInputStream = connection.getInputStream();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
 	
 	
 	public void fetchPatients(Caretaker systemUser) {
 	
-		HttpURLConnection connection = this.connect("patient?caretaker_id=" + systemUser);
+		HttpURLConnection connection = this.connect("patient?caretaker_id=" + systemUser.getUsername());
 		
 		if(connection == null) {
 			System.out.println("Connection trouble...");
@@ -178,7 +342,6 @@ public class DataFetchController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		Gson gson = new Gson();
 		
 		JsonParser jsonParser = new JsonParser();
@@ -186,7 +349,7 @@ public class DataFetchController {
 		for(JsonElement j: jsonArray) {
 			try {
 				JsonObject o = gson.fromJson(j, JsonObject.class);
-				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), o.get("AlarmActivated").getAsBoolean());
+				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), o.get("alarmActivated").getAsBoolean());
 			}
 			catch(Exception e) {
 				e.printStackTrace();

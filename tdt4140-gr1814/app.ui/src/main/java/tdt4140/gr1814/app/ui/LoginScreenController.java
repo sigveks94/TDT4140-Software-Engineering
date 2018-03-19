@@ -23,7 +23,6 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import tdt4140.gr1814.app.core.InputController;
 import tdt4140.gr1814.app.core.datasaving.DataFetchController;
-import tdt4140.gr1814.app.core.datasaving.Database;
 import tdt4140.gr1814.app.core.participants.Caretaker;
 import tdt4140.gr1814.app.core.participants.Patient;
 
