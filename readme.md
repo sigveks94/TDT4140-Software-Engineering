@@ -1,6 +1,8 @@
 README
 =======
 
+
+
 ## PRODUCT DESCRIPTION
 
 The application provides an alert and tracking system for people with location 
@@ -10,7 +12,7 @@ relatives, guardians or healthcare personnel if the person has walked outside
 of a custom zone. The application holds as well the ability of the caretakers 
 to add one or more people, set the mode of the zones and draw custom maps.
 
-A more detailed description in norwegian is available here.[here](https://gitlab.stud.iie.ntnu.no/tdt4140-2018/14/wikis/home)
+A more detailed description in norwegian is available [here](https://gitlab.stud.iie.ntnu.no/tdt4140-2018/14/wikis/home)
 ---
 
 ## HOW TO RUN
@@ -21,7 +23,7 @@ A more detailed description in norwegian is available here.[here](https://gitlab
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
