@@ -15,7 +15,7 @@ to add one or more people, set the mode of the zones and draw custom maps.
 A more detailed description in norwegian is available [here](https://gitlab.stud.iie.ntnu.no/tdt4140-2018/14/wikis/home)
 
 
----
+
 
 ## HOW TO RUN
 
