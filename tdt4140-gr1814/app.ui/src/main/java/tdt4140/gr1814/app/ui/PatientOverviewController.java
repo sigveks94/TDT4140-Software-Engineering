@@ -24,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import tdt4140.gr1814.app.core.datasaving.DataFetchController;
 import tdt4140.gr1814.app.core.datasaving.Database;
 import tdt4140.gr1814.app.core.participants.Patient;
 
@@ -172,9 +173,9 @@ public class PatientOverviewController implements Initializable, ControlledScree
 			Long patientSSN = currentPatientProfile.getSSN();
 			if(Patient.deletePatient(patientSSN)) { //if this patient exists in the static list in Patient.java, this will be deleted, and we will delete the person from the database as well
 				updatePatientList();
+				DataFetchController controller = new DataFetchController();
+				controller.deletePatient(currentPatientProfile);
 				Database db = new Database();
-				db.connect();
-				db.update("DELETE FROM Patient WHERE SSN = "+String.valueOf(patientSSN)+";");
 				System.out.println("Deleted patient with SSN: "+String.valueOf(patientSSN));
 				patientInfo_txt.setText("Deleted patient with SSN: \n"+String.valueOf(patientSSN));
 				try {Thread.sleep(500);} 
