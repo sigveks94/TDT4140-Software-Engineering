@@ -107,6 +107,26 @@ public class PatientServlet extends HttpServlet{
 			}
 		}
 		
+		if(req.getParameter("activate") != null && req.getParameter("ssn")!= null){
+			String ssn = req.getParameter("ssn");
+			if(ssn.length() != 11) {
+				resp.setStatus(400); //Bad Request
+				return;
+			}
+			
+			boolean activate = Boolean.parseBoolean(req.getParameter("activate"));
+			
+			if(this.activateAlarm(ssn, activate)) {
+				resp.setStatus(200);
+				return;
+			}
+			else {
+				resp.setStatus(500);
+				return;
+			}
+			
+		}
+		
 		if(firstName == null || surname == null || SSN == null || phoneNumber == null || email == null || gender == null || deviceID == null) {
 			resp.setStatus(400); //Bad Request status
 			return;
@@ -153,6 +173,17 @@ public class PatientServlet extends HttpServlet{
 			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	private boolean activateAlarm(String ssn, boolean activate) {
+		String query = "UPDATE Patient SET alarmActivated = '" + activate + "' WHERE SSN = " + ssn + ";";
+		try {
+			this.databaseConnection.update(query);
+			return true;
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
