@@ -1,15 +1,15 @@
 
-package participants;
+package tdt4140.gr1814.app.core.participants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
-import listeners.OnLocationChangedListener;
-import listeners.OnPatientAlarmListener;
-import zones.Point;
-import zones.Zone;
-import zones.ZoneRadius;
+import tdt4140.gr1814.app.core.listeners.OnLocationChangedListener;
+import tdt4140.gr1814.app.core.listeners.OnPatientAlarmListener;
+import tdt4140.gr1814.app.core.zones.Point;
+import tdt4140.gr1814.app.core.zones.Zone;
+import tdt4140.gr1814.app.core.zones.ZoneRadius;
 
 
 //This is the patient-class containing necessary information for the users of the system. Also contains the caretakers to be notified

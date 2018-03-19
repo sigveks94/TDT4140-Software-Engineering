@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import participants.Caretaker;
-import participants.Patient;
+import tdt4140.gr1814.app.core.participants.Caretaker;
+import tdt4140.gr1814.app.core.participants.Patient;
 
 public class TestCareTaker {
 

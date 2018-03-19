@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import com.lynden.gmapsfx.javascript.object.LatLong;
 
-import zones.Point;
-import zones.ZoneRadius;
+import tdt4140.gr1814.app.core.zones.Point;
+import tdt4140.gr1814.app.core.zones.ZoneRadius;
 
 public class RadiusTest {
 

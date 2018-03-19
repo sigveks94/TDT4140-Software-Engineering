@@ -1,4 +1,4 @@
-package tdt4140.gr1814.webserver;
+package tdt4140.gr1814.webserver.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import participants.Patient;
+import tdt4140.gr1814.app.core.participants.Patient;
+import tdt4140.gr1814.webserver.ConnectionHandler;
 
 /*
  * 	This is the HttpServlet supposed to handle database queries concerning the patient objects

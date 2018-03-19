@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import participants.Patient;
+import tdt4140.gr1814.app.core.participants.Patient;
 
 //This is the servlet supposed to handle requests for patients
 

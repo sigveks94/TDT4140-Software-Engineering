@@ -5,8 +5,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import datasaving.DataFetchController;
-import datasaving.Database;
 import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,9 +21,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import participants.Caretaker;
-import participants.Patient;
 import tdt4140.gr1814.app.core.InputController;
+import tdt4140.gr1814.app.core.datasaving.DataFetchController;
+import tdt4140.gr1814.app.core.datasaving.Database;
+import tdt4140.gr1814.app.core.participants.Caretaker;
+import tdt4140.gr1814.app.core.participants.Patient;
 
 public class LoginScreenController implements Initializable, ControlledScreen{
 

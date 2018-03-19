@@ -8,8 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
-import listeners.OnPatientAlarmListener;
-import participants.Patient;
+import tdt4140.gr1814.app.core.listeners.OnPatientAlarmListener;
+import tdt4140.gr1814.app.core.participants.Patient;
 
 
 

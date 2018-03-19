@@ -3,15 +3,15 @@ package tdt4140.gr1814.app.ui;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import datasaving.Database;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import participants.Caretaker;
-import participants.Patient;
 import tdt4140.gr1814.app.core.InputController;
+import tdt4140.gr1814.app.core.datasaving.Database;
+import tdt4140.gr1814.app.core.participants.Caretaker;
+import tdt4140.gr1814.app.core.participants.Patient;
 
 
 public class ApplicationDemo extends Application{
