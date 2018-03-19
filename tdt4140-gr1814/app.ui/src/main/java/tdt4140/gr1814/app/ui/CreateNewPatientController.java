@@ -24,7 +24,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import tdt4140.gr1814.app.core.Hyperlink_Browser;
 import tdt4140.gr1814.app.core.datasaving.DataFetchController;
-import tdt4140.gr1814.app.core.datasaving.Database;
 import tdt4140.gr1814.app.core.participants.Patient;
 
 

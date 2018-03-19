@@ -30,7 +30,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import tdt4140.gr1814.app.core.datasaving.Database;
+import tdt4140.gr1814.app.core.datasaving.DataFetchController;
 import tdt4140.gr1814.app.core.listeners.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.participants.Patient;
 import tdt4140.gr1814.app.core.zones.Point;
@@ -228,11 +228,10 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		System.out.println("SAVING...");
 		map.removeMapShape(mapPolygon);
 		zoneView(currentPatient);
-		Database db = new Database();
-		db.connect();
-		db.deleteZone(currentPatient);
-		ZoneTailored zone = (ZoneTailored) currentPatient.getZone();
-		db.insertZone(currentPatient, zone);
+
+		DataFetchController controller = new DataFetchController();
+		controller.deleteZone(currentPatient);
+		controller.insertZone(currentPatient);
 	}
 
 	@Override

@@ -25,7 +25,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tdt4140.gr1814.app.core.datasaving.DataFetchController;
-import tdt4140.gr1814.app.core.datasaving.Database;
 import tdt4140.gr1814.app.core.participants.Patient;
 
 public class PatientOverviewController implements Initializable, ControlledScreen{
@@ -140,19 +139,18 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	}
 	
 	public void changeAlarmSetting() {
-		Database db = new Database();
-		db.connect();
+		DataFetchController controller = new DataFetchController();
 		if (alarm_btn.getText().equals("ON")) {
 			currentPatientProfile.setAlarmActivated(false);
 			alarm_btn.setText("OFF");
-			db.deactivateAlarmActivated(currentPatientProfile);//webserver
+			controller.activateAlarmActivated(currentPatientProfile,false);//webserver
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: red;");
 		}
 		else {
 			currentPatientProfile.setAlarmActivated(true);
 			alarm_btn.setText("ON");
 			alarm_btn.setStyle("-fx-background-color: #f3f4f7; -fx-border-color: white; -fx-text-fill: #30c39e;");
-			db.activateAlarmActivated(currentPatientProfile);//webserver
+			controller.activateAlarmActivated(currentPatientProfile,true);//webserver
 		}
 	}
 	public void alarmDarken() {
@@ -175,7 +173,6 @@ public class PatientOverviewController implements Initializable, ControlledScree
 				updatePatientList();
 				DataFetchController controller = new DataFetchController();
 				controller.deletePatient(currentPatientProfile);
-				Database db = new Database();
 				System.out.println("Deleted patient with SSN: "+String.valueOf(patientSSN));
 				patientInfo_txt.setText("Deleted patient with SSN: \n"+String.valueOf(patientSSN));
 				try {Thread.sleep(500);} 

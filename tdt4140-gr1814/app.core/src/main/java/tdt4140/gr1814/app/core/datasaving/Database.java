@@ -1,4 +1,4 @@
-package tdt4140.gr1814.app.core.datasaving;
+/*package tdt4140.gr1814.app.core.datasaving;
 
 import java.io.FileNotFoundException;
 import java.sql.Connection;
@@ -433,3 +433,4 @@ public class Database {
 		
 	}
 }
+*/
