@@ -126,6 +126,19 @@ public class PatientServlet extends HttpServlet{
 			}
 			
 		}
+		//For binding a patient to a caretaker
+		if(req.getParameter("caretaker_id") != null && req.getParameter("ssn") != null) {
+			String query = "INSERT INTO PatientCaretaker (PatSSN, CaretakerUsername) VALUES (" + SSN + ", \"" +  req.getParameter("caretaker_id") + "\");";
+			try {
+				this.databaseConnection.update(query);
+				resp.setStatus(200);
+				return;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				resp.setStatus(500); //DB ERROR
+				return;
+			}
+		}
 		
 		if(firstName == null || surname == null || SSN == null || phoneNumber == null || email == null || gender == null || deviceID == null) {
 			resp.setStatus(400); //Bad Request status
@@ -179,7 +192,11 @@ public class PatientServlet extends HttpServlet{
 	}
 	
 	private boolean activateAlarm(String ssn, boolean activate) {
-		String query = "UPDATE Patient SET alarmActivated = '" + activate + "' WHERE SSN = " + ssn + ";";
+		int active = 0;
+		if(activate) {
+			active = 1;
+		}
+		String query = "UPDATE Patient SET alarmActivated = '" + active + "' WHERE SSN = " + ssn + ";";
 		try {
 			this.databaseConnection.update(query);
 			return true;
