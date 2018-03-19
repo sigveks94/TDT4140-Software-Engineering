@@ -4,22 +4,26 @@ package tdt4140.gr1814.app.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import datasaving.Database;
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.PasswordField;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import tdt4140.gr1814.app.core.Patient;
+import javafx.util.Duration;
+import participants.Caretaker;
+import participants.Patient;
+
 
 
 public class HomeScreenGUIController implements Initializable, ControlledScreen {
@@ -42,15 +46,20 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     private Text username_txt;
     @FXML
     private Hyperlink userAdr_txt;
+    @FXML
+    private AnchorPane passwordPane;
+    @FXML
+    private PasswordField newPassword1;
+    @FXML
+    private PasswordField newPassword2;
+    @FXML
+    private Text passwordError;
+    @FXML
+    private Text passwordSuccessMsg;
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		if (ApplicationDemo.applicationUser.getUsername() != null) {
-		username_txt.setText(ApplicationDemo.applicationUser.getUsername());
-		}
-		if (ApplicationDemo.applicationUser.getAddress() != null) {
-		userAdr_txt.setText(ApplicationDemo.applicationUser.getAddress());
-		}
+		
 	}
 	
 	@Override
@@ -79,18 +88,69 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     
     @FXML
     public void toggleProfile() {
-    		if(profile_pane.isVisible()) {profile_pane.setVisible(false);}
-    		else {profile_pane.setVisible(true);}
+    		if(profile_pane.isVisible()) {
+    			profile_pane.setVisible(false);
+    			passwordPane.setVisible(false);
+    		}
+    		else {
+    			if (ApplicationDemo.applicationUser.getName() != null) {
+    				username_txt.setText(ApplicationDemo.applicationUser.getName());
+    				}
+			if (ApplicationDemo.applicationUser.getAddress() != null) {
+				userAdr_txt.setText(ApplicationDemo.applicationUser.getAddress());
+				}
+    			profile_pane.setVisible(true);}
+    }
+    
+    @FXML
+    public void openPassword(){
+    		passwordPane.setVisible(true);
+    }
+    
+    public void closePassword() {
+    		newPassword1.clear();
+    		newPassword2.clear();
+    		passwordError.setVisible(false);
+    		passwordSuccessMsg.setVisible(false);
+    		passwordPane.setVisible(false);
+    }
+    @FXML
+    public void changePassword(){
+    		if(newPassword1.getText().equals(newPassword2.getText())) {
+    			if(Caretaker.checkPassword(newPassword1.getText())) {
+    				Database database = new Database();
+    				database.connect();
+    				database.updatePassword(ApplicationDemo.applicationUser, newPassword1.getText());
+    				ApplicationDemo.applicationUser.setPassword(newPassword1.getText());
+        			passwordError.setVisible(false);
+        			passwordSuccessMsg.setVisible(true);
+        			
+	        	    	FadeTransition ft = new FadeTransition(Duration.millis(300), passwordPane);
+	        	    	ft.setFromValue(1.0);
+	        	    	ft.setToValue(0.0);
+	        	    	ft.setCycleCount(1);
+	        	    	ft.setDelay(Duration.millis(1000));
+	        		ft.play();
+        			System.out.println("changed the password to: "+newPassword1.getText()+" verify: "+newPassword2.getText());
+    			}else {
+    				passwordError.setText("Password syntax error");
+    				passwordError.setVisible(true);
+    			}
+    		}else {
+    			passwordError.setText("passwords do not match");
+    			passwordError.setVisible(true);
+    			newPassword2.setText("");
+    			}
+    		
     }
     
    @FXML
    public void Logout() {
-	   Stage stage = (Stage) profile_pane.getScene().getWindow();
-	   stage.close();
+	   myController.setScreen(ApplicationDemo.LoginID);
    }
 
 	@Override
-	public void showAlarm() {
+	public void showAlarm(Patient patient) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE, ButtonType.OK);
 		alert.setTitle("");
 		alert.setHeaderText("\t\t\t     ALARM!");
@@ -101,7 +161,11 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
 		alert.setGraphic(imageView);
 		alert.showAndWait();
 		if (alert.getResult() == ButtonType.CLOSE) {alert.close();}
-		if (alert.getResult() == ButtonType.OK) {goToMap(null);}
+		if (alert.getResult() == ButtonType.OK) {
+			goToMap(null);
+			myController.getMapViewController().map.setCenter(patient.getCurrentLocation().getLatLong());
+			myController.getMapViewController().map.setZoom(15);
+		}
 	}
 	
 	 //live changes in button color when mouse hover over.

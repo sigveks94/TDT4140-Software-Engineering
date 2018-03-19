@@ -1,10 +1,15 @@
 
-package tdt4140.gr1814.app.core;
+package participants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
+import listeners.OnLocationChangedListener;
+import listeners.OnPatientAlarmListener;
+import zones.Point;
+import zones.Zone;
+import zones.ZoneRadius;
 
 
 //This is the patient-class containing necessary information for the users of the system. Also contains the caretakers to be notified
@@ -25,7 +30,7 @@ public class Patient{
 			return patient;
 		}
 		else {
-			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email,deviceID, alarmon);
+			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email, deviceID, alarmon);
 			patients.add(patient);
 			return patient;
 		}
@@ -89,6 +94,7 @@ public class Patient{
 	private OnPatientAlarmListener screensController;
 	private boolean alarmActivated;
 	
+
 	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email,String deviceID, boolean alarmon) {
 		this.FirstName = FirstName;
 		this.Surname = Surname;
@@ -100,6 +106,7 @@ public class Patient{
 		this.currentLocation = null;
 		this.alarmActivated=alarmon;
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
+		this.alarmActivated = alarmon;
 	}
 	
 	
@@ -187,7 +194,7 @@ public class Patient{
 		//If the current location is outside any permitted zone the respinsible care taker is alerted
 		if (zone != null && !(zone.isInsideZone(newLoc)) && (this.alarmActivated)) { 
 			if(!(screensController == null) && alarmSent == false) { //alarm is only set of once, the first time the patien is outside permitted zone also checks if alarm is activated.
-			screensController.OnPatientAlarm();
+			screensController.OnPatientAlarm(this);
 			alarmSent = true;
 			}
 			for (Caretaker c: listeners) {

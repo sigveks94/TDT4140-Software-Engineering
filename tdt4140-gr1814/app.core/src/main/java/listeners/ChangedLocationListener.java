@@ -1,4 +1,6 @@
-package tdt4140.gr1814.app.core;
+package listeners;
+
+import zones.Point;
 
 public interface ChangedLocationListener {
 	

@@ -1,14 +1,15 @@
+
 package tdt4140.gr1814.app.ui;
 
-import tdt4140.gr1814.app.core.OnPatientAlarmListener;
-import tdt4140.gr1814.app.core.Patient;
-
 import java.util.HashMap;
+
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
+import listeners.OnPatientAlarmListener;
+import participants.Patient;
 
 
 
@@ -78,16 +79,15 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
 
     //Function 'catches' alarm set of in patient class, and shows it as an alert on current screen.
 	@Override
-	public void OnPatientAlarm() { 
+	public void OnPatientAlarm(Patient patient) { 
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				FXMLLoader loader =(FXMLLoader) getChildren().get(0).getUserData();
 				ControlledScreen controller = loader.getController();
-				controller.showAlarm();
+				controller.showAlarm(patient);
 			}
 		});
 	}
     
-    
-}
+} 

@@ -1,6 +1,7 @@
 package tdt4140.gr1814.app.core;
 
-import tdt4140.gr1814.app.core.Patient;
+import zones.Point;
+import zones.ZoneRadius;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -13,6 +14,9 @@ import java.util.regex.Pattern;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import participants.Caretaker;
+import participants.Patient;
 
 //test of patient class. some tests mainly implemented because of test coverage. 
 //genderTest test actual functionality, and emailTest ensures correct string format using regex.
@@ -70,7 +74,7 @@ public class PatientTest {
 	}	
 	@Test
 	public void testAddListeners() {
-		Caretaker cT = new Caretaker("Example3","1H8j24s4@","øvreveg 2");
+		Caretaker cT = new Caretaker("Example3","1H8j24s4@","test","test","øvreveg 2");
 		patient.addListeners(cT);
 		assertEquals(cT.getPatients().get(0),patient);
 		patient2.addListeners(cT);

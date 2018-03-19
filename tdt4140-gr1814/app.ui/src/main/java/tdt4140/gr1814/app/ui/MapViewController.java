@@ -18,11 +18,10 @@ import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
-import com.lynden.gmapsfx.shapes.Circle;
-import com.lynden.gmapsfx.shapes.MapShapeOptions;
 import com.lynden.gmapsfx.shapes.Polygon;
 import com.lynden.gmapsfx.shapes.PolygonOptions;
 
+import datasaving.Database;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,11 +31,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import tdt4140.gr1814.app.core.OnLocationChangedListener;
-import tdt4140.gr1814.app.core.Patient;
-import tdt4140.gr1814.app.core.Database;
-import tdt4140.gr1814.app.core.Point;
-import tdt4140.gr1814.app.core.ZoneTailored;
+import listeners.OnLocationChangedListener;
+import participants.Patient;
+import zones.Point;
+import zones.ZoneTailored;
+
 
 //This is the controller class that controls the mapview window
 public class MapViewController implements Initializable, MapComponentInitializedListener, OnLocationChangedListener,ControlledScreen{
@@ -237,7 +236,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	}
 
 	@Override
-	public void showAlarm() {
+	public void showAlarm(Patient patient) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE, ButtonType.OK);
 		alert.setTitle("");
 		alert.setHeaderText("\t\t\t     ALARM!");
@@ -247,7 +246,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		ImageView imageView = new ImageView(image);
 		alert.setGraphic(imageView);
 		alert.showAndWait();
-		if (alert.getResult() == ButtonType.OK) {patientView();}
+		if (alert.getResult() == ButtonType.OK) {
+			map.setCenter(patient.getCurrentLocation().getLatLong());
+			myController.getMapViewController().map.setZoom(15);
+			patientView();
+			}
 		if (alert.getResult() == ButtonType.CLOSE) {alert.close();;}
 		
 	}

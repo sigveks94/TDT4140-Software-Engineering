@@ -15,29 +15,17 @@ public class ConnectionHandler {
 	
 	
 	//connecting to the db
-	public void connect() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			myConn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/hara_database?autoReconnect=true&useSSL=false","hara_db","gruppe14");
-		
-		}catch (Exception ex){
-				ex.printStackTrace();
-			}
-		}
-	
+	public void connect() throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		myConn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/hara_database?autoReconnect=true&useSSL=false","hara_db","gruppe14");
+	}
 	
 	
 	
 	//a general method for updating the db, used as a help method.
-	public void update(String query) {
-		try {
+	public void update(String query) throws SQLException {
             myStmt = myConn.createStatement();
             myStmt.executeUpdate(query);
-            System.out.println("Success.");
-        } catch (Exception e) {
-            System.out.println("The update query failed. Check your sql syntax.");
-            e.printStackTrace();
-        }
 	}
 	
 	//a general method for querying the db, used as a help method

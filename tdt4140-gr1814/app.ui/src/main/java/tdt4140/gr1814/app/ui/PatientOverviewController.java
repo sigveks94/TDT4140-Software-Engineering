@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import datasaving.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -24,8 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import tdt4140.gr1814.app.core.Database;
-import tdt4140.gr1814.app.core.Patient;
+import participants.Patient;
 
 public class PatientOverviewController implements Initializable, ControlledScreen{
 	
@@ -70,7 +70,7 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	    });
         }
 	
-	public void updatePatientList() {
+	public void updatePatientList() {		
 		List<Patient> patientStringList = Patient.patients;
 		ObservableList<Patient> patients = FXCollections.observableList(patientStringList);
 		patient_list.setItems(patients);
@@ -154,19 +154,16 @@ public class PatientOverviewController implements Initializable, ControlledScree
 			db.activateAlarmActivated(currentPatientProfile);
 		}
 	}
-	
 	public void alarmDarken() {
 		ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setBrightness(-0.1);
         alarm_btn.setEffect(colorAdjust);
 	}
-	
 	public void alarmBrighten() {
 		ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setBrightness(0.0);
         alarm_btn.setEffect(colorAdjust);
 	}
-	
 	public void delete_patient() {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete patient?", ButtonType.YES, ButtonType.NO);
 		alert.showAndWait();
@@ -191,7 +188,7 @@ public class PatientOverviewController implements Initializable, ControlledScree
 	}
 
 	@Override
-	public void showAlarm() {
+	public void showAlarm(Patient patient) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE,ButtonType.OK);
 		alert.setTitle("");
 		alert.setHeaderText("\t\t\t     ALARM!");
@@ -204,6 +201,8 @@ public class PatientOverviewController implements Initializable, ControlledScree
 		if (alert.getResult() == ButtonType.CLOSE) {alert.close();}
 		if (alert.getResult() == ButtonType.OK) {
 			myController.getMapViewController().patientView();
+			myController.getMapViewController().map.setCenter(patient.getCurrentLocation().getLatLong());
+			myController.getMapViewController().map.setZoom(15);
 			myController.setScreen(ApplicationDemo.MapViewLayoutID);
 			}
 		
@@ -211,4 +210,3 @@ public class PatientOverviewController implements Initializable, ControlledScree
 
 
 }
-        

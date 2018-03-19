@@ -33,8 +33,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import junit.framework.Assert;
-import tdt4140.gr1814.app.core.Patient;
+import participants.Patient;
 
 public class PatientOverViewControllerTest extends ApplicationTest {
 	
