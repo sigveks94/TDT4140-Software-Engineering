@@ -1,10 +1,11 @@
 package tdt4140.gr1814.app.ui;
 
-import java.io.IOException;
-import java.sql.SQLException;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import javafx.fxml.FXMLLoader;
 
 public class applicationIT {
 	
@@ -14,17 +15,20 @@ public class applicationIT {
 	
 	@Before
 	public void setUp() {
-		try {
-			demo.main(null);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		demo.main(null);
 	}
 	
 	@Test
-	public void testLogin() {
+	public void testLoginScreen() {
+		assertEquals(demo.ScreensContainer.getChildren().get(0),
+		demo.ScreensContainer.getScreen(demo.LoginID));
+		
+	}
+	
+	@Test
+	public void loginTest() {
+		FXMLLoader loader = (FXMLLoader) demo.ScreensContainer.getChildren().get(0).getUserData();
+		ControlledScreen controller = loader.getController();
 		
 	}
 	
