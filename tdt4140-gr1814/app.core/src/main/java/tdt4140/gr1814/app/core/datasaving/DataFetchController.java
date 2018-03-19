@@ -192,7 +192,7 @@ public class DataFetchController {
 	}
 	
 	public void caretakerForPatient(Caretaker caretaker,Patient patient) {
-		HttpURLConnection connection = this.connect("zone?");
+		HttpURLConnection connection = this.connect("patient?");
 		
 		if(connection == null) {
 			System.out.println("Connection trouble...");
