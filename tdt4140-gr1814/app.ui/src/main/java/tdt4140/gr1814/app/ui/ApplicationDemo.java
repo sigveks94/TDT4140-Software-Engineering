@@ -54,19 +54,6 @@ public class ApplicationDemo extends Application{
 
 	public static void main(String[] args) throws SQLException, IOException {
 		/*
-	    	//Demo Simulation. Loading pre-existing Person objects form database. 
-		ApplicationDemo.username = "Tempe Omsorgsenter";
-		ApplicationDemo.adress = "Valøyvegen 12, \n7031 Trondheim, Norge";
-	    
-		//New database interface
-		DataFetchController dataFetchController = new DataFetchController();
-		dataFetchController.fetchPatients("motherofthree"); //This is supposed to be given by the log in
-		
-		//Old database interface
-		Database database = new Database();
-	    	database.connect();
-	    	//database.retrievePatients();
-=======
 	    	//Demo Simulation. 
 		ApplicationDemo.applicationUser = new Caretaker("Tempe Omsorgsenter","passord","Navn","Navnesen","Valøyvegen 12, \\n7031 Trondheim, Norge");
 
