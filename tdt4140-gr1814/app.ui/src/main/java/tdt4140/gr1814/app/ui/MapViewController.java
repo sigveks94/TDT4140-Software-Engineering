@@ -21,7 +21,6 @@ import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import com.lynden.gmapsfx.shapes.Polygon;
 import com.lynden.gmapsfx.shapes.PolygonOptions;
 
-import datasaving.Database;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,10 +30,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import listeners.OnLocationChangedListener;
-import participants.Patient;
-import zones.Point;
-import zones.ZoneTailored;
+import tdt4140.gr1814.app.core.datasaving.Database;
+import tdt4140.gr1814.app.core.listeners.OnLocationChangedListener;
+import tdt4140.gr1814.app.core.participants.Patient;
+import tdt4140.gr1814.app.core.zones.Point;
+import tdt4140.gr1814.app.core.zones.ZoneTailored;
 
 
 //This is the controller class that controls the mapview window

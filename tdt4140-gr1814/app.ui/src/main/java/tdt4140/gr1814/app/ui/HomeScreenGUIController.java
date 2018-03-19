@@ -4,8 +4,6 @@ package tdt4140.gr1814.app.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import datasaving.DataFetchController;
-import datasaving.Database;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,8 +20,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import participants.Caretaker;
-import participants.Patient;
+import tdt4140.gr1814.app.core.datasaving.DataFetchController;
+import tdt4140.gr1814.app.core.participants.Caretaker;
+import tdt4140.gr1814.app.core.participants.Patient;
 
 
 

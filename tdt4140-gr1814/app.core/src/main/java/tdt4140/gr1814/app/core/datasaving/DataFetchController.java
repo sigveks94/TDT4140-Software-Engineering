@@ -1,4 +1,4 @@
-package datasaving;
+package tdt4140.gr1814.app.core.datasaving;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -17,9 +17,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import tdt4140.gr1814.app.core.participants.*;
-import tdt4140.gr1814.app.core.zones.*;
-
+import tdt4140.gr1814.app.core.participants.Caretaker;
+import tdt4140.gr1814.app.core.participants.Patient;
+import tdt4140.gr1814.app.core.zones.Point;
+import tdt4140.gr1814.app.core.zones.Zone;
+import tdt4140.gr1814.app.core.zones.ZoneTailored;
 
 /*
  * Class for establishing connection with the webserver and fetching data as well as passing data to the DB
@@ -34,7 +36,6 @@ public class DataFetchController {
 	public DataFetchController() {
 		
 	}
-	
 	
 	
 	public Caretaker logIn(String username, String password) {
@@ -151,9 +152,9 @@ public class DataFetchController {
 	}
 	
 	
-	public void fetchPatients(Caretaker caretaker) {
+	public void fetchPatients(Caretaker systemUser) {
 	
-		HttpURLConnection connection = this.connect("patient?caretaker_id=" + caretaker.getUsername());
+		HttpURLConnection connection = this.connect("patient?caretaker_id=" + systemUser);
 		
 		if(connection == null) {
 			System.out.println("Connection trouble...");
@@ -185,8 +186,7 @@ public class DataFetchController {
 		for(JsonElement j: jsonArray) {
 			try {
 				JsonObject o = gson.fromJson(j, JsonObject.class);
-				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), o.get("alarmActivated").getAsBoolean());
-				Patient.getPatient(o.get("SSN").getAsLong()).addListeners(caretaker);
+				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), o.get("AlarmActivated").getAsBoolean());
 			}
 			catch(Exception e) {
 				e.printStackTrace();

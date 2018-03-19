@@ -1,8 +1,5 @@
 package tdt4140.gr1814.app.core;
 
-import zones.Point;
-import zones.ZoneRadius;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -15,8 +12,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import participants.Caretaker;
-import participants.Patient;
+import tdt4140.gr1814.app.core.participants.Caretaker;
+import tdt4140.gr1814.app.core.participants.Patient;
+import tdt4140.gr1814.app.core.zones.Point;
+import tdt4140.gr1814.app.core.zones.ZoneRadius;
 
 //test of patient class. some tests mainly implemented because of test coverage. 
 //genderTest test actual functionality, and emailTest ensures correct string format using regex.

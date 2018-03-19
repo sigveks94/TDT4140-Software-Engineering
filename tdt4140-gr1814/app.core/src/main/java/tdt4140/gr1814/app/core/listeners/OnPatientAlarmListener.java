@@ -1,6 +1,6 @@
-package listeners;
+package tdt4140.gr1814.app.core.listeners;
 
-import participants.Patient;
+import tdt4140.gr1814.app.core.participants.Patient;
 
 public interface OnPatientAlarmListener {
 	

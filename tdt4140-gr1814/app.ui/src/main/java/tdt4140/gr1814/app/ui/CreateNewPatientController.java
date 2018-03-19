@@ -6,11 +6,11 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import datasaving.Database;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -22,8 +22,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import participants.Patient;
 import tdt4140.gr1814.app.core.Hyperlink_Browser;
+import tdt4140.gr1814.app.core.datasaving.Database;
+import tdt4140.gr1814.app.core.participants.Patient;
 
 
 // This is a simple controller for the 'CreateNewPatient.fxml' UI, validating and creating a Patient-object. 
@@ -242,4 +243,5 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 	
 	
 }
+
 

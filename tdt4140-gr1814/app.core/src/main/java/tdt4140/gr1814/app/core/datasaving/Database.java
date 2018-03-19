@@ -1,4 +1,4 @@
-package datasaving;
+package tdt4140.gr1814.app.core.datasaving;
 
 import java.io.FileNotFoundException;
 import java.sql.Connection;
@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import participants.Caretaker;
-import participants.Patient;
-import zones.Point;
-import zones.Zone;
-import zones.ZoneTailored;
+import tdt4140.gr1814.app.core.participants.Caretaker;
+import tdt4140.gr1814.app.core.participants.Patient;
+import tdt4140.gr1814.app.core.zones.Point;
+import tdt4140.gr1814.app.core.zones.Zone;
+import tdt4140.gr1814.app.core.zones.ZoneTailored;
 
 public class Database {
 	
