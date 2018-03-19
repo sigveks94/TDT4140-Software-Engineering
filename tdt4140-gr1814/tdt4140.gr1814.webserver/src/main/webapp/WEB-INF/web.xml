@@ -12,22 +12,22 @@ xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	<!-- Servlets -->
 	<servlet>
 		<servlet-name>PatientServlet</servlet-name>
-		<servlet-class>tdt4140.gr1814.webserver.PatientServlet</servlet-class>
+		<servlet-class>tdt4140.gr1814.webserver.servlet.PatientServlet</servlet-class>
 	</servlet>
 	
 	<servlet>
 		<servlet-name>ZoneServlet</servlet-name>
-		<servlet-class>tdt4140.gr1814.webserver.ZoneServlet</servlet-class>
+		<servlet-class>tdt4140.gr1814.webserver.servlet.ZoneServlet</servlet-class>
 	</servlet>
 	
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
-		<servlet-class>tdt4140.gr1814.webserver.LoginServlet</servlet-class>
+		<servlet-class>tdt4140.gr1814.webserver.servlet.LoginServlet</servlet-class>
 	</servlet>
 	
 	<servlet>
 		<servlet-name>CaretakerServlet</servlet-name>
-		<servlet-class>tdt4140.gr1814.webserver.CaretakerServlet</servlet-class>
+		<servlet-class>tdt4140.gr1814.webserver.servlet.CaretakerServlet</servlet-class>
 	</servlet>
 	
 	
