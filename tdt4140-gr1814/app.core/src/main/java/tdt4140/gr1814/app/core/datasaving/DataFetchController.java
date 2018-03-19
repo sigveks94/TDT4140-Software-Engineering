@@ -191,6 +191,47 @@ public class DataFetchController {
 		
 	}
 	
+	public void caretakerForPatient(Caretaker caretaker,Patient patient) {
+		HttpURLConnection connection = this.connect("zone?");
+		
+		if(connection == null) {
+			System.out.println("Connection trouble...");
+			return;
+		}
+		
+		//Sets requestMethod to POST and enables the outputStream
+		try {
+			connection.setRequestMethod("POST");
+			connection.setDoOutput(true);
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		}
+		
+		//Insert Request String
+		String params = "caretaker_id=" + caretaker.getUsername() + "&patient=" + patient.getSSN();
+		
+		//Pass the arguments through the outputstream
+		try {
+	      DataOutputStream wr = new DataOutputStream (
+	                  connection.getOutputStream ());
+	      wr.writeBytes (params);
+	      wr.flush ();
+	      wr.close ();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
+		try {
+			InputStream connectionInputStream = connection.getInputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void deleteZone(Patient patient) {
 		HttpURLConnection connection = this.connect("zone?");
 		
