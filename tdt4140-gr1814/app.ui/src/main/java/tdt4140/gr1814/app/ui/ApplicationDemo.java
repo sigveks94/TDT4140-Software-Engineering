@@ -57,11 +57,6 @@ public class ApplicationDemo extends Application{
 	public static void main(String[] args) throws SQLException, IOException {
 	    	//Demo Simulation. 
 		ApplicationDemo.applicationUser = new Caretaker("Tempe Omsorgsenter","passord","Navn","Navnesen","Valøyvegen 12, \\n7031 Trondheim, Norge");
-	    //Loading pre-existing Person objects form database.
-		Database database = new Database();
-	    	database.connect();
-	    	database.retrievePatients();
-	    
 		
 	    	//Solution from home without vpn, or for when database is down;
 	    	//Patient oscar = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "oscar@mail.no", "id1");

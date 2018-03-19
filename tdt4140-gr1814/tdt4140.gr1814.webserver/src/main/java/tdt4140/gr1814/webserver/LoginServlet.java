@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet{
 		
 			try {
 				ArrayList<ArrayList<String>> caretaker = databaseConnection.query("SELECT * FROM Caretaker WHERE Username ='"+username+"'");
-				//If the credentials recieved has no matching care taker the 401 code is passed
+				//If the credentials received has no matching care taker the 401 code is passed
 				if(caretaker.isEmpty()) {
 					resp.setStatus(401); // Unauthorized - Code
 					return;
@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet{
 				
 				//If the request has made it this far the log in is succesful. The outputstream then prints back the username and sets the response code to OK
 				String pw = caretaker.get(0).get(1);
-				if(password.equals(password)) {
+				if(password.equals(pw)) {
 					//If the request has made it this far the log in is succesful. The outputstream then prints back the username and sets the response code to OK
 					PrintWriter writer = resp.getWriter();
 					writer.print("{\"username\":\"" + caretaker.get(0).get(0) + "\", \"address\": \"" + caretaker.get(0).get(4) + "\"}");

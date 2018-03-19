@@ -75,17 +75,15 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 	@FXML
 	public void goToHome() throws InterruptedException {
 		if((username.getText().length() > 0) && (passwd.getText().length() > 0)) {
-			Database database = new Database();
-			database.connect();
 			Caretaker systemUser = null;
-			try {
-			systemUser = database.checkPassword(username.getText(), passwd.getText());
-			}catch(SQLException e){e.printStackTrace();}
+			DataFetchController datafetcher = new DataFetchController();
+			systemUser = datafetcher.logIn(username.getText(), passwd.getText());
 			if (systemUser != null) {
 				username.clear();
 				passwd.clear();
 				ApplicationDemo.applicationUser = systemUser;
 				myController.setScreen(ApplicationDemo.HomescreenID);
+				datafetcher.fetchPatients(systemUser.getUsername());
 			}else {loginError.setVisible(true);}
 		}else {loginError.setVisible(true);}
 	}
