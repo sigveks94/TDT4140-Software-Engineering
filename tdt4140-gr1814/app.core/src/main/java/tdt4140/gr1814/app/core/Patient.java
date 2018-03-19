@@ -19,13 +19,13 @@ public class Patient{
 	
 	//This is the only mechanism from the outside for instantiating new patient objects. If developer tries to create a new patient object with a SSN that is already registered in the system, this method will
 	//simple return that patient object and skip the instantiation. If there is no patient registered with that SSN however the method will instantiate a new patient object, append it to the list of patients and return it.
-	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String deviceID, boolean alarmon) {
+	public static Patient newPatient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email, String deviceID) {
 		Patient patient = getPatient(SSN);
 		if(patient != null) {
 			return patient;
 		}
 		else {
-			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email,deviceID, alarmon);
+			patient =  new Patient(FirstName, Surname, Gender, SSN, NoK_cellphone, NoK_email,deviceID);
 			patients.add(patient);
 			return patient;
 		}
@@ -89,7 +89,7 @@ public class Patient{
 	private OnPatientAlarmListener screensController;
 	private boolean alarmActivated;
 	
-	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email,String deviceID, boolean alarmon) {
+	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email,String deviceID) {
 		this.FirstName = FirstName;
 		this.Surname = Surname;
 		this.Gender = Gender;
@@ -99,7 +99,6 @@ public class Patient{
 		this.DeviceID =  deviceID;
 		this.currentLocation = null;
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
-		this.alarmActivated = alarmon;
 	}
 	
 	

@@ -36,11 +36,10 @@ public class PatientTest {
 		String email2 = "example@gmail.com";
 		String dev1 = "H822";
 		String dev2 = "A289";
-		boolean alarm = true;
 		
 		
-		patient = Patient.newPatient(firstname,surname,gender,SSN,phone,email,dev1, alarm);
-		patient2 = Patient.newPatient(firstname,surname2,gender2,SSN2,phone2,email2,dev2, alarm);
+		patient = Patient.newPatient(firstname,surname,gender,SSN,phone,email,dev1);
+		patient2 = Patient.newPatient(firstname,surname2,gender2,SSN2,phone2,email2,dev2);
 	}
 	
 	@Test
@@ -103,7 +102,7 @@ public class PatientTest {
 	*/
 	@Test
 	public void makingNewPatientWithUsedSSN() {
-		Patient patient3 = Patient.newPatient("Exam", "Ple", 'M', 12345678910L, 27929342, "at@at.at", "H723", true);
+		Patient patient3 = Patient.newPatient("Exam", "Ple", 'M', 12345678910L, 27929342, "at@at.at", "H723");
 		assertEquals(patient3,patient);
 	}
 	@Test
