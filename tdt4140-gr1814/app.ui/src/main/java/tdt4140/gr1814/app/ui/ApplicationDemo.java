@@ -3,7 +3,6 @@ package tdt4140.gr1814.app.ui;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import datasaving.DataFetchController;
 import datasaving.Database;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -11,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import participants.Caretaker;
+import participants.Patient;
+import tdt4140.gr1814.app.core.InputController;
 
 public class ApplicationDemo extends Application{
 	
@@ -53,7 +54,6 @@ public class ApplicationDemo extends Application{
 
 
 	public static void main(String[] args) throws SQLException, IOException {
-		/*
 	    	//Demo Simulation. 
 		ApplicationDemo.applicationUser = new Caretaker("Tempe Omsorgsenter","passord","Navn","Navnesen","Valøyvegen 12, \\n7031 Trondheim, Norge");
 
@@ -62,12 +62,11 @@ public class ApplicationDemo extends Application{
 	    	database.connect();
 	    	database.retrievePatients();
 	    	
->>>>>>> master
 		
-	    	Solution from home without vpn, or for when database is down;
-	    	Patient oscar = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "oscar@mail.no", "id1");
-	    	Patient hakon = Patient.newPatient("HAKON", "COLLETT", 'M', 12345678911l, 92484760, "Haakon-CB@mail.no", "id2");
-	    	Patient sigve = Patient.newPatient("SIGVE", "SVENKERUD", 'M', 90987654321l, 92809043, "sigves_mor@mail.no", "id3");
+	    	//Solution from home without vpn, or for when database is down;
+	    	//Patient oscar = Patient.newPatient("OSCAR", "VIK", 'M', 12345678910l, 92484769, "oscar@mail.no", "id1");
+	    	//Patient hakon = Patient.newPatient("HAKON", "COLLETT", 'M', 12345678911l, 92484760, "Haakon-CB@mail.no", "id2");
+	    	//Patient sigve = Patient.newPatient("SIGVE", "SVENKERUD", 'M', 90987654321l, 92809043, "sigves_mor@mail.no", "id3");
 	    
 	    	
 	    	//Make 'morentilharald' responsible person for harald (from database 'id1'). This allows alarm finctionality
@@ -80,8 +79,6 @@ public class ApplicationDemo extends Application{
 		}
 		
 	//import removed by scenebuilder in MapViewLayout.fxml; <?import com.lynden.gmapsfx.*?>
-    */
-	}
 }
 
 
