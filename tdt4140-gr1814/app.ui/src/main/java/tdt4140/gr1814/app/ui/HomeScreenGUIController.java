@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import tdt4140.gr1814.app.core.datasaving.DataFetchController;
 import tdt4140.gr1814.app.core.participants.Caretaker;
@@ -145,7 +146,8 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     
    @FXML
    public void Logout() {
-	   myController.setScreen(ApplicationDemo.LoginID);
+	   Stage stage = (Stage) user_btn.getScene().getWindow();
+	   stage.close();
    }
 
 	@Override
