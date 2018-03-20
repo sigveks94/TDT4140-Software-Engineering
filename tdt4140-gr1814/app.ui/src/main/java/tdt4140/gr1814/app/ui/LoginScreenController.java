@@ -2,7 +2,6 @@ package tdt4140.gr1814.app.ui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.animation.FadeTransition;
@@ -17,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -49,16 +48,16 @@ public class LoginScreenController implements Initializable, ControlledScreen{
     //Run
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    		//background.fitWidthProperty().bind(anchorPane.widthProperty());
-    		//background.fitHeightProperty().bind(anchorPane.heightProperty());
-
     		showLogin();
-    		passwd.setOnMouseClicked(new EventHandler<MouseEvent>(){
-    			@Override
-                public void handle(MouseEvent event) {
-    				sigve.setVisible(true);
-    				}
-    			});
+    		passwd.setOnKeyPressed(new EventHandler<KeyEvent>(){
+    	        @Override
+    	        public void handle(KeyEvent ke){
+    	            if (ke.getCode().equals(KeyCode.ENTER)){
+    	                try { goToHome();} 
+    	                catch (InterruptedException e) { e.printStackTrace();}
+    	            }
+    	        }
+    	    });
     }
     
     public void showLogin() {
