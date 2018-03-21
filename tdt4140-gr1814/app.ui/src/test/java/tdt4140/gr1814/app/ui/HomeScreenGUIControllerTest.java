@@ -1,5 +1,8 @@
 package tdt4140.gr1814.app.ui;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
@@ -9,14 +12,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class HomeScreenGUIControllerTest extends ApplicationTest {
@@ -24,7 +30,8 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 	private HomeScreenGUIController controller;
 	
 	private Button newProfile_btn, MyPatients_btn, ViewMap_btn,
-			Settings_btn;
+			Settings_btn, user_btn;
+	private ColorPicker picker;
 	
 	@BeforeClass
 	public static void headless() {
@@ -39,7 +46,9 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 		newProfile_btn = find("#newProfile_btn");
 		MyPatients_btn = find("#MyPatients_btn");
 		ViewMap_btn = find("#ViewMap_btn");
-		Settings_btn = find("#Settings_btn");
+		picker = find("#picker");
+		// This button has no function yet
+		// Settings_btn = find("#Settings_btn");
 	}
 	
 	@Override
@@ -68,23 +77,10 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void newProfile_btnTest() {
-		clickOn(newProfile_btn);
+	public void testWidgetsExists() {
+		final String errMsg = "One of the widgets could not be retrieved";
+		assertNotNull(errMsg, newProfile_btn);
+		assertNotNull(errMsg, MyPatients_btn);
+		assertNotNull(errMsg, ViewMap_btn);
 	}
-	
-	@Test
-	public void MyPatients_btnTest() {
-		clickOn(MyPatients_btn);
-	}
-	
-	@Test
-	public void ViewMap_btnTest() {
-		clickOn(ViewMap_btn);
-	}
-	
-	@Test 
-	public void Settings_btnTest() {
-		//clickOn(Settings_btn);
-	}
-	
 }
