@@ -2,6 +2,7 @@ package tdt4140.gr1814.app.core.zones;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -103,7 +104,17 @@ public class ZoneTest {
 		ArrayList<Point> returnPoints = zone.doubleArrayListToSingleArrayListPoints(both_points);
 		assertEquals("Wront number of points!", 2, returnPoints.size());
 		
+	}
+	
+	@Test
+	public void pointTest() {
+		Point point = new Point("id9702", 63.0005, 10.2500);
 		
+		assertEquals("Id was wrong!", "id9702", point.getDeviceId());
+		assertEquals("Latitude was wrong!", 63.0005, point.getLat(), 0.0001f);
+		assertEquals("Longitude was wrong!", 10.2500, point.getLongt(), 0.0001f);
+		
+		assertEquals("String was on wrong format!", "id9702 63.0005 10.25", point.toString());
 		
 	}
 	
