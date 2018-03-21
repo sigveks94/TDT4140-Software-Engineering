@@ -77,6 +77,58 @@
 	            	</execution>            
 	        	</executions>
     		</plugin>
+			<plugin>
+				<!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-maven-plugin -->
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.8.v20171121</version>
+				<configuration>
+					<scanIntervalSeconds>0</scanIntervalSeconds>
+					<stopKey>stopMe</stopKey>
+					<stopPort>9966</stopPort>
+					<systemProperties>
+						<systemProperty>
+							<name>data.locations</name>
+							<value>file:${project.basedir}/src/test/resources/tdt4140/gr1800/web/server/geoLocations.json</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-jetty</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop-jetty</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>                                                              <!-- for starting jetty for integration tests -->
+				<version>2.16</version>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>verify</id>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
