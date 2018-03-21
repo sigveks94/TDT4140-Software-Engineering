@@ -85,13 +85,8 @@
 				<configuration>
 					<scanIntervalSeconds>0</scanIntervalSeconds>
 					<stopKey>stopMe</stopKey>
-					<stopPort>9966</stopPort>
-					<systemProperties>
-						<systemProperty>
-							<name>data.locations</name>
-							<value>file:${project.basedir}/src/test/resources/tdt4140/gr1800/web/server/geoLocations.json</value>
-						</systemProperty>
-					</systemProperties>
+					<stopPort>8080</stopPort>
+
 				</configuration>
 				<executions>
 					<execution>
