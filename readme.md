@@ -12,7 +12,7 @@ relatives, guardians or healthcare personnel if the person has walked outside
 of a custom zone. The application holds as well the ability of the caretakers 
 to add one or more people, set the mode of the zones and draw custom maps.
 
-A more detailed description in norwegian is available [here](https://gitlab.stud.iie.ntnu.no/tdt4140-2018/14/wikis/home)
+A more detailed description in norwegian is available [here](https://gitlab.stud.iie.ntnu.no/tdt4140-2018/14/wikis/home).
 
 
 
@@ -23,7 +23,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install of software and how to install them
+What things you need to install of software and how to install them.
 
 - Eclipse (Oxygen)
 - Jetty, follow this https://eclipse-jetty.github.io/installation.html
@@ -31,7 +31,7 @@ What things you need to install of software and how to install them
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running (this assumes you are using Eclipse)
+A step by step series of examples that tell you how to get a development environment running (this assumes you are using Eclipse).
 
 - Right-click on the Project Explorer pane and choose import... -> Git -> Projects from Git -> Clone URI
 - In Location URL type: https://gitlab.stud.iie.ntnu.no/tdt4140-2018/14.git and enter your credentials, and finish the import.
@@ -46,25 +46,7 @@ A step by step series of examples that tell you how to get a development env run
 2.   Go to tdt4140-gr1814/app.ui/src/main/java/tdt4140/gr1814/app/ui/
 3.   Run ApplicationDemo.java
 
-## Running the tests
 
-To run the automated tests for the entire system you just right-click on the parent module and choose run as-> maven test
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 ## Built With
 * [Maven](https://maven.apache.org/) - Dependency Management
