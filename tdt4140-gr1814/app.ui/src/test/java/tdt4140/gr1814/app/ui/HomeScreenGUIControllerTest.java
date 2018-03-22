@@ -1,6 +1,5 @@
 package tdt4140.gr1814.app.ui;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -12,7 +11,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
-import org.testfx.util.WaitForAsyncUtils;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,7 +20,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class HomeScreenGUIControllerTest extends ApplicationTest {
