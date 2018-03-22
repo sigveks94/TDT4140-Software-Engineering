@@ -31,7 +31,7 @@ What things you need to install of software and how to install them.
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development environment running (this assumes you are using Eclipse).
+A step by step guide on how to get the development environment running (this assumes you are using Eclipse).
 
 - Right-click on the Project Explorer pane and choose import... -> Git -> Projects from Git -> Clone URI
 - In Location URL type: https://gitlab.stud.iie.ntnu.no/tdt4140-2018/14.git and enter your credentials, and finish the import.
