@@ -17,13 +17,6 @@ A more detailed description in norwegian is available [here](https://gitlab.stud
 
 
 
-## HOW TO RUN
-
-1.   Right-click on the tdt4140-gr1814/webserver-folder and choose Run as -> Run with Jetty
-2.   Go to tdt4140-gr1814/app.ui/src/main/java/tdt4140/gr1814/app/ui/
-3.   Run ApplicationDemo.java
-
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -45,6 +38,13 @@ A step by step series of examples that tell you how to get a development env run
 - When the project has been imported, right-click on the parent file and choose maven -> update project and select all folders and press OK.
 - It is recommended that you build the project the first time. Right-click on the parent folder once more and choose run as -> maven build
 - If you are asked to enter a goal when building the project, type: clean verify
+
+
+## How to run
+
+1.   Right-click on the tdt4140-gr1814/webserver-folder and choose Run as -> Run with Jetty
+2.   Go to tdt4140-gr1814/app.ui/src/main/java/tdt4140/gr1814/app/ui/
+3.   Run ApplicationDemo.java
 
 ## Running the tests
 
