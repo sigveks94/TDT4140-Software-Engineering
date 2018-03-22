@@ -17,7 +17,7 @@ import tdt4140.gr1814.app.core.zones.Point;
 import tdt4140.gr1814.app.core.zones.Zone;
 import tdt4140.gr1814.app.core.zones.ZoneTailored;
 
-public class DataFetchControllerTest extends TestCase{
+public class DataFetchControllerIT extends TestCase{
 	
 	DataFetchController dataFetchController;
 	Caretaker caretaker;

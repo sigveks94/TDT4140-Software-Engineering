@@ -12,15 +12,9 @@ relatives, guardians or healthcare personnel if the person has walked outside
 of a custom zone. The application holds as well the ability of the caretakers 
 to add one or more people, set the mode of the zones and draw custom maps.
 
-A more detailed description in norwegian is available [here](https://gitlab.stud.iie.ntnu.no/tdt4140-2018/14/wikis/home)
+A more detailed description in norwegian is available [here](https://gitlab.stud.iie.ntnu.no/tdt4140-2018/14/wikis/home).
 
 
-
-
-## HOW TO RUN
-
-1.   Go to tdt4140-gr1814/app.ui/src/main/java/tdt4140/gr1814/app/ui/
-2.   Run ApplicationDemo.java
 
 
 ## Getting Started
@@ -29,49 +23,30 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+What things you need to install of software and how to install them.
 
-```
-Give examples
-```
+- Eclipse (Oxygen)
+- Jetty, follow this https://eclipse-jetty.github.io/installation.html
+- EclEmma, this is only if you want to be able to display codecoverage in your environment, if you do, follow this link http://www.eclemma.org/installation.html
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
+A step by step guide on how to get the development environment running (this assumes you are using Eclipse).
 
-Say what the step will be
+- Right-click on the Project Explorer pane and choose import... -> Git -> Projects from Git -> Clone URI
+- In Location URL type: https://gitlab.stud.iie.ntnu.no/tdt4140-2018/14.git and enter your credentials, and finish the import.
+- When the project has been imported, right-click on the parent file and choose maven -> update project and select all folders and press OK.
+- It is recommended that you build the project the first time. Right-click on the parent folder once more and choose run as -> maven build
+- If you are asked to enter a goal when building the project, type: clean verify
 
-```
-Give the example
-```
 
-And repeat
+## How to run
 
-```
-until finished
-```
+1.   Right-click on the tdt4140-gr1814/webserver-folder and choose Run as -> Run with Jetty
+2.   Go to tdt4140-gr1814/app.ui/src/main/java/tdt4140/gr1814/app/ui/
+3.   Run ApplicationDemo.java
 
-End with an example of getting some data out of the system or using it for a little demo
 
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 ## Built With
 * [Maven](https://maven.apache.org/) - Dependency Management
