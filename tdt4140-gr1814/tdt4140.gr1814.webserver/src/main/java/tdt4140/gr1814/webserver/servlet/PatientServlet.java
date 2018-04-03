@@ -2,8 +2,10 @@ package tdt4140.gr1814.webserver.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +16,7 @@ import com.google.gson.Gson;
 
 import tdt4140.gr1814.app.core.participants.Patient;
 import tdt4140.gr1814.webserver.ConnectionHandler;
+import tdt4140.gr1814.webserver.DatabaseHandler;
 
 /*
  * 	This is the HttpServlet supposed to handle database queries concerning the patient objects
@@ -51,6 +54,14 @@ public class PatientServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		List<String> patients = this.getPatients(req.getParameter("caretaker_id"), resp);
+		resp.getWriter().print("[");
+		for(String s: patients) {
+			resp.getWriter().print(s + ",");
+		}
+		
+		
+		/*
 		if(!this.establishConnection(resp)) {
 			resp.setStatus(500); //Internal DB Error
 			return;
@@ -71,7 +82,7 @@ public class PatientServlet extends HttpServlet{
 			return;
 		}
 		
-		
+		*/
 	}
 
 	/*
@@ -246,6 +257,51 @@ public class PatientServlet extends HttpServlet{
 		
 		return patients;
 	}
+	
+	private List<String> getPatients(String caretakerUsername, HttpServletResponse resp ){
+		
+		DatabaseHandler databaseHandler;
+		
+		try {
+			databaseHandler = new DatabaseHandler();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return null;
+		}
+		
+		String queryString = "SELECT Patient.* FROM PatientCaretaker "
+				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='" + caretakerUsername + "'";
+		
+		ResultSet result;
+		
+		try {
+			result = databaseHandler.query(queryString);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return null;
+		}
+		
+		List<String> patients = new ArrayList<String>();
+		try {
+			while(result.next()) {
+				patients.add("{\"FirstName\":\"" + result.getString("FirstName") + "\", \"Surname\":\"" + result.getString("LastName") + "\",\"Gender\":\"" + result.getString("Gender") + "\","
+						+ "\"SSN\":\"" + result.getString("SSN") + "\", \"NoK_cellphone\":\"" + result.getString("PhoneNumber") + "\", \"NoK_email\":\"" + 
+						result.getString("Email") + "\", \"DeviceID\":\"" + result.getString("DeviceID") + "\", \"alarmActivated\":\"" + result.getString("alarmActivated") + "\"}" );
+			}
+			
+			return patients;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return null;
+		}
+		
+		
+		
+	}
+	
 	
 	//Takes any kind of object and parses it into a string on the JSON pattern
 	//Is used to take a list of patient objects and json serialize it
