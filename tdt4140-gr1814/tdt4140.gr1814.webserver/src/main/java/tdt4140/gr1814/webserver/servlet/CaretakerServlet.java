@@ -39,8 +39,6 @@ public class CaretakerServlet extends HttpServlet{
 		}
 		
 		this.changePassword(userName, password, resp);
-		
-		
 	}
 	
 	//Private method for handling a change of password
@@ -85,7 +83,6 @@ public class CaretakerServlet extends HttpServlet{
 			resp.setStatus(500);
 			return;
 		}
-		
 		
 	}
 	
