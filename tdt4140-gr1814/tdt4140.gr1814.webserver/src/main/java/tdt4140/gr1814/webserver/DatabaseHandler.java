@@ -21,5 +21,10 @@ public class DatabaseHandler {
 		statement.executeQuery(query);
 		return statement.getResultSet();
 	}
+	
+	public void update(String query) throws SQLException{
+		Statement statement = this.connection.createStatement();
+		statement.executeUpdate(query);
+	}
 
 }
