@@ -1,18 +1,20 @@
 package tdt4140.gr1814.webserver.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import tdt4140.gr1814.webserver.ConnectionHandler;
 import tdt4140.gr1814.webserver.DatabaseHandler;
+
+/*
+ * ================== RESPONSE CODES ===================
+ * 			200 - OK
+ * 			400 - Bad Arguments
+ * 			500 - Internal Database Error, not users fault
+ */
 
 public class LoginServlet extends HttpServlet{
 
@@ -24,15 +26,6 @@ public class LoginServlet extends HttpServlet{
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			DatabaseHandler databaseHandler;
-		
-			try {
-				databaseHandler = new DatabaseHandler();
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-				resp.setStatus(500); //Internal DB ERROR
-				return;
-			}
 			
 			//The request expects the two given parameters
 			String username = req.getParameter("username");
@@ -40,52 +33,67 @@ public class LoginServlet extends HttpServlet{
 		
 			//If either one of the expected parameters are missing, the bad request response code is returned
 			if(username == null || password == null) {
-				resp.setStatus(400); //Bad Request - Code
+				resp.setStatus(400);
 				return;
 			}
 			
-			ResultSet result; //Resultset that gathers the result from the query
-			try {
-				result = databaseHandler.query("SELECT * FROM Caretaker WHERE Username ='"+username+"'");
-				if(result == null) {
-					resp.setStatus(400);
-					return;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				resp.setStatus(500); //Internal DB ERROR
-				return;
-			}
-			try {
-				result.next(); //Targets the first row in the resultset
-				
-				String pw = result.getString("password");
-				if(!password.contentEquals(pw)) {
-					resp.setStatus(400);
-					return;
-				}
-				
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-				resp.setStatus(500);
-				return;
-			}
-			
-			//If the request has made it this far through the request, the caretaker is known, and the password is correct.
-			
-			try {
-				String returnString = "{\"username\":\"" + result.getString("Username") + "\", \"address\": \"" + result.getString("Address") + 
-						"\", \"firstName \":\"" + result.getString("Firstname") + "\", \"lastName \":\"" + result.getString("Lastname") + "\" }";
-				resp.setStatus(200); //OK
-				resp.getWriter().print(returnString);
-			} catch (SQLException e) {
-				e.printStackTrace();
-				resp.setStatus(500);
-			}
-			
+			//Echoes back the care taker information
+			resp.getWriter().print(this.requestLogin(username, password, resp));
 	}
 	
-	
+	private String requestLogin(String username, String password, HttpServletResponse resp) {
+		DatabaseHandler databaseHandler;
+		
+		try {
+			databaseHandler = new DatabaseHandler();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return "";
+		}
+		
+		ResultSet result; //Resultset that gathers the result from the query
+		try {
+			result = databaseHandler.query("SELECT * FROM Caretaker WHERE Username ='"+username+"'");
+			if(result == null) {
+				resp.setStatus(400);
+				return "";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return "";
+		}
+		try {
+			if(!result.next()) { //Targets the first row in the resultset, if the set is empty the caretaker is non existing
+				resp.setStatus(400);
+				return "";
+			}
+			String pw = result.getString("password");
+			if(!password.contentEquals(pw)) {
+				resp.setStatus(400);
+				return "";
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return "";
+		}
+		
+		//If the request has made it this far through the request, the caretaker is known, and the password is correct.
+		
+		try {
+			String returnString = "{\"username\":\"" + result.getString("Username") + "\", \"address\": \"" + result.getString("Address") + 
+					"\", \"firstName \":\"" + result.getString("Firstname") + "\", \"lastName \":\"" + result.getString("Lastname") + "\" }";
+			resp.setStatus(200);
+			return returnString;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return "";
+		}
+	}
 
 }
