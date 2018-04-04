@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tdt4140.gr1814.webserver.DatabaseHandler; 
+
 /*
  * This servlet has the follow functions:
  * 		- Fetching all zones associated with a caretaker
@@ -33,7 +34,12 @@ public class ZoneServlet extends HttpServlet{
 	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		String caretakerId = req.getParameter("caretaker_id");
+		if(caretakerId == null) {
+			resp.setStatus(400);
+			return;
+		}
 		
 		resp.getWriter().print(this.getAllZones(caretakerId, resp));
 		
@@ -131,8 +137,6 @@ public class ZoneServlet extends HttpServlet{
 			}
 			zone = zone.substring(zone.indexOf('}') + 2);
 		}
-		
-		//all good!
 		resp.setStatus(200);
 	}
 	
