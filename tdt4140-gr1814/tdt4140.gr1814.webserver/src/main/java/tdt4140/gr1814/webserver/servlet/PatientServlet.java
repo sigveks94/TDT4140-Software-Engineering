@@ -86,7 +86,7 @@ public class PatientServlet extends HttpServlet{
 		String deviceID = req.getParameter("id");
 		
 		if(firstName == null || surname == null || SSN == null || phoneNumber == null || email == null || gender == null || deviceID == null) {
-			resp.setStatus(400); //Bad Request status
+			resp.setStatus(400);
 			return;
 		}
 		
@@ -210,7 +210,7 @@ public class PatientServlet extends HttpServlet{
 			resp.setStatus(500);
 			return;
 		}
-		resp.setStatus(200); //OK
+		resp.setStatus(200);
 	}
 	
 	private String getPatients(String caretakerUsername, HttpServletResponse resp ){
@@ -221,7 +221,7 @@ public class PatientServlet extends HttpServlet{
 			databaseHandler = new DatabaseHandler();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			resp.setStatus(500); //Could not set up connection to DB
+			resp.setStatus(500);
 			return null;
 		}
 		
@@ -235,7 +235,7 @@ public class PatientServlet extends HttpServlet{
 			result = databaseHandler.query(queryString);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			resp.setStatus(500); //Internal DB ERROR
+			resp.setStatus(500);
 			return null;
 		}
 		
