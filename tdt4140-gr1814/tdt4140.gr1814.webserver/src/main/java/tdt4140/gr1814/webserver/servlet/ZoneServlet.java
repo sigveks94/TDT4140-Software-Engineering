@@ -2,6 +2,7 @@ package tdt4140.gr1814.webserver.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import tdt4140.gr1814.webserver.ConnectionHandler; 
+import tdt4140.gr1814.webserver.ConnectionHandler;
+import tdt4140.gr1814.webserver.DatabaseHandler; 
 /*
  * This servlet has the follow functions:
  * 		- Fetching all zones associated with a caretaker
@@ -49,6 +51,7 @@ public class ZoneServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		/*
 		//Establishes connection with the database
 		if(!this.establishConnection(resp)) {
 			resp.setStatus(500); //Internal DB Issues
@@ -91,6 +94,10 @@ public class ZoneServlet extends HttpServlet{
 			resp.setStatus(400); //Bad Request code
 			return;
 		}
+		*/
+		String caretakerId = req.getParameter("caretaker_id");
+		
+		resp.getWriter().print(this.getAllZone(caretakerId, resp));
 		
 	}
 	
@@ -217,6 +224,45 @@ public class ZoneServlet extends HttpServlet{
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private String getAllZone(String caretakerId, HttpServletResponse resp ){
+		DatabaseHandler databaseHandler;
+		
+		try {
+			databaseHandler = new DatabaseHandler();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return "";
+		}
+		
+		ResultSet result;
+		String query = "SELECT Zone.patientSSN, ZonePoint.*, PatientCaretaker.CaretakerUsername FROM ZonePoint NATURAL JOIN Zone "
+						+ "INNER JOIN PatientCaretaker ON Zone.PatientSSN = PatientCaretaker.PatSSN WHERE PatientCaretaker.CaretakerUsername = '" 
+						+ caretakerId + "' ORDER BY ZonePoint.ZoneID ASC, ZonePoint.PointOrder ASC";
+		
+		try {
+			result = databaseHandler.query(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return "";
+		}
+		
+		String json = "[";
+		try {
+			while(result.next()) {
+				json += "{\"zone_id\":" + result.getInt("ZoneID") + ",\"ssn\":" + result.getLong("PatientSSN") + ",\"lat\":" + result.getDouble("Lat") 
+				+ ",\"long\":" + result.getDouble("Longt") + ",\"point_order\":" + result.getInt("PointOrder") + "},";
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(json.length() > 1)
+			json = json.substring(0, json.length() -1);
+		return json + "]";
 	}
 	
 	//Takes an ArrayList holding an ArrayList of strings as paramater. This should essentially cosist of a list of zonecursors from the SQL Query.
