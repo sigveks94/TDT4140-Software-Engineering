@@ -54,11 +54,13 @@ public class PatientServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		List<String> patients = this.getPatients(req.getParameter("caretaker_id"), resp);
-		resp.getWriter().print("[");
-		for(String s: patients) {
-			resp.getWriter().print(s + ",");
+		String caretakerId = req.getParameter("caretaker_id");
+		if(caretakerId == null) {
+			resp.setStatus(400);
+			return;
 		}
+		
+		resp.getWriter().print(this.getPatients(caretakerId, resp));
 		
 		
 		/*
@@ -258,58 +260,50 @@ public class PatientServlet extends HttpServlet{
 		return patients;
 	}
 	
-	private List<String> getPatients(String caretakerUsername, HttpServletResponse resp ){
+	private String getPatients(String caretakerUsername, HttpServletResponse resp ){
 		
-		DatabaseHandler databaseHandler;
+		DatabaseHandler databaseHandler; //Database connection handler
 		
 		try {
 			databaseHandler = new DatabaseHandler();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			resp.setStatus(500);
+			resp.setStatus(500); //Could not set up connection to DB
 			return null;
 		}
 		
+		//The query to be handled by the database handler
 		String queryString = "SELECT Patient.* FROM PatientCaretaker "
 				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='" + caretakerUsername + "'";
 		
-		ResultSet result;
+		ResultSet result; //Where to store the dataset returned by the query
 		
 		try {
 			result = databaseHandler.query(queryString);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			resp.setStatus(500);
+			resp.setStatus(500); //Internal DB ERROR
 			return null;
 		}
 		
-		List<String> patients = new ArrayList<String>();
+		//Builds the json string to be returned
+		String json = "[";
 		try {
 			while(result.next()) {
-				patients.add("{\"FirstName\":\"" + result.getString("FirstName") + "\", \"Surname\":\"" + result.getString("LastName") + "\",\"Gender\":\"" + result.getString("Gender") + "\","
+				json += "{\"FirstName\":\"" + result.getString("FirstName") + "\", \"Surname\":\"" + result.getString("LastName") + "\",\"Gender\":\"" + result.getString("Gender") + "\","
 						+ "\"SSN\":\"" + result.getString("SSN") + "\", \"NoK_cellphone\":\"" + result.getString("PhoneNumber") + "\", \"NoK_email\":\"" + 
-						result.getString("Email") + "\", \"DeviceID\":\"" + result.getString("DeviceID") + "\", \"alarmActivated\":\"" + result.getString("alarmActivated") + "\"}" );
+						result.getString("Email") + "\", \"DeviceID\":\"" + result.getString("DeviceID") + "\", \"alarmActivated\":\"" + result.getString("alarmActivated") + "\"},";
 			}
-			
-			return patients;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			resp.setStatus(500);
 			return null;
 		}
-		
-		
+		if(json.length() > 1) //If the list is empty there will be no comma to remove either
+			json = json.substring(0, json.length() -1); //The last character will be a comma that is not supposed to be there
+		return json += "]";
 		
 	}
-	
-	
-	//Takes any kind of object and parses it into a string on the JSON pattern
-	//Is used to take a list of patient objects and json serialize it
-	private String toJson(Object o) {
-		Gson jsonParser = new Gson();
-		return jsonParser.toJson(o);
-	}
-	
 	
 }
 
