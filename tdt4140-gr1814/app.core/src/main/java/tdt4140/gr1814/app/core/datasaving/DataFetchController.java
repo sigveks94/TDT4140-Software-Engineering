@@ -37,7 +37,6 @@ public class DataFetchController {
 		
 	}
 	
-	
 	public Caretaker logIn(String username, String password) {
 		
 		//Opens a connection to the server
