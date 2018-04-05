@@ -257,6 +257,9 @@ public class DataFetchController {
 		//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
 		try {
 			InputStream connectionInputStream = connection.getInputStream();
+			
+			//Here the client can read the webserver status messages
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
