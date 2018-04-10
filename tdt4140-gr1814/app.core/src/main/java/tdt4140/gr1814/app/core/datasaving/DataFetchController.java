@@ -349,7 +349,11 @@ public class DataFetchController {
 		for(JsonElement j: jsonArray) {
 			try {
 				JsonObject o = gson.fromJson(j, JsonObject.class);
-				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), o.get("alarmActivated").getAsBoolean());
+				boolean alarmActivation = true;
+				if(o.get("alarmActivated").getAsInt() == 0) {
+					alarmActivation = false;
+				}
+				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), alarmActivation);
 			}
 			catch(Exception e) {
 				e.printStackTrace();
