@@ -19,7 +19,8 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
     private HashMap<String, Node> screens = new HashMap<>();
     private static MapViewController MapController = new MapViewController();
     private static PatientOverviewController OverviewController = new PatientOverviewController();
-
+    // added for testing purposes
+    private static HomeScreenGUIController hsc = new HomeScreenGUIController();
     
     public ScreensController() {
     }
@@ -74,7 +75,9 @@ public class ScreensController  extends StackPane implements OnPatientAlarmListe
     public MapViewController getMapViewController() {return MapController;}
     
     public PatientOverviewController getOverviewController() {return OverviewController;}
-
+    
+    public HomeScreenGUIController getHomeScreenGUIController() {return hsc;}
+    
     //Function 'catches' alarm set of in patient class, and shows it as an alert on current screen.
 	@Override
 	public void OnPatientAlarm(Patient patient) { 
