@@ -126,14 +126,49 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	        Polygon pol = new Polygon(polyOpts);
 	        pol.setDraggable(false);
 	        this.patientZoneOnMap.put(p, pol);
+	        pol.setVisible(false);
+	        map.addMapShape(pol);
+	        
 			}
 			else {p.getViewableOnMap().setSelected(false);} //if there is no zone, the checkbox should not be checked
 		}}
 	}
 	
+	public void addViewablesPolygon(Patient patient) {
+		ArrayList<LatLong> latLongArrayList;
+		latLongArrayList = new ArrayList<>();
+		if(patient.getZone() != null) {
+		for (Point poi : patient.getZone().getPoints()) {
+			latLongArrayList.add(new LatLong(poi.getLat(),poi.getLongt()));//fail
+		}
+		LatLong[] latArr = new LatLong[latLongArrayList.size()];
+		for (int i = 0; i < latLongArrayList.size(); i++) {
+			latArr[i] = latLongArrayList.get(i);
+		}
+		MVCArray mvc = new MVCArray(latArr);
+		PolygonOptions polyOpts = new PolygonOptions()
+						        		.paths(mvc)
+						        		.strokeColor("black")
+						        		.fillColor("yellow")
+						        		.editable(false)
+						        		.strokeWeight(1)
+						        		.fillOpacity(0.4);
+        Polygon pol = new Polygon(polyOpts);
+        pol.setDraggable(false);
+        pol.setVisible(false);
+        map.removeMapShape(patientZoneOnMap.get(patient));
+        patientZoneOnMap.replace(patient, pol);
+        map.addMapShape(pol);
+		}
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mapView.addMapInitializedListener(this); 
+		PrepareTable();
+	}
+	
+	public void PrepareTable() {
 		patient_list.setFixedCellSize(25);
 		list_names.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
 		list_view.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, CheckBox>, ObservableValue<CheckBox>>() {
@@ -178,8 +213,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
             }
         });
 		list_zoneView.setSortable(false);
-		
-		
 	}
 
 	
@@ -236,9 +269,9 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	public void displayZoneOnMap(Patient patient, Boolean b) {
 		if(b){
 			if (patientsOnMap.get(patient).getVisible()) {
-				map.addMapShape(patientZoneOnMap.get(patient));
+				patientZoneOnMap.get(patient).setVisible(b);;
 			}
-		}else {map.removeMapShape(patientZoneOnMap.get(patient));}
+		}else {patientZoneOnMap.get(patient).setVisible(b);}
 	}
 	
 	public void displayOnMap(Patient patient, Boolean b) {
@@ -254,9 +287,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	@FXML
 	public void goToHome(ActionEvent event) {
 		for (Patient patient : patientsOnMap.keySet()) {
-			map.removeMapShape(patientZoneOnMap.get(patient));
-			patient.getViewZoneOnMap().setSelected(false);
-			list_zoneView.getCellData(patient).setSelected(false);
+			displayZoneOnMap(patient, false);
 		}
 		patientView();
 		myController.setScreen(ApplicationDemo.HomescreenID);
@@ -273,7 +304,9 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		overview_btn.setVisible(true);
 		saveZone_btn.setVisible(true);
 		newZoneMap = true;
+		patient_list.setVisible(false);
 		for (Patient p: Patient.patients) {
+			patientZoneOnMap.get(p).setVisible(false);//hide zones when in zone-edit-view
 			Marker marker = this.patientsOnMap.get(p);
 			if (marker != null) {
 				displayOnMap(p,false);
@@ -319,12 +352,19 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		overview_btn.setVisible(false);
 		saveZone_btn.setVisible(false);
 		newZoneMap = false;
+		PrepareTable();
+		patient_list.setVisible(true);
 		if (mapPolygon != null) {mapPolygon.getPath().clear();}
 		 //display last location when opening map. solves problem of dissapearing markers when inputstream is over
 		for (Patient p: patientsOnMap.keySet()) { //display last location when opening map. solves problem of dissapearing markers when inputstream is over
 			if (!patient_Obslist.contains(p)) {patient_Obslist.add(p);}
 			if (p.getCurrentLocation() != null) {
 			onLocationChanged(p.getID(),p.getCurrentLocation());
+			}
+			if(p.getViewZoneOnMap().isSelected()) {displayZoneOnMap(p, true);;}
+			Marker marker = this.patientsOnMap.get(p);
+			if (marker != null) {
+				displayOnMap(p,true);
 			}
 		}
 		patient_list.setItems(patient_Obslist);
@@ -353,6 +393,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		DataFetchController controller = new DataFetchController();
 		controller.deleteZone(currentPatient);
 		controller.insertZone(currentPatient);
+		addViewablesPolygon(currentPatient);
 	}
 
 	@Override
