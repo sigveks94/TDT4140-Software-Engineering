@@ -76,6 +76,7 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 			Caretaker systemUser = null;
 			DataFetchController datafetcher = new DataFetchController();
 			systemUser = datafetcher.logIn(username.getText(), passwd.getText());
+			System.out.println(systemUser);//---
 			if (systemUser != null) {
 				username.clear();
 				passwd.clear();

@@ -21,15 +21,26 @@ import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import com.lynden.gmapsfx.shapes.Polygon;
 import com.lynden.gmapsfx.shapes.PolygonOptions;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Callback;
 import tdt4140.gr1814.app.core.datasaving.DataFetchController;
 import tdt4140.gr1814.app.core.listeners.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.participants.Patient;
@@ -47,9 +58,12 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	
 	//The hashmap holds track of all the patients that are currently being displayed in the map. Each patient has a marker associated with it, and by passing the patient as key the associated marker is return as the value
 	private Map<Patient, Marker> patientsOnMap;
+	private Map<Patient, Polygon> patientZoneOnMap;
+	private ObservableList<Patient> patient_Obslist = FXCollections.observableArrayList();
 	
 	public MapViewController() {
 		this.patientsOnMap = new HashMap<Patient, Marker>();
+		this.patientZoneOnMap = new HashMap<Patient, Polygon>();
 	}
 	
 	@FXML
@@ -62,6 +76,14 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	Button menu_btn;
 	@FXML
 	Button saveZone_btn;
+	@FXML
+	TableView<Patient> patient_list;
+	@FXML
+	TableColumn<Patient, String> list_names;
+	@FXML
+	TableColumn<Patient, CheckBox> list_view;
+	@FXML
+	TableColumn<Patient, CheckBox> list_zoneView;
 
 	//This method recieves a number of patient objects that will appear on the map. Aswell as adding the patient to the hashmap this mapview controller adds itself as a listener to the patient object. Whenever
 	//a patient gets it location updated this controller object will be notified in order to update the marker on the map
@@ -80,9 +102,84 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		}
 	}
 	
+	public void addAllViewablesPlygon(List<Patient> patients) {
+		ArrayList<LatLong> latLongArrayList;
+		for (Patient p: patients) {
+			if(patientZoneOnMap.get(p)==null) {
+			latLongArrayList = new ArrayList<>();
+			if(p.getZone() != null) {
+			for (Point poi : p.getZone().getPoints()) {
+				latLongArrayList.add(new LatLong(poi.getLat(),poi.getLongt()));//fail
+			}
+			LatLong[] latArr = new LatLong[latLongArrayList.size()];
+			for (int i = 0; i < latLongArrayList.size(); i++) {
+				latArr[i] = latLongArrayList.get(i);
+			}
+			MVCArray mvc = new MVCArray(latArr);
+			PolygonOptions polyOpts = new PolygonOptions()
+							        		.paths(mvc)
+							        		.strokeColor("black")
+							        		.fillColor("yellow")
+							        		.editable(false)
+							        		.strokeWeight(1)
+							        		.fillOpacity(0.4);
+	        Polygon pol = new Polygon(polyOpts);
+	        pol.setDraggable(false);
+	        this.patientZoneOnMap.put(p, pol);
+			}
+			else {p.getViewableOnMap().setSelected(false);} //if there is no zone, the checkbox should not be checked
+		}}
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mapView.addMapInitializedListener(this); 
+		patient_list.setFixedCellSize(25);
+		list_names.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
+		list_view.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, CheckBox>, ObservableValue<CheckBox>>() {
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<Patient, CheckBox> arg0) {
+                		Patient user = arg0.getValue();
+
+                		CheckBox checkBox = new CheckBox();
+
+                		checkBox.selectedProperty().setValue(user.getViewableOnMap().isSelected());
+
+                		checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                		public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
+
+                        user.getViewableOnMap().setSelected(new_val);
+                        displayOnMap(user,new_val);
+                    }
+                });
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+            }
+        });
+		list_view.setSortable(false);
+		list_zoneView.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, CheckBox>, ObservableValue<CheckBox>>() {
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<Patient, CheckBox> arg0) {
+                		Patient user = arg0.getValue();
+
+                		CheckBox checkBox = new CheckBox();
+
+                		checkBox.selectedProperty().setValue(user.getViewZoneOnMap().isSelected());
+
+                		checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                		public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
+
+                        user.getViewZoneOnMap().setSelected(new_val);
+                        displayZoneOnMap(user,new_val);
+                    }
+                });
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+            }
+        });
+		list_zoneView.setSortable(false);
+		
+		
 	}
 
 	
@@ -124,19 +221,30 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	@Override
 	public void onLocationChanged(String deviceId, Point newLocation) {
 		Patient patient = Patient.getPatient(deviceId);
-		
+		LatLong latlong = new LatLong(newLocation.getLat(), newLocation.getLongt());
 		Marker marker = this.patientsOnMap.get(patient);
 		if(marker != null) {
-			map.removeMarker(patientsOnMap.get(patient));
+			marker.setOptions(new MarkerOptions().position(latlong).label(patient.getFullName()));
 		}
-		LatLong latlong = null;
-		latlong = new LatLong(newLocation.getLat(), newLocation.getLongt());
-		marker = new Marker(new MarkerOptions().position(latlong).visible(true).label(patient.getFullName()));
-		this.patientsOnMap.replace(patient, marker);
-		if (!newZoneMap) {
-		map.addMarker(marker);
+		else {
+			marker = new Marker(new MarkerOptions().position(latlong).visible(true).label(patient.getFullName()));
+			this.patientsOnMap.replace(patient, marker);
+			map.addMarker(marker);
 		}
 	}
+	
+	public void displayZoneOnMap(Patient patient, Boolean b) {
+		if(b){
+			if (patientsOnMap.get(patient).getVisible()) {
+				map.addMapShape(patientZoneOnMap.get(patient));
+			}
+		}else {map.removeMapShape(patientZoneOnMap.get(patient));}
+	}
+	
+	public void displayOnMap(Patient patient, Boolean b) {
+		patientsOnMap.get(patient).setVisible(b);
+	}
+
 	
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
@@ -163,7 +271,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		for (Patient p: Patient.patients) {
 			Marker marker = this.patientsOnMap.get(p);
 			if (marker != null) {
-			map.removeMarker(marker);
+				displayOnMap(p,false);
 		}}
 		PolygonOptions polyOpts;
 		LatLong[] latArr;
@@ -208,11 +316,19 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		newZoneMap = false;
 		if (mapPolygon != null) {mapPolygon.getPath().clear();}
 		 //display last location when opening map. solves problem of dissapearing markers when inputstream is over
-		for (Patient p: Patient.patients) { //display last location when opening map. solves problem of dissapearing markers when inputstream is over
+		for (Patient p: patientsOnMap.keySet()) { //display last location when opening map. solves problem of dissapearing markers when inputstream is over
+			if (!patient_Obslist.contains(p)) {patient_Obslist.add(p);}
 			if (p.getCurrentLocation() != null) {
 			onLocationChanged(p.getID(),p.getCurrentLocation());
 			}
 		}
+		patient_list.setItems(patient_Obslist);
+		//Setting size of tableview depending on number of patients
+		patient_list.prefHeightProperty().bind(patient_list.fixedCellSizeProperty().multiply(Bindings.size(patient_list.getItems()).add(2.01)));
+		patient_list.minHeightProperty().bind(patient_list.prefHeightProperty());
+		patient_list.maxHeightProperty().bind(patient_list.prefHeightProperty());
+
+		
 		
 	}
 	
