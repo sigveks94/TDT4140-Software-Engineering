@@ -247,6 +247,10 @@ public class Patient{
 		this.screensController = screensController;
 	}
 	
+	public OnPatientAlarmListener getAlarmListener() {
+		return screensController;
+	}
+	
 	@Override
 	public String toString() {
 		String output = "Name: "+this.getFullName()+
