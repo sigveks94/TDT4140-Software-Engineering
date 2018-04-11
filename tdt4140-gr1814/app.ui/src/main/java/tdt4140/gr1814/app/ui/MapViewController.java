@@ -253,6 +253,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	
 	@FXML
 	public void goToHome(ActionEvent event) {
+		for (Patient patient : patientsOnMap.keySet()) {
+			map.removeMapShape(patientZoneOnMap.get(patient));
+			patient.getViewZoneOnMap().setSelected(false);
+			list_zoneView.getCellData(patient).setSelected(false);
+		}
 		patientView();
 		myController.setScreen(ApplicationDemo.HomescreenID);
 	}
