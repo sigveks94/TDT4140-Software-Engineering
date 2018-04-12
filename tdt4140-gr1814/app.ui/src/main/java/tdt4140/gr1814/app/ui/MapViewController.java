@@ -93,144 +93,16 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	@FXML
 	ImageView zone_img;
 	
-
-	//This method recieves a number of patient objects that will appear on the map. Aswell as adding the patient to the hashmap this mapview controller adds itself as a listener to the patient object. Whenever
-	//a patient gets it location updated this controller object will be notified in order to update the marker on the map
-	public void addViewables(Patient... patients) {
-		for(Patient p : patients) {
-			this.patientsOnMap.put(p, null);
-			p.registerListener(this);	
-		}
-	}
-	
-	//Does the same as the method above, argument is List instead of varargs
-	public void addAllViewables(List<Patient> patients) {
-		for(Patient p : patients) {
-			this.patientsOnMap.put(p, null);
-			p.registerListener(this);
-		}
-	}
-	
-	public void addAllViewablesPlygon(List<Patient> patients) {
-		ArrayList<LatLong> latLongArrayList;
-		for (Patient p: patients) {
-			if(patientZoneOnMap.get(p)==null) {
-			latLongArrayList = new ArrayList<>();
-			if(p.getZone() != null) {
-			for (Point poi : p.getZone().getPoints()) {
-				latLongArrayList.add(new LatLong(poi.getLat(),poi.getLongt()));//fail
-			}
-			LatLong[] latArr = new LatLong[latLongArrayList.size()];
-			for (int i = 0; i < latLongArrayList.size(); i++) {
-				latArr[i] = latLongArrayList.get(i);
-			}
-			MVCArray mvc = new MVCArray(latArr);
-			PolygonOptions polyOpts = new PolygonOptions()
-							        		.paths(mvc)
-							        		.strokeColor("black")
-							        		.fillColor("yellow")
-							        		.editable(false)
-							        		.strokeWeight(1)
-							        		.fillOpacity(0.4);
-	        Polygon pol = new Polygon(polyOpts);
-	        pol.setDraggable(false);
-	        this.patientZoneOnMap.put(p, pol);
-	        pol.setVisible(false);
-	        map.addMapShape(pol);
-	        
-			}
-			else {p.getViewZoneOnMap().setSelected(false);} //if there is no zone, the checkbox should not be checked
-		}}
-	}
-	
-	public void addViewablesPolygon(Patient patient) {
-		ArrayList<LatLong> latLongArrayList;
-		latLongArrayList = new ArrayList<>();
-		if(patient.getZone() != null) {
-		for (Point poi : patient.getZone().getPoints()) {
-			latLongArrayList.add(new LatLong(poi.getLat(),poi.getLongt()));//fail
-		}
-		LatLong[] latArr = new LatLong[latLongArrayList.size()];
-		for (int i = 0; i < latLongArrayList.size(); i++) {
-			latArr[i] = latLongArrayList.get(i);
-		}
-		MVCArray mvc = new MVCArray(latArr);
-		PolygonOptions polyOpts = new PolygonOptions()
-						        		.paths(mvc)
-						        		.strokeColor("black")
-						        		.fillColor("yellow")
-						        		.editable(false)
-						        		.strokeWeight(1)
-						        		.fillOpacity(0.4);
-        Polygon pol = new Polygon(polyOpts);
-        pol.setDraggable(false);
-        pol.setVisible(false);
-        map.removeMapShape(patientZoneOnMap.get(patient));
-        patientZoneOnMap.replace(patient, pol);
-        map.addMapShape(pol);
-		}
-		else {patientZoneOnMap.replace(patient, null);}
-	}
-	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mapView.addMapInitializedListener(this); 
 		PrepareTable();
 	}
 	
-	public void PrepareTable() {
-		patient_list.setFixedCellSize(25);
-		list_names.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
-		list_view.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, CheckBox>, ObservableValue<CheckBox>>() {
-            @Override
-            public ObservableValue<CheckBox> call(
-                    TableColumn.CellDataFeatures<Patient, CheckBox> arg0) {
-                		Patient user = arg0.getValue();
-
-                		CheckBox checkBox = new CheckBox();
-
-                		checkBox.selectedProperty().setValue(user.getViewableOnMap().isSelected());
-
-                		checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                		public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
-
-                        user.getViewableOnMap().setSelected(new_val);
-                        displayOnMap(user,new_val);
-                    }
-                });
-                return new SimpleObjectProperty<CheckBox>(checkBox);
-            }
-        });
-		list_view.setSortable(false);
-		list_zoneView.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, CheckBox>, ObservableValue<CheckBox>>() {
-            @Override
-            public ObservableValue<CheckBox> call(
-                    TableColumn.CellDataFeatures<Patient, CheckBox> arg0) {
-                		Patient user = arg0.getValue();
-
-                		CheckBox checkBox = new CheckBox();
-
-                		checkBox.selectedProperty().setValue(user.getViewZoneOnMap().isSelected());
-
-                		checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                		public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
-
-                        user.getViewZoneOnMap().setSelected(new_val);
-                        if(patientZoneOnMap.get(user) != null) {displayZoneOnMap(user,new_val);}
-                    }
-                });
-                return new SimpleObjectProperty<CheckBox>(checkBox);
-            }
-        });
-		list_zoneView.setSortable(false);
-	}
-
-	
 	@Override
 	public void mapInitialized() {
 		//Sets the mapview center
 		LatLong mapCenter = new LatLong(63.423000, 10.400000);		
-		
 		//Sets the mapview type, denies clickable icons like markers marking shops and other facilities, disables streetview and enables zoomcontrol.
 		MapOptions mapOptions = new MapOptions();
 		mapOptions.center(mapCenter)
@@ -239,24 +111,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 				  .streetViewControl(false)
 				  .zoomControl(true)
 				  .fullscreenControl(false);
-		
-		map = mapView.createMap(mapOptions);
-
-		//Implementing tailored zone
-		/*
-		//Adds the zone for each patient to the map so its visible for the user
-		/*
-		for(Patient p : this.patientsOnMap.keySet()) {
-			if(p.getZone() == null) {
-				continue;
-			}
-			Circle zone = new Circle();
-			zone.setCenter(p.getZone().getCentre().getLatLong());
-			zone.setRadius(p.getZone().getRadius());
-			map.addMapShape(zone);
-		}
-		*/
-		
+		map = mapView.createMap(mapOptions);		
 	}
 
 	//This is the method inherited from the "OnLocationChangedListener" interface. Whenever a patient gets it location changed it will notify its listener. This map will be one of its listeners. When the location changes
@@ -275,7 +130,113 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			map.addMarker(marker);
 		}
 	}
+	//This method recieves a number of patient objects that will appear on the map. Aswell as adding the patient to the hashmap this mapview controller adds itself as a listener to the patient object. Whenever
+	//a patient gets it location updated this controller object will be notified in order to update the marker on the map
+	public void addViewables(Patient... patients) {
+		for(Patient p : patients) {
+			this.patientsOnMap.put(p, null);
+			p.registerListener(this);	
+		}
+	}
 	
+	//Does the same as the method above, argument is List instead of varargs
+	public void addAllViewables(List<Patient> patients) {
+		for(Patient p : patients) {
+			this.patientsOnMap.put(p, null);
+			p.registerListener(this);
+		}
+	}
+	//This method recieves a number of patient objects that will appear on the map, and adds them with their zone to the hashmap patientZoneOnMap.
+	public void addAllViewablesPlygon(List<Patient> patients) {
+		for (Patient p: patients) {
+			if(patientZoneOnMap.get(p)==null) {
+				if(p.getZone() != null) {
+					Polygon pol = createPolygon(p, "yellow", false);
+			        pol.setDraggable(false);
+			        this.patientZoneOnMap.put(p, pol);
+			        pol.setVisible(false);
+			        map.addMapShape(pol); 
+				}
+				else {p.getViewZoneOnMap().setSelected(false);} //if there is no zone, the checkbox should not be checked
+			}
+		}
+	}
+	
+	public void addViewablesPolygon(Patient patient) {
+		if(patient.getZone() != null) {
+			Polygon pol = createPolygon(patient, "yellow", false);
+		    pol.setDraggable(false);
+		    pol.setVisible(false);
+		    map.removeMapShape(patientZoneOnMap.get(patient));
+		    patientZoneOnMap.replace(patient, pol);
+		    map.addMapShape(pol);
+		}
+		else {patientZoneOnMap.replace(patient, null);}
+	}
+	
+	public Polygon createPolygon(Patient patient, String color, boolean editable) {
+		ArrayList<LatLong> latLongArrayList;
+		latLongArrayList = new ArrayList<>();
+		for (Point poi : patient.getZone().getPoints()) {
+			latLongArrayList.add(new LatLong(poi.getLat(),poi.getLongt()));
+		}
+		LatLong[] latArr = new LatLong[latLongArrayList.size()];
+		for (int i = 0; i < latLongArrayList.size(); i++) {
+			latArr[i] = latLongArrayList.get(i);
+		}
+		MVCArray mvc = new MVCArray(latArr);
+		PolygonOptions polyOpts = new PolygonOptions()
+						        		.paths(mvc)
+						        		.strokeColor("black")
+						        		.fillColor(color)
+						        		.editable(editable)
+						        		.strokeWeight(1)
+						        		.fillOpacity(0.4);
+        Polygon pol = new Polygon(polyOpts);
+        return pol;
+	}
+	
+	//creates checkboxes in the tableview-columns for displaying markers and zones.
+	public void PrepareTable() {
+		patient_list.setFixedCellSize(25);
+		list_names.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
+		list_view.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, CheckBox>, ObservableValue<CheckBox>>() {
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<Patient, CheckBox> arg0) {
+                		Patient user = arg0.getValue();
+                		CheckBox checkBox = new CheckBox();
+                		checkBox.selectedProperty().setValue(user.getViewableOnMap().isSelected());
+                		checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                		public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
+                        user.getViewableOnMap().setSelected(new_val);
+                        displayOnMap(user,new_val);
+                    }
+                });
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+            }
+        });
+		list_view.setSortable(false);
+		list_zoneView.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, CheckBox>, ObservableValue<CheckBox>>() {
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<Patient, CheckBox> arg0) {
+                		Patient user = arg0.getValue();
+                		CheckBox checkBox = new CheckBox();
+                		checkBox.selectedProperty().setValue(user.getViewZoneOnMap().isSelected());
+                		checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                		public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
+                        user.getViewZoneOnMap().setSelected(new_val);
+                        if(patientZoneOnMap.get(user) != null) {displayZoneOnMap(user,new_val);}
+                    }
+                });
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+            }
+        });
+		list_zoneView.setSortable(false);
+	}
+	
+	//closes or displays the patient-list
 	public void displayPatientList() {
 		if(patient_list.isVisible()) {
 			patientList_btn.setStyle("-fx-background-color: white;");
@@ -323,6 +284,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		patientView();
 		myController.setScreen(ApplicationDemo.PatientOverviewID);
 	}
+	//when editing a patients zone from the patient-overview this wil be executed. Here we hide all zones,markers and features not related 
+	//to editing a spesific patients zone, and show relevant buttons like delete_zone and save_sone.
 	public void zoneView(Patient currentPatient) {
 		this.currentPatient = currentPatient;
 		menu_btn.setVisible(false);
@@ -340,31 +303,12 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			if (marker != null) {
 				displayOnMap(p,false);
 		}}
-		PolygonOptions polyOpts;
-		LatLong[] latArr;
-		String fillcolor = null;
-		if (currentPatient.getZone() == null) {displayNewZone(currentPatient);} 
-		else {
-			ArrayList<LatLong> latLongArrayList = new ArrayList<>();
-			for (Point poi : currentPatient.getZone().getPoints()) {
-				latLongArrayList.add(new LatLong(poi.getLat(),poi.getLongt()));
-			}
-			latArr = new LatLong[latLongArrayList.size()];
-			for (int i = 0; i < latLongArrayList.size(); i++) {
-				latArr[i] = latLongArrayList.get(i);
-			}
-		fillcolor = "green";
-		MVCArray mvc = new MVCArray(latArr);
-        polyOpts = new PolygonOptions()
-        		.paths(mvc)
-        		.strokeColor("black")
-        		.fillColor(fillcolor)
-        		.editable(true)
-        		.strokeWeight(1)
-        		.fillOpacity(0.4);
-        mapPolygon = new Polygon(polyOpts);
-        mapPolygon.setDraggable(true);
-        map.addMapShape(mapPolygon);
+		if (currentPatient.getZone() == null) {
+			displayNewZone(currentPatient);
+		}else {
+	        mapPolygon = createPolygon(currentPatient, "green", true);
+	        mapPolygon.setDraggable(true);
+	        map.addMapShape(mapPolygon);
 		}
 	}
 	
@@ -431,6 +375,8 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		DataFetchController controller = new DataFetchController();
 		controller.deleteZone(currentPatient);
 		currentPatient.addZone(null);
+		map.removeMapShape(mapPolygon);
+		displayNewZone(currentPatient);
 	}
 	
 	public void displayNewZone(Patient currentPatient) {
@@ -439,10 +385,10 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		PolygonOptions polyOpts;
 		LatLong[] latArr;
 		String fillcolor = null;
-		LatLong lat1 = new LatLong(lat+00.006508, longt+00.004743);
-        LatLong lat2 = new LatLong(lat+00.006451, longt+00.007103);
-        LatLong lat3 = new LatLong(lat+00.005663, longt+00.007103);
-        LatLong lat4 = new LatLong(lat+00.005414, longt+00.004529); 
+		LatLong lat1 = new LatLong(lat+00.006508, longt-00.004743); //venstre hjørne topp
+        LatLong lat2 = new LatLong(lat+00.006451, longt+00.007103); //høyre hjørne topp
+        LatLong lat3 = new LatLong(lat-00.005663, longt+00.007103); //høyre hjørne bunn
+        LatLong lat4 = new LatLong(lat-00.005414, longt-00.004529); //venstre bunn
         latArr = new LatLong[] {lat1,lat2,lat3,lat4};
         fillcolor = "red";
 		MVCArray mvc = new MVCArray(latArr);
