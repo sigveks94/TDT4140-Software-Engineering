@@ -56,6 +56,10 @@ public class Caretaker {
 		return Name;
 	}
 	
+	public void setName(String name) {
+		this.Name = name;
+	}
+	
 	public String getAddress() {
 		return Address;
 	}

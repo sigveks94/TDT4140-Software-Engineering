@@ -1,6 +1,9 @@
-package tdt4140.gr1814.app.core;
+package tdt4140.gr1814.app.core.participants;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -12,9 +15,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import tdt4140.gr1814.app.core.listeners.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.participants.Caretaker;
 import tdt4140.gr1814.app.core.participants.Patient;
 import tdt4140.gr1814.app.core.zones.Point;
+import tdt4140.gr1814.app.core.zones.Zone;
 import tdt4140.gr1814.app.core.zones.ZoneRadius;
 
 //test of patient class. some tests mainly implemented because of test coverage. 
@@ -23,6 +28,10 @@ public class PatientTest {
 	
 	private Patient patient;
 	private Patient patient2;
+	private Patient patient3;
+	
+	private Caretaker ct;
+	private Zone zone;
 
 	@Before
 	public void setUp() {
@@ -43,6 +52,9 @@ public class PatientTest {
 		
 		patient = Patient.newPatient(firstname,surname,gender,SSN,phone,email,dev1, true);
 		patient2 = Patient.newPatient(firstname,surname2,gender2,SSN2,phone2,email2,dev2, true);
+		patient3 = Patient.newPatient(firstname,"tulleberta",'D',88855544433L,phone2,email2,dev2, true);
+		zone = new ZoneRadius(new Point(patient.getID(), 10, 10), 3D);
+		ct = new Caretaker("larsern", "hoppla", "lars", "lars", "enveija");
 	}
 	
 	@Test
@@ -56,6 +68,7 @@ public class PatientTest {
 	@Test
 	public void genderTest() {
 		assertEquals(patient.getGender(), "Male");
+		assertEquals(patient3.getGender(), "Uncertain");
 	}	
 	@Test
 	public void SSNTest() {
@@ -92,17 +105,18 @@ public class PatientTest {
 		Patient patient3 = Patient.getPatient(12345678910L);
 		assertEquals(patient,patient3);
 	}
-	/*
+	
 	@Test
 	public void getAllPatients() {
 		List<Patient> patLst = Patient.getAllPatients();
 		List<Patient> patLst2 = new ArrayList<Patient>();
 		patLst2.add(patient);
 		patLst2.add(patient2);
+		patLst2.add(patient3);
 		assertTrue(patLst.containsAll(patLst2));
 		assertTrue(patLst2.containsAll(patLst));
 	}
-	*/
+	
 	@Test
 	public void makingNewPatientWithUsedSSN() {
 		Patient patient3 = Patient.newPatient("Exam", "Ple", 'M', 12345678910L, 27929342, "at@at.at", "H723", true);
@@ -124,9 +138,52 @@ public class PatientTest {
 		assertEquals(patient.getCurrentLocation(),poi);
 	}
 	
+	@Test
+	public void testGetAndDeletePatient() {
+		assertNull(Patient.getPatient(19503748571L));
+		Patient testP = Patient.newPatient("Huckleberry", "Finn", 'M', 19503748571L, 19856434, "ali@baba.no", "dev342", true);
+		assertNotNull(Patient.getPatient(19503748571L));
+		assertNotNull(testP.getID());
+		Patient.deletePatient(19503748571L);
+		assertNull(Patient.getPatient(testP.getID()));
+		assertFalse(Patient.deletePatient(10000000000L));
+	}
+	
+	@Test
+	public void testSetAndGetAlarmActivated() {
+		assertTrue(patient.getAlarmActivated());
+		patient.setAlarmActivated(false);
+		assertFalse(patient.getAlarmActivated());
+	}
+	
+	@Test
+	public void testGetFullName() {
+		assertEquals("Ola Nordmann", patient.getFullName());
+	}
+	
+	@Test
+	public void testAddZoneRadius() {
+		patient.addZone(zone);
+		assertEquals(zone, patient.getZone());
+	}
+	
+	@Test
+	public void testToString() {
+		assertEquals("Name: " + patient.getFullName() +
+				"\n\nGender: " + patient.getGender() + 
+				"\n\nSSN: " + patient.getSSN() + 
+				"\n\nDevice ID: " + patient.getID() + 
+				"\n\n\tNext of kin\n\nMobile: " + 
+				patient.getNoK_cellphone()
+				+ "\n\nEmail: " + patient.getNoK_email(), 
+				patient.toString());
+	}
+	
 	@After
 	public void tearDown() {
 		patient = null;
 		patient2 = null;
+		patient3 = null;
+		zone = null;
 	}
 }
