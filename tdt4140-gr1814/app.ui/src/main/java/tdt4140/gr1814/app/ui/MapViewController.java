@@ -263,35 +263,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	public void displayOnMap(Patient patient, Boolean b) {
 		patientsOnMap.get(patient).setVisible(b);
 	}
-
-	
-	//when editing a patients zone from the patient-overview this wil be executed. Here we hide all zones,markers and features not related 
-	//to editing a spesific patients zone, and show relevant buttons like delete_zone and save_sone.
-	public void zoneView(Patient currentPatient) {
-		this.currentPatient = currentPatient;
-		menu_btn.setVisible(false);
-		overview_btn.setVisible(true);
-		saveZone_btn.setVisible(true);
-		deleteZone_btn.setVisible(true);
-		patient_list.setVisible(false);
-		patientList_btn.setVisible(false);
-		view_img.setVisible(false);
-		zone_img.setVisible(false);
-		for (Patient p: Patient.patients) {
-			if (patientZoneOnMap.get(p)!=null) {patientZoneOnMap.get(p).setVisible(false);}//hide zones when in zone-edit-view
-			Marker marker = this.patientsOnMap.get(p);
-			if (marker != null) {
-				displayOnMap(p,false);
-		}}
-		if (currentPatient.getZone() == null) {
-			displayNewZone(currentPatient);
-		}else {
-	        mapPolygon = createPolygon(currentPatient, "green", true);
-	        mapPolygon.setDraggable(true);
-	        map.addMapShape(mapPolygon);
-		}
-	}
-	
+		
 	public void patientView() {
 		menu_btn.setVisible(true);
 		overview_btn.setVisible(false);
@@ -322,10 +294,34 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		//Setting size of tableview depending on number of patients
 		patient_list.prefHeightProperty().bind(patient_list.fixedCellSizeProperty().multiply(Bindings.size(patient_list.getItems()).add(2.01)));
 		patient_list.minHeightProperty().bind(patient_list.prefHeightProperty());
-		patient_list.maxHeightProperty().bind(patient_list.prefHeightProperty());
-
+		patient_list.maxHeightProperty().bind(patient_list.prefHeightProperty());	
 		
-		
+	}
+	//when editing a patients zone from the patient-overview this wil be executed. Here we hide all zones,markers and features not related 
+	//to editing a spesific patients zone, and show relevant buttons like delete_zone and save_sone.
+	public void zoneView(Patient currentPatient) {
+		this.currentPatient = currentPatient;
+		menu_btn.setVisible(false);
+		overview_btn.setVisible(true);
+		saveZone_btn.setVisible(true);
+		deleteZone_btn.setVisible(true);
+		patient_list.setVisible(false);
+		patientList_btn.setVisible(false);
+		view_img.setVisible(false);
+		zone_img.setVisible(false);
+		for (Patient p: Patient.patients) {
+			if (patientZoneOnMap.get(p)!=null) {patientZoneOnMap.get(p).setVisible(false);}//hide zones when in zone-edit-view
+			Marker marker = this.patientsOnMap.get(p);
+			if (marker != null) {
+				displayOnMap(p,false);
+		}}
+		if (currentPatient.getZone() == null) {
+			displayNewZone(currentPatient);
+		}else {
+	        mapPolygon = createPolygon(currentPatient, "green", true);
+	        mapPolygon.setDraggable(true);
+	        map.addMapShape(mapPolygon);
+		}
 	}
 	
 	public void saveZone() throws SQLException {
@@ -339,8 +335,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		currentPatient.addZone(new ZoneTailored(pointList));
 		System.out.println("SAVING...");
 		map.removeMapShape(mapPolygon);
-		addViewablesPolygon(currentPatient);
-		if(list_zoneView.getCellData(currentPatient).isSelected()) {patientZoneOnMap.get(currentPatient).setVisible(true);}
+		//if(list_zoneView.getCellData(currentPatient).isSelected()) {patientZoneOnMap.get(currentPatient).setVisible(true);}
 		zoneView(currentPatient);
 
 		DataFetchController controller = new DataFetchController();
