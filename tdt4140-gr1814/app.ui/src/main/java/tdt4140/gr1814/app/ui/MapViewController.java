@@ -52,7 +52,6 @@ import tdt4140.gr1814.app.core.zones.ZoneTailored;
 public class MapViewController implements Initializable, MapComponentInitializedListener, OnLocationChangedListener,ControlledScreen{
 
 	private ScreensController myController;
-	private boolean newZoneMap;//screen when adding new zone to a patient.
 	private Polygon mapPolygon;
 	private Patient currentPatient;
 	
@@ -260,30 +259,12 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		}else {patientZoneOnMap.get(patient).setVisible(b);}
 	}
 	
+	//display function for markers
 	public void displayOnMap(Patient patient, Boolean b) {
 		patientsOnMap.get(patient).setVisible(b);
 	}
 
 	
-	@Override
-	public void setScreenParent(ScreensController screenParent) {
-		myController = screenParent;	
-	}
-	
-	@FXML
-	public void goToHome(ActionEvent event) {
-		for (Patient patient : patientsOnMap.keySet()) {
-			if(patientZoneOnMap.get(patient) != null) {displayZoneOnMap(patient, false);}
-		}
-		patientView();
-		myController.setScreen(ApplicationDemo.HomescreenID);
-	}
-	
-	@FXML
-	public void goToOverview() {
-		patientView();
-		myController.setScreen(ApplicationDemo.PatientOverviewID);
-	}
 	//when editing a patients zone from the patient-overview this wil be executed. Here we hide all zones,markers and features not related 
 	//to editing a spesific patients zone, and show relevant buttons like delete_zone and save_sone.
 	public void zoneView(Patient currentPatient) {
@@ -292,7 +273,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		overview_btn.setVisible(true);
 		saveZone_btn.setVisible(true);
 		deleteZone_btn.setVisible(true);
-		newZoneMap = true;
 		patient_list.setVisible(false);
 		patientList_btn.setVisible(false);
 		view_img.setVisible(false);
@@ -317,7 +297,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		overview_btn.setVisible(false);
 		saveZone_btn.setVisible(false);
 		deleteZone_btn.setVisible(false);
-		newZoneMap = false;
 		PrepareTable();
 		//Patient list
 		patient_list.setVisible(false);
@@ -357,12 +336,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		for (double[] latLong : makePoints) {
 			pointList.add(new Point(currentPatient.getID(),latLong[0],latLong[1]));
 		}
-		if(patientZoneOnMap.get(currentPatient)==null) {
-			addViewablesPolygon(currentPatient);
-		}
 		currentPatient.addZone(new ZoneTailored(pointList));
 		System.out.println("SAVING...");
 		map.removeMapShape(mapPolygon);
+		addViewablesPolygon(currentPatient);
+		if(list_zoneView.getCellData(currentPatient).isSelected()) {patientZoneOnMap.get(currentPatient).setVisible(true);}
 		zoneView(currentPatient);
 
 		DataFetchController controller = new DataFetchController();
@@ -376,6 +354,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		controller.deleteZone(currentPatient);
 		currentPatient.addZone(null);
 		map.removeMapShape(mapPolygon);
+		patientZoneOnMap.replace(currentPatient, null);
 		displayNewZone(currentPatient);
 	}
 	
@@ -385,10 +364,10 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		PolygonOptions polyOpts;
 		LatLong[] latArr;
 		String fillcolor = null;
-		LatLong lat1 = new LatLong(lat+00.006508, longt-00.004743); //venstre hjørne topp
-        LatLong lat2 = new LatLong(lat+00.006451, longt+00.007103); //høyre hjørne topp
-        LatLong lat3 = new LatLong(lat-00.005663, longt+00.007103); //høyre hjørne bunn
-        LatLong lat4 = new LatLong(lat-00.005414, longt-00.004529); //venstre bunn
+		LatLong lat1 = new LatLong(lat+00.002508, longt-00.002743); //venstre hjørne topp
+        LatLong lat2 = new LatLong(lat+00.002451, longt+00.002103); //høyre hjørne topp
+        LatLong lat3 = new LatLong(lat-00.002663, longt+00.002103); //høyre hjørne bunn
+        LatLong lat4 = new LatLong(lat-00.002414, longt-00.002529); //venstre bunn
         latArr = new LatLong[] {lat1,lat2,lat3,lat4};
         fillcolor = "red";
 		MVCArray mvc = new MVCArray(latArr);
@@ -402,8 +381,40 @@ public class MapViewController implements Initializable, MapComponentInitialized
         mapPolygon = new Polygon(polyOpts);
         mapPolygon.setDraggable(true);
         map.addMapShape(mapPolygon);
+	}	
+	
+	//used when patient is deleted from patient-overview
+	public void removePatientFromMap(Patient patient) {
+		Marker marker =patientsOnMap.get(patient);
+		map.removeMarker(marker);
+		if (patientZoneOnMap.get(patient) != null) {
+			map.removeMapShape(patientZoneOnMap.get(patient));
+		}
+		patientsOnMap.remove(patient);
+		patientZoneOnMap.remove(patient);
+		patient_Obslist.remove(patient);
 	}
-
+	
+	@Override
+	public void setScreenParent(ScreensController screenParent) {
+		myController = screenParent;	
+	}
+	
+	@FXML
+	public void goToHome(ActionEvent event) {
+		for (Patient patient : patientsOnMap.keySet()) {
+			if(patientZoneOnMap.get(patient) != null) {displayZoneOnMap(patient, false);}
+		}
+		patientView();
+		myController.setScreen(ApplicationDemo.HomescreenID);
+	}
+	
+	@FXML
+	public void goToOverview() {
+		patientView();
+		myController.setScreen(ApplicationDemo.PatientOverviewID);
+	}
+	
 	@Override
 	public void showAlarm(Patient patient) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE, ButtonType.OK);
@@ -422,12 +433,6 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			}
 		if (alert.getResult() == ButtonType.CLOSE) {alert.close();;}
 		
-	}
-	
-	
-	public void removePatientFromMap(Patient patient) {
-		Marker marker =patientsOnMap.get(patient);
-		map.removeMarker(marker);
 	}
 	
 	
