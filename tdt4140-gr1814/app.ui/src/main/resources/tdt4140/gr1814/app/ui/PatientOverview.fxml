@@ -36,7 +36,7 @@
       <ListView fx:id="patient_list" layoutX="14.0" layoutY="177.0" prefHeight="299.0" prefWidth="270.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="170.0" />
       <AnchorPane fx:id="patient_profile" layoutX="341.0" layoutY="120.0" prefHeight="349.0" prefWidth="246.0" style="-fx-background-color: #f3f4f7; -fx-border-color: lightgray; visibility: false;">
          <children>
-            <Text fill="WHITE" layoutX="1.0" layoutY="38.203125" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Profile" textAlignment="CENTER" wrappingWidth="202.0000103712082" AnchorPane.topAnchor="14.0">
+            <Text layoutX="21.0" layoutY="37.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Profile" textAlignment="CENTER" wrappingWidth="202.0000103712082" AnchorPane.topAnchor="14.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font></Text>
