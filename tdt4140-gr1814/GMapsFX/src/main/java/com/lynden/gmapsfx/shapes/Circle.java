@@ -42,7 +42,7 @@ public class Circle extends MapShape {
     
     //getRadius
     public double getRadius() {
-        return (double) invokeJavascript("getRadius");
+        return Double.valueOf(invokeJavascript("getRadius").toString());
     }
     
     //setCenter

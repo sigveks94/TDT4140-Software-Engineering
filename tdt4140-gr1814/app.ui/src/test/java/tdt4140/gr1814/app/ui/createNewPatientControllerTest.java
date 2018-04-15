@@ -122,13 +122,13 @@ public class createNewPatientControllerTest extends ApplicationTest {
 		patient_name.setText("Olebob");
 		verifyThat("#patient_name", NodeMatchers.hasText("Olebob"));
 	}
-	
+	/*
 	@Test
 	public void testPatientSurname() {
 		patient_surname.setText("fanny");
 		verifyThat("#patient_surname", NodeMatchers.hasText("fanny"));
 	}
-	
+	*/
 	@Test
 	public void testPatientSSN() {
 		patient_SSN.setText("12345678910");
