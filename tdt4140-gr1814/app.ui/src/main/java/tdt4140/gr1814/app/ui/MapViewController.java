@@ -98,11 +98,10 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		PrepareTable();
 	}
 	
+	//Sets the mapview center and settings
 	@Override
 	public void mapInitialized() {
-		//Sets the mapview center
 		LatLong mapCenter = new LatLong(63.423000, 10.400000);		
-		//Sets the mapview type, denies clickable icons like markers marking shops and other facilities, disables streetview and enables zoomcontrol.
 		MapOptions mapOptions = new MapOptions();
 		mapOptions.center(mapCenter)
 				  .zoom(13).mapType(MapTypeIdEnum.ROADMAP)
@@ -161,6 +160,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		}
 	}
 	
+	//This method recieves a patient objects that will appear on the map, and adds it and its zone to the hashmap patientZoneOnMap.
 	public void addViewablesPolygon(Patient patient) {
 		if(patient.getZone() != null) {
 			Polygon pol = createPolygon(patient, "yellow", false);
@@ -250,7 +250,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			zone_img.setVisible(true);
 			}
 	}
-	
+	//display function for zones
 	public void displayZoneOnMap(Patient patient, Boolean b) {
 		patientZoneOnMap.get(patient).setVisible(b);
 	}
@@ -259,7 +259,9 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	public void displayOnMap(Patient patient, Boolean b) {
 		patientsOnMap.get(patient).setVisible(b);
 	}
-		
+	
+	//when entering screen to view patient markers and zones this wil be executed. 
+	//Here we hide all editing features, and show markers, zones and relevant buttons like patientList_btn.
 	public void patientView() {
 		menu_btn.setVisible(true);
 		overview_btn.setVisible(false);
@@ -287,7 +289,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			}
 		}
 		patient_list.setItems(patient_Obslist);
-		//Setting size of tableview depending on number of patients
+		//Setting size of tableview depending on number of patients. should be changed if we have deleted or added patients.
 		patient_list.prefHeightProperty().bind(patient_list.fixedCellSizeProperty().multiply(Bindings.size(patient_list.getItems()).add(2.01)));
 		patient_list.minHeightProperty().bind(patient_list.prefHeightProperty());
 		patient_list.maxHeightProperty().bind(patient_list.prefHeightProperty());	
@@ -349,9 +351,17 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		displayNewZone(currentPatient);
 	}
 	
+	//creates a new editable polygon on the map for creating a new zone to the current patient.
 	public void displayNewZone(Patient currentPatient) {
-		double lat = currentPatient.getCurrentLocation().getLat();
-		double longt = currentPatient.getCurrentLocation().getLongt();
+		double lat;
+		double longt;
+		if (currentPatient.getCurrentLocation() != null) {
+			lat = currentPatient.getCurrentLocation().getLat();
+			longt = currentPatient.getCurrentLocation().getLongt();
+		}else {
+			lat = map.getCenter().getLatitude();
+			longt = map.getCenter().getLatitude();
+		}
 		PolygonOptions polyOpts;
 		LatLong[] latArr;
 		String fillcolor = null;
