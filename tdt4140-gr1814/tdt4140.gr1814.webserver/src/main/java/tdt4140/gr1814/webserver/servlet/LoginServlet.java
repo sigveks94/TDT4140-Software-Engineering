@@ -28,6 +28,24 @@ public class LoginServlet extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String hash = req.getParameter("hash");
+		Long timestamp = Long.parseLong(req.getParameter("timestamp"));
+		if(hash == null || timestamp == null) {
+			resp.setStatus(401);
+			return;
+		}
+		
+		if(!Authenticator.verifyHash(timestamp, hash)) {
+			resp.setStatus(401);
+			return;
+		}
+		
+		resp.getWriter().print(Authenticator.getPublicKey());
+		
+	}
+	
 	/*
 	 * POST REQUEST for login
 	 * Expects username and password as parameter
@@ -37,8 +55,18 @@ public class LoginServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			
 			//The request expects the two given parameters
-			String username = req.getParameter("username");
-			String password = req.getParameter("password");
+			String username = Authenticator.decryptMessage(req.getParameter("username"));
+			String password = Authenticator.decryptMessage(req.getParameter("password"));
+			String publicKey = Authenticator.decryptMessage(req.getParameter("public_key"));
+			
+			System.out.println(username);
+			System.out.println(password);
+
+			
+			if(publicKey == null) {
+				resp.setStatus(400);
+				return;
+			}
 			
 			String hash = req.getParameter("hash");
 			Long timestamp = Long.parseLong(req.getParameter("timestamp"));
@@ -62,7 +90,7 @@ public class LoginServlet extends HttpServlet{
 			
 			
 			//Echoes back the care taker information
-			resp.getWriter().print(this.requestLogin(username, password, resp));
+			resp.getWriter().print(Authenticator.encryptMessage(this.requestLogin(username, password, resp), "null"));
 	}
 	
 	private String requestLogin(String username, String password, HttpServletResponse resp) {
