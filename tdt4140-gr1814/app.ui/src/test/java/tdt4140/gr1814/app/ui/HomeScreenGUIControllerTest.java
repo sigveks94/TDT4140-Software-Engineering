@@ -66,25 +66,4 @@ public class HomeScreenGUIControllerTest extends ApplicationTest {
 	public <T extends Node> T find(final String query) {
 		return lookup(query).query();
 	}
-	
-	@Test
-	public void newProfile_btnTest() {
-		clickOn(newProfile_btn);
-	}
-	
-	@Test
-	public void MyPatients_btnTest() {
-		clickOn(MyPatients_btn);
-	}
-	
-	@Test
-	public void ViewMap_btnTest() {
-		clickOn(ViewMap_btn);
-	}
-	
-	@Test 
-	public void Settings_btnTest() {
-		//clickOn(Settings_btn);
-	}
-	
 }
