@@ -53,9 +53,27 @@ public class DataFetchController {
 		}
 	}
 	
-	private String doEncrypt(String str) {
+	public String doEncrypt(String str) {
 		try {
-			return Sample.encrypt(serverPublicKey, str);
+			String[] strSplit = str.split("");
+			String retStr = "";
+			int i = 0;
+			String tempStr = "";
+			ArrayList<String> arrStringList = new ArrayList<>();
+			for (String s : strSplit) {
+				if (i < 9) {
+					i++;
+					tempStr += s;
+				} else if (i == 9) {
+					i = 0;
+					tempStr += s;
+					arrStringList.add(tempStr);
+					tempStr = "";
+				}
+			}
+			for (String strA : arrStringList) {
+				retStr += Sample.encrypt(serverPublicKey, strA) + "$";
+			} return retStr;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} return null;
