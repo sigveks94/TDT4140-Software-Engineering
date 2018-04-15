@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.animation.FadeTransition;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,6 +25,7 @@ import tdt4140.gr1814.app.core.InputController;
 import tdt4140.gr1814.app.core.datasaving.DataFetchController;
 import tdt4140.gr1814.app.core.participants.Caretaker;
 import tdt4140.gr1814.app.core.participants.Patient;
+import tdt4140.gr1814.app.core.tcp.TCPClient;
 
 public class LoginScreenController implements Initializable, ControlledScreen{
 
@@ -84,8 +86,23 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 				datafetcher.fetchPatients(systemUser);
 				datafetcher.getPatientsZones(systemUser);
 				ApplicationDemo.loadScreens();
-			    try {InputController.metamorphise();//this is running on a seperate threa
-				}catch (IOException e) {e.printStackTrace();} 
+			    try {
+			    	Task<Void> task = new Task<Void>() {
+
+						@Override
+						protected Void call() throws Exception {
+							TCPClient client = new TCPClient();
+						    client.initiate();
+						    
+						    return null;
+						}
+			    	};
+			    	
+			    	Thread simuThread = new Thread(task);
+			    	simuThread.setDaemon(true);
+			    	simuThread.start();
+			    	
+				}catch (Exception e) {e.printStackTrace();} 
 			    
 			}else {loginError.setVisible(true);}
 		}else {loginError.setVisible(true);}
