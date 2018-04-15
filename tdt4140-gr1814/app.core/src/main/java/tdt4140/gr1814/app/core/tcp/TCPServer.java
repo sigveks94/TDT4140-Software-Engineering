@@ -59,7 +59,7 @@ class Connection extends Thread {
 			  output.writeBytes(line); // UTF is a string encoding
 			  
 			  try {
-				  Thread.sleep(1000);
+				  Thread.sleep(400);
 			  }catch (InterruptedException e) {
 					System.out.println("error in: Thread.sleep(1000);");
 					e.printStackTrace();

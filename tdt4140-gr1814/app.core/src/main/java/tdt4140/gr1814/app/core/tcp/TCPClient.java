@@ -26,12 +26,12 @@ public class TCPClient {
 		Socket s = null; 
 		try{ 
 			int serverPort = 6880;
-			  String ip = "localhost"; //IPV4-ADRESS OF SERVER
+			  String ip = "localhost"; //IPV4-ADRESS OF SERVER. USE "localhost" if running server and client (program) on single computer
 			  
 		  s = new Socket(ip, serverPort); 
 		  
 		  DataInputStream input = new DataInputStream(s.getInputStream()); 
-		  
+		  System.out.println("Successful connection to Server: " + ip);
 		  while (true) {
 		  
 		  //Step 1 read length
@@ -43,8 +43,7 @@ public class TCPClient {
 			digit[i] = input.readByte();
 		  }
 		   String st = new String(digit);
-		   System.out.println(st);
-		   //inputController.metamorphise(st);
+		   inputController.metamorphise(st);
 		  }
 		}
 		   
