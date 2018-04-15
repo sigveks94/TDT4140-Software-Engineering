@@ -81,8 +81,12 @@ public class DataFetchController {
 				e.printStackTrace();
 			}
 			
+			
+			Long now = Date.from(Instant.now()).getTime() / 1000;
+			String hash = DigestUtils.sha1Hex(now + secret);
+			
 			//Insert Request String
-				String params = "username=" + username + "&password=" + password;
+				String params = "username=" + username + "&password=" + password + "&timestamp=" + now + "&hash=" + hash;
 				
 			//Pass the arguments through the outputstream
 			try {
@@ -265,8 +269,7 @@ public class DataFetchController {
 		
 		Long now = Date.from(Instant.now()).getTime() / 1000;
 		String hash = DigestUtils.sha1Hex(now + secret);
-		
-		loc += "&timestamp=" + now + "&hash=" + hash;
+		sendStr += "&timestamp=" + now + "&hash=" + hash;
 		
 		HttpURLConnection connection = this.connect(loc);
 		
@@ -315,7 +318,6 @@ public class DataFetchController {
 		String hash = DigestUtils.sha1Hex(now + secret);
 		
 		loc += "&timestamp=" + now + "&hash=" + hash;
-		
 		HttpURLConnection connection = this.connect(loc);
 		
 		if(connection == null) {
