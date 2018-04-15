@@ -71,7 +71,7 @@ public class DataFetchController {
 	
 	public Caretaker logIn(String username, String password) {
 		
-		String serverString = doGet("login"); //Get the server public key as string of byte array
+		String serverString = doGet("login?"); //Get the server public key as string of byte array
 		serverPublicKey = Sample.makePuKey(serverString);
 		
 		HttpURLConnection connection = this.connect("login");

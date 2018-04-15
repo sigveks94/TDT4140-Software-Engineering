@@ -73,9 +73,15 @@ public class Authenticator {
 	public static String decryptMessage(String encryptedMessage) {
 		
 		try {
+			String decrypted = "";
 			Cipher cipher = Cipher.getInstance("RSA");
 			cipher.init(Cipher.DECRYPT_MODE, createPrivate());
-			return new String(cipher.doFinal(encryptedMessage.getBytes()));
+			while(encryptedMessage.indexOf('$') > 0) {
+				String temp = encryptedMessage.substring(0, encryptedMessage.indexOf('$'));
+				decrypted = decrypted + new String(cipher.doFinal(strToBytes(temp)));
+				encryptedMessage = encryptedMessage.substring(encryptedMessage.indexOf('$'));
+			}
+			return decrypted;
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
