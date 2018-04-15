@@ -204,6 +204,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
             @Override
             public void handle(MouseEvent event) {
                map.setCenter(patient_list.getSelectionModel().getSelectedItem().getCurrentLocation().getLatLong());
+               if(map.getZoom() > 13) {map.setZoom(13);}
             }
         });
 		list_names.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
@@ -368,7 +369,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 			longt = currentPatient.getCurrentLocation().getLongt();
 		}else {
 			lat = map.getCenter().getLatitude();
-			longt = map.getCenter().getLatitude();
+			longt = map.getCenter().getLongitude();
 		}
 		PolygonOptions polyOpts;
 		LatLong[] latArr;
@@ -394,14 +395,16 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	
 	//used when patient is deleted from patient-overview
 	public void removePatientFromMap(Patient patient) {
-		Marker marker =patientsOnMap.get(patient);
-		map.removeMarker(marker);
+		if (patientsOnMap.get(patient) != null)
+			map.removeMarker(patientsOnMap.get(patient));
 		if (patientZoneOnMap.get(patient) != null) {
 			map.removeMapShape(patientZoneOnMap.get(patient));
 		}
 		patientsOnMap.remove(patient);
 		patientZoneOnMap.remove(patient);
 		patient_Obslist.remove(patient);
+		System.out.println("obslist;");
+		for (Patient p: patient_Obslist) {System.out.println(p.getFirstName());}
 	}
 	
 	@Override

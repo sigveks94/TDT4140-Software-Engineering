@@ -169,16 +169,17 @@ public class PatientOverviewController implements Initializable, ControlledScree
 
 		if (alert.getResult() == ButtonType.YES) {
 			Long patientSSN = currentPatientProfile.getSSN();
-			if(Patient.deletePatient(patientSSN)) { //if this patient exists in the static list in Patient.java, this will be deleted, and we will delete the person from the database as well
-				updatePatientList();
+			if(Patient.getPatient(patientSSN)!=null) { //if this patient exists in the static list in Patient.java, this will be deleted, and we will delete the person from the database as well
 				DataFetchController controller = new DataFetchController();
 				controller.deletePatient(currentPatientProfile);
-				Patient.getAllPatients().remove(currentPatientProfile);
 				myController.getMapViewController().removePatientFromMap(currentPatientProfile);
+				Patient.getAllPatients().remove(currentPatientProfile);
+				System.out.println("patient still in static list:" +(Patient.getAllPatients().contains(currentPatientProfile)==false));
 				System.out.println("Deleted patient with SSN: "+String.valueOf(patientSSN));
 				patientInfo_txt.setText("Deleted patient with SSN: \n"+String.valueOf(patientSSN));
 				try {Thread.sleep(500);} 
 				catch (InterruptedException e) {e.printStackTrace();}
+				updatePatientList();
 				patient_profile.setVisible(false);	
 			}else {//if we do not find a patient with this SSN in the static list in Patient.java
 				System.out.println("No person with SSN: "+String.valueOf(patientSSN));
