@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.scene.control.CheckBox;
 import tdt4140.gr1814.app.core.listeners.OnLocationChangedListener;
 import tdt4140.gr1814.app.core.listeners.OnPatientAlarmListener;
 import tdt4140.gr1814.app.core.zones.Point;
@@ -94,7 +95,10 @@ public class Patient{
 	private OnPatientAlarmListener screensController;
 	private boolean alarmActivated;
 	
-
+	private CheckBox viewableOnMap;
+	private CheckBox viewZoneOnMap;
+	
+	
 	public Patient(String FirstName, String Surname, char Gender, Long SSN, int NoK_cellphone, String NoK_email,String deviceID, boolean alarmon) {
 		this.FirstName = FirstName;
 		this.Surname = Surname;
@@ -107,6 +111,9 @@ public class Patient{
 		this.alarmActivated=alarmon;
 		this.locationListeners = new ArrayList<OnLocationChangedListener>();
 		this.alarmActivated = alarmon;
+		this.viewableOnMap = new CheckBox();
+		this.viewZoneOnMap = new CheckBox();
+		viewableOnMap.setSelected(true);
 	}
 	
 	
@@ -166,6 +173,22 @@ public class Patient{
 	}
 	public Zone getZone() {
 		return this.zone;
+	}
+	
+	public CheckBox getViewableOnMap() {
+		return viewableOnMap;
+	}
+
+	public void setViewableOnMap(CheckBox viewableOnMap) {
+		this.viewableOnMap = viewableOnMap;
+	}
+	
+	public CheckBox getViewZoneOnMap() {
+		return viewZoneOnMap;
+	}
+
+	public void setViewZoneOnMap(CheckBox viewZoneOnMap) {
+		this.viewZoneOnMap = viewZoneOnMap;
 	}
 	
 	public void registerListener(OnLocationChangedListener listener) { //connects the ScreensController to the patient
