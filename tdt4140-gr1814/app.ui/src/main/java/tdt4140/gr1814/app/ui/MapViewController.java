@@ -28,6 +28,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -40,6 +41,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import tdt4140.gr1814.app.core.datasaving.DataFetchController;
 import tdt4140.gr1814.app.core.listeners.OnLocationChangedListener;
@@ -198,6 +200,12 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	//creates checkboxes in the tableview-columns for displaying markers and zones.
 	public void PrepareTable() {
 		patient_list.setFixedCellSize(25);
+		patient_list.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+               map.setCenter(patient_list.getSelectionModel().getSelectedItem().getCurrentLocation().getLatLong());
+            }
+        });
 		list_names.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
 		list_view.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, CheckBox>, ObservableValue<CheckBox>>() {
             @Override
