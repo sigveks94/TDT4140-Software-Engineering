@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import tdt4140.gr1814.webserver.Authenticator;
 import tdt4140.gr1814.webserver.DatabaseHandler;
 
 /*
@@ -31,6 +33,19 @@ public class CaretakerServlet extends HttpServlet{
 		
 		String userName = req.getParameter("username");
 		String password = req.getParameter("password");
+		
+
+		String hash = req.getParameter("hash");
+		Long timestamp = Long.parseLong(req.getParameter("timestamp"));
+		if(hash == null || timestamp == null) {
+			resp.setStatus(401);
+			return;
+		}
+		
+		if(!Authenticator.verifyHash(timestamp, hash)) {
+			resp.setStatus(401);
+			return;
+		}
 		
 		//If either the username og password arguments are missing the request is bad
 		if(userName == null || password == null) {

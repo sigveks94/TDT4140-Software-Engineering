@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import tdt4140.gr1814.webserver.Authenticator;
 import tdt4140.gr1814.webserver.DatabaseHandler;
 
 /*
@@ -25,7 +27,7 @@ import tdt4140.gr1814.webserver.DatabaseHandler;
 public class LoginServlet extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/*
 	 * POST REQUEST for login
 	 * Expects username and password as parameter
@@ -37,12 +39,27 @@ public class LoginServlet extends HttpServlet{
 			//The request expects the two given parameters
 			String username = req.getParameter("username");
 			String password = req.getParameter("password");
+			
+			String hash = req.getParameter("hash");
+			Long timestamp = Long.parseLong(req.getParameter("timestamp"));
+			if(hash == null || timestamp == null) {
+				resp.setStatus(401);
+				return;
+			}
+			
+			if(!Authenticator.verifyHash(timestamp, hash)) {
+				resp.setStatus(401);
+				return;
+			}
+			
 		
 			//If either one of the expected parameters are missing, the bad request response code is returned
 			if(username == null || password == null) {
 				resp.setStatus(400);
 				return;
 			}
+			
+			
 			
 			//Echoes back the care taker information
 			resp.getWriter().print(this.requestLogin(username, password, resp));

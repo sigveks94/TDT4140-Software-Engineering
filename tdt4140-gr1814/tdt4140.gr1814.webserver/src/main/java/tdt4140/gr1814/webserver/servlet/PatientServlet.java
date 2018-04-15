@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import tdt4140.gr1814.webserver.Authenticator;
 import tdt4140.gr1814.webserver.DatabaseHandler;
 
 /*
@@ -34,6 +36,19 @@ public class PatientServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+
+		String hash = req.getParameter("hash");
+		Long timestamp = Long.parseLong(req.getParameter("timestamp"));
+		if(hash == null || timestamp == null) {
+			resp.setStatus(401);
+			return;
+		}
+		
+		if(!Authenticator.verifyHash(timestamp, hash)) {
+			resp.setStatus(401);
+			return;
+		}
+		
 		String caretakerId = req.getParameter("caretaker_id");
 		if(caretakerId == null) {
 			resp.setStatus(400);
@@ -54,6 +69,19 @@ public class PatientServlet extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
+		
+
+		String hash = req.getParameter("hash");
+		Long timestamp = Long.parseLong(req.getParameter("timestamp"));
+		if(hash == null || timestamp == null) {
+			resp.setStatus(401);
+			return;
+		}
+		
+		if(!Authenticator.verifyHash(timestamp, hash)) {
+			resp.setStatus(401);
+			return;
+		}
 		
 		//Handles deletation 
 		if(req.getParameter("delete") != null && req.getParameter("delete").contentEquals("yes")) {
