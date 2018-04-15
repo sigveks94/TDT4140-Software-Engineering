@@ -15,15 +15,21 @@ public class TCPClient {
 		
 	}
 	
+	public static void main(String[] args) {
+		TCPClient client = new TCPClient();
+		client.initiate();
+	}
+	
 	public void initiate() 
 	{// arguments supply message and hostname of destination  
 		InputController con = new InputController();
 		Socket s = null; 
 		try{ 
 			int serverPort = 6880;
-			  String ip = "localhost"; 
+			  String ip = "localhost"; //IPV4-ADRESS OF SERVER
 			  
 		  s = new Socket(ip, serverPort); 
+		  
 		  DataInputStream input = new DataInputStream(s.getInputStream()); 
 		  
 		  while (true) {
@@ -37,7 +43,8 @@ public class TCPClient {
 			digit[i] = input.readByte();
 		  }
 		   String st = new String(digit);
-		   inputController.metamorphise(st);
+		   System.out.println(st);
+		   //inputController.metamorphise(st);
 		  }
 		}
 		   
@@ -46,7 +53,8 @@ public class TCPClient {
 		catch (EOFException e){
 			System.out.println("EOF:"+e.getMessage()); }
 		catch (IOException e){
-			System.out.println("IO:"+e.getMessage());} 
+			System.out.println("Denne");
+			e.printStackTrace();} 
 		
 		  
 		}
