@@ -1,24 +1,23 @@
 package tdt4140.gr1814.webserver.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
-
-import tdt4140.gr1814.app.core.participants.Patient;
-import tdt4140.gr1814.webserver.ConnectionHandler;
+import tdt4140.gr1814.webserver.DatabaseHandler;
 
 /*
  * 	This is the HttpServlet supposed to handle database queries concerning the patient objects
- * 	PS: This class uses the static method Patient.newPatient just like the client application. Even though the server and the client is running on the same computer in the demos, they
- * 		does not use the same static pool since they are started as separate application in the OS.
+ */
+
+/*
+ * ================== RESPONSE CODES ===================
+ * 			200 - OK
+ * 			400 - Bad Arguments
+ * 			500 - Internal Database Error, not users fault
  */
 
 public class PatientServlet extends HttpServlet{
@@ -26,22 +25,6 @@ public class PatientServlet extends HttpServlet{
 	//Serial Version, if the servlet ever changes something that will have inpact on the http request,
 	//the serial version should also be updated
 	private static final long serialVersionUID = 1L;
-	
-	ConnectionHandler databaseConnection;
-	
-	//Privat method for establishing connection with the database
-		private boolean establishConnection(HttpServletResponse resp) {
-			databaseConnection = new ConnectionHandler();
-			
-			try {
-				databaseConnection.connect();
-				return true;
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-				resp.setStatus(500); //Internal DB error
-				return false;
-			} 
-		}
 	
 	/*
 	 * GET requests can handle following inputs and outputs:
@@ -51,39 +34,49 @@ public class PatientServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		if(!this.establishConnection(resp)) {
-			resp.setStatus(500); //Internal DB Error
+		String caretakerId = req.getParameter("caretaker_id");
+		if(caretakerId == null) {
+			resp.setStatus(400);
 			return;
 		}
 		
-		//Fetches the response input stream in order to echo answer back to the requester
-		PrintWriter echoWriter = resp.getWriter();
-		
-		//If a caretaker id is passed as a argument, the response should be a list of all the patients associated with this caretaker
-		if(req.getParameter("caretaker_id") != null) {
-			echoWriter.print(toJson(getMultiplePatients(req.getParameter("caretaker_id"))));
-			echoWriter.flush();
-			echoWriter.close();
-			return;
-		}
-		else {
-			resp.setStatus(400); //If none of the expected parameters are recieved the 400 Bad Request status is set
-			return;
-		}
-		
+		resp.getWriter().print(this.getPatients(caretakerId, resp));
 		
 	}
 
 	/*
-	 * POST Request can be called for inserting a patient object into the database
-	 * This request expects the follow parameters : firstname, surname, SSN, phone number, email, gender and deviceID
-	 * If any of these parameters are missing the insertion will not go through and an appropriate status code should be sent back to the requester
+	 *	POST Request can handle the follow:
+	 *	Insering a patient expects: firstname, surname, ssn, phonenumber, email, gender, deviceID
+	 * 	Deleting a patient expects: ssn and delete = yes
+	 * 	Binding a patient and a caretaker expects caretaker_id and ssn
+	 * 	Set alarm activation expects: activate = yes and ssn
 	 */
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
 		
-		this.establishConnection(resp);
+		//Handles deletation 
+		if(req.getParameter("delete") != null && req.getParameter("delete").contentEquals("yes")) {
+			if(req.getParameter("ssn") == null || req.getParameter("ssn").length() != 11) {
+				resp.setStatus(400);
+				return;
+			}
+			this.deletePatient(req.getParameter("ssn"), resp);
+			return;
+		}
+		
+		//Handles request for binding caretaker and patients together
+		if(req.getParameter("caretaker_id") != null && req.getParameter("ssn") != null) {
+			this.bindPatientCaretaker(req.getParameter("ssn"), req.getParameter("caretaker_id"), resp);
+			return;
+		}
+		
+		//Handles request for alarm activation set
+		if(req.getParameter("activate") != null && req.getParameter("ssn")!= null){
+			this.setAlarmActivation(req.getParameter("ssn"), Boolean.parseBoolean(req.getParameter("activate")), resp);
+			return;
+		}
+		
 		String firstName = req.getParameter("firstname");
 		String surname = req.getParameter("surname");
 		String SSN = req.getParameter("ssn");
@@ -92,168 +85,178 @@ public class PatientServlet extends HttpServlet{
 		String gender = req.getParameter("gender");
 		String deviceID = req.getParameter("id");
 		
-		if(req.getParameter("delete") != null && req.getParameter("delete").contentEquals("yes")) {
-			if(req.getParameter("ssn") == null || req.getParameter("ssn").length() != 11) {
-				resp.setStatus(400); //Bad Request
-				return;
-			}
-			if(this.deletePatient(req.getParameter("ssn"))) {
-				resp.setStatus(200);
-				return;
-			}
-			else {
-				resp.setStatus(500); //Internal DB Error
-				return;
-			}
-		}
-		
-		if(req.getParameter("activate") != null && req.getParameter("ssn")!= null){
-			String ssn = req.getParameter("ssn");
-			if(ssn.length() != 11) {
-				resp.setStatus(400); //Bad Request
-				return;
-			}
-			
-			boolean activate = Boolean.parseBoolean(req.getParameter("activate"));
-			
-			if(this.activateAlarm(ssn, activate)) {
-				resp.setStatus(200);
-				return;
-			}
-			else {
-				resp.setStatus(500);
-				return;
-			}
-			
-		}
-		//For binding a patient to a caretaker
-		if(req.getParameter("caretaker_id") != null && req.getParameter("ssn") != null) {
-			System.out.println("POST!");
-			String query = "INSERT INTO PatientCaretaker (PatSSN, CaretakerUsername) VALUES (" + SSN + ", \"" +  req.getParameter("caretaker_id") + "\");";
-			try {
-				this.databaseConnection.update(query);
-				resp.setStatus(200);
-				return;
-			} catch (SQLException e) {
-				e.printStackTrace();
-				resp.setStatus(500); //DB ERROR
-				return;
-			}
-		}
-		
 		if(firstName == null || surname == null || SSN == null || phoneNumber == null || email == null || gender == null || deviceID == null) {
-			resp.setStatus(400); //Bad Request status
-			return;
-		}
-		try {
-			Long.parseLong(SSN);
-			if(SSN.length() != 11) {
-				resp.setStatus(400); //Bad Request status
-				return;
-			}
-		}
-		catch(NumberFormatException numberException) {
-			numberException.printStackTrace();
-			resp.setStatus(400); //Bad Request status
-			return;
-		}
-		try {
-			Integer.parseInt(phoneNumber);
-		}
-		catch(NumberFormatException numberException) {
-			numberException.printStackTrace();
-			resp.setStatus(400); //Bad Request Status
+			resp.setStatus(400);
 			return;
 		}
 		
-		try {
-			databaseConnection.update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
-					+ "VALUES ('"+SSN+"','"+firstName+"','"+surname+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceID+"','1')");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			resp.setStatus(500); //Internal DB Error
-			return;
-		}
-		resp.setStatus(200); //OK
+		this.insertPatient(firstName, surname, SSN, phoneNumber, email, gender, deviceID, resp);
 
 	}
 	
 	
 	//Removes a patient from the database
-	private boolean deletePatient(String ssn) {
-		String query = "DELETE FROM Patient WHERE SSN LIKE " + ssn + ";";
+	private void deletePatient(String ssn, HttpServletResponse resp) {
+		
+		DatabaseHandler databaseHandler;
 		try {
-			this.databaseConnection.update(query);
-			return true;
+			databaseHandler = new DatabaseHandler();
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+			resp.setStatus(500);
+			return;
+		}
+		
+		String query = "DELETE FROM Patient WHERE SSN LIKE " + ssn + ";";
+		
+		try {
+			databaseHandler.update(query);
+			resp.setStatus(200);;
+			return;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
+			resp.setStatus(500);
+			return;
 		}
 	}
 	
-	private boolean activateAlarm(String ssn, boolean activate) {
+	//Binds a patient to a caretaker
+	private void bindPatientCaretaker(String ssn, String caretakerId, HttpServletResponse resp) {
+		DatabaseHandler databaseHandler;
+		try {
+			databaseHandler = new DatabaseHandler();
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+			resp.setStatus(500);
+			return;
+		}
+		
+		
+		String query = "INSERT INTO PatientCaretaker (PatSSN, CaretakerUsername) VALUES (" + ssn + ", \"" +  caretakerId + "\");";
+		try {
+			databaseHandler.update(query);
+			resp.setStatus(200);
+			return;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return;
+		}
+	}
+	
+	private void setAlarmActivation(String ssn, boolean activate, HttpServletResponse resp) {
+		
+		DatabaseHandler databaseHandler;
+		try {
+			databaseHandler = new DatabaseHandler();
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+			resp.setStatus(500);
+			return;
+		}
+		
+		if(ssn.length() != 11) {
+			resp.setStatus(400);
+			return;
+		}
+		
 		int active = 0;
 		if(activate) {
 			active = 1;
 		}
 		String query = "UPDATE Patient SET alarmActivated = '" + active + "' WHERE SSN = " + ssn + ";";
 		try {
-			this.databaseConnection.update(query);
-			return true;
+			databaseHandler.update(query);
+			resp.setStatus(200);
+			return;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			resp.setStatus(500);
+			return;
 		}
 	}
 	
-	//Returns an array of all patients associated with the given caretaker
-	private ArrayList<Patient> getMultiplePatients(String caretakerUsername) {
+	private void insertPatient(String firstName, String surName, String ssn, String phoneNumber, String email, String gender, String deviceId, HttpServletResponse resp) {
 		
-		//Query for retrieving all patients associated with given caretaker
-		String queryString = "SELECT Patient.* FROM PatientCaretaker "
-				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='" + caretakerUsername + "'";
+		DatabaseHandler databaseHandler;
 		
-		//The list which stores query result
-		ArrayList<ArrayList<String>> result = null;
-		
-		//Executes the query, result is stored in a double arraylist
 		try {
-			result = databaseConnection.query(queryString);
+			databaseHandler = new DatabaseHandler();
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+			resp.setStatus(500);
+			return;
+		}
+		
+		try {
+			Long.parseLong(ssn);
+			Integer.parseInt(phoneNumber);
+			if(ssn.length() != 11) {
+				resp.setStatus(400);
+				return;
+			}
+		}
+		catch(NumberFormatException numberException) {
+			numberException.printStackTrace();
+			resp.setStatus(400);
+			return;
+		}
+		
+		try {
+			databaseHandler.update("INSERT INTO Patient(SSN, FirstName, LastName, Gender, PhoneNumber, Email, DeviceID, alarmActivated) "
+					+ "VALUES ('"+ssn+"','"+firstName+"','"+surName+"','"+gender+"',"+phoneNumber+",'"+email+"', '"+deviceId+"','1')");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			resp.setStatus(500);
+			return;
+		}
+		resp.setStatus(200);
+	}
+	
+	private String getPatients(String caretakerUsername, HttpServletResponse resp ){
+		
+		DatabaseHandler databaseHandler; //Database connection handler
+		
+		try {
+			databaseHandler = new DatabaseHandler();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
 			return null;
 		}
 		
-		//List to store actual patient objects in
-		ArrayList<Patient> patients = new ArrayList<>();
+		//The query to be handled by the database handler
+		String queryString = "SELECT Patient.* FROM PatientCaretaker "
+				+ "JOIN Patient ON PatientCaretaker.PatSSN=Patient.SSN WHERE PatientCaretaker.CaretakerUsername='" + caretakerUsername + "'";
 		
-		for(ArrayList<String> p: result) {
-			long SSN = Long.valueOf(p.get(0));
-			String firstName = p.get(1);
-			String surName = p.get(2);
-			char gender = p.get(3).charAt(0);
-			int cellPhone = Integer.valueOf(p.get(4));
-			String mail = p.get(5);
-			String deviceId = p.get(6);
-			int alarmVal = Integer.parseInt(p.get(7));
-			boolean alarm = true;
-			if(alarmVal != 1){
-				alarm = false;
-			}
-			patients.add(Patient.newPatient(firstName, surName, gender, SSN, cellPhone, mail, deviceId, alarm));
+		ResultSet result; //Where to store the dataset returned by the query
+		
+		try {
+			result = databaseHandler.query(queryString);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return null;
 		}
 		
-		return patients;
+		//Builds the json string to be returned
+		String json = "[";
+		try {
+			while(result.next()) {
+				json += "{\"FirstName\":\"" + result.getString("FirstName") + "\", \"Surname\":\"" + result.getString("LastName") + "\",\"Gender\":\"" + result.getString("Gender") + "\","
+						+ "\"SSN\":\"" + result.getString("SSN") + "\", \"NoK_cellphone\":\"" + result.getString("PhoneNumber") + "\", \"NoK_email\":\"" + 
+						result.getString("Email") + "\", \"DeviceID\":\"" + result.getString("DeviceID") + "\", \"alarmActivated\":\"" + result.getString("alarmActivated") + "\"},";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resp.setStatus(500);
+			return null;
+		}
+		if(json.length() > 1) //If the list is empty there will be no comma to remove either
+			json = json.substring(0, json.length() -1); //The last character will be a comma that is not supposed to be there
+		return json += "]";
+		
 	}
-	
-	//Takes any kind of object and parses it into a string on the JSON pattern
-	//Is used to take a list of patient objects and json serialize it
-	private String toJson(Object o) {
-		Gson jsonParser = new Gson();
-		return jsonParser.toJson(o);
-	}
-	
 	
 }
 

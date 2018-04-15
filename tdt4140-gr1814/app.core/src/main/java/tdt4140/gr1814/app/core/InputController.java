@@ -11,10 +11,10 @@ import tdt4140.gr1814.app.core.participants.Patient;
 import tdt4140.gr1814.app.core.tcp.TCPClient;
 import tdt4140.gr1814.app.core.zones.Point;
 
-
 public class InputController { //inputcontroller now handles single strings with points from tcp package
-	
 
+	//temporary simulation of recieving data and updating Patients currentLocation. 
+			
 	public void metamorphise(String pointString) throws IOException{ 
 		//solution to get while-loop running at the same time as main thread running UI.
 		/*Task<Void> task = new Task<Void>() {

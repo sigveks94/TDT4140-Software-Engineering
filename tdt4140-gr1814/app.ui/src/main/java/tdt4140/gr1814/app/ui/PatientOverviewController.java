@@ -71,7 +71,7 @@ public class PatientOverviewController implements Initializable, ControlledScree
         }
 	
 	public void updatePatientList() {		
-		List<Patient> patientStringList = Patient.patients;
+		List<Patient> patientStringList = Patient.getAllPatients();
 		ObservableList<Patient> patients = FXCollections.observableList(patientStringList);
 		patient_list.setItems(patients);
 		patient_list.setCellFactory(lv -> new ListCell<Patient>() {
@@ -173,7 +173,7 @@ public class PatientOverviewController implements Initializable, ControlledScree
 				updatePatientList();
 				DataFetchController controller = new DataFetchController();
 				controller.deletePatient(currentPatientProfile);
-				Patient.patients.remove(currentPatientProfile);
+				Patient.getAllPatients().remove(currentPatientProfile);
 				myController.getMapViewController().removePatientFromMap(currentPatientProfile);
 				System.out.println("Deleted patient with SSN: "+String.valueOf(patientSSN));
 				patientInfo_txt.setText("Deleted patient with SSN: \n"+String.valueOf(patientSSN));

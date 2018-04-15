@@ -78,6 +78,7 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 			Caretaker systemUser = null;
 			DataFetchController datafetcher = new DataFetchController();
 			systemUser = datafetcher.logIn(username.getText(), passwd.getText());
+			System.out.println(systemUser);//---
 			if (systemUser != null) {
 				username.clear();
 				passwd.clear();
@@ -114,17 +115,7 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 	}
 	@Override
 	public void showAlarm(Patient patient) {
-		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE, ButtonType.OK);
-		alert.setTitle("");
-		alert.setHeaderText("\t\t\t     ALARM!");
-		DialogPane dialogPane = alert.getDialogPane();
-		dialogPane.setStyle("-fx-background-color: #f3f4f7;");
-		Image image = new Image(ApplicationDemo.class.getResourceAsStream("mapWarning.png"));
-		ImageView imageView = new ImageView(image);
-		alert.setGraphic(imageView);
-		alert.showAndWait();
-		if (alert.getResult() == ButtonType.OK) {myController.getMapViewController().patientView();}
-		if (alert.getResult() == ButtonType.CLOSE) {alert.close();;}
+		System.out.println("Error: Alarm went off in Login Screen. This should not happen when not yet logged in");
 		
 	}
     
