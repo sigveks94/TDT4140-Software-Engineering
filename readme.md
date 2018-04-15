@@ -5,6 +5,11 @@ README
 
 ## PRODUCT DESCRIPTION
 
+This project is being developed through the subject TDT4140 Software Development at NTNU.
+The goal of this project is to learn how to use different coding-techniques, agile-development 
+as well as obtaining experience in different development utilities (Gitlab, eclipse, 
+NTNU-database etc.).
+
 The application provides an alert and tracking system for people with location 
 difficulties facilitated elderly, demented, mentally ill and others. Further on,
 the application has the ability to monitor the position of users and notify 
@@ -50,6 +55,16 @@ A step by step guide on how to get the development environment running (this ass
 
 ## Built With
 * [Maven](https://maven.apache.org/) - Dependency Management
+
+
+## Tools
+
+- Eclipse (Oxygen)
+- Scenebuilder
+- Gitlab
+- GMapsFx, imported module used in application (See manifest in module for Author/Owner).
+- Jetty (Webserver)
+- NTNU Database
 
 
 ## Authors
