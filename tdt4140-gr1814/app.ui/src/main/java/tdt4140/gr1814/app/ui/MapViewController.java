@@ -252,11 +252,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	}
 	
 	public void displayZoneOnMap(Patient patient, Boolean b) {
-		if(b){
-			if (patientsOnMap.get(patient).getVisible()) {
-				patientZoneOnMap.get(patient).setVisible(b);;
-			}
-		}else {patientZoneOnMap.get(patient).setVisible(b);}
+		patientZoneOnMap.get(patient).setVisible(b);
 	}
 	
 	//display function for markers
