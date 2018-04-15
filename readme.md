@@ -7,7 +7,7 @@ README
 
 This project is being developed through the subject TDT4140 Software Development at NTNU.
 The goal of this project is to learn how to use different coding-techniques, agile-development 
-as well as obtaining experience in different development utilities (Gitlab, eclipse, 
+as well as obtaining experience in different development utilities (Gitlab, Maven, Eclipse, 
 NTNU-database etc.).
 
 The application provides an alert and tracking system for people with location 
@@ -60,6 +60,7 @@ A step by step guide on how to get the development environment running (this ass
 ## Tools
 
 - Eclipse (Oxygen)
+- Maven
 - Scenebuilder
 - Gitlab
 - GMapsFx, imported module used in application (See manifest in module for Author/Owner).
