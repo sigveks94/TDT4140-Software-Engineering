@@ -103,6 +103,7 @@ public class CreateNewPatientController implements Initializable, ControlledScre
 			Patient patient = Patient.newPatient(firstname, surname, gender, SSN, NoK_mobile, email, deviceId, true);
 			patient.addAlarmListener(myController); //makes the Screencontroller a listener to recieve alarm-screen when outside zone. 
 			myController.getMapViewController().addViewables(patient); //addind new patient to map-tracking
+			myController.getMapViewController().addViewablesPolygon(patient);//adding patients zone to map
 			myController.getOverviewController().updatePatientList();//updating patient overview list
 			//Saving patient to database. (should check if this works before adding to static list (Patient.patients) )
 			DataFetchController dataInsert = new DataFetchController();

@@ -78,6 +78,7 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     public void goToMap(ActionEvent event) {
     		profile_pane.setVisible(false);
     		myController.getMapViewController().patientView();
+    		myController.getMapViewController().addAllViewablesPlygon(Patient.getAllPatients());//Adds all patient-objects zones to hashmap in mapcontroller
 		myController.setScreen(ApplicationDemo.MapViewLayoutID);
     }
     

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.animation.FadeTransition;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,6 +25,7 @@ import tdt4140.gr1814.app.core.InputController;
 import tdt4140.gr1814.app.core.datasaving.DataFetchController;
 import tdt4140.gr1814.app.core.participants.Caretaker;
 import tdt4140.gr1814.app.core.participants.Patient;
+import tdt4140.gr1814.app.core.tcp.TCPClient;
 
 public class LoginScreenController implements Initializable, ControlledScreen{
 
@@ -76,6 +78,7 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 			Caretaker systemUser = null;
 			DataFetchController datafetcher = new DataFetchController();
 			systemUser = datafetcher.logIn(username.getText(), passwd.getText());
+			System.out.println(systemUser);//---
 			if (systemUser != null) {
 				username.clear();
 				passwd.clear();
@@ -83,8 +86,23 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 				datafetcher.fetchPatients(systemUser);
 				datafetcher.getPatientsZones(systemUser);
 				ApplicationDemo.loadScreens();
-			    try {InputController.metamorphise();//this is running on a seperate threa
-				}catch (IOException e) {e.printStackTrace();} 
+			    try {
+			    	Task<Void> task = new Task<Void>() {
+
+						@Override
+						protected Void call() throws Exception {
+							TCPClient client = new TCPClient();
+						    client.initiate();
+						    
+						    return null;
+						}
+			    	};
+			    	
+			    	Thread simuThread = new Thread(task);
+			    	simuThread.setDaemon(true);
+			    	simuThread.start();
+			    	
+				}catch (Exception e) {e.printStackTrace();} 
 			    
 			}else {loginError.setVisible(true);}
 		}else {loginError.setVisible(true);}
@@ -97,17 +115,7 @@ public class LoginScreenController implements Initializable, ControlledScreen{
 	}
 	@Override
 	public void showAlarm(Patient patient) {
-		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "\t\tPatient is currently outside zone.\n\t\tShow in map?", ButtonType.CLOSE, ButtonType.OK);
-		alert.setTitle("");
-		alert.setHeaderText("\t\t\t     ALARM!");
-		DialogPane dialogPane = alert.getDialogPane();
-		dialogPane.setStyle("-fx-background-color: #f3f4f7;");
-		Image image = new Image(ApplicationDemo.class.getResourceAsStream("mapWarning.png"));
-		ImageView imageView = new ImageView(image);
-		alert.setGraphic(imageView);
-		alert.showAndWait();
-		if (alert.getResult() == ButtonType.OK) {myController.getMapViewController().patientView();}
-		if (alert.getResult() == ButtonType.CLOSE) {alert.close();;}
+		System.out.println("Error: Alarm went off in Login Screen. This should not happen when not yet logged in");
 		
 	}
     
