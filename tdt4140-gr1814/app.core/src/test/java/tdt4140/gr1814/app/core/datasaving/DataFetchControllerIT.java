@@ -65,7 +65,7 @@ public class DataFetchControllerIT extends TestCase{
 		Patient patient = Patient.getPatient(knownSSN);
 		
 		dataFetchController.activateAlarmActivated(patient, false);
-		Patient.patients.remove(patient);
+		Patient.getAllPatients().remove(patient);
 		dataFetchController.fetchPatients(caretaker);
 		assertFalse("Alarm activated was not set to false", Patient.getPatient(knownSSN).getAlarmActivated());
 		
@@ -77,7 +77,7 @@ public class DataFetchControllerIT extends TestCase{
 		Patient newPatient = Patient.newPatient("Leif", "Sunni", 'M', 99837486192l, 82223344, "a@b.no", "id999", true);
 		dataFetchController.insertNewPatient(newPatient);
 		dataFetchController.caretakerForPatient(caretaker, newPatient);
-		Patient.patients.clear();
+		Patient.getAllPatients().clear();
 		
 		dataFetchController.fetchPatients(caretaker);
 		
@@ -97,7 +97,7 @@ public class DataFetchControllerIT extends TestCase{
 		
 		dataFetchController.deletePatient(newPatient);
 		
-		Patient.patients.clear();
+		Patient.getAllPatients().clear();
 		dataFetchController.fetchPatients(caretaker);
 		
 		assertNull("The patient was not deleted!",Patient.getPatient(newPatient.getSSN()));
@@ -127,7 +127,7 @@ public class DataFetchControllerIT extends TestCase{
 		dataFetchController.insertNewPatient(patient);
 		dataFetchController.caretakerForPatient(caretaker, patient);
 		dataFetchController.deleteZone(patient);
-		Patient.patients.clear();
+		Patient.getAllPatients().clear();
 		dataFetchController.fetchPatients(caretaker);
 		dataFetchController.getPatientsZones(caretaker);
 		

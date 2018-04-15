@@ -21,7 +21,7 @@ public class Patient{
 	//the developer might think is the same patient object, but is in fact not.
 	
 	//This list contains all the patients that exists in the scope of the care taker currently using the client
-	public static List<Patient> patients = new ArrayList<Patient>();
+	private static List<Patient> patients = new ArrayList<Patient>();
 	
 	//This is the only mechanism from the outside for instantiating new patient objects. If developer tries to create a new patient object with a SSN that is already registered in the system, this method will
 	//simple return that patient object and skip the instantiation. If there is no patient registered with that SSN however the method will instantiate a new patient object, append it to the list of patients and return it.
@@ -95,6 +95,7 @@ public class Patient{
 	private OnPatientAlarmListener screensController;
 	private boolean alarmActivated;
 	
+	//decides wether the patient and its zone shoud be displayed on the map
 	private CheckBox viewableOnMap;
 	private CheckBox viewZoneOnMap;
 	
@@ -213,7 +214,6 @@ public class Patient{
 	public void changeLocation(Point newLoc) {
 		//Updates the current location
 		this.currentLocation = newLoc;
-		
 		//If the current location is outside any permitted zone the respinsible care taker is alerted
 		if (zone != null && !(zone.isInsideZone(newLoc)) && (this.alarmActivated)) { 
 			if(!(screensController == null) && alarmSent == false) { //alarm is only set of once, the first time the patien is outside permitted zone also checks if alarm is activated.

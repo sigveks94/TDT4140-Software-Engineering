@@ -315,7 +315,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		patientList_btn.setVisible(false);
 		view_img.setVisible(false);
 		zone_img.setVisible(false);
-		for (Patient p: Patient.patients) {
+		for (Patient p: Patient.getAllPatients()) {
 			if (patientZoneOnMap.get(p)!=null) {patientZoneOnMap.get(p).setVisible(false);}//hide zones when in zone-edit-view
 			Marker marker = this.patientsOnMap.get(p);
 			if (marker != null) {
