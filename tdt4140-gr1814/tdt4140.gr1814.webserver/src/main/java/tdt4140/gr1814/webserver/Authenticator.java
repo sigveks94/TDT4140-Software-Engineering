@@ -42,6 +42,7 @@ public class Authenticator {
 		return false;
 	}
 	
+	/*
 	public static String getPublicKey() {
 		return RSA_PUBLIC_KEY;
 	}
@@ -73,13 +74,13 @@ public class Authenticator {
 	public static String decryptMessage(String encryptedMessage) {
 		
 		try {
+			encryptedMessage = encryptedMessage.substring(0, encryptedMessage.length() -1);
 			String decrypted = "";
 			Cipher cipher = Cipher.getInstance("RSA");
 			cipher.init(Cipher.DECRYPT_MODE, createPrivate());
-			while(encryptedMessage.indexOf('$') > 0) {
-				String temp = encryptedMessage.substring(0, encryptedMessage.indexOf('$'));
-				decrypted = decrypted + new String(cipher.doFinal(strToBytes(temp)));
-				encryptedMessage = encryptedMessage.substring(encryptedMessage.indexOf('$'));
+			String[] blocks = encryptedMessage.split("$");
+			for(String s : blocks) {
+				decrypted = decrypted + new String(cipher.doFinal(strToBytes(s)));
 			}
 			return decrypted;
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
@@ -143,5 +144,5 @@ public class Authenticator {
         }
         return bArr;
 	}
-		
+		*/
 }

@@ -73,7 +73,7 @@ public class Sample {
     	
     	String str = "hshjhdjkaskjdhkjasdhkaskjsdhajKAShjkdshskdjllfhudfkldskfhsdkjfghdghdfgh";
     	DataFetchController c = new DataFetchController();
-    	System.out.println(c.doEncrypt(str));
+    	//System.out.println(c.doEncrypt(str));
     	
     	/*
     	KeyPair keyPair = buildKeyPair();

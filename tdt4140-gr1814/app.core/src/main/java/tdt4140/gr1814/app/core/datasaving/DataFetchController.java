@@ -44,7 +44,8 @@ public class DataFetchController {
 	
 	//The port the server is listening for http requests on
 	private final int serverPort = 8080;
-	
+	/*
+
 	public DataFetchController() {
 		try {
 			keyPair = Sample.buildKeyPair();
@@ -52,7 +53,6 @@ public class DataFetchController {
 			e.printStackTrace();
 		}
 	}
-	
 	public String doEncrypt(String str) {
 		try {
 			String[] strSplit = str.split("");
@@ -86,11 +86,11 @@ public class DataFetchController {
 			e.printStackTrace();
 		} return null;
 	}
-	
+	*/
 	public Caretaker logIn(String username, String password) {
 		
-		String serverString = doGet("login?"); //Get the server public key as string of byte array
-		serverPublicKey = Sample.makePuKey(serverString);
+		//String serverString = doGet("login?"); //Get the server public key as string of byte array
+		//serverPublicKey = Sample.makePuKey(serverString);
 		
 		HttpURLConnection connection = this.connect("login");
 			
@@ -112,8 +112,8 @@ public class DataFetchController {
 		String hash = DigestUtils.sha1Hex(now + secret);
 			
 		//Insert Request String
-		String params = "username=" + doEncrypt(username) + "&password=" + doEncrypt(password) + "&timestamp=" 
-				+ now + "&hash=" + hash + "&public_key" + Sample.sendPublic(keyPair.getPublic());
+		String params = "username=" + username + "&password=" + password + "&timestamp=" 
+				+ now + "&hash=" + hash;
 			
 		//Pass the arguments through the outputstream
 		try {
@@ -136,7 +136,7 @@ public class DataFetchController {
 			while((line = reader.readLine())!= null) {
 				content += line;
 			}
-			content = doDecrypt(content);
+			System.out.println(content);
 			Gson gson = new Gson();
 			JsonObject o = gson.fromJson(content, JsonObject.class);
 			Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", o.get("firstName").getAsString(), o.get("lastName").getAsString(), o.get("address").getAsString());
@@ -296,7 +296,7 @@ public class DataFetchController {
 		
 		Long now = Date.from(Instant.now()).getTime() / 1000;
 		String hash = DigestUtils.sha1Hex(now + secret);
-		sendStr += "&timestamp=" + now + "&hash=" + hash;
+		sendStr += "timestamp=" + now + "&hash=" + hash;
 		
 		HttpURLConnection connection = this.connect(loc);
 		
