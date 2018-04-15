@@ -335,11 +335,11 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		map.removeMapShape(mapPolygon);
 		//if(list_zoneView.getCellData(currentPatient).isSelected()) {patientZoneOnMap.get(currentPatient).setVisible(true);}
 		zoneView(currentPatient);
-
 		DataFetchController controller = new DataFetchController();
 		controller.deleteZone(currentPatient);
 		controller.insertZone(currentPatient);
 		addViewablesPolygon(currentPatient);
+		displayZoneOnMap(currentPatient, currentPatient.getViewZoneOnMap().isSelected());
 	}
 	
 	public void deleteZone(){
