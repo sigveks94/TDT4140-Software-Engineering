@@ -169,31 +169,31 @@ public class DataFetchController {
 	public void updatePassword(Caretaker caretaker, String newPassword) {
 		String sendStr = "username=" + caretaker.getUsername() + "&password=" + newPassword;
 		
-		doPost(sendStr,"caretaker");
+		doPost(sendStr,"caretaker?");
 	}
 	
 	public void activateAlarmActivated(Patient patient,Boolean bool) {
 		String sendStr = "ssn=" + patient.getSSN() + "&activate=" + bool.toString();
 		
-		doPost(sendStr,"patient");
+		doPost(sendStr,"patient?");
 	}
 	
 	public void caretakerForPatient(Caretaker caretaker,Patient patient) {
 		String sendStr = "caretaker_id=" + caretaker.getUsername() + "&ssn=" + patient.getSSN();
 		
-		doPost(sendStr,"patient");
+		doPost(sendStr,"patient?");
 	}
 	
 	public void deleteZone(Patient patient) {
 		String sendStr = "ssn=" + patient.getSSN() + "&delete=yes";
 		
-		doPost(sendStr,"zone");
+		doPost(sendStr,"zone?");
 	}
 	
 	public void deletePatient(Patient patient) {
 		String sendStr = "ssn=" + patient.getSSN() + "&delete=yes";
 		
-		doPost(sendStr,"patient");	
+		doPost(sendStr,"patient?");	
 	}
 	
 	public void insertZone(Patient patient) {
@@ -209,14 +209,14 @@ public class DataFetchController {
 			
 		} sendStr += "]";
 		
-		doPost(sendStr,"zone");
+		doPost(sendStr,"zone?");
 	}
 	
 	public void insertNewPatient(Patient patient) {
 		String sendStr = "firstname=" + patient.getFirstName() +"&surname=" + patient.getSurname() + "&ssn=" + patient.getSSN() + "&phone=" + patient.getNoK_cellphone() +
 				"&email=" + patient.getNoK_email() + "&gender=" + patient.getGender() + "&id=" + patient.getID();
 		
-		doPost(sendStr,"patient");
+		doPost(sendStr,"patient?");
 	}
 	
 	//------------------------------------ GET METHODES --------------------------------------------
@@ -296,7 +296,7 @@ public class DataFetchController {
 		
 		Long now = Date.from(Instant.now()).getTime() / 1000;
 		String hash = DigestUtils.sha1Hex(now + secret);
-		sendStr += "timestamp=" + now + "&hash=" + hash;
+		sendStr += "&timestamp=" + now + "&hash=" + hash;
 		
 		HttpURLConnection connection = this.connect(loc);
 		
