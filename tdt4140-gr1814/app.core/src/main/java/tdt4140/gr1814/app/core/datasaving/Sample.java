@@ -1,34 +1,29 @@
 package tdt4140.gr1814.app.core.datasaving;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.interfaces.RSAPublicKey;
 import java.security.spec.EncodedKeySpec;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
 
 import javax.crypto.Cipher;
 
 public class Sample {
 	
-	public String byToStr(byte[] byteArr) {
+	public static String byToStr(byte[] byteArr) {
 		String retStr = "";
         for (byte b : byteArr) {
         	retStr += b + ":";
         } return retStr;
 	}
 	
-	public byte[] strToBy(String str, int len) {
+	public static byte[] strToBy(String str) {
 		String[] arr = str.split(":");
-        
+        int len = arr.length;
         byte[] bArr = new byte[len];
         
         for (int i = 0; i < len; i++) {
@@ -36,48 +31,64 @@ public class Sample {
         }
         return bArr;
 	}
+	
+	public static PublicKey makePuKey(String str) {
+		byte[] bytArr = strToBy(str);
+		KeyFactory keyFactory = null;
+		try {
+			keyFactory = KeyFactory.getInstance("RSA");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+
+        EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(bytArr);
+        try {
+			return keyFactory.generatePublic(publicKeySpec);
+		} catch (InvalidKeySpecException e) {
+			e.printStackTrace();
+		} return null;
+	}
+	
+	public static PrivateKey makePrKey(String str) {
+		byte[] bytArr = strToBy(str);
+		KeyFactory keyFactory = null;
+		try {
+			keyFactory = KeyFactory.getInstance("RSA");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(bytArr);
+		try {
+			return keyFactory.generatePrivate(privateKeySpec);
+		} catch (InvalidKeySpecException e) {
+			e.printStackTrace();
+		} return null;
+	}
+	
+	public static String sendPublic(PublicKey key) {
+		return byToStr(key.getEncoded());
+	}
     
     public static void main(String [] args) throws Exception {
-    	
+    	/*
     	KeyPair keyPair = buildKeyPair();
     	PublicKey puKey = keyPair.getPublic();
     	String[] puKeyStrArray = puKey.toString().split(" ");
     	String key = puKeyStrArray[8];
-    	String expo = puKeyStrArray[12];
     	
         byte[] publicKeyBytes = puKey.getEncoded();
+        byte[] privateKeyBytes = keyPair.getPrivate().getEncoded();
         
-        String k = new Sample().byToStr(publicKeyBytes);
+        String k = Sample.byToStr(publicKeyBytes);
+        String r = Sample.byToStr(privateKeyBytes);
         System.out.println(k);
-        byte[] bArr = new Sample().strToBy(k, publicKeyBytes.length);
+        System.out.println(r);
  
-        
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-
-        EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(bArr);
-        PublicKey publicKey2 = keyFactory.generatePublic(publicKeySpec);
+        PublicKey publicKey2 = Sample.makePuKey(k);
 
         System.out.println(puKey.toString().split(" ")[8].equals(publicKey2.toString().split(" ")[8]));
+        */
     	
-    	/*
-    	KeyPair keyPair = buildKeyPair();
-    	PublicKey puKey = keyPair.getPublic();
-    	String[] puKeyStrArray = puKey.toString().split(" ");
-    	String key = puKeyStrArray[8];
-    	String expo = puKeyStrArray[12];
-    	
-    	byte[] byteKey = key.getBytes();
-    	X509EncodedKeySpec keySpecX509 = new X509EncodedKeySpec(Base64.getDecoder().decode(key));
-    	
-    	KeyFactory kf = KeyFactory.getInstance("RSA");
-    	
-    	
-    	PublicKey newKey = kf.generatePublic(keySpecX509);
-    	
-    	System.out.println(puKey.toString().split(" ")[8]);
-    	System.out.println(newKey.toString().split(" ")[8]);
-    	*/
-    	/*
         // generate public and private keys
         KeyPair keyPair = buildKeyPair();
         PublicKey pubKey = keyPair.getPublic();
@@ -87,13 +98,13 @@ public class Sample {
         
         
         // encrypt the message
-        byte [] encrypted = encrypt(privateKey, "This is a secret message");     
+        String encrypted = encrypt(pubKey, "This is a secret message");     
         System.out.println(new String(encrypted));  // <<encrypted message>>
         
         // decrypt the message
-        byte[] secret = decrypt(pubKey, encrypted);                                 
+        String secret = decrypt(privateKey, encrypted);                                 
         System.out.println(new String(secret));     // This is a secret message
-        */
+        
     }
     
     public static KeyPair buildKeyPair() throws NoSuchAlgorithmException {
@@ -103,17 +114,17 @@ public class Sample {
         return keyPairGenerator.genKeyPair();
     }
 
-    public static byte[] encrypt(PrivateKey privateKey, String message) throws Exception {
+    public static String encrypt(PublicKey publicKey, String message) throws Exception {
         Cipher cipher = Cipher.getInstance("RSA");  
-        cipher.init(Cipher.ENCRYPT_MODE, privateKey);  
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey);  
 
-        return cipher.doFinal(message.getBytes());  
+        return Sample.byToStr(cipher.doFinal(message.getBytes()));  
     }
     
-    public static byte[] decrypt(PublicKey publicKey, byte [] encrypted) throws Exception {
+    public static String decrypt(PrivateKey privateKey, String str) throws Exception {
         Cipher cipher = Cipher.getInstance("RSA");  
-        cipher.init(Cipher.DECRYPT_MODE, publicKey);
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
         
-        return cipher.doFinal(encrypted);
+        return new String(cipher.doFinal(Sample.strToBy(str)));
     }
 }

@@ -13,6 +13,7 @@ import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,87 +40,95 @@ public class DataFetchController {
 	
 	private static final String secret = "SVEIN_ER_SJEFEN_I_GATA";
 	private KeyPair keyPair = null;
-	private Key sendKey;
-	
-    private KeyPair buildKeyPair() throws NoSuchAlgorithmException {
-        final int keySize = 512;
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(keySize);      
-        return keyPairGenerator.genKeyPair();
-    }
+	private PublicKey serverPublicKey;
 	
 	//The port the server is listening for http requests on
 	private final int serverPort = 8080;
 	
-	public Caretaker logIn(String username, String password) {
-		/*
+	public DataFetchController() {
 		try {
-			keyPair = buildKeyPair();
-		} catch (NoSuchAlgorithmException e1) {
-			e1.printStackTrace();
-		}
-
-		try {
-			String key = doGet("login?key");
-		} catch (Exception e) {
+			keyPair = Sample.buildKeyPair();
+		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		*/
-		//Opens a connection to the server
-			HttpURLConnection connection = this.connect("login");
-			
-			if(connection == null) {
-				System.out.println("Connection trouble...");
-				return null;
-			}
-			
-			//Sets requestMethod to POST and enables the outputStream
-			try {
-				connection.setRequestMethod("POST");
-				connection.setDoOutput(true);
-			} catch (ProtocolException e) {
-				e.printStackTrace();
-			}
-			
-			
-			Long now = Date.from(Instant.now()).getTime() / 1000;
-			String hash = DigestUtils.sha1Hex(now + secret);
-			
-			//Insert Request String
-				String params = "username=" + username + "&password=" + password + "&timestamp=" + now + "&hash=" + hash;
-				
-			//Pass the arguments through the outputstream
-			try {
-		      DataOutputStream wr = new DataOutputStream (
-		                  connection.getOutputStream ());
-		      wr.writeBytes (params);
-		      wr.flush ();
-		      wr.close ();
-			}
-			catch(IOException e) {
-				e.printStackTrace();
-			}
-			
-			//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
-			try {
-				InputStream connectionInputStream = connection.getInputStream();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(connectionInputStream));
-				String content = "";
-				String line = "";
-				while((line = reader.readLine())!= null) {
-					content += line;
-				}
-				Gson gson = new Gson();
-				JsonObject o = gson.fromJson(content, JsonObject.class);
-				Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", "Firstname", "lastname", o.get("address").getAsString());
-				return caretaker;
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	}
+	
+	private String doEncrypt(String str) {
+		try {
+			return Sample.encrypt(serverPublicKey, str);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} return null;
+	}
+	
+	private String doDecrypt(String str) {
+		try {
+			return Sample.decrypt(keyPair.getPrivate(), str);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} return null;
+	}
+	
+	public Caretaker logIn(String username, String password) {
 		
-		return null;
+		String serverString = doGet("login"); //Get the server public key as string of byte array
+		serverPublicKey = Sample.makePuKey(serverString);
+		
+		HttpURLConnection connection = this.connect("login");
+			
+		if(connection == null) {
+			System.out.println("Connection trouble...");
+			return null;
+		}
+			
+		//Sets requestMethod to POST and enables the outputStream
+		try {
+			connection.setRequestMethod("POST");
+			connection.setDoOutput(true);
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		}
+			
+			
+		Long now = Date.from(Instant.now()).getTime() / 1000;
+		String hash = DigestUtils.sha1Hex(now + secret);
+			
+		//Insert Request String
+		String params = "username=" + doEncrypt(username) + "&password=" + doEncrypt(password) + "&timestamp=" 
+				+ now + "&hash=" + hash + "&public_key" + Sample.sendPublic(keyPair.getPublic());
+			
+		//Pass the arguments through the outputstream
+		try {
+	      DataOutputStream wr = new DataOutputStream (
+	          connection.getOutputStream ());
+	      wr.writeBytes (params);
+	      wr.flush ();
+	      wr.close ();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
+		try {
+			InputStream connectionInputStream = connection.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connectionInputStream));
+			String content = "";
+			String line = "";
+			while((line = reader.readLine())!= null) {
+				content += line;
+			}
+			content = doDecrypt(content);
+			Gson gson = new Gson();
+			JsonObject o = gson.fromJson(content, JsonObject.class);
+			Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", o.get("firstName").getAsString(), o.get("lastName").getAsString(), o.get("address").getAsString());
+			return caretaker;
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+	return null;
 	}
 	
 	//Method for establishing connection with the server. The postfix is used to determine which servlet to access
