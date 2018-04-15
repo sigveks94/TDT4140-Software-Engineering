@@ -13,7 +13,11 @@ import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
+
+import org.apache.commons.codec.digest.DigestUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -33,6 +37,7 @@ import tdt4140.gr1814.app.core.zones.ZoneTailored;
 
 public class DataFetchController {
 	
+	private static final String secret = "SVEIN_ER_SJEFEN_I_GATA";
 	private KeyPair keyPair = null;
 	private Key sendKey;
 	
@@ -139,25 +144,25 @@ public class DataFetchController {
 	public void activateAlarmActivated(Patient patient,Boolean bool) {
 		String sendStr = "ssn=" + patient.getSSN() + "&activate=" + bool.toString();
 		
-		doPost(sendStr,"patient?");
+		doPost(sendStr,"patient");
 	}
 	
 	public void caretakerForPatient(Caretaker caretaker,Patient patient) {
 		String sendStr = "caretaker_id=" + caretaker.getUsername() + "&ssn=" + patient.getSSN();
 		
-		doPost(sendStr,"patient?");
+		doPost(sendStr,"patient");
 	}
 	
 	public void deleteZone(Patient patient) {
 		String sendStr = "ssn=" + patient.getSSN() + "&delete=yes";
 		
-		doPost(sendStr,"zone?");
+		doPost(sendStr,"zone");
 	}
 	
 	public void deletePatient(Patient patient) {
 		String sendStr = "ssn=" + patient.getSSN() + "&delete=yes";
 		
-		doPost(sendStr,"patient?");	
+		doPost(sendStr,"patient");	
 	}
 	
 	public void insertZone(Patient patient) {
@@ -180,7 +185,7 @@ public class DataFetchController {
 		String sendStr = "firstname=" + patient.getFirstName() +"&surname=" + patient.getSurname() + "&ssn=" + patient.getSSN() + "&phone=" + patient.getNoK_cellphone() +
 				"&email=" + patient.getNoK_email() + "&gender=" + patient.getGender() + "&id=" + patient.getID();
 		
-		doPost(sendStr,"patient?");
+		doPost(sendStr,"patient");
 	}
 	
 	//------------------------------------ GET METHODES --------------------------------------------
@@ -253,6 +258,12 @@ public class DataFetchController {
 	
 	public void doPost(String sendStr, String loc) {
 		//Opens a connection to the server
+		
+		Long now = Date.from(Instant.now()).getTime() / 1000;
+		String hash = DigestUtils.sha1Hex(now + secret);
+		
+		loc += "&timestamp=" + now + "&hash=" + hash;
+		
 		HttpURLConnection connection = this.connect(loc);
 		
 		if(connection == null) {
@@ -296,6 +307,11 @@ public class DataFetchController {
 	}
 	
 	public String doGet(String loc) {
+		Long now = Date.from(Instant.now()).getTime() / 1000;
+		String hash = DigestUtils.sha1Hex(now + secret);
+		
+		loc += "&timestamp=" + now + "&hash=" + hash;
+		
 		HttpURLConnection connection = this.connect(loc);
 		
 		if(connection == null) {
