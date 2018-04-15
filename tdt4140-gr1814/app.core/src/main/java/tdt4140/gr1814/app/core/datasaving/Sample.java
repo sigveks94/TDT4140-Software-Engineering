@@ -70,6 +70,11 @@ public class Sample {
 	}
     
     public static void main(String [] args) throws Exception {
+    	
+    	String str = "hshjhdjkaskjdhkjasdhkaskjsdhajKAShjkdshskdjllfhudfkldskfhsdkjfghdghdfgh";
+    	DataFetchController c = new DataFetchController();
+    	System.out.println(c.doEncrypt(str));
+    	
     	/*
     	KeyPair keyPair = buildKeyPair();
     	PublicKey puKey = keyPair.getPublic();
@@ -88,7 +93,7 @@ public class Sample {
 
         System.out.println(puKey.toString().split(" ")[8].equals(publicKey2.toString().split(" ")[8]));
         */
-    	
+    	/*
         // generate public and private keys
         KeyPair keyPair = buildKeyPair();
         PublicKey pubKey = keyPair.getPublic();
@@ -98,13 +103,13 @@ public class Sample {
         
         
         // encrypt the message
-        String encrypted = encrypt(pubKey, "This is a secret message");     
+        String encrypted = encrypt(pubKey, "This is a secret message and hashasjkdhjkasfhsdghjkhsdjkfghsdfkjhjsdjkfhsdkjfhjkdsfkjhsdfjkhsdjkfhdskjfhkujdsfhkjsdfhkjdsf sdjkfhkjsdfhkdshsdfkjhsdkjfhkjdshfsdhkjsdfh");     
         System.out.println(new String(encrypted));  // <<encrypted message>>
         
         // decrypt the message
         String secret = decrypt(privateKey, encrypted);                                 
         System.out.println(new String(secret));     // This is a secret message
-        
+        */
     }
     
     public static KeyPair buildKeyPair() throws NoSuchAlgorithmException {
