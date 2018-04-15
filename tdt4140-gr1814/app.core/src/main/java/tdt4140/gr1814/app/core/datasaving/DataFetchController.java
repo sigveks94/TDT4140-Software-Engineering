@@ -9,6 +9,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.security.Key;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -29,11 +33,33 @@ import tdt4140.gr1814.app.core.zones.ZoneTailored;
 
 public class DataFetchController {
 	
+	private KeyPair keyPair = null;
+	private Key sendKey;
+	
+    private KeyPair buildKeyPair() throws NoSuchAlgorithmException {
+        final int keySize = 512;
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(keySize);      
+        return keyPairGenerator.genKeyPair();
+    }
+	
 	//The port the server is listening for http requests on
 	private final int serverPort = 8080;
 	
 	public Caretaker logIn(String username, String password) {
-		
+		/*
+		try {
+			keyPair = buildKeyPair();
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			String key = doGet("login?key");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		*/
 		//Opens a connection to the server
 			HttpURLConnection connection = this.connect("login");
 			
@@ -256,9 +282,13 @@ public class DataFetchController {
 		
 		//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
 		try {
+			String content = "";
 			InputStream connectionInputStream = connection.getInputStream();
-			
-			//Here the client can read the webserver status messages
+			BufferedReader br = new BufferedReader(new InputStreamReader(connectionInputStream));
+			String line = "";
+			while((line = br.readLine()) != null) {
+				content += line;
+			} System.out.println(content);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

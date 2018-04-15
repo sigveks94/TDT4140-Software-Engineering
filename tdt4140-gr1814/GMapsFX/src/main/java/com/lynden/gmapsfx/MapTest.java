@@ -6,8 +6,12 @@ import com.lynden.gmapsfx.javascript.object.GoogleMap;
 import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.MVCArray;
 import com.lynden.gmapsfx.javascript.object.MapOptions;
+import com.lynden.gmapsfx.javascript.object.MapShape;
+import com.lynden.gmapsfx.shapes.Circle;
+import com.lynden.gmapsfx.shapes.CircleOptions;
 import com.lynden.gmapsfx.shapes.Polygon;
 import com.lynden.gmapsfx.shapes.PolygonOptions;
+import com.sun.prism.paint.Color;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -38,7 +42,26 @@ public class MapTest extends Application implements MapComponentInitializedListe
         	.streetViewControl(false);
         map = GMap.createMap(options);
         
+        LatLong lat1 = new LatLong(63.0,10.0);
         
+        CircleOptions cOpt = new CircleOptions()
+        		.center(center)
+        		.draggable(true)
+        		.editable(true)
+        		.clickable(true)
+        		.fillColor("green")
+        		.fillOpacity(0.4)
+        		.strokeColor("red")
+        		.strokeOpacity(0.6)
+        		.radius(50000);
+        
+        Circle c = new Circle(cOpt);
+        map.addMapShape(c);
+        
+        System.out.println(c.getCenter());
+        System.out.println(c.getRadius());
+        
+        /*
         LatLong lat1 = new LatLong(63.0,10.0);
         LatLong lat2 = new LatLong(64.0,10.0);
         LatLong lat3 = new LatLong(64.0,11.0);
@@ -69,7 +92,7 @@ public class MapTest extends Application implements MapComponentInitializedListe
         	System.out.println(arDo.get(k)[1]);
         	System.out.println("-----------------");
         }
-        
+        */
         
         /*
         MVCArray mvc2 = pg.getPath();
