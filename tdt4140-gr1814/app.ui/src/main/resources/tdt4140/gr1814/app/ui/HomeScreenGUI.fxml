@@ -78,7 +78,7 @@
             <Text fx:id="username_txt" layoutX="1.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" textAlignment="CENTER" wrappingWidth="180.99999725818634" AnchorPane.topAnchor="16.0" />
             <Button layoutX="19.0" layoutY="94.0" mnemonicParsing="false" onAction="#openPassword" style="-fx-background-color: #dbe0e3;" text="Change Password &gt;" textFill="#fd5c63" AnchorPane.rightAnchor="15.0" />
             <Button layoutX="91.0" layoutY="120.0" mnemonicParsing="false" onAction="#Logout" style="-fx-background-color: #dbe0e3;" text="Logout &gt;" textFill="#fd5c63" AnchorPane.rightAnchor="15.0" />
-            <Hyperlink fx:id="userAdr_txt" layoutX="7.0" layoutY="44.0" prefHeight="43.0" prefWidth="175.0" text="Hyperlink" textAlignment="CENTER" />
+            <Hyperlink fx:id="userAdr_txt" layoutX="7.0" layoutY="44.0" onAction="#searchAdress" prefHeight="43.0" prefWidth="175.0" text="Hyperlink" textAlignment="CENTER" />
             <AnchorPane fx:id="passwordPane" layoutX="6.0" layoutY="6.0" prefHeight="163.0" prefWidth="181.0" style="-fx-background-color: dbe0e3; visibility: false;">
                <children>
                   <Button layoutX="56.0" layoutY="126.0" mnemonicParsing="false" onAction="#changePassword" style="-fx-background-color: dbe0e3;" text="Change Password &gt;" textFill="#fd5c63" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="3.0">

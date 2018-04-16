@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import tdt4140.gr1814.app.core.Hyperlink_Browser;
 import tdt4140.gr1814.app.core.datasaving.DataFetchController;
 import tdt4140.gr1814.app.core.participants.Caretaker;
 import tdt4140.gr1814.app.core.participants.Patient;
@@ -168,6 +169,13 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
 		}
 	}
 	
+	public void searchAdress() {
+		String addr = ApplicationDemo.applicationUser.getAddress().replace(" ", "+");
+		addr.replace(",", "");
+		System.out.println(addr);
+		String url = "https://maps.google.com/?q="+addr;
+		Hyperlink_Browser.browse(url);
+	}
 	 //live changes in button color when mouse hover over.
     public void darkenButton(Button button) {
 		ColorAdjust colorAdjust = new ColorAdjust();
