@@ -44,53 +44,8 @@ public class DataFetchController {
 	
 	//The port the server is listening for http requests on
 	private final int serverPort = 8080;
-	/*
 
-	public DataFetchController() {
-		try {
-			keyPair = Sample.buildKeyPair();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-	}
-	public String doEncrypt(String str) {
-		try {
-			String[] strSplit = str.split("");
-			String retStr = "";
-			int i = 0;
-			String tempStr = "";
-			ArrayList<String> arrStringList = new ArrayList<>();
-			for (String s : strSplit) {
-				if (i < 9) {
-					i++;
-					tempStr += s;
-				} else if (i == 9) {
-					i = 0;
-					tempStr += s;
-					arrStringList.add(tempStr);
-					tempStr = "";
-				}
-			}
-			for (String strA : arrStringList) {
-				retStr += Sample.encrypt(serverPublicKey, strA) + "$";
-			} return retStr;
-		} catch (Exception e) {
-			e.printStackTrace();
-		} return null;
-	}
-	
-	private String doDecrypt(String str) {
-		try {
-			return Sample.decrypt(keyPair.getPrivate(), str);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} return null;
-	}
-	*/
 	public Caretaker logIn(String username, String password) {
-		
-		//String serverString = doGet("login?"); //Get the server public key as string of byte array
-		//serverPublicKey = Sample.makePuKey(serverString);
 		
 		HttpURLConnection connection = this.connect("login");
 			
@@ -139,7 +94,7 @@ public class DataFetchController {
 			System.out.println(content);
 			Gson gson = new Gson();
 			JsonObject o = gson.fromJson(content, JsonObject.class);
-			Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", o.get("firstName").getAsString(), o.get("lastName").getAsString(), o.get("address").getAsString());
+			Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", o.get("name").getAsString(), o.get("address").getAsString());
 			return caretaker;
 			
 		} catch (IOException e) {
@@ -327,13 +282,9 @@ public class DataFetchController {
 		
 		//Retrieves the inputstream (webservers outputstream) For som reason this needs to be called in order for to execute the POSTRequest
 		try {
-			String content = "";
 			InputStream connectionInputStream = connection.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(connectionInputStream));
-			String line = "";
-			while((line = br.readLine()) != null) {
-				content += line;
-			} System.out.println(content);
+			int statusMessage = connection.getResponseCode();
+			System.out.println(statusMessage + "");
 			
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -54,7 +54,7 @@ public class PatientTest {
 		patient2 = Patient.newPatient(firstname,surname2,gender2,SSN2,phone2,email2,dev2, true);
 		patient3 = Patient.newPatient(firstname,"tulleberta",'D',88855544433L,phone2,email2,dev2, true);
 		zone = new ZoneRadius(new Point(patient.getID(), 10, 10), 3D);
-		ct = new Caretaker("larsern", "hoppla", "lars", "lars", "enveija");
+		ct = new Caretaker("larsern", "hoppla", "lars", "enveija");
 	}
 	
 	@Test
@@ -86,7 +86,7 @@ public class PatientTest {
 	}	
 	@Test
 	public void testAddListeners() {
-		Caretaker cT = new Caretaker("Example3","1H8j24s4@","test","test","øvreveg 2");
+		Caretaker cT = new Caretaker("Example3","1H8j24s4@","test","øvreveg 2");
 		patient.addListeners(cT);
 		assertEquals(cT.getPatients().get(0),patient);
 		patient2.addListeners(cT);
