@@ -38,8 +38,6 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     @FXML
     private Button ViewMap_btn;
     @FXML
-    private Button Settings_btn;
-    @FXML
     private AnchorPane profile_pane;
     @FXML
     private Button user_btn;
@@ -218,12 +216,4 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     		brightenButton(newProfile_btn);
     }
     
-    @FXML
-    public void UBdarken() {
-    	darkenButton(Settings_btn);
-    }
-    @FXML
-    public void UBbrighten() {
-    	brightenButton(Settings_btn);
-    }
 }

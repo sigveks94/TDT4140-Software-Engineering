@@ -51,21 +51,22 @@ class Connection extends Thread {
 			
 			BufferedReader reader = new BufferedReader(new StringReader(inputstream));
 			String line = "";
-        while (line != null)  {
-        		line = reader.readLine();
-			  //Step 1 send length
-			  output.writeInt(line.length());
-			  //Step 2 send length
-			  output.writeBytes(line); // UTF is a string encoding
-			  
-			  try {
-				  Thread.sleep(400);
-			  }catch (InterruptedException e) {
-					System.out.println("error in: Thread.sleep(1000);");
-					e.printStackTrace();
-				}
-        	}
-			} 
+			while(true) {
+		        while (line != null)  {
+		        		line = reader.readLine();
+					  //Step 1 send length
+					  output.writeInt(line.length());
+					  //Step 2 send length
+					  output.writeBytes(line); // UTF is a string encoding
+					  
+					  try {
+						  Thread.sleep(400);
+					  }catch (InterruptedException e) {
+							System.out.println("error in: Thread.sleep(1000);");
+							e.printStackTrace();
+						}
+	        		}
+		    }} 
 			catch(EOFException e) {
 			System.out.println("EOF:"+e.getMessage()); } 
 			catch(IOException e) {

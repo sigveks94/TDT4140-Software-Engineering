@@ -30,7 +30,7 @@
             </Button>
          </children>
       </AnchorPane>
-      <Button fx:id="newProfile_btn" accessibleRole="IMAGE_VIEW" contentDisplay="BOTTOM" layoutX="32.0" layoutY="105.0" mnemonicParsing="false" onAction="#goToNewPatient" onMouseEntered="#NPdarken" onMouseExited="#NPbrighten" prefHeight="175.0" prefWidth="175.0" style="-fx-background-color: #e8715b;" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="100.0">
+      <Button fx:id="newProfile_btn" accessibleRole="IMAGE_VIEW" contentDisplay="BOTTOM" layoutX="32.0" layoutY="105.0" mnemonicParsing="false" onAction="#goToNewPatient" onMouseEntered="#NPdarken" onMouseExited="#NPbrighten" prefHeight="170.0" prefWidth="175.0" style="-fx-background-color: #e8715b;" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="100.0">
          <graphic>
             <ImageView fitHeight="130.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" scaleX="1.1" scaleY="1.1">
                <image>
@@ -44,7 +44,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Button fx:id="MyPatients_btn" layoutX="202.0" layoutY="105.0" mnemonicParsing="false" onAction="#goToDeletePatient" onMouseEntered="#POdarken" onMouseExited="#PObrighten" prefHeight="175.0" prefWidth="175.0" style="-fx-background-color: #30c39e;" AnchorPane.leftAnchor="217.0" AnchorPane.topAnchor="100.0">
+      <Button fx:id="MyPatients_btn" layoutX="202.0" layoutY="105.0" mnemonicParsing="false" onAction="#goToDeletePatient" onMouseEntered="#POdarken" onMouseExited="#PObrighten" prefHeight="170.0" prefWidth="175.0" style="-fx-background-color: #30c39e;" AnchorPane.leftAnchor="217.0" AnchorPane.topAnchor="100.0">
          <graphic>
             <ImageView fitHeight="128.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true" scaleX="1.1" scaleY="1.1">
                <image>
@@ -58,30 +58,16 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Button fx:id="ViewMap_btn" layoutX="32.0" layoutY="275.0" mnemonicParsing="false" onAction="#goToMap" onMouseEntered="#PMdarken" onMouseExited="#PMbrighten" prefHeight="175.0" prefWidth="175.0" style="-fx-background-color: c4dff6;" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="285.0">
+      <Button fx:id="ViewMap_btn" layoutX="32.0" layoutY="275.0" mnemonicParsing="false" onAction="#goToMap" onMouseEntered="#PMdarken" onMouseExited="#PMbrighten" prefHeight="170.0" prefWidth="360.0" style="-fx-background-color: c4dff6;" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="280.0">
          <graphic>
-            <ImageView fitHeight="113.0" fitWidth="121.0" pickOnBounds="true" preserveRatio="true" scaleX="1.1" scaleY="1.1">
+            <ImageView fitHeight="140.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true" scaleX="1.1" scaleY="1.1">
                <image>
                   <Image url="@pictures/Map_icon.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Text fill="WHITE" layoutX="43.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Map" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="301.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Button fx:id="Settings_btn" layoutX="202.0" layoutY="275.0" mnemonicParsing="false" onMouseEntered="#UBdarken" onMouseExited="#UBbrighten" prefHeight="175.0" prefWidth="175.0" style="-fx-background-color: #4a8594;" AnchorPane.leftAnchor="217.0" AnchorPane.topAnchor="285.0">
-         <graphic>
-            <ImageView fitHeight="90.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true" scaleX="1.55" scaleY="1.55">
-               <image>
-                  <Image url="@pictures/settingsIcon.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Text fill="WHITE" layoutX="213.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unused Button" AnchorPane.leftAnchor="235.0" AnchorPane.topAnchor="301.0">
+      <Text fill="WHITE" layoutX="50.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Map" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="298.46484375">
          <font>
             <Font size="14.0" />
          </font>
