@@ -11,7 +11,7 @@
   </parent>
   
  
-  
+  <!-- Dependencies that are relevant only for the web server -->
   <dependencies>
   		<dependency>
 			<groupId>tdt4140-gr1814</groupId>

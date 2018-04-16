@@ -15,6 +15,7 @@ import tdt4140.gr1814.webserver.DatabaseHandler;
  * This servlet has the follow functions:
  * 		- Fetching all zones associated with a caretaker
  * 		- Inserting a zone to a database connecting it to the corresponding ssn
+ * 		- Deleting a zone and remove the link to a patient
  */
 
 /*
