@@ -56,9 +56,9 @@ public class ApplicationDemoTest extends ApplicationTest {
 		String dev2 = "A289";
 		
 		
-		patient = Patient.newPatient(firstname,surname,gender,SSN,phone,email,dev1, true);
-		patient2 = Patient.newPatient(firstname,surname2,gender2,SSN2,phone2,email2,dev2, true);
-		patient3 = Patient.newPatient(firstname,"tulleberta",'D',88855544433L,phone2,email2,dev2, true);
+		patient = Patient.newPatient(firstname,surname,gender,SSN,phone,email,dev1, true,true);
+		patient2 = Patient.newPatient(firstname,surname2,gender2,SSN2,phone2,email2,dev2, true,true);
+		patient3 = Patient.newPatient(firstname,"tulleberta",'D',88855544433L,phone2,email2,dev2, true,true);
 	}
 	
     @Override
