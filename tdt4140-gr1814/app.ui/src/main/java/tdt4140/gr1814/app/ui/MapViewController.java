@@ -197,14 +197,16 @@ public class MapViewController implements Initializable, MapComponentInitialized
         return pol;
 	}
 	
-	//creates checkboxes in the tableview-columns for displaying markers and zones.
+	//Creates eventhandler when clicking patient name(centering and setting zoom). 
+	//Creates observableValue checkboxes in the tableview-columns for displaying markers and zones.
 	public void PrepareTable() {
 		patient_list.setFixedCellSize(25);
 		patient_list.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+            		if(patient_list.getSelectionModel().getSelectedItem().getCurrentLocation() != null) {
                map.setCenter(patient_list.getSelectionModel().getSelectedItem().getCurrentLocation().getLatLong());
-               if(map.getZoom() > 13) {map.setZoom(13);}
+               if(map.getZoom() < 13) {map.setZoom(15);}}
             }
         });
 		list_names.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
