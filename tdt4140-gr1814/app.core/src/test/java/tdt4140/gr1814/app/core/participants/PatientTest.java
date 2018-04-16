@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import tdt4140.gr1814.app.core.listeners.OnLocationChangedListener;
@@ -50,9 +51,9 @@ public class PatientTest {
 		String dev2 = "A289";
 		
 		
-		patient = Patient.newPatient(firstname,surname,gender,SSN,phone,email,dev1, true);
-		patient2 = Patient.newPatient(firstname,surname2,gender2,SSN2,phone2,email2,dev2, true);
-		patient3 = Patient.newPatient(firstname,"tulleberta",'D',88855544433L,phone2,email2,dev2, true);
+		patient = Patient.newPatient(firstname,surname,gender,SSN,phone,email,dev1, true, false);
+		patient2 = Patient.newPatient(firstname,surname2,gender2,SSN2,phone2,email2,dev2, true, false);
+		patient3 = Patient.newPatient(firstname,"tulleberta",'D',88855544433L,phone2,email2,dev2, true, false);
 		zone = new ZoneRadius(new Point(patient.getID(), 10, 10), 3D);
 		ct = new Caretaker("larsern", "hoppla", "lars", "enveija");
 	}
@@ -119,7 +120,7 @@ public class PatientTest {
 	
 	@Test
 	public void makingNewPatientWithUsedSSN() {
-		Patient patient3 = Patient.newPatient("Exam", "Ple", 'M', 12345678910L, 27929342, "at@at.at", "H723", true);
+		Patient patient3 = Patient.newPatient("Exam", "Ple", 'M', 12345678910L, 27929342, "at@at.at", "H723", true, false);
 		assertEquals(patient3,patient);
 	}
 	@Test
@@ -141,7 +142,7 @@ public class PatientTest {
 	@Test
 	public void testGetAndDeletePatient() {
 		assertNull(Patient.getPatient(19503748571L));
-		Patient testP = Patient.newPatient("Huckleberry", "Finn", 'M', 19503748571L, 19856434, "ali@baba.no", "dev342", true);
+		Patient testP = Patient.newPatient("Huckleberry", "Finn", 'M', 19503748571L, 19856434, "ali@baba.no", "dev342", true, false);
 		assertNotNull(Patient.getPatient(19503748571L));
 		assertNotNull(testP.getID());
 		Patient.deletePatient(19503748571L);

@@ -194,7 +194,7 @@ public class DataFetchController {
 				if(o.get("alarmActivated").getAsInt() == 0) {
 					alarmActivation = false;
 				}
-				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), alarmActivation);
+				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), alarmActivation, true);
 			}
 			catch(Exception e) {
 				e.printStackTrace();

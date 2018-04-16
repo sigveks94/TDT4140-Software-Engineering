@@ -74,7 +74,7 @@ public class DataFetchControllerIT extends TestCase{
 	@Test
 	public void testInsertNewPatientAndConnectToCaretaker() {
 		
-		Patient newPatient = Patient.newPatient("Leif", "Sunni", 'M', 99837486192l, 82223344, "a@b.no", "id999", true);
+		Patient newPatient = Patient.newPatient("Leif", "Sunni", 'M', 99837486192l, 82223344, "a@b.no", "id999", true, false);
 		dataFetchController.insertNewPatient(newPatient);
 		dataFetchController.caretakerForPatient(caretaker, newPatient);
 		Patient.getAllPatients().clear();
@@ -90,7 +90,7 @@ public class DataFetchControllerIT extends TestCase{
 	
 	@Test
 	public void testDeletePatient() {
-		Patient newPatient = Patient.newPatient("Leif", "Sunni", 'M', 99837486192l, 82223344, "a@b.no", "id999", true);
+		Patient newPatient = Patient.newPatient("Leif", "Sunni", 'M', 99837486192l, 82223344, "a@b.no", "id999", true, false);
 		dataFetchController.insertNewPatient(newPatient);
 		
 		assertNotNull("The patient was not added intially!", Patient.getPatient(newPatient.getSSN()));
@@ -106,7 +106,7 @@ public class DataFetchControllerIT extends TestCase{
 	
 	@Test
 	public void testInsertZoneAndGetZoneAndDeleteZone() {
-		Patient patient = Patient.newPatient("Leif", "Sunni", 'M', 99837486192l, 82223344, "a@b.no", "id999", true);
+		Patient patient = Patient.newPatient("Leif", "Sunni", 'M', 99837486192l, 82223344, "a@b.no", "id999", true, false);
 		
 		ArrayList<Point> points = new ArrayList<Point>();
 		points.add(new Point("id999", 63.000, 10.000));
