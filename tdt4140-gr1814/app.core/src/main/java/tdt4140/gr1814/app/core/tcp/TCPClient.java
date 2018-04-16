@@ -26,7 +26,7 @@ public class TCPClient {
 		Socket s = null; 
 		try{ 
 			int serverPort = 6880;
-			  String ip = "10.22.40.112"; //IPV4-ADRESS OF SERVER. USE "localhost" if running server and client (program) on single computer
+			  String ip = "10.22.40.235"; //IPV4-ADRESS OF SERVER. USE "localhost" if running server and client (program) on single computer
 			  
 		  s = new Socket(ip, serverPort); 
 		  
