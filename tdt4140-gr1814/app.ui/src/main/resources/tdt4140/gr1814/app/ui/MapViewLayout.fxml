@@ -35,19 +35,19 @@
       </TableView>
       <ImageView fx:id="view_img" fitHeight="31.0" fitWidth="25.0" layoutX="125.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="71.0">
          <image>
-            <Image url="@view.png" />
+            <Image url="@pictures/view.png" />
          </image>
       </ImageView>
       <ImageView fx:id="zone_img" fitHeight="22.0" fitWidth="23.0" layoutX="135.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="133.0" AnchorPane.topAnchor="72.0">
          <image>
-            <Image url="@zone_icon.png" />
+            <Image url="@pictures/zone_icon.png" />
          </image>
       </ImageView>
       <Button fx:id="patientList_btn" layoutX="14.0" layoutY="44.0" mnemonicParsing="false" onAction="#displayPatientList" prefHeight="26.0" prefWidth="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="69.0">
          <graphic>
             <ImageView fitHeight="22.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@menu-stripes.png" />
+                  <Image url="@pictures/menu-stripes.png" />
                </image>
             </ImageView>
          </graphic>

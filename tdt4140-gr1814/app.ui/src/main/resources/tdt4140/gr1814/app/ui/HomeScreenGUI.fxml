@@ -23,7 +23,7 @@
                <graphic>
                   <ImageView fitHeight="45.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@profileIcon%20copy.png" />
+                        <Image url="@pictures/profileIcon%20copy.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -34,7 +34,7 @@
          <graphic>
             <ImageView fitHeight="130.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" scaleX="1.1" scaleY="1.1">
                <image>
-                  <Image url="@AddNewProfile.png" />
+                  <Image url="@pictures/AddNewProfile.png" />
                </image>
             </ImageView>
          </graphic>
@@ -48,7 +48,7 @@
          <graphic>
             <ImageView fitHeight="128.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true" scaleX="1.1" scaleY="1.1">
                <image>
-                  <Image url="@searcIcon.png" />
+                  <Image url="@pictures/searcIcon.png" />
                </image>
             </ImageView>
          </graphic>
@@ -62,7 +62,7 @@
          <graphic>
             <ImageView fitHeight="113.0" fitWidth="121.0" pickOnBounds="true" preserveRatio="true" scaleX="1.1" scaleY="1.1">
                <image>
-                  <Image url="@Map_icon.png" />
+                  <Image url="@pictures/Map_icon.png" />
                </image>
             </ImageView>
          </graphic>
@@ -76,7 +76,7 @@
          <graphic>
             <ImageView fitHeight="90.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true" scaleX="1.55" scaleY="1.55">
                <image>
-                  <Image url="@settingsIcon.png" />
+                  <Image url="@pictures/settingsIcon.png" />
                </image>
             </ImageView>
          </graphic>

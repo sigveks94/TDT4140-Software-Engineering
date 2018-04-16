@@ -95,8 +95,8 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
     			passwordPane.setVisible(false);
     		}
     		else {
-    			if (ApplicationDemo.applicationUser.getFirstName() != null) {
-    				username_txt.setText(ApplicationDemo.applicationUser.getFirstName());
+    			if (ApplicationDemo.applicationUser.getName() != null) {
+    				username_txt.setText(ApplicationDemo.applicationUser.getName());
     				}
 			if (ApplicationDemo.applicationUser.getAddress() != null) {
 				userAdr_txt.setText(ApplicationDemo.applicationUser.getAddress());

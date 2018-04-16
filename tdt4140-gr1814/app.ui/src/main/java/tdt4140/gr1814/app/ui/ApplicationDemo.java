@@ -42,7 +42,7 @@ public class ApplicationDemo extends Application{
         Scene scene = new Scene(root,700,500);
         stage.setScene(scene);
         //Adding logo to the Java-application bar.
-        stage.getIcons().add(new Image(ApplicationDemo.class.getResourceAsStream("RedCross.png"))); 
+        stage.getIcons().add(new Image(ApplicationDemo.class.getResourceAsStream("pictures/RedCross.png"))); 
         stage.show();
     }
     

@@ -27,7 +27,7 @@
             </Text>
             <ImageView fitHeight="82.0" fitWidth="128.0" layoutX="400.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@patientSearch.png" />
+                  <Image url="@pictures/patientSearch.png" />
                </image>
             </ImageView>
          </children>

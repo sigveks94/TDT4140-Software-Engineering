@@ -13,7 +13,7 @@
    <children>
       <ImageView fx:id="background" layoutX="8.0" layoutY="42.0" pickOnBounds="true" style="visibility: true;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@LoginBackground.png" />
+            <Image url="@pictures/LoginBackground.png" />
          </image>
       </ImageView>
       <AnchorPane fx:id="login_pane" layoutX="163.0" layoutY="94.0" opacity="0.0" prefHeight="312.0" prefWidth="375.0" style="-fx-background-color: white; -fx-border-color: lightgray;">
@@ -27,7 +27,7 @@
                   </Text>
                   <ImageView fitHeight="75.0" fitWidth="107.0" layoutX="234.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@userlocked.png" />
+                        <Image url="@pictures/userlocked.png" />
                      </image>
                   </ImageView>
                </children>
