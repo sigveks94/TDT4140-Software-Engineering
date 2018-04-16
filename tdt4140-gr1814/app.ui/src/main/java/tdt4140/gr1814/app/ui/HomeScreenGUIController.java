@@ -163,9 +163,10 @@ public class HomeScreenGUIController implements Initializable, ControlledScreen 
 		alert.showAndWait();
 		if (alert.getResult() == ButtonType.CLOSE) {alert.close();}
 		if (alert.getResult() == ButtonType.OK) {
-			goToMap(null);
+			myController.getMapViewController().patientView();
 			myController.getMapViewController().map.setCenter(patient.getCurrentLocation().getLatLong());
 			myController.getMapViewController().map.setZoom(15);
+			myController.setScreen(ApplicationDemo.MapViewLayoutID);
 		}
 	}
 	
