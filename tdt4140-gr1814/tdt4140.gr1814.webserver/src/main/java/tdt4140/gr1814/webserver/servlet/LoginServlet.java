@@ -109,7 +109,7 @@ public class LoginServlet extends HttpServlet{
 		
 		try {
 			String returnString = "{\"username\":\"" + result.getString("Username") + "\", \"address\": \"" + result.getString("Address") + 
-					"\", \"firstName\":\"" + result.getString("Firstname") + "\", \"lastName\":\"" + result.getString("Lastname") + "\" }";
+					"\", \"name\":\"" + result.getString("Name") + "}";
 			resp.setStatus(200);
 			return returnString;
 		} catch (SQLException e) {
