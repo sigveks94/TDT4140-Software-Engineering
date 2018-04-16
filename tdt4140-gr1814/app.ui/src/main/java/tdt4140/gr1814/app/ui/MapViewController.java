@@ -310,6 +310,9 @@ public class MapViewController implements Initializable, MapComponentInitialized
 	//to editing a spesific patients zone, and show relevant buttons like delete_zone and save_sone.
 	public void zoneView(Patient currentPatient) {
 		this.currentPatient = currentPatient;
+		if(currentPatient.getCurrentLocation() != null) {
+			map.setCenter(currentPatient.getCurrentLocation().getLatLong());
+		}
 		menu_btn.setVisible(false);
 		overview_btn.setVisible(true);
 		saveZone_btn.setVisible(true);
