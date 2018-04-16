@@ -77,6 +77,8 @@ public class DataFetchController {
 	      wr.writeBytes (params);
 	      wr.flush ();
 	      wr.close ();
+	      int statusMessage = connection.getResponseCode();
+	      System.out.println(statusMessage + "");
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -91,10 +93,11 @@ public class DataFetchController {
 			while((line = reader.readLine())!= null) {
 				content += line;
 			}
-			System.out.println(content);
 			Gson gson = new Gson();
 			JsonObject o = gson.fromJson(content, JsonObject.class);
 			Caretaker caretaker = new Caretaker(o.get("username").getAsString(), "password", o.get("name").getAsString(), o.get("address").getAsString());
+			int statusMessage = connection.getResponseCode();
+			System.out.println(statusMessage + "");
 			return caretaker;
 			
 		} catch (IOException e) {
@@ -317,6 +320,8 @@ public class DataFetchController {
 			while((line = br.readLine()) != null) {
 				content += line;
 			}
+			int statusMessage = connection.getResponseCode();
+			System.out.println(statusMessage + "");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
