@@ -48,8 +48,11 @@ A step by step guide on how to get the development environment running (this ass
 ## How to run
 
 1.   Right-click on the tdt4140-gr1814/webserver-folder and choose Run as -> Run with Jetty
-2.   Go to tdt4140-gr1814/app.ui/src/main/java/tdt4140/gr1814/app/ui/
-3.   Run ApplicationDemo.java
+2.   Go to tdt4140-gr1814/app.core/src/main/java/tdt4140/gr1814/app/core/tcp, and edit TCPClient.java's ip-field to match the server's ip-adress, 
+     or use "loacalhost" if a single computer/device is being used. Then the server-device must run TCPServer in the same package, right-click 
+     on TCPServer and choose run as -> Java application.
+3.   Go to tdt4140-gr1814/app.ui/src/main/java/tdt4140/gr1814/app/ui/
+4.   Run ApplicationDemo.java
 
 
 
