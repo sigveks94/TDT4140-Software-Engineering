@@ -439,7 +439,7 @@ public class MapViewController implements Initializable, MapComponentInitialized
 		alert.setHeaderText("\t\t\t     ALARM!");
 		DialogPane dialogPane = alert.getDialogPane();
 		dialogPane.setStyle("-fx-background-color: #f3f4f7;");
-		Image image = new Image(ApplicationDemo.class.getResourceAsStream("mapWarning.png"));
+		Image image = new Image(ApplicationDemo.class.getResourceAsStream("pictures/mapWarning.png"));
 		ImageView imageView = new ImageView(image);
 		alert.setGraphic(imageView);
 		alert.showAndWait();
