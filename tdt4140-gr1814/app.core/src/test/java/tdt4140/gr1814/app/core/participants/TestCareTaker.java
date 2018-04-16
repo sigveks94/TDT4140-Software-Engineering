@@ -16,8 +16,8 @@ public class TestCareTaker {
 	
 	@Before
 	public void setUp() {
-		cT = new Caretaker("Example1","1H8j24s4@","test","test","nedrevei 3");
-		ct2 = new Caretaker("Example2","1H8j24s4@","test","test","nedrevei 3");
+		cT = new Caretaker("Example1","1H8j24s4@","test","nedrevei 3");
+		ct2 = new Caretaker("Example2","1H8j24s4@","test","nedrevei 3");
 	}
 	
 	@Test
@@ -74,10 +74,6 @@ public class TestCareTaker {
 	
 	@Test
 	public void testGettersAndSetters() {
-		cT.setFirstName("leif");
-		assertEquals("leif", cT.getFirstName());
-		cT.setLastname("leif");
-		assertEquals("leif", cT.getLastname());
 		cT.setName("leif leif");
 		assertEquals("leif leif", cT.getName());
 		cT.setAddress("veienjaveien 54");

@@ -26,7 +26,7 @@ public class DataFetchControllerIT extends TestCase{
 	
 	@Before
 	public void setUp() {
-		caretaker = new Caretaker("test_caretaker_la_staa", "Gruppe14@", "Care", "Taker", "Solaveien 15");
+		caretaker = new Caretaker("test_caretaker_la_staa", "Gruppe14@", "CareTaker", "Solaveien 15");
 		dataFetchController = new DataFetchController();
 	}
 	

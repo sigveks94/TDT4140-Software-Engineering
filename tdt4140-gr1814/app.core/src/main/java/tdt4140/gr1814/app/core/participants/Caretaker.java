@@ -8,37 +8,18 @@ import tdt4140.gr1814.app.core.zones.Point;
 public class Caretaker {
 
 	private String Username;
-	private String Password;
-	private String FirstName;
-	private String Lastname;	
+	private String Password;	
 	private String Address;
 	private String Name;
 	private ArrayList <Patient> Patients= new ArrayList<Patient>();
 	public static final String PasswordRegex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
 	
 
-	public Caretaker(String Username, String Password, String Firstname, String Lastname, String address) {
+	public Caretaker(String Username, String Password, String name, String address) {
 		this.setUsername(Username);
 		this.setPassword(Password);
 		this.Address=address;
-		this.FirstName=Firstname;
-		this.Lastname=Lastname;
-	}
-	
-	public String getFirstName() {
-		return FirstName;
-	}
-
-	public void setFirstName(String firstName) {
-		FirstName = firstName;
-	}
-
-	public String getLastname() {
-		return Lastname;
-	}
-
-	public void setLastname(String lastname) {
-		Lastname = lastname;
+		this.Name=name;
 	}
 
 	public void addPatient(Patient...patient) {
@@ -126,6 +107,4 @@ public class Caretaker {
 			Patients.add(patient);
 		}
 	}
-
-
 }
