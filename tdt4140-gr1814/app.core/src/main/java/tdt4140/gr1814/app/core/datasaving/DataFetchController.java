@@ -179,6 +179,30 @@ public class DataFetchController {
 	
 	//------------------------------------ GET METHODES --------------------------------------------
 	
+	public void fetchPatients(Caretaker systemUser, boolean isTest) {
+		
+		String content = doGet("patient?caretaker_id=" + systemUser.getUsername());
+		
+		Gson gson = new Gson();
+		
+		JsonParser jsonParser = new JsonParser();
+		JsonArray jsonArray = (JsonArray) jsonParser.parse(content);
+		for(JsonElement j: jsonArray) {
+			try {
+				JsonObject o = gson.fromJson(j, JsonObject.class);
+				boolean alarmActivation = true;
+				if(o.get("alarmActivated").getAsInt() == 0) {
+					alarmActivation = false;
+				}
+				Patient.newPatient(o.get("FirstName").getAsString(), o.get("Surname").getAsString(), o.get("Gender").getAsString().charAt(0),o.get("SSN").getAsLong() , o.get("NoK_cellphone").getAsInt(), o.get("NoK_email").getAsString(), o.get("DeviceID").getAsString(), alarmActivation, false);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 	public void fetchPatients(Caretaker systemUser) {
 	
 		String content = doGet("patient?caretaker_id=" + systemUser.getUsername());
