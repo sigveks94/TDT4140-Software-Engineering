@@ -75,7 +75,7 @@ A step by step guide on how to get the development environment running (this ass
 
 * **Marius Engen** - *Scrum master*
 * **Svein Ole M. Sevle** - *Test responsible*
-* **Sigve Svenkerud**
+* **Sigve Kristiansen Svenkerud**
 * **Oskar C. Vik**
 * **Trym Erlend Eriksen Høgelid**
 * **Vemund Fredriksen**
